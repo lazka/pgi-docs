@@ -35,9 +35,42 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="GstBase 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
-        <link rel="prev" title="GstBase.PushSrcClass" href="class-structs/PushSrcClass.html"/> 
+        <link rel="prev" title="GstBase.PushSrcClass" href="classes/PushSrcClass.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -61,7 +94,7 @@
 
 
 
-<td><a accesskey="p" href="class-structs/PushSrcClass.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/PushSrcClass.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -101,7 +134,7 @@
 
 
 
-<td><a accesskey="p" href="class-structs/PushSrcClass.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/PushSrcClass.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -144,9 +177,9 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="GstBase.BaseParseFrameFlags">
-<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">BaseParseFrameFlags</code><a class="headerlink" href="#GstBase.BaseParseFrameFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstBase-1.0/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
-<p>Flags to be used in a <a class="reference internal" href="structs/BaseParseFrame.html#GstBase.BaseParseFrame" title="GstBase.BaseParseFrame"><code class="xref py py-obj docutils literal"><span class="pre">GstBase.BaseParseFrame</span></code></a>.</p>
+<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">BaseParseFrameFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstBase.BaseParseFrameFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<p>Flags to be used in a <a class="reference internal" href="classes/BaseParseFrame.html#GstBase.BaseParseFrame" title="GstBase.BaseParseFrame"><code class="xref py py-obj docutils literal"><span class="pre">GstBase.BaseParseFrame</span></code></a>.</p>
 <dl class="attribute">
 <dt id="GstBase.BaseParseFrameFlags.NONE">
 <code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GstBase.BaseParseFrameFlags.NONE" title="Permalink to this definition">¶</a></dt>
@@ -159,6 +192,14 @@
 <dd><p>set by baseclass if current frame
 is passed for processing to the subclass for the first time
 (and not set on subsequent calls with same data).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GstBase.BaseParseFrameFlags.QUEUE">
+<code class="descname">QUEUE</code><em class="property"> = 16</em><a class="headerlink" href="#GstBase.BaseParseFrameFlags.QUEUE" title="Permalink to this definition">¶</a></dt>
+<dd><p>indicates to <cite>finish_frame</cite> that the
+the frame should be queued for now and processed fully later
+when the first non-queued frame is finished</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -185,21 +226,19 @@ any custom one having been done).</p>
 the frame should be dropped (and might be handled internally by subclass)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="GstBase.BaseParseFrameFlags.QUEUE">
-<code class="descname">QUEUE</code><em class="property"> = 16</em><a class="headerlink" href="#GstBase.BaseParseFrameFlags.QUEUE" title="Permalink to this definition">¶</a></dt>
-<dd><p>indicates to <cite>finish_frame</cite> that the
-the frame should be queued for now and processed fully later
-when the first non-queued frame is finished</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="GstBase.BaseSrcFlags">
-<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">BaseSrcFlags</code><a class="headerlink" href="#GstBase.BaseSrcFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstBase-1.0/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
-<p>The <a class="reference external" href="_docs/GstBase-1.0/../../../Gst-1.0/classes/Element.html#Gst.Element" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gst.Element</span></code></a> flags that a basesrc element may have.</p>
+<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">BaseSrcFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstBase.BaseSrcFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<p>The <a class="reference external" href="../Gst-1.0/classes/Element.html#Gst.Element" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gst.Element</span></code></a> flags that a basesrc element may have.</p>
+<dl class="attribute">
+<dt id="GstBase.BaseSrcFlags.LAST">
+<code class="descname">LAST</code><em class="property"> = 1048576</em><a class="headerlink" href="#GstBase.BaseSrcFlags.LAST" title="Permalink to this definition">¶</a></dt>
+<dd><p>offset to define more flags</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="GstBase.BaseSrcFlags.STARTING">
 <code class="descname">STARTING</code><em class="property"> = 16384</em><a class="headerlink" href="#GstBase.BaseSrcFlags.STARTING" title="Permalink to this definition">¶</a></dt>
@@ -212,22 +251,24 @@ when the first non-queued frame is finished</p>
 <dd><p>has source been started</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="GstBase.BaseSrcFlags.LAST">
-<code class="descname">LAST</code><em class="property"> = 1048576</em><a class="headerlink" href="#GstBase.BaseSrcFlags.LAST" title="Permalink to this definition">¶</a></dt>
-<dd><p>offset to define more flags</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="GstBase.CollectPadsStateFlags">
-<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">CollectPadsStateFlags</code><a class="headerlink" href="#GstBase.CollectPadsStateFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstBase-1.0/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstBase.</code><code class="descname">CollectPadsStateFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstBase.CollectPadsStateFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <dl class="attribute">
 <dt id="GstBase.CollectPadsStateFlags.EOS">
 <code class="descname">EOS</code><em class="property"> = 1</em><a class="headerlink" href="#GstBase.CollectPadsStateFlags.EOS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set if collectdata&#8217;s pad is EOS.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GstBase.CollectPadsStateFlags.LOCKED">
+<code class="descname">LOCKED</code><em class="property"> = 16</em><a class="headerlink" href="#GstBase.CollectPadsStateFlags.LOCKED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set collectdata&#8217;s pad WAITING state must
+not be changed.
+<a class="reference internal" href="#GstBase.CollectPadsStateFlags" title="GstBase.CollectPadsStateFlags"><code class="xref py py-obj docutils literal"><span class="pre">GstBase.CollectPadsStateFlags</span></code></a> indicate private state of a collectdata(&#8216;s pad).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -250,14 +291,6 @@ new_segment event.</p>
 for when collecting.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="GstBase.CollectPadsStateFlags.LOCKED">
-<code class="descname">LOCKED</code><em class="property"> = 16</em><a class="headerlink" href="#GstBase.CollectPadsStateFlags.LOCKED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set collectdata&#8217;s pad WAITING state must
-not be changed.
-<a class="reference internal" href="#GstBase.CollectPadsStateFlags" title="GstBase.CollectPadsStateFlags"><code class="xref py py-obj docutils literal"><span class="pre">GstBase.CollectPadsStateFlags</span></code></a> indicate private state of a collectdata(&#8216;s pad).</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -274,30 +307,4 @@ not be changed.
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

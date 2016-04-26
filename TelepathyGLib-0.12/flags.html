@@ -35,9 +35,42 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="TelepathyGLib 0.12 Python API Docs" href="index.html"/>
         <link rel="next" title="Enums" href="enums.html"/>
-        <link rel="prev" title="TelepathyGLib.ClientChannelFactoryInterface" href="iface-structs/ClientChannelFactoryInterface.html"/> 
+        <link rel="prev" title="TelepathyGLib.ClientChannelFactoryInterface" href="classes/ClientChannelFactoryInterface.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -61,7 +94,7 @@
 
 
 
-<td><a accesskey="p" href="iface-structs/ClientChannelFactoryInterface.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/ClientChannelFactoryInterface.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -101,7 +134,7 @@
 
 
 
-<td><a accesskey="p" href="iface-structs/ClientChannelFactoryInterface.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/ClientChannelFactoryInterface.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -167,8 +200,8 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="TelepathyGLib.AnonymityModeFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">AnonymityModeFlags</code><a class="headerlink" href="#TelepathyGLib.AnonymityModeFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">AnonymityModeFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.AnonymityModeFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags for the various types of anonymity modes.  These modes are solely to         inform the CM of the desired anonymous settings.  It is up to the         CM to determine whether the anonymity modes should be handled within         the CM itself, or whether the network that a CM might be talking to         should be enforcing anonymity.          CMs MAY support only a subset of these modes, and specific         connections MAY support none at all.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -193,14 +226,20 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.CallFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CallFlags</code><a class="headerlink" href="#TelepathyGLib.CallFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CallFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.CallFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>A set of flags representing additional information than is available         in CallState. Many of these flags only make         sense in a particular (or may explain why a call is in a specific         state).</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.CallFlags.LOCALLY_HELD">
 <code class="descname">LOCALLY_HELD</code><em class="property"> = 1</em><a class="headerlink" href="#TelepathyGLib.CallFlags.LOCALLY_HELD" title="Permalink to this definition">¶</a></dt>
 <dd><p>The call has been put on hold by the local user, e.g. using           the Hold interface. This flag SHOULD only be set           if there is at least one Content, and all Contents are           locally held.                         Otherwise, in transient situations where some but not all contents             are on hold, UIs would falsely indicate that the call as a whole             is on hold, which could lead to the user saying something they&#8217;ll             regret, while under the impression that the other contacts can&#8217;t             hear them!              This flag exists as a simplified proxy for HoldStateChanged,             to reduce the number of signals that need to be             listened to by a simple UI.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.CallFlags.CLEARING">
+<code class="descname">CLEARING</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.CallFlags.CLEARING" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag only occurs when the CallState is Ended. The call with           this flag set has ended, but not all resources corresponding to the           call have been freed yet.            Depending on the protocol there might be some audible feedback while           the clearing flag is set.                         In calls following the ITU-T Q.931 standard there is a period of             time between the call ending and the underlying channel being             completely free for re-use.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -221,18 +260,12 @@
 <dd><p>The initiator of the call originally called a contact other than the           current recipient of the call, but the call was then forwarded or           diverted. This flag only makes sense on outgoing calls. It SHOULD be           set or unset according to informational messages from other           contacts.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.CallFlags.CLEARING">
-<code class="descname">CLEARING</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.CallFlags.CLEARING" title="Permalink to this definition">¶</a></dt>
-<dd><p>This flag only occurs when the CallState is Ended. The call with           this flag set has ended, but not all resources corresponding to the           call have been freed yet.            Depending on the protocol there might be some audible feedback while           the clearing flag is set.                         In calls following the ITU-T Q.931 standard there is a period of             time between the call ending and the underlying channel being             completely free for re-use.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.CallMemberFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CallMemberFlags</code><a class="headerlink" href="#TelepathyGLib.CallMemberFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CallMemberFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.CallMemberFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>A set of flags representing the status of a remote contact in a           call.          It is protocol- and client-specific whether a particular contact           will ever have a particular flag set on them, and Telepathy clients           SHOULD NOT assume that a flag will ever be set.                     180 Ringing in SIP, and its equivalent in XMPP, are optional             informational messages, and implementations are not required             to send them. The same applies to the messages used to indicate             hold state.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -257,8 +290,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.CaptchaFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CaptchaFlags</code><a class="headerlink" href="#TelepathyGLib.CaptchaFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">CaptchaFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.CaptchaFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Extra flags to include with Captcha information</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -271,8 +304,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ChannelCallStateFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelCallStateFlags</code><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelCallStateFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>A set of flags representing call states.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -282,9 +315,21 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="TelepathyGLib.ChannelCallStateFlags.IN_PROGRESS">
+<code class="descname">IN_PROGRESS</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags.IN_PROGRESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Progress has been made in placing the outgoing call, but the           destination contact may not have been made aware of the call yet           (so the Ringing state is not appropriate). This corresponds to SIP&#8217;s           status code 183 Session Progress, and could be used when the           outgoing call has reached a gateway, for instance.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="TelepathyGLib.ChannelCallStateFlags.QUEUED">
 <code class="descname">QUEUED</code><em class="property"> = 2</em><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags.QUEUED" title="Permalink to this definition">¶</a></dt>
 <dd><p>The contact is temporarily unavailable, and the call has been placed           in a queue (e.g. 182 Queued in SIP, or call-waiting in telephony).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelCallStateFlags.CONFERENCE_HOST">
+<code class="descname">CONFERENCE_HOST</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags.CONFERENCE_HOST" title="Permalink to this definition">¶</a></dt>
+<dd><p>This contact has merged this call into a conference. Note that GSM           provides a notification when the remote party merges a call into a           conference, but not when it is split out again; thus, this flag can           only indicate that the call has been part of a conference at some           point. If a GSM connection manager receives a notification that a           call has been merged into a conference a second time, it SHOULD           represent this by clearing and immediately re-setting this flag on           the remote contact.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -299,83 +344,17 @@
 <dd><p>The initiator of the call originally called a contact other than the           current recipient of the call, but the call was then forwarded or           diverted.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelCallStateFlags.IN_PROGRESS">
-<code class="descname">IN_PROGRESS</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags.IN_PROGRESS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Progress has been made in placing the outgoing call, but the           destination contact may not have been made aware of the call yet           (so the Ringing state is not appropriate). This corresponds to SIP&#8217;s           status code 183 Session Progress, and could be used when the           outgoing call has reached a gateway, for instance.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelCallStateFlags.CONFERENCE_HOST">
-<code class="descname">CONFERENCE_HOST</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelCallStateFlags.CONFERENCE_HOST" title="Permalink to this definition">¶</a></dt>
-<dd><p>This contact has merged this call into a conference. Note that GSM           provides a notification when the remote party merges a call into a           conference, but not when it is split out again; thus, this flag can           only indicate that the call has been part of a conference at some           point. If a GSM connection manager receives a notification that a           call has been merged into a conference a second time, it SHOULD           represent this by clearing and immediately re-setting this flag on           the remote contact.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.ChannelGroupFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelGroupFlags</code><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelGroupFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ChannelGroupFlags.CAN_ADD">
 <code class="descname">CAN_ADD</code><em class="property"> = 1</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CAN_ADD" title="Permalink to this definition">¶</a></dt>
 <dd><p>The AddMembers method can be used to             add or invite members who are             not already in the local pending list (which is always valid).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.CAN_REMOVE">
-<code class="descname">CAN_REMOVE</code><em class="property"> = 2</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CAN_REMOVE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The RemoveMembers method can be used             to remove channel members             (removing those on the pending local list is always valid).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.CAN_RESCIND">
-<code class="descname">CAN_RESCIND</code><em class="property"> = 4</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CAN_RESCIND" title="Permalink to this definition">¶</a></dt>
-<dd><p>The RemoveMembers method can be used             on people on the remote             pending list.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_ADD">
-<code class="descname">MESSAGE_ADD</code><em class="property"> = 8</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_ADD" title="Permalink to this definition">¶</a></dt>
-<dd><p>A message may be sent to the server when calling             AddMembers on             contacts who are not currently pending members.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_REMOVE">
-<code class="descname">MESSAGE_REMOVE</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_REMOVE" title="Permalink to this definition">¶</a></dt>
-<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are currently channel members.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_ACCEPT">
-<code class="descname">MESSAGE_ACCEPT</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_ACCEPT" title="Permalink to this definition">¶</a></dt>
-<dd><p>A message may be sent to the server when calling             AddMembers on             contacts who are locally pending.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_REJECT">
-<code class="descname">MESSAGE_REJECT</code><em class="property"> = 64</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_REJECT" title="Permalink to this definition">¶</a></dt>
-<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are locally pending.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_RESCIND">
-<code class="descname">MESSAGE_RESCIND</code><em class="property"> = 128</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_RESCIND" title="Permalink to this definition">¶</a></dt>
-<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are remote pending.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.CHANNEL_SPECIFIC_HANDLES">
-<code class="descname">CHANNEL_SPECIFIC_HANDLES</code><em class="property"> = 256</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CHANNEL_SPECIFIC_HANDLES" title="Permalink to this definition">¶</a></dt>
-<dd><p>The members of this group have handles which are specific to             this channel, and are not valid as general-purpose handles on             the connection. Depending on the channel, it may be possible to             check the HandleOwners property or             call GetHandleOwners to find the             owners of these handles, which should be done if you wish to (e.g.)             subscribe to the contact&#8217;s presence.                                    Connection managers must ensure that any given handle is not             simultaneously a general-purpose handle and a channel-specific             handle.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelGroupFlags.ONLY_ONE_GROUP">
-<code class="descname">ONLY_ONE_GROUP</code><em class="property"> = 512</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.ONLY_ONE_GROUP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Placing a contact in multiple groups of this type is not allowed             and will raise NotAvailable (on services where contacts may only             be in one user-defined group, user-defined groups will have             this flag).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -385,15 +364,69 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_RESCIND">
+<code class="descname">MESSAGE_RESCIND</code><em class="property"> = 128</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_RESCIND" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are remote pending.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_REMOVE">
+<code class="descname">MESSAGE_REMOVE</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_REMOVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are currently channel members.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.CAN_REMOVE">
+<code class="descname">CAN_REMOVE</code><em class="property"> = 2</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CAN_REMOVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RemoveMembers method can be used             to remove channel members             (removing those on the pending local list is always valid).</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="TelepathyGLib.ChannelGroupFlags.PROPERTIES">
 <code class="descname">PROPERTIES</code><em class="property"> = 2048</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.PROPERTIES" title="Permalink to this definition">¶</a></dt>
 <dd><p>This flag indicates that all the properties introduced in           specification 0.17.6 are fully supported.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.CHANNEL_SPECIFIC_HANDLES">
+<code class="descname">CHANNEL_SPECIFIC_HANDLES</code><em class="property"> = 256</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CHANNEL_SPECIFIC_HANDLES" title="Permalink to this definition">¶</a></dt>
+<dd><p>The members of this group have handles which are specific to             this channel, and are not valid as general-purpose handles on             the connection. Depending on the channel, it may be possible to             check the HandleOwners property or             call GetHandleOwners to find the             owners of these handles, which should be done if you wish to (e.g.)             subscribe to the contact&#8217;s presence.                                    Connection managers must ensure that any given handle is not             simultaneously a general-purpose handle and a channel-specific             handle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_ACCEPT">
+<code class="descname">MESSAGE_ACCEPT</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_ACCEPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message may be sent to the server when calling             AddMembers on             contacts who are locally pending.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.CAN_RESCIND">
+<code class="descname">CAN_RESCIND</code><em class="property"> = 4</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.CAN_RESCIND" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RemoveMembers method can be used             on people on the remote             pending list.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="TelepathyGLib.ChannelGroupFlags.MEMBERS_CHANGED_DETAILED">
 <code class="descname">MEMBERS_CHANGED_DETAILED</code><em class="property"> = 4096</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MEMBERS_CHANGED_DETAILED" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indicates that MembersChangedDetailed           will be emitted for changes to this group&#8217;s members in addition to           MembersChanged.           Clients can then connect to the former and ignore emission of the           latter. This flag&#8217;s state MUST NOT change over the lifetime of a           channel.                         If it were allowed to change, client bindings would have to always             connect to MembersChanged just in case the flag ever went away (and             generally be unnecessarily complicated), which would mostly negate             the point of having this flag in the first place.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.ONLY_ONE_GROUP">
+<code class="descname">ONLY_ONE_GROUP</code><em class="property"> = 512</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.ONLY_ONE_GROUP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Placing a contact in multiple groups of this type is not allowed             and will raise NotAvailable (on services where contacts may only             be in one user-defined group, user-defined groups will have             this flag).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_REJECT">
+<code class="descname">MESSAGE_REJECT</code><em class="property"> = 64</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_REJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message may be sent to the server when calling             RemoveMembers on             contacts who are locally pending.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelGroupFlags.MESSAGE_ADD">
+<code class="descname">MESSAGE_ADD</code><em class="property"> = 8</em><a class="headerlink" href="#TelepathyGLib.ChannelGroupFlags.MESSAGE_ADD" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message may be sent to the server when calling             AddMembers on             contacts who are not currently pending members.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -406,8 +439,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ChannelMediaCapabilities">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelMediaCapabilities</code><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelMediaCapabilities</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>The channel-type-specific capability flags used for         Channel.Type.StreamedMedia in the Connection.Interface.Capabilities         interface. See the InitialAudio         property for details of the mechanisms that will replace this.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -417,9 +450,21 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="TelepathyGLib.ChannelMediaCapabilities.NAT_TRAVERSAL_ICE_UDP">
+<code class="descname">NAT_TRAVERSAL_ICE_UDP</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities.NAT_TRAVERSAL_ICE_UDP" title="Permalink to this definition">¶</a></dt>
+<dd><p>The handle is capable of establishing ICE UDP peer-to-peer           connections (as defined by the IETF MMUSIC working group) to traverse           NATs.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="TelepathyGLib.ChannelMediaCapabilities.VIDEO">
 <code class="descname">VIDEO</code><em class="property"> = 2</em><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities.VIDEO" title="Permalink to this definition">¶</a></dt>
 <dd><p>The handle is capable of using video streams within a media channel.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ChannelMediaCapabilities.IMMUTABLE_STREAMS">
+<code class="descname">IMMUTABLE_STREAMS</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities.IMMUTABLE_STREAMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Channels whose target handle is this contact will have           ImmutableStreams = True.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -434,24 +479,12 @@
 <dd><p>The handle is capable of establishing Google Talk peer-to-peer           connections (as implemented in libjingle 0.3) to traverse NATs.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelMediaCapabilities.NAT_TRAVERSAL_ICE_UDP">
-<code class="descname">NAT_TRAVERSAL_ICE_UDP</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities.NAT_TRAVERSAL_ICE_UDP" title="Permalink to this definition">¶</a></dt>
-<dd><p>The handle is capable of establishing ICE UDP peer-to-peer           connections (as defined by the IETF MMUSIC working group) to traverse           NATs.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.ChannelMediaCapabilities.IMMUTABLE_STREAMS">
-<code class="descname">IMMUTABLE_STREAMS</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.ChannelMediaCapabilities.IMMUTABLE_STREAMS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Channels whose target handle is this contact will have           ImmutableStreams = True.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.ChannelPasswordFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelPasswordFlags</code><a class="headerlink" href="#TelepathyGLib.ChannelPasswordFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelPasswordFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ChannelPasswordFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ChannelPasswordFlags.HINT">
@@ -469,8 +502,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ChannelTextMessageFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelTextMessageFlags</code><a class="headerlink" href="#TelepathyGLib.ChannelTextMessageFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ChannelTextMessageFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ChannelTextMessageFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ChannelTextMessageFlags.TRUNCATED">
@@ -500,13 +533,19 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ConnMgrParamFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnMgrParamFlags</code><a class="headerlink" href="#TelepathyGLib.ConnMgrParamFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnMgrParamFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ConnMgrParamFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ConnMgrParamFlags.REQUIRED">
 <code class="descname">REQUIRED</code><em class="property"> = 1</em><a class="headerlink" href="#TelepathyGLib.ConnMgrParamFlags.REQUIRED" title="Permalink to this definition">¶</a></dt>
 <dd><p>This parameter is required for connecting to the server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.ConnMgrParamFlags.DBUS_PROPERTY">
+<code class="descname">DBUS_PROPERTY</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ConnMgrParamFlags.DBUS_PROPERTY" title="Permalink to this definition">¶</a></dt>
+<dd><p>This parameter is also a D-Bus property on the resulting             Connection; a             parameter named com.example.Duck.Macaroni with this             flag corresponds to the Macaroni property on the             com.example.Duck interface.  Its value can be queried             and possibly changed on an existing Connection using methods on the             org.freedesktop.DBus.Properties interface.            When a new value for a parameter with this flag is passed to             Account.UpdateParameters,             the account manager will attempt to update its value on any running             connections. Similarly, if the parameter also has the             Has_Default flag, and is passed in the second argument             to UpdateParameters, the default value will be applied             to any running             connections. Thus, clients generally do not need to directly access             or update the connection property; instead, they SHOULD manipulate             Account.Parameters.                         This allows runtime-configurable options to be stored and               maintained by the AccountManager, without needing to               invent a separate account preference for “properties that should               be set on the connection as soon as it is created”. It was               originally invented to manage Cellular               preferences.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -527,18 +566,12 @@
 <dd><p>This parameter should be considered private or secret; for             instance, clients should store it in a &#8220;password safe&#8221; like             gnome-keyring or kwallet, omit it from debug logs, and use a             text input widget that hides the value of the parameter.            (Clients that support older connection managers may also treat             any parameter whose name contains &#8220;password&#8221; as though it had this             flag.)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.ConnMgrParamFlags.DBUS_PROPERTY">
-<code class="descname">DBUS_PROPERTY</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.ConnMgrParamFlags.DBUS_PROPERTY" title="Permalink to this definition">¶</a></dt>
-<dd><p>This parameter is also a D-Bus property on the resulting             Connection; a             parameter named com.example.Duck.Macaroni with this             flag corresponds to the Macaroni property on the             com.example.Duck interface.  Its value can be queried             and possibly changed on an existing Connection using methods on the             org.freedesktop.DBus.Properties interface.            When a new value for a parameter with this flag is passed to             Account.UpdateParameters,             the account manager will attempt to update its value on any running             connections. Similarly, if the parameter also has the             Has_Default flag, and is passed in the second argument             to UpdateParameters, the default value will be applied             to any running             connections. Thus, clients generally do not need to directly access             or update the connection property; instead, they SHOULD manipulate             Account.Parameters.                         This allows runtime-configurable options to be stored and               maintained by the AccountManager, without needing to               invent a separate account preference for “properties that should               be set on the connection as soon as it is created”. It was               originally invented to manage Cellular               preferences.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.ConnectionAliasFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnectionAliasFlags</code><a class="headerlink" href="#TelepathyGLib.ConnectionAliasFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnectionAliasFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ConnectionAliasFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ConnectionAliasFlags.CONNECTION_ALIAS_FLAG_USER_SET">
@@ -550,8 +583,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ConnectionCapabilityFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnectionCapabilityFlags</code><a class="headerlink" href="#TelepathyGLib.ConnectionCapabilityFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ConnectionCapabilityFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ConnectionCapabilityFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ConnectionCapabilityFlags.CREATE">
@@ -569,8 +602,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ContactBlockingCapabilities">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactBlockingCapabilities</code><a class="headerlink" href="#TelepathyGLib.ContactBlockingCapabilities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactBlockingCapabilities</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ContactBlockingCapabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.ContactBlockingCapabilities.CONTACT_BLOCKING_CAPABILITY_CAN_REPORT_ABUSIVE">
@@ -582,8 +615,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ContactInfoFieldFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactInfoFieldFlags</code><a class="headerlink" href="#TelepathyGLib.ContactInfoFieldFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactInfoFieldFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ContactInfoFieldFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags describing the behaviour of a vCard field.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -602,8 +635,8 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.ContactInfoFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactInfoFlags</code><a class="headerlink" href="#TelepathyGLib.ContactInfoFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">ContactInfoFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.ContactInfoFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags defining the behaviour of contact information on this protocol.         Some protocols provide no information on contacts without an explicit         request; others always push information to the connection manager as         and when it changes.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -622,13 +655,13 @@
 
 <dl class="class">
 <dt id="TelepathyGLib.DBusNameType">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DBusNameType</code><a class="headerlink" href="#TelepathyGLib.DBusNameType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DBusNameType</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.DBusNameType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>A set of flags indicating which D-Bus bus names are acceptable.
 They can be combined with the bitwise-or operator to accept multiple
 types. <a class="reference internal" href="#TelepathyGLib.DBusNameType.NOT_BUS_DAEMON" title="TelepathyGLib.DBusNameType.NOT_BUS_DAEMON"><code class="xref py py-obj docutils literal"><span class="pre">TelepathyGLib.DBusNameType.NOT_BUS_DAEMON</span></code></a> and <a class="reference internal" href="#TelepathyGLib.DBusNameType.ANY" title="TelepathyGLib.DBusNameType.ANY"><code class="xref py py-obj docutils literal"><span class="pre">TelepathyGLib.DBusNameType.ANY</span></code></a> are
 the bitwise-or of other appropriate types, for convenience.</p>
-<p>Since 0.11.5, there is a corresponding <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GObject-2.0/structs/FlagsClass.html#GObject.FlagsClass" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.FlagsClass</span></code></a> type,
+<p>Since 0.11.5, there is a corresponding <a class="reference external" href="../GObject-2.0/classes/FlagsClass.html#GObject.FlagsClass" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.FlagsClass</span></code></a> type,
 %TP_TYPE_DBUS_NAME_TYPE.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.7.1.</span></p>
@@ -672,13 +705,13 @@ unique name</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.DBusPropertiesMixinFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DBusPropertiesMixinFlags</code><a class="headerlink" href="#TelepathyGLib.DBusPropertiesMixinFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DBusPropertiesMixinFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.DBusPropertiesMixinFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield representing allowed access to a property. At most one of
 <a class="reference internal" href="#TelepathyGLib.DBusPropertiesMixinFlags.EMITS_CHANGED" title="TelepathyGLib.DBusPropertiesMixinFlags.EMITS_CHANGED"><code class="xref py py-obj docutils literal"><span class="pre">TelepathyGLib.DBusPropertiesMixinFlags.EMITS_CHANGED</span></code></a> and
 <a class="reference internal" href="#TelepathyGLib.DBusPropertiesMixinFlags.EMITS_INVALIDATED" title="TelepathyGLib.DBusPropertiesMixinFlags.EMITS_INVALIDATED"><code class="xref py py-obj docutils literal"><span class="pre">TelepathyGLib.DBusPropertiesMixinFlags.EMITS_INVALIDATED</span></code></a> may be specified for a
 property.</p>
-<p>Since 0.11.5, there is a corresponding <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GObject-2.0/structs/FlagsClass.html#GObject.FlagsClass" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.FlagsClass</span></code></a> type,
+<p>Since 0.11.5, there is a corresponding <a class="reference external" href="../GObject-2.0/classes/FlagsClass.html#GObject.FlagsClass" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.FlagsClass</span></code></a> type,
 %TP_TYPE_DBUS_PROPERTIES_MIXIN_FLAGS.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.7.3.</span></p>
@@ -714,8 +747,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.DeliveryReportingSupportFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DeliveryReportingSupportFlags</code><a class="headerlink" href="#TelepathyGLib.DeliveryReportingSupportFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">DeliveryReportingSupportFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.DeliveryReportingSupportFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags indicating the level of support for delivery reporting on this         channel, as found on the         DeliveryReportingSupport property. Any         future flags added to this set will conform to the         convention that the presence of an extra flag implies that         more operations will succeed. Note that CMs may always provide more         reports than are requested in the         Message_Sending_Flags passed to         SendMessage.                     If senders want delivery reports, they should ask for them.  If they           don&#8217;t want delivery reports, they can just ignore them, so there&#8217;s no           need to have capability discovery for what will happen if a delivery           report isn&#8217;t requested.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -746,8 +779,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.LocationFeatures">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">LocationFeatures</code><a class="headerlink" href="#TelepathyGLib.LocationFeatures" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">LocationFeatures</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.LocationFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags describing the Location features which may be supported on any         given connection.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -760,8 +793,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.MailNotificationFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MailNotificationFlags</code><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MailNotificationFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags representing capabilities provided by a connection manager.           Those values can be used as bitfield. Some flags depend on, or           conflict with, each other.          Connections SHOULD implement as many of these features as the           underlying protocol allows, preferring to implement           Supports_Unread_Mails instead of Emits_Mails_Received if both are           possible.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -771,9 +804,21 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="TelepathyGLib.MailNotificationFlags.SUPPORTS_REQUEST_MAIL_URL">
+<code class="descname">SUPPORTS_REQUEST_MAIL_URL</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags.SUPPORTS_REQUEST_MAIL_URL" title="Permalink to this definition">¶</a></dt>
+<dd><p>This Connection can provide a URL (with optional POST data) to open             a specific mail in a web-based client, via the             RequestMailURL method. This feature             is not useful unless either Emits_Mails_Received or             Supports_Unread_Mails is set.            If this flag is not set, clients SHOULD fall back to using             RequestInboxURL if available.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="TelepathyGLib.MailNotificationFlags.SUPPORTS_UNREAD_MAILS">
 <code class="descname">SUPPORTS_UNREAD_MAILS</code><em class="property"> = 2</em><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags.SUPPORTS_UNREAD_MAILS" title="Permalink to this definition">¶</a></dt>
 <dd><p>This Connection provides a detailed list of unread e-mails, as the           UnreadMails property. If this flag           is set, Supports_Unread_Mail_Count MUST be set, and           Emits_Mails_Received MUST NOT be set.           The Connection will update the list by emitting the           UnreadMailsChanged signals.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.MailNotificationFlags.THREAD_BASED">
+<code class="descname">THREAD_BASED</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags.THREAD_BASED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each Mail represents a thread of e-mails, which             MAY have more than one sender.                         Google Talk notifies users about new mail in terms of unread               threads, rather than unread e-mails.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -788,24 +833,12 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 <dd><p>This Connection can provide a URL (with optional POST data) to           open the the inbox of the e-mail account in a web-based client, via           the RequestInboxURL method.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.MailNotificationFlags.SUPPORTS_REQUEST_MAIL_URL">
-<code class="descname">SUPPORTS_REQUEST_MAIL_URL</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags.SUPPORTS_REQUEST_MAIL_URL" title="Permalink to this definition">¶</a></dt>
-<dd><p>This Connection can provide a URL (with optional POST data) to open             a specific mail in a web-based client, via the             RequestMailURL method. This feature             is not useful unless either Emits_Mails_Received or             Supports_Unread_Mails is set.            If this flag is not set, clients SHOULD fall back to using             RequestInboxURL if available.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="TelepathyGLib.MailNotificationFlags.THREAD_BASED">
-<code class="descname">THREAD_BASED</code><em class="property"> = 32</em><a class="headerlink" href="#TelepathyGLib.MailNotificationFlags.THREAD_BASED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Each Mail represents a thread of e-mails, which             MAY have more than one sender.                         Google Talk notifies users about new mail in terms of unread               threads, rather than unread e-mails.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.MediaStreamPendingSend">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MediaStreamPendingSend</code><a class="headerlink" href="#TelepathyGLib.MediaStreamPendingSend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MediaStreamPendingSend</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.MediaStreamPendingSend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.MediaStreamPendingSend.LOCAL_SEND">
@@ -823,8 +856,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.MessagePartSupportFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MessagePartSupportFlags</code><a class="headerlink" href="#TelepathyGLib.MessagePartSupportFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MessagePartSupportFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.MessagePartSupportFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags indicating the level of support for message parts on this           channel. They are designed such that setting more flags always           implies that the channel has more capabilities.          If no flags are set, this indicates that messages may contain           a single message part whose content-type is any of the types           from SupportedContentTypes, possibly with some alternatives.          There is no flag indicating support for alternatives. This is           because the SendMessage implementation can always accept messages           containing alternatives, even if the underlying protocol does not,           by deleting all alternatives except the first (most preferred)           that is supported.                     Each of the flags so far implies the previous flag, so we could           have used a simple enumeration here; however, we&#8217;ve defined           the message-part support indicator as a flag set for future           expansion.                   See SupportedContentTypes for some           examples.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -843,8 +876,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.MessageSendingFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MessageSendingFlags</code><a class="headerlink" href="#TelepathyGLib.MessageSendingFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">MessageSendingFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.MessageSendingFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags altering the way a message is sent. The &#8220;most usual&#8221; action         should always be to have these flags unset. Some indication of which         flags are supported is provided by the         DeliveryReportingSupport property.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -869,8 +902,8 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.PropertyFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">PropertyFlags</code><a class="headerlink" href="#TelepathyGLib.PropertyFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">PropertyFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.PropertyFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.PropertyFlags.READ">
@@ -888,13 +921,19 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 
 <dl class="class">
 <dt id="TelepathyGLib.RTCPXRStatisticsFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">RTCPXRStatisticsFlags</code><a class="headerlink" href="#TelepathyGLib.RTCPXRStatisticsFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">RTCPXRStatisticsFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.RTCPXRStatisticsFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
 <dt id="TelepathyGLib.RTCPXRStatisticsFlags.LOSS">
 <code class="descname">LOSS</code><em class="property"> = 1</em><a class="headerlink" href="#TelepathyGLib.RTCPXRStatisticsFlags.LOSS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loss report flag, as defined in RFC3611 section 4.6.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="TelepathyGLib.RTCPXRStatisticsFlags.HL">
+<code class="descname">HL</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.RTCPXRStatisticsFlags.HL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second bit of TTL or Hop Limit flag, as defined in RFC3611 section           4.6.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -915,18 +954,12 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
 <dd><p>First bit of TTL or Hop Limit flag, as defined in RFC3611 section           4.6.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="TelepathyGLib.RTCPXRStatisticsFlags.HL">
-<code class="descname">HL</code><em class="property"> = 16</em><a class="headerlink" href="#TelepathyGLib.RTCPXRStatisticsFlags.HL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Second bit of TTL or Hop Limit flag, as defined in RFC3611 section           4.6.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="TelepathyGLib.StorageRestrictionFlags">
-<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">StorageRestrictionFlags</code><a class="headerlink" href="#TelepathyGLib.StorageRestrictionFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/TelepathyGLib-0.12/../../../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">TelepathyGLib.</code><code class="descname">StorageRestrictionFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#TelepathyGLib.StorageRestrictionFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/flags.html#GLib.Flags" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Flags</span></code></a></p>
 <p>Flags indicating restrictions imposed on an Account by its storage         method.</p>
 <p>Bitfield/set of flags generated from the Telepathy specification.</p>
 <dl class="attribute">
@@ -969,30 +1002,4 @@ as invalidated, without its value, in emissions of PropertiesChanged</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

@@ -35,9 +35,42 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Clutter 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Enums" href="enums.html"/>
-        <link rel="prev" title="Clutter.Event" href="unions/Event.html"/> 
+        <link rel="prev" title="Clutter.Event" href="classes/Event.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -61,7 +94,7 @@
 
 
 
-<td><a accesskey="p" href="unions/Event.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/Event.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -101,7 +134,7 @@
 
 
 
-<td><a accesskey="p" href="unions/Event.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="classes/Event.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -146,6 +179,7 @@
 <li><a class="reference internal" href="#Clutter.ModifierType" title="Clutter.ModifierType"><code class="xref py py-class docutils literal"><span class="pre">Clutter.ModifierType</span></code></a></li>
 <li><a class="reference internal" href="#Clutter.OffscreenRedirect" title="Clutter.OffscreenRedirect"><code class="xref py py-class docutils literal"><span class="pre">Clutter.OffscreenRedirect</span></code></a></li>
 <li><a class="reference internal" href="#Clutter.RepaintFlags" title="Clutter.RepaintFlags"><code class="xref py py-class docutils literal"><span class="pre">Clutter.RepaintFlags</span></code></a></li>
+<li><a class="reference internal" href="#Clutter.ScrollFinishFlags" title="Clutter.ScrollFinishFlags"><code class="xref py py-class docutils literal"><span class="pre">Clutter.ScrollFinishFlags</span></code></a></li>
 <li><a class="reference internal" href="#Clutter.ScrollMode" title="Clutter.ScrollMode"><code class="xref py py-class docutils literal"><span class="pre">Clutter.ScrollMode</span></code></a></li>
 <li><a class="reference internal" href="#Clutter.StageState" title="Clutter.StageState"><code class="xref py py-class docutils literal"><span class="pre">Clutter.StageState</span></code></a></li>
 <li><a class="reference internal" href="#Clutter.SwipeDirection" title="Clutter.SwipeDirection"><code class="xref py py-class docutils literal"><span class="pre">Clutter.SwipeDirection</span></code></a></li>
@@ -155,14 +189,28 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="Clutter.ActorFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ActorFlags</code><a class="headerlink" href="#Clutter.ActorFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ActorFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.ActorFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Flags used to signal the state of an actor.</p>
+<dl class="attribute">
+<dt id="Clutter.ActorFlags.VISIBLE">
+<code class="descname">VISIBLE</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.ActorFlags.VISIBLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the actor has been shown by the application program</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="Clutter.ActorFlags.MAPPED">
 <code class="descname">MAPPED</code><em class="property"> = 2</em><a class="headerlink" href="#Clutter.ActorFlags.MAPPED" title="Permalink to this definition">¶</a></dt>
 <dd><p>the actor will be painted (is visible, and inside
 a toplevel, and all parents visible)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ActorFlags.NO_LAYOUT">
+<code class="descname">NO_LAYOUT</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.ActorFlags.NO_LAYOUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>the actor provides an explicit layout management
+policy for its children; this flag will prevent Clutter from automatic
+queueing of relayout and will defer all layouting to the actor itself</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -179,26 +227,12 @@ allocated</p>
 signals</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="Clutter.ActorFlags.VISIBLE">
-<code class="descname">VISIBLE</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.ActorFlags.VISIBLE" title="Permalink to this definition">¶</a></dt>
-<dd><p>the actor has been shown by the application program</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ActorFlags.NO_LAYOUT">
-<code class="descname">NO_LAYOUT</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.ActorFlags.NO_LAYOUT" title="Permalink to this definition">¶</a></dt>
-<dd><p>the actor provides an explicit layout management
-policy for its children; this flag will prevent Clutter from automatic
-queueing of relayout and will defer all layouting to the actor itself</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="Clutter.AllocationFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">AllocationFlags</code><a class="headerlink" href="#Clutter.AllocationFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">AllocationFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.AllocationFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Flags passed to the <a class="reference internal" href="classes/Actor.html#Clutter.Actor.do_allocate" title="Clutter.Actor.do_allocate"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Actor.do_allocate</span></code></a>() virtual function
 and to the <a class="reference internal" href="classes/Actor.html#Clutter.Actor.allocate" title="Clutter.Actor.allocate"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Actor.allocate</span></code></a>() function.</p>
 <div class="versionadded">
@@ -234,8 +268,8 @@ inside <a class="reference internal" href="classes/Actor.html#Clutter.Actor" tit
 
 <dl class="class">
 <dt id="Clutter.ContentRepeat">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ContentRepeat</code><a class="headerlink" href="#Clutter.ContentRepeat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ContentRepeat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.ContentRepeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Content repeat modes.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.12.</span></p>
@@ -268,8 +302,8 @@ inside <a class="reference internal" href="classes/Actor.html#Clutter.Actor" tit
 
 <dl class="class">
 <dt id="Clutter.EffectPaintFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">EffectPaintFlags</code><a class="headerlink" href="#Clutter.EffectPaintFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">EffectPaintFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.EffectPaintFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Flags passed to the ‘paint’ or ‘pick’ method of <a class="reference internal" href="classes/Effect.html#Clutter.Effect" title="Clutter.Effect"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Effect</span></code></a>.</p>
 <dl class="attribute">
 <dt id="Clutter.EffectPaintFlags.ACTOR_DIRTY">
@@ -284,9 +318,9 @@ effect and can not cache any results from a previous paint.</p>
 
 <dl class="class">
 <dt id="Clutter.EventFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">EventFlags</code><a class="headerlink" href="#Clutter.EventFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
-<p>Flags for the <a class="reference internal" href="unions/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">EventFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.EventFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<p>Flags for the <a class="reference internal" href="classes/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.6.</span></p>
 </div>
@@ -306,41 +340,17 @@ effect and can not cache any results from a previous paint.</p>
 
 <dl class="class">
 <dt id="Clutter.FeatureFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">FeatureFlags</code><a class="headerlink" href="#Clutter.FeatureFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">FeatureFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.FeatureFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Runtime flags indicating specific features available via Clutter window
 system and graphics backend.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.</span></p>
 </div>
 <dl class="attribute">
-<dt id="Clutter.FeatureFlags.TEXTURE_NPOT">
-<code class="descname">TEXTURE_NPOT</code><em class="property"> = 4</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_NPOT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if NPOTS textures supported.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.SYNC_TO_VBLANK">
-<code class="descname">SYNC_TO_VBLANK</code><em class="property"> = 8</em><a class="headerlink" href="#Clutter.FeatureFlags.SYNC_TO_VBLANK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if vblank syncing supported.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.TEXTURE_YUV">
-<code class="descname">TEXTURE_YUV</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_YUV" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if YUV based textures supported.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.TEXTURE_READ_PIXELS">
-<code class="descname">TEXTURE_READ_PIXELS</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_READ_PIXELS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if texture pixels can be read.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.STAGE_STATIC">
-<code class="descname">STAGE_STATIC</code><em class="property"> = 64</em><a class="headerlink" href="#Clutter.FeatureFlags.STAGE_STATIC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if stage size if fixed (i.e framebuffer)</p>
+<dt id="Clutter.FeatureFlags.OFFSCREEN">
+<code class="descname">OFFSCREEN</code><em class="property"> = 1024</em><a class="headerlink" href="#Clutter.FeatureFlags.OFFSCREEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if the backend supports offscreen rendering.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -350,21 +360,9 @@ system and graphics backend.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Clutter.FeatureFlags.STAGE_CURSOR">
-<code class="descname">STAGE_CURSOR</code><em class="property"> = 256</em><a class="headerlink" href="#Clutter.FeatureFlags.STAGE_CURSOR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if stage has a graphical cursor.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.SHADERS_GLSL">
-<code class="descname">SHADERS_GLSL</code><em class="property"> = 512</em><a class="headerlink" href="#Clutter.FeatureFlags.SHADERS_GLSL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if the backend supports GLSL shaders.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.FeatureFlags.OFFSCREEN">
-<code class="descname">OFFSCREEN</code><em class="property"> = 1024</em><a class="headerlink" href="#Clutter.FeatureFlags.OFFSCREEN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if the backend supports offscreen rendering.</p>
+<dt id="Clutter.FeatureFlags.TEXTURE_YUV">
+<code class="descname">TEXTURE_YUV</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_YUV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if YUV based textures supported.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -374,24 +372,60 @@ system and graphics backend.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="Clutter.FeatureFlags.STAGE_CURSOR">
+<code class="descname">STAGE_CURSOR</code><em class="property"> = 256</em><a class="headerlink" href="#Clutter.FeatureFlags.STAGE_CURSOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if stage has a graphical cursor.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.FeatureFlags.TEXTURE_READ_PIXELS">
+<code class="descname">TEXTURE_READ_PIXELS</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_READ_PIXELS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if texture pixels can be read.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.FeatureFlags.TEXTURE_NPOT">
+<code class="descname">TEXTURE_NPOT</code><em class="property"> = 4</em><a class="headerlink" href="#Clutter.FeatureFlags.TEXTURE_NPOT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if NPOTS textures supported.</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="Clutter.FeatureFlags.SWAP_EVENTS">
 <code class="descname">SWAP_EVENTS</code><em class="property"> = 4096</em><a class="headerlink" href="#Clutter.FeatureFlags.SWAP_EVENTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set if the GLX_INTEL_swap_event is supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.FeatureFlags.SHADERS_GLSL">
+<code class="descname">SHADERS_GLSL</code><em class="property"> = 512</em><a class="headerlink" href="#Clutter.FeatureFlags.SHADERS_GLSL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if the backend supports GLSL shaders.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.FeatureFlags.STAGE_STATIC">
+<code class="descname">STAGE_STATIC</code><em class="property"> = 64</em><a class="headerlink" href="#Clutter.FeatureFlags.STAGE_STATIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if stage size if fixed (i.e framebuffer)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.FeatureFlags.SYNC_TO_VBLANK">
+<code class="descname">SYNC_TO_VBLANK</code><em class="property"> = 8</em><a class="headerlink" href="#Clutter.FeatureFlags.SYNC_TO_VBLANK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set if vblank syncing supported.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="Clutter.FontFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">FontFlags</code><a class="headerlink" href="#Clutter.FontFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">FontFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.FontFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Runtime flags to change the font quality. To be used with
 <a class="reference internal" href="functions.html#Clutter.set_font_flags" title="Clutter.set_font_flags"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.set_font_flags</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 1.22: </span>Use <a class="reference external" href="http://cairographics.org/documentation/pycairo/2/reference/text.html#cairo.FontOptions" title="(in Pycairo v1.10)"><code class="xref py py-obj docutils literal"><span class="pre">cairo.FontOptions</span></code></a> instead</p>
+<p><span class="versionmodified">Deprecated since version 1.22: </span>Use <a class="reference external" href="https://pycairo.readthedocs.io/en/latest/reference/text.html#cairo.FontOptions" title="(in Pycairo v)"><code class="xref py py-obj docutils literal"><span class="pre">cairo.FontOptions</span></code></a> instead</p>
 </div>
 <dl class="attribute">
 <dt id="Clutter.FontFlags.MIPMAPPING">
@@ -409,9 +443,9 @@ system and graphics backend.</p>
 
 <dl class="class">
 <dt id="Clutter.ModifierType">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ModifierType</code><a class="headerlink" href="#Clutter.ModifierType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
-<p>Masks applied to a <a class="reference internal" href="unions/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a> by modifiers.</p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ModifierType</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.ModifierType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<p>Masks applied to a <a class="reference internal" href="classes/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a> by modifiers.</p>
 <p>Note that Clutter may add internal values to events which include
 reserved values such as <a class="reference internal" href="#Clutter.ModifierType.MODIFIER_RESERVED_13_MASK" title="Clutter.ModifierType.MODIFIER_RESERVED_13_MASK"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.ModifierType.MODIFIER_RESERVED_13_MASK</span></code></a>.  Your code
 should preserve and ignore them.  You can use <a class="reference internal" href="#Clutter.ModifierType.MODIFIER_MASK" title="Clutter.ModifierType.MODIFIER_MASK"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.ModifierType.MODIFIER_MASK</span></code></a> to
@@ -426,163 +460,14 @@ remove all reserved values.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Clutter.ModifierType.LOCK_MASK">
-<code class="descname">LOCK_MASK</code><em class="property"> = 2</em><a class="headerlink" href="#Clutter.ModifierType.LOCK_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the Caps Lock key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.CONTROL_MASK">
-<code class="descname">CONTROL_MASK</code><em class="property"> = 4</em><a class="headerlink" href="#Clutter.ModifierType.CONTROL_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the Control key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MOD1_MASK">
-<code class="descname">MOD1_MASK</code><em class="property"> = 8</em><a class="headerlink" href="#Clutter.ModifierType.MOD1_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the first Mod key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MOD2_MASK">
-<code class="descname">MOD2_MASK</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.ModifierType.MOD2_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the second Mod key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MOD3_MASK">
-<code class="descname">MOD3_MASK</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.ModifierType.MOD3_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the third Mod key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MOD4_MASK">
-<code class="descname">MOD4_MASK</code><em class="property"> = 64</em><a class="headerlink" href="#Clutter.ModifierType.MOD4_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the fourth Mod key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MOD5_MASK">
-<code class="descname">MOD5_MASK</code><em class="property"> = 128</em><a class="headerlink" href="#Clutter.ModifierType.MOD5_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the fifth Mod key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.BUTTON1_MASK">
-<code class="descname">BUTTON1_MASK</code><em class="property"> = 256</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON1_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the first pointer button</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.BUTTON2_MASK">
-<code class="descname">BUTTON2_MASK</code><em class="property"> = 512</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON2_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the second pointer button</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="Clutter.ModifierType.BUTTON3_MASK">
 <code class="descname">BUTTON3_MASK</code><em class="property"> = 1024</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON3_MASK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mask applied by the third pointer button</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Clutter.ModifierType.BUTTON4_MASK">
-<code class="descname">BUTTON4_MASK</code><em class="property"> = 2048</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON4_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the fourth pointer button</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.BUTTON5_MASK">
-<code class="descname">BUTTON5_MASK</code><em class="property"> = 4096</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON5_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the fifth pointer button</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_13_MASK">
-<code class="descname">MODIFIER_RESERVED_13_MASK</code><em class="property"> = 8192</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_13_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_14_MASK">
-<code class="descname">MODIFIER_RESERVED_14_MASK</code><em class="property"> = 16384</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_14_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_15_MASK">
-<code class="descname">MODIFIER_RESERVED_15_MASK</code><em class="property"> = 32768</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_15_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_16_MASK">
-<code class="descname">MODIFIER_RESERVED_16_MASK</code><em class="property"> = 65536</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_16_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_17_MASK">
-<code class="descname">MODIFIER_RESERVED_17_MASK</code><em class="property"> = 131072</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_17_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_18_MASK">
-<code class="descname">MODIFIER_RESERVED_18_MASK</code><em class="property"> = 262144</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_18_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_19_MASK">
-<code class="descname">MODIFIER_RESERVED_19_MASK</code><em class="property"> = 524288</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_19_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
 <dt id="Clutter.ModifierType.MODIFIER_RESERVED_20_MASK">
 <code class="descname">MODIFIER_RESERVED_20_MASK</code><em class="property"> = 1048576</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_20_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_21_MASK">
-<code class="descname">MODIFIER_RESERVED_21_MASK</code><em class="property"> = 2097152</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_21_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_22_MASK">
-<code class="descname">MODIFIER_RESERVED_22_MASK</code><em class="property"> = 4194304</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_22_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_23_MASK">
-<code class="descname">MODIFIER_RESERVED_23_MASK</code><em class="property"> = 8388608</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_23_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_24_MASK">
-<code class="descname">MODIFIER_RESERVED_24_MASK</code><em class="property"> = 16777216</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_24_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_25_MASK">
-<code class="descname">MODIFIER_RESERVED_25_MASK</code><em class="property"> = 33554432</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_25_MASK" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.SUPER_MASK">
-<code class="descname">SUPER_MASK</code><em class="property"> = 67108864</em><a class="headerlink" href="#Clutter.ModifierType.SUPER_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the Super key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.HYPER_MASK">
-<code class="descname">HYPER_MASK</code><em class="property"> = 134217728</em><a class="headerlink" href="#Clutter.ModifierType.HYPER_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the Hyper key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.META_MASK">
-<code class="descname">META_MASK</code><em class="property"> = 268435456</em><a class="headerlink" href="#Clutter.ModifierType.META_MASK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mask applied by the Meta key</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Clutter.ModifierType.MODIFIER_RESERVED_29_MASK">
-<code class="descname">MODIFIER_RESERVED_29_MASK</code><em class="property"> = 536870912</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_29_MASK" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -592,17 +477,166 @@ remove all reserved values.</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="Clutter.ModifierType.MOD5_MASK">
+<code class="descname">MOD5_MASK</code><em class="property"> = 128</em><a class="headerlink" href="#Clutter.ModifierType.MOD5_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the fifth Mod key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_17_MASK">
+<code class="descname">MODIFIER_RESERVED_17_MASK</code><em class="property"> = 131072</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_17_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.HYPER_MASK">
+<code class="descname">HYPER_MASK</code><em class="property"> = 134217728</em><a class="headerlink" href="#Clutter.ModifierType.HYPER_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the Hyper key</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="Clutter.ModifierType.MODIFIER_MASK">
 <code class="descname">MODIFIER_MASK</code><em class="property"> = 1543512063</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_MASK" title="Permalink to this definition">¶</a></dt>
 <dd><p>A mask covering all modifier types</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MOD2_MASK">
+<code class="descname">MOD2_MASK</code><em class="property"> = 16</em><a class="headerlink" href="#Clutter.ModifierType.MOD2_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the second Mod key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_14_MASK">
+<code class="descname">MODIFIER_RESERVED_14_MASK</code><em class="property"> = 16384</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_14_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_24_MASK">
+<code class="descname">MODIFIER_RESERVED_24_MASK</code><em class="property"> = 16777216</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_24_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.LOCK_MASK">
+<code class="descname">LOCK_MASK</code><em class="property"> = 2</em><a class="headerlink" href="#Clutter.ModifierType.LOCK_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the Caps Lock key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.BUTTON4_MASK">
+<code class="descname">BUTTON4_MASK</code><em class="property"> = 2048</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON4_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the fourth pointer button</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_21_MASK">
+<code class="descname">MODIFIER_RESERVED_21_MASK</code><em class="property"> = 2097152</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_21_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.BUTTON1_MASK">
+<code class="descname">BUTTON1_MASK</code><em class="property"> = 256</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON1_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the first pointer button</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_18_MASK">
+<code class="descname">MODIFIER_RESERVED_18_MASK</code><em class="property"> = 262144</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_18_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.META_MASK">
+<code class="descname">META_MASK</code><em class="property"> = 268435456</em><a class="headerlink" href="#Clutter.ModifierType.META_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the Meta key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MOD3_MASK">
+<code class="descname">MOD3_MASK</code><em class="property"> = 32</em><a class="headerlink" href="#Clutter.ModifierType.MOD3_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the third Mod key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_15_MASK">
+<code class="descname">MODIFIER_RESERVED_15_MASK</code><em class="property"> = 32768</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_15_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_25_MASK">
+<code class="descname">MODIFIER_RESERVED_25_MASK</code><em class="property"> = 33554432</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_25_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.CONTROL_MASK">
+<code class="descname">CONTROL_MASK</code><em class="property"> = 4</em><a class="headerlink" href="#Clutter.ModifierType.CONTROL_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the Control key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.BUTTON5_MASK">
+<code class="descname">BUTTON5_MASK</code><em class="property"> = 4096</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON5_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the fifth pointer button</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_22_MASK">
+<code class="descname">MODIFIER_RESERVED_22_MASK</code><em class="property"> = 4194304</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_22_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.BUTTON2_MASK">
+<code class="descname">BUTTON2_MASK</code><em class="property"> = 512</em><a class="headerlink" href="#Clutter.ModifierType.BUTTON2_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the second pointer button</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_19_MASK">
+<code class="descname">MODIFIER_RESERVED_19_MASK</code><em class="property"> = 524288</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_19_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_29_MASK">
+<code class="descname">MODIFIER_RESERVED_29_MASK</code><em class="property"> = 536870912</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_29_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MOD4_MASK">
+<code class="descname">MOD4_MASK</code><em class="property"> = 64</em><a class="headerlink" href="#Clutter.ModifierType.MOD4_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the fourth Mod key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_16_MASK">
+<code class="descname">MODIFIER_RESERVED_16_MASK</code><em class="property"> = 65536</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_16_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.SUPER_MASK">
+<code class="descname">SUPER_MASK</code><em class="property"> = 67108864</em><a class="headerlink" href="#Clutter.ModifierType.SUPER_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the Super key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MOD1_MASK">
+<code class="descname">MOD1_MASK</code><em class="property"> = 8</em><a class="headerlink" href="#Clutter.ModifierType.MOD1_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask applied by the first Mod key</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_13_MASK">
+<code class="descname">MODIFIER_RESERVED_13_MASK</code><em class="property"> = 8192</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_13_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ModifierType.MODIFIER_RESERVED_23_MASK">
+<code class="descname">MODIFIER_RESERVED_23_MASK</code><em class="property"> = 8388608</em><a class="headerlink" href="#Clutter.ModifierType.MODIFIER_RESERVED_23_MASK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="Clutter.OffscreenRedirect">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">OffscreenRedirect</code><a class="headerlink" href="#Clutter.OffscreenRedirect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">OffscreenRedirect</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.OffscreenRedirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Possible flags to pass to <a class="reference internal" href="classes/Actor.html#Clutter.Actor.set_offscreen_redirect" title="Clutter.Actor.set_offscreen_redirect"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Actor.set_offscreen_redirect</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.8.</span></p>
@@ -626,8 +660,8 @@ offscreen buffer even if it is fully opaque.</p>
 
 <dl class="class">
 <dt id="Clutter.RepaintFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">RepaintFlags</code><a class="headerlink" href="#Clutter.RepaintFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">RepaintFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.RepaintFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Flags to pass to <a class="reference internal" href="functions.html#Clutter.threads_add_repaint_func_full" title="Clutter.threads_add_repaint_func_full"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.threads_add_repaint_func_full</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.10.</span></p>
@@ -656,9 +690,38 @@ is queued after adding the repaint function</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="Clutter.ScrollFinishFlags">
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ScrollFinishFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.ScrollFinishFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<p>Flags used to notify the axes that were stopped in a <a class="reference internal" href="classes/ScrollEvent.html#Clutter.ScrollEvent" title="Clutter.ScrollEvent"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.ScrollEvent</span></code></a>.
+These can be used to trigger post-scroll effects like kinetic scrolling.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.26.</span></p>
+</div>
+<dl class="attribute">
+<dt id="Clutter.ScrollFinishFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#Clutter.ScrollFinishFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>no axis was stopped.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ScrollFinishFlags.HORIZONTAL">
+<code class="descname">HORIZONTAL</code><em class="property"> = 1</em><a class="headerlink" href="#Clutter.ScrollFinishFlags.HORIZONTAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>The horizontal axis stopped.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Clutter.ScrollFinishFlags.VERTICAL">
+<code class="descname">VERTICAL</code><em class="property"> = 2</em><a class="headerlink" href="#Clutter.ScrollFinishFlags.VERTICAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>The vertical axis stopped.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="Clutter.ScrollMode">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ScrollMode</code><a class="headerlink" href="#Clutter.ScrollMode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">ScrollMode</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.ScrollMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Scroll modes.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.12.</span></p>
@@ -691,9 +754,9 @@ is queued after adding the repaint function</p>
 
 <dl class="class">
 <dt id="Clutter.StageState">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">StageState</code><a class="headerlink" href="#Clutter.StageState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
-<p>Stage state masks, used by the <a class="reference internal" href="unions/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a> of type <a class="reference internal" href="enums.html#Clutter.EventType.STAGE_STATE" title="Clutter.EventType.STAGE_STATE"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.EventType.STAGE_STATE</span></code></a>.</p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">StageState</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.StageState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<p>Stage state masks, used by the <a class="reference internal" href="classes/Event.html#Clutter.Event" title="Clutter.Event"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Event</span></code></a> of type <a class="reference internal" href="enums.html#Clutter.EventType.STAGE_STATE" title="Clutter.EventType.STAGE_STATE"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.EventType.STAGE_STATE</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.</span></p>
 </div>
@@ -719,8 +782,8 @@ is queued after adding the repaint function</p>
 
 <dl class="class">
 <dt id="Clutter.SwipeDirection">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">SwipeDirection</code><a class="headerlink" href="#Clutter.SwipeDirection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">SwipeDirection</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.SwipeDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>The main direction of the swipe gesture</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.8.</span></p>
@@ -753,8 +816,8 @@ is queued after adding the repaint function</p>
 
 <dl class="class">
 <dt id="Clutter.TextureFlags">
-<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">TextureFlags</code><a class="headerlink" href="#Clutter.TextureFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Clutter-1.0/../../../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Clutter.</code><code class="descname">TextureFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Clutter.TextureFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
 <p>Flags for <a class="reference internal" href="classes/Texture.html#Clutter.Texture.set_from_rgb_data" title="Clutter.Texture.set_from_rgb_data"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Texture.set_from_rgb_data</span></code></a>() and
 <a class="reference internal" href="classes/Texture.html#Clutter.Texture.set_from_yuv_data" title="Clutter.Texture.set_from_yuv_data"><code class="xref py py-obj docutils literal"><span class="pre">Clutter.Texture.set_from_yuv_data</span></code></a>().</p>
 <div class="versionadded">
@@ -803,30 +866,4 @@ is queued after adding the repaint function</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

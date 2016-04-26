@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="GstVideo 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Symbol Mapping" href="mapping.html"/>
         <link rel="prev" title="Enums" href="enums.html"/> 
@@ -136,9 +169,11 @@
   <div class="section" id="constants">
 <h1>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
+<li><a class="reference internal" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META" title="GstVideo.BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_ALIGNMENT" title="GstVideo.BUFFER_POOL_OPTION_VIDEO_ALIGNMENT"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.BUFFER_POOL_OPTION_VIDEO_ALIGNMENT</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_GL_TEXTURE_UPLOAD_META" title="GstVideo.BUFFER_POOL_OPTION_VIDEO_GL_TEXTURE_UPLOAD_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.BUFFER_POOL_OPTION_VIDEO_GL_TEXTURE_UPLOAD_META</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_META" title="GstVideo.BUFFER_POOL_OPTION_VIDEO_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.BUFFER_POOL_OPTION_VIDEO_META</span></code></a></li>
+<li><a class="reference internal" href="#GstVideo.CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META" title="GstVideo.CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.CAPS_FEATURE_META_GST_VIDEO_GL_TEXTURE_UPLOAD_META" title="GstVideo.CAPS_FEATURE_META_GST_VIDEO_GL_TEXTURE_UPLOAD_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.CAPS_FEATURE_META_GST_VIDEO_GL_TEXTURE_UPLOAD_META</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.CAPS_FEATURE_META_GST_VIDEO_META" title="GstVideo.CAPS_FEATURE_META_GST_VIDEO_META"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.CAPS_FEATURE_META_GST_VIDEO_META</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.CAPS_FEATURE_META_GST_VIDEO_OVERLAY_COMPOSITION" title="GstVideo.CAPS_FEATURE_META_GST_VIDEO_OVERLAY_COMPOSITION"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.CAPS_FEATURE_META_GST_VIDEO_OVERLAY_COMPOSITION</span></code></a></li>
@@ -207,6 +242,11 @@
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="data">
+<dt id="GstVideo.BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META">
+<code class="descclassname">GstVideo.</code><code class="descname">BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META</code><em class="property"> = 'GstBufferPoolOptionVideoAffineTransformation'</em><a class="headerlink" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
 <dt id="GstVideo.BUFFER_POOL_OPTION_VIDEO_ALIGNMENT">
 <code class="descclassname">GstVideo.</code><code class="descname">BUFFER_POOL_OPTION_VIDEO_ALIGNMENT</code><em class="property"> = 'GstBufferPoolOptionVideoAlignment'</em><a class="headerlink" href="#GstVideo.BUFFER_POOL_OPTION_VIDEO_ALIGNMENT" title="Permalink to this definition">¶</a></dt>
 <dd><p>A bufferpool option to enable extra padding. When a bufferpool supports this
@@ -233,6 +273,11 @@ meta on buffers from the pool.</p>
 <dd><p>An option that can be activated on bufferpool to request video metadata
 on buffers from the pool.</p>
 </dd></dl>
+
+<dl class="data">
+<dt id="GstVideo.CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META">
+<code class="descclassname">GstVideo.</code><code class="descname">CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META</code><em class="property"> = 'meta:GstVideoAffineTransformation'</em><a class="headerlink" href="#GstVideo.CAPS_FEATURE_META_GST_VIDEO_AFFINE_TRANSFORMATION_META" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.CAPS_FEATURE_META_GST_VIDEO_GL_TEXTURE_UPLOAD_META">
@@ -365,14 +410,14 @@ Default is <a class="reference internal" href="enums.html#GstVideo.VideoAlphaMod
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_ALPHA_VALUE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_ALPHA_VALUE</code><em class="property"> = 'GstVideoConverter.alpha-value'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_ALPHA_VALUE" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, the alpha color value to use.
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, the alpha color value to use.
 Default to 1.0</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_BORDER_ARGB">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_BORDER_ARGB</code><em class="property"> = 'GstVideoConverter.border-argb'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_BORDER_ARGB" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, the border color to use if <a class="reference internal" href="#GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER" title="GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER</span></code></a>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, the border color to use if <a class="reference internal" href="#GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER" title="GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER</span></code></a>
 is set to <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>. The color is in ARGB format.
 Default 0xff000000</p>
 </dd></dl>
@@ -395,25 +440,25 @@ the #GstResampler. Default is #GST_RESAMPLER_METHOD_LINEAR</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DEST_HEIGHT">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DEST_HEIGHT</code><em class="property"> = 'GstVideoConverter.dest-height'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DEST_HEIGHT" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, height in the destination frame, default destination height</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, height in the destination frame, default destination height</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DEST_WIDTH">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DEST_WIDTH</code><em class="property"> = 'GstVideoConverter.dest-width'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DEST_WIDTH" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, width in the destination frame, default destination width</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, width in the destination frame, default destination width</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DEST_X">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DEST_X</code><em class="property"> = 'GstVideoConverter.dest-x'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DEST_X" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, x position in the destination frame, default 0</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, x position in the destination frame, default 0</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DEST_Y">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DEST_Y</code><em class="property"> = 'GstVideoConverter.dest-y'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DEST_Y" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, y position in the destination frame, default 0</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, y position in the destination frame, default 0</p>
 </dd></dl>
 
 <dl class="data">
@@ -427,7 +472,7 @@ Default is <a class="reference internal" href="enums.html#GstVideo.VideoDitherMe
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DITHER_QUANTIZATION">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DITHER_QUANTIZATION</code><em class="property"> = 'GstVideoConverter.dither-quantization'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DITHER_QUANTIZATION" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, The quantization amount to dither to. Components will be
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, The quantization amount to dither to. Components will be
 quantized to multiples of this value.
 Default is 1</p>
 </dd></dl>
@@ -435,7 +480,7 @@ Default is 1</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_FILL_BORDER</code><em class="property"> = 'GstVideoConverter.fill-border'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_FILL_BORDER" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_BOOLEAN" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_BOOLEAN</span></code></a>, if the destination rectangle does not fill the complete
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_BOOLEAN" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_BOOLEAN</span></code></a>, if the destination rectangle does not fill the complete
 destination image, render a border with
 <a class="reference internal" href="#GstVideo.VIDEO_CONVERTER_OPT_BORDER_ARGB" title="GstVideo.VIDEO_CONVERTER_OPT_BORDER_ARGB"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VIDEO_CONVERTER_OPT_BORDER_ARGB</span></code></a>. Otherwise the unusded pixels in the
 destination are untouched. Default <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>.</p>
@@ -474,32 +519,32 @@ the #GstResampler. Default is #GST_RESAMPLER_METHOD_CUBIC</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_RESAMPLER_TAPS">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_RESAMPLER_TAPS</code><em class="property"> = 'GstVideoConverter.resampler-taps'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_RESAMPLER_TAPS" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, The number of taps for the resampler.
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_UINT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_UINT</span></code></a>, The number of taps for the resampler.
 Default is 0: let the resampler choose a good value.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_SRC_HEIGHT">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_SRC_HEIGHT</code><em class="property"> = 'GstVideoConverter.src-height'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_SRC_HEIGHT" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source height to convert, default source height</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source height to convert, default source height</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_SRC_WIDTH">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_SRC_WIDTH</code><em class="property"> = 'GstVideoConverter.src-width'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_SRC_WIDTH" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source width to convert, default source width</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source width to convert, default source width</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_SRC_X">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_SRC_X</code><em class="property"> = 'GstVideoConverter.src-x'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_SRC_X" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source x position to start conversion, default 0</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source x position to start conversion, default 0</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_SRC_Y">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_SRC_Y</code><em class="property"> = 'GstVideoConverter.src-y'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_SRC_Y" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source y position to start conversion, default 0</p>
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, source y position to start conversion, default 0</p>
 </dd></dl>
 
 <dl class="data">
@@ -534,7 +579,7 @@ Default is 0: let the resampler choose a good value.</p>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_FORMATS_ALL">
-<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_FORMATS_ALL</code><em class="property"> = '{ I420, YV12, YUY2, UYVY, AYUV, RGBx, BGRx, xRGB, xBGR, RGBA, BGRA, ARGB, ABGR, RGB, BGR, Y41B, Y42B, YVYU, Y444, v210, v216, NV12, NV21, NV16, NV61, NV24, GRAY8, GRAY16_BE, GRAY16_LE, v308, RGB16, BGR16, RGB15, BGR15, UYVP, A420, RGB8P, YUV9, YVU9, IYU1, ARGB64, AYUV64, r210, I420_10LE, I420_10BE, I422_10LE, I422_10BE,  Y444_10LE, Y444_10BE, GBR, GBR_10LE, GBR_10BE, NV12_64Z32, A420_10LE,  A420_10BE, A422_10LE, A422_10BE, A444_10LE, A444_10BE }'</em><a class="headerlink" href="#GstVideo.VIDEO_FORMATS_ALL" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_FORMATS_ALL</code><em class="property"> = '{ I420, YV12, YUY2, UYVY, AYUV, RGBx, BGRx, xRGB, xBGR, RGBA, BGRA, ARGB, ABGR, RGB, BGR, Y41B, Y42B, YVYU, Y444, v210, v216, NV12, NV21, NV16, NV61, NV24, GRAY8, GRAY16_BE, GRAY16_LE, v308, IYU2, RGB16, BGR16, RGB15, BGR15, UYVP, A420, RGB8P, YUV9, YVU9, IYU1, ARGB64, AYUV64, r210, I420_10LE, I420_10BE, I422_10LE, I422_10BE, Y444_10LE, Y444_10BE, GBR, GBR_10LE, GBR_10BE, NV12_64Z32, A420_10LE, A420_10BE, A422_10LE, A422_10BE, A444_10LE, A444_10BE, P010_10LE, P010_10BE }'</em><a class="headerlink" href="#GstVideo.VIDEO_FORMATS_ALL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
@@ -555,7 +600,7 @@ Default is 0: let the resampler choose a good value.</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS</code><em class="property"> = '{ BGRx, RGBx, xRGB, xBGR, RGBA, BGRA, ARGB, ABGR, RGB, BGR, I420, YV12, AYUV, YUY2, UYVY, v308, Y41B, Y42B, Y444, NV12, NV21, A420, YUV9, YVU9, IYU1, GRAY8 }'</em><a class="headerlink" href="#GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Video formats supported by <a class="reference internal" href="structs/VideoOverlayComposition.html#GstVideo.VideoOverlayComposition.blend" title="GstVideo.VideoOverlayComposition.blend"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VideoOverlayComposition.blend</span></code></a>(), for
+<dd><p>Video formats supported by <a class="reference internal" href="classes/VideoOverlayComposition.html#GstVideo.VideoOverlayComposition.blend" title="GstVideo.VideoOverlayComposition.blend"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VideoOverlayComposition.blend</span></code></a>(), for
 use in overlay elements&#8217; pad template caps.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.2.</span></p>
@@ -565,7 +610,7 @@ use in overlay elements&#8217; pad template caps.</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_CUBIC_B</code><em class="property"> = 'GstVideoResampler.cubic-b'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, B parameter of the cubic filter. The B
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, B parameter of the cubic filter. The B
 parameter controls the bluriness. Values between 0.0 and
 2.0 are accepted. 1/3 is the default.</p>
 <p>Below are some values of popular filters:
@@ -584,7 +629,7 @@ Soft             0.6796  0.1602</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_C">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_CUBIC_C</code><em class="property"> = 'GstVideoResampler.cubic-c'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_C" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, C parameter of the cubic filter. The C
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, C parameter of the cubic filter. The C
 parameter controls the Keys alpha value. Values between 0.0 and
 2.0 are accepted. 1/3 is the default.</p>
 <p>See <a class="reference internal" href="#GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B" title="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B</span></code></a> for some more common values</p>
@@ -593,7 +638,7 @@ parameter controls the Keys alpha value. Values between 0.0 and
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_ENVELOPE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_ENVELOPE</code><em class="property"> = 'GstVideoResampler.envelope'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_ENVELOPE" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies the size of filter envelope for
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies the size of filter envelope for
 <a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod.LANCZOS" title="GstVideo.VideoResamplerMethod.LANCZOS"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VideoResamplerMethod.LANCZOS</span></code></a>. values are clamped between
 1.0 and 5.0. 2.0 is the default.</p>
 </dd></dl>
@@ -601,14 +646,14 @@ parameter controls the Keys alpha value. Values between 0.0 and
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_MAX_TAPS">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_MAX_TAPS</code><em class="property"> = 'GstVideoResampler.max-taps'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_MAX_TAPS" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, limits the maximum number of taps to use.
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_INT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_INT</span></code></a>, limits the maximum number of taps to use.
 16 is the default.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_SHARPEN">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_SHARPEN</code><em class="property"> = 'GstVideoResampler.sharpen'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_SHARPEN" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies sharpening of the filter for
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies sharpening of the filter for
 <a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod.LANCZOS" title="GstVideo.VideoResamplerMethod.LANCZOS"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VideoResamplerMethod.LANCZOS</span></code></a>. values are clamped between
 0.0 and 1.0. 0.0 is the default.</p>
 </dd></dl>
@@ -616,7 +661,7 @@ parameter controls the Keys alpha value. Values between 0.0 and
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_SHARPNESS">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_RESAMPLER_OPT_SHARPNESS</code><em class="property"> = 'GstVideoResampler.sharpness'</em><a class="headerlink" href="#GstVideo.VIDEO_RESAMPLER_OPT_SHARPNESS" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="_docs/GstVideo-1.0/../../../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies sharpness of the filter for
+<dd><p><a class="reference external" href="../GObject-2.0/constants.html#GObject.TYPE_DOUBLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.TYPE_DOUBLE</span></code></a>, specifies sharpness of the filter for
 <a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod.LANCZOS" title="GstVideo.VideoResamplerMethod.LANCZOS"><code class="xref py py-obj docutils literal"><span class="pre">GstVideo.VideoResamplerMethod.LANCZOS</span></code></a>. values are clamped between
 0.5 and 1.5. 1.0 is the default.</p>
 </dd></dl>
@@ -667,30 +712,4 @@ quatization errors.</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

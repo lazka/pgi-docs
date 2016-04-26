@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gio 2.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Symbol Mapping" href="mapping.html"/>
         <link rel="prev" title="Enums" href="enums.html"/> 
@@ -148,6 +181,7 @@
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_ETAG_VALUE" title="Gio.FILE_ATTRIBUTE_ETAG_VALUE"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_ETAG_VALUE</span></code></a></li>
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE</span></code></a></li>
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_READONLY" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_READONLY"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_READONLY</span></code></a></li>
+<li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE</span></code></a></li>
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_SIZE" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_SIZE"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_SIZE</span></code></a></li>
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_TYPE" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_TYPE"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_TYPE</span></code></a></li>
 <li><a class="reference internal" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_USED" title="Gio.FILE_ATTRIBUTE_FILESYSTEM_USED"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FILE_ATTRIBUTE_FILESYSTEM_USED</span></code></a></li>
@@ -340,10 +374,18 @@ Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeTy
 </dd></dl>
 
 <dl class="data">
+<dt id="Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE">
+<code class="descclassname">Gio.</code><code class="descname">FILE_ATTRIBUTE_FILESYSTEM_REMOTE</code><em class="property"> = 'filesystem::remote'</em><a class="headerlink" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A key in the &#8220;filesystem&#8221; namespace for checking if the file system
+is remote. Is set to <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> if the file system is remote.
+Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a> is <a class="reference internal" href="enums.html#Gio.FileAttributeType.BOOLEAN" title="Gio.FileAttributeType.BOOLEAN"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType.BOOLEAN</span></code></a>.</p>
+</dd></dl>
+
+<dl class="data">
 <dt id="Gio.FILE_ATTRIBUTE_FILESYSTEM_SIZE">
 <code class="descclassname">Gio.</code><code class="descname">FILE_ATTRIBUTE_FILESYSTEM_SIZE</code><em class="property"> = 'filesystem::size'</em><a class="headerlink" href="#Gio.FILE_ATTRIBUTE_FILESYSTEM_SIZE" title="Permalink to this definition">¶</a></dt>
 <dd><p>A key in the &#8220;filesystem&#8221; namespace for getting the total size (in bytes) of the file system,
-used in <a class="reference internal" href="interfaces/File.html#Gio.File.query_filesystem_info" title="Gio.File.query_filesystem_info"><code class="xref py py-obj docutils literal"><span class="pre">Gio.File.query_filesystem_info</span></code></a>(). Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a>
+used in <a class="reference internal" href="classes/File.html#Gio.File.query_filesystem_info" title="Gio.File.query_filesystem_info"><code class="xref py py-obj docutils literal"><span class="pre">Gio.File.query_filesystem_info</span></code></a>(). Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a>
 is <a class="reference internal" href="enums.html#Gio.FileAttributeType.UINT64" title="Gio.FileAttributeType.UINT64"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType.UINT64</span></code></a>.</p>
 </dd></dl>
 
@@ -534,11 +576,11 @@ user that owns the file. Corresponding <a class="reference internal" href="enums
 <dl class="data">
 <dt id="Gio.FILE_ATTRIBUTE_PREVIEW_ICON">
 <code class="descclassname">Gio.</code><code class="descname">FILE_ATTRIBUTE_PREVIEW_ICON</code><em class="property"> = 'preview::icon'</em><a class="headerlink" href="#Gio.FILE_ATTRIBUTE_PREVIEW_ICON" title="Permalink to this definition">¶</a></dt>
-<dd><p>A key in the &#8220;preview&#8221; namespace for getting a <a class="reference internal" href="interfaces/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> that can be
+<dd><p>A key in the &#8220;preview&#8221; namespace for getting a <a class="reference internal" href="classes/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> that can be
 used to get preview of the file. For example, it may be a low
 resolution thumbnail without metadata. Corresponding
 <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a> is <a class="reference internal" href="enums.html#Gio.FileAttributeType.OBJECT" title="Gio.FileAttributeType.OBJECT"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType.OBJECT</span></code></a>.  The value
-for this key should contain a <a class="reference internal" href="interfaces/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
+for this key should contain a <a class="reference internal" href="classes/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.20.</span></p>
 </div>
@@ -633,7 +675,7 @@ Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeTy
 <code class="descclassname">Gio.</code><code class="descname">FILE_ATTRIBUTE_STANDARD_ICON</code><em class="property"> = 'standard::icon'</em><a class="headerlink" href="#Gio.FILE_ATTRIBUTE_STANDARD_ICON" title="Permalink to this definition">¶</a></dt>
 <dd><p>A key in the &#8220;standard&#8221; namespace for getting the icon for the file.
 Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a> is <a class="reference internal" href="enums.html#Gio.FileAttributeType.OBJECT" title="Gio.FileAttributeType.OBJECT"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType.OBJECT</span></code></a>.
-The value for this key should contain a <a class="reference internal" href="interfaces/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
+The value for this key should contain a <a class="reference internal" href="classes/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
 </dd></dl>
 
 <dl class="data">
@@ -713,7 +755,7 @@ was zero.</p>
 <code class="descclassname">Gio.</code><code class="descname">FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON</code><em class="property"> = 'standard::symbolic-icon'</em><a class="headerlink" href="#Gio.FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON" title="Permalink to this definition">¶</a></dt>
 <dd><p>A key in the &#8220;standard&#8221; namespace for getting the symbolic icon for the file.
 Corresponding <a class="reference internal" href="enums.html#Gio.FileAttributeType" title="Gio.FileAttributeType"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType</span></code></a> is <a class="reference internal" href="enums.html#Gio.FileAttributeType.OBJECT" title="Gio.FileAttributeType.OBJECT"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileAttributeType.OBJECT</span></code></a>.
-The value for this key should contain a <a class="reference internal" href="interfaces/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
+The value for this key should contain a <a class="reference internal" href="classes/Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.34.</span></p>
 </div>
@@ -989,7 +1031,7 @@ menus that are linked from this item.</p>
 <dt id="Gio.MENU_ATTRIBUTE_ICON">
 <code class="descclassname">Gio.</code><code class="descname">MENU_ATTRIBUTE_ICON</code><em class="property"> = 'icon'</em><a class="headerlink" href="#Gio.MENU_ATTRIBUTE_ICON" title="Permalink to this definition">¶</a></dt>
 <dd><p>The menu item attribute which holds the icon of the item.</p>
-<p>The icon is stored in the format returned by <a class="reference internal" href="interfaces/Icon.html#Gio.Icon.serialize" title="Gio.Icon.serialize"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon.serialize</span></code></a>().</p>
+<p>The icon is stored in the format returned by <a class="reference internal" href="classes/Icon.html#Gio.Icon.serialize" title="Gio.Icon.serialize"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon.serialize</span></code></a>().</p>
 <p>This attribute is intended only to represent &#8216;noun&#8217; icons such as
 favicons for a webpage, or application icons.  It should not be used
 for &#8216;verbs&#8217; (ie: stock icons).</p>
@@ -1075,7 +1117,7 @@ See <a class="reference external" href="https://developer.gnome.org/gio/stable/e
 <dl class="data">
 <dt id="Gio.TLS_BACKEND_EXTENSION_POINT_NAME">
 <code class="descclassname">Gio.</code><code class="descname">TLS_BACKEND_EXTENSION_POINT_NAME</code><em class="property"> = 'gio-tls-backend'</em><a class="headerlink" href="#Gio.TLS_BACKEND_EXTENSION_POINT_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extension point for TLS functionality via <a class="reference internal" href="interfaces/TlsBackend.html#Gio.TlsBackend" title="Gio.TlsBackend"><code class="xref py py-obj docutils literal"><span class="pre">Gio.TlsBackend</span></code></a>.
+<dd><p>Extension point for TLS functionality via <a class="reference internal" href="classes/TlsBackend.html#Gio.TlsBackend" title="Gio.TlsBackend"><code class="xref py py-obj docutils literal"><span class="pre">Gio.TlsBackend</span></code></a>.
 See <a class="reference external" href="https://developer.gnome.org/gio/stable/extending-gio.html#extending-gio">Extending GIO</a>.</p>
 </dd></dl>
 
@@ -1103,10 +1145,10 @@ See <a class="reference external" href="https://developer.gnome.org/gio/stable/e
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_CLASS">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_CLASS</code><em class="property"> = 'class'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain the volume class with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain the volume class with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 <p>Known volume classes include <code class="docutils literal"><span class="pre">device</span></code> and <code class="docutils literal"><span class="pre">network</span></code>. Other classes may
 be added in the future.</p>
-<p>This is intended to be used by applications to classify <a class="reference internal" href="interfaces/Volume.html#Gio.Volume" title="Gio.Volume"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume</span></code></a>
+<p>This is intended to be used by applications to classify <a class="reference internal" href="classes/Volume.html#Gio.Volume" title="Gio.Volume"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume</span></code></a>
 instances into different sections - for example a file manager or
 file chooser can use this information to show <code class="docutils literal"><span class="pre">network</span></code> volumes under
 a &#8220;Network&#8221; heading and <code class="docutils literal"><span class="pre">device</span></code> volumes under a &#8220;Devices&#8221; heading.</p>
@@ -1115,31 +1157,31 @@ a &#8220;Network&#8221; heading and <code class="docutils literal"><span class="
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_HAL_UDI">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_HAL_UDI</code><em class="property"> = 'hal-udi'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_HAL_UDI" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain a Hal UDI with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain a Hal UDI with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_LABEL">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_LABEL</code><em class="property"> = 'label'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_LABEL" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain a filesystem label with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain a filesystem label with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_NFS_MOUNT">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_NFS_MOUNT</code><em class="property"> = 'nfs-mount'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_NFS_MOUNT" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain a NFS mount with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain a NFS mount with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_UNIX_DEVICE">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_UNIX_DEVICE</code><em class="property"> = 'unix-device'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_UNIX_DEVICE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain a Unix device path with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain a Unix device path with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="Gio.VOLUME_IDENTIFIER_KIND_UUID">
 <code class="descclassname">Gio.</code><code class="descname">VOLUME_IDENTIFIER_KIND_UUID</code><em class="property"> = 'uuid'</em><a class="headerlink" href="#Gio.VOLUME_IDENTIFIER_KIND_UUID" title="Permalink to this definition">¶</a></dt>
-<dd><p>The string used to obtain a UUID with <a class="reference internal" href="interfaces/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
+<dd><p>The string used to obtain a UUID with <a class="reference internal" href="classes/Volume.html#Gio.Volume.get_identifier" title="Gio.Volume.get_identifier"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Volume.get_identifier</span></code></a>().</p>
 </dd></dl>
 
 <dl class="data">
@@ -1163,30 +1205,4 @@ See <a class="reference external" href="https://developer.gnome.org/gio/stable/e
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

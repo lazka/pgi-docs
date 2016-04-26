@@ -35,8 +35,41 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="HarfBuzz 0.0 Python API Docs" href="index.html"/>
-        <link rel="next" title="Structures" href="structs/index.html"/>
+        <link rel="next" title="Structures" href="structs.html"/>
         <link rel="prev" title="Functions" href="functions.html"/> 
 </head>
 
@@ -65,7 +98,7 @@
 
 
 
-<td><a accesskey="n" href="structs/index.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="structs.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -105,7 +138,7 @@
 
 
 
-<td><a accesskey="n" href="structs/index.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="structs.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -135,14 +168,20 @@
             
   <div class="section" id="callbacks">
 <h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h1>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="1%" />
 <col width="99%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#HarfBuzz.buffer_message_func_t" title="HarfBuzz.buffer_message_func_t"><code class="xref py py-func docutils literal"><span class="pre">buffer_message_func_t</span></code></a> (buffer, font, message, user_data)</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#HarfBuzz.destroy_func_t" title="HarfBuzz.destroy_func_t"><code class="xref py py-func docutils literal"><span class="pre">destroy_func_t</span></code></a> (user_data)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#HarfBuzz.font_get_font_extents_func_t" title="HarfBuzz.font_get_font_extents_func_t"><code class="xref py py-func docutils literal"><span class="pre">font_get_font_extents_func_t</span></code></a> (font, font_data, metrics, user_data)</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#HarfBuzz.font_get_glyph_advance_func_t" title="HarfBuzz.font_get_glyph_advance_func_t"><code class="xref py py-func docutils literal"><span class="pre">font_get_glyph_advance_func_t</span></code></a> (font, font_data, glyph, user_data)</td>
@@ -167,6 +206,12 @@
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#HarfBuzz.font_get_glyph_origin_func_t" title="HarfBuzz.font_get_glyph_origin_func_t"><code class="xref py py-func docutils literal"><span class="pre">font_get_glyph_origin_func_t</span></code></a> (font, font_data, glyph, x, y, user_data)</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#HarfBuzz.font_get_nominal_glyph_func_t" title="HarfBuzz.font_get_nominal_glyph_func_t"><code class="xref py py-func docutils literal"><span class="pre">font_get_nominal_glyph_func_t</span></code></a> (font, font_data, unicode, glyph, user_data)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#HarfBuzz.font_get_variation_glyph_func_t" title="HarfBuzz.font_get_variation_glyph_func_t"><code class="xref py py-func docutils literal"><span class="pre">font_get_variation_glyph_func_t</span></code></a> (font, font_data, unicode, variation_selector, glyph, user_data)</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#HarfBuzz.reference_table_func_t" title="HarfBuzz.reference_table_func_t"><code class="xref py py-func docutils literal"><span class="pre">reference_table_func_t</span></code></a> (face, tag, user_data)</td>
@@ -200,13 +245,57 @@
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="HarfBuzz.buffer_message_func_t">
+<code class="descclassname">HarfBuzz.</code><code class="descname">buffer_message_func_t</code><span class="sig-paren">(</span><em>buffer</em>, <em>font</em>, <em>message</em>, <em>user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#HarfBuzz.buffer_message_func_t" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>buffer</strong> (<a class="reference internal" href="classes/buffer_t.html#HarfBuzz.buffer_t" title="HarfBuzz.buffer_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.buffer_t</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>message</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="HarfBuzz.destroy_func_t">
 <code class="descclassname">HarfBuzz.</code><code class="descname">destroy_func_t</code><span class="sig-paren">(</span><em>user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#HarfBuzz.destroy_func_t" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="HarfBuzz.font_get_font_extents_func_t">
+<code class="descclassname">HarfBuzz.</code><code class="descname">font_get_font_extents_func_t</code><span class="sig-paren">(</span><em>font</em>, <em>font_data</em>, <em>metrics</em>, <em>user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#HarfBuzz.font_get_font_extents_func_t" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+<li><strong>metrics</strong> (<a class="reference internal" href="classes/font_extents_t.html#HarfBuzz.font_extents_t" title="HarfBuzz.font_extents_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_extents_t</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -220,10 +309,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -242,13 +331,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>point_index</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>x</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>y</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -267,11 +356,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>extents</strong> (<a class="reference internal" href="structs/glyph_extents_t.html#HarfBuzz.glyph_extents_t" title="HarfBuzz.glyph_extents_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.glyph_extents_t</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>extents</strong> (<a class="reference internal" href="classes/glyph_extents_t.html#HarfBuzz.glyph_extents_t" title="HarfBuzz.glyph_extents_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.glyph_extents_t</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -290,12 +379,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; </li>
 <li><strong>len</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -314,12 +403,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>variation_selector</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -338,11 +427,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>first_glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>second_glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -361,12 +450,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; </li>
 <li><strong>size</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -385,12 +474,59 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>font</strong> (<a class="reference internal" href="structs/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
-<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 <li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>x</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>y</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="HarfBuzz.font_get_nominal_glyph_func_t">
+<code class="descclassname">HarfBuzz.</code><code class="descname">font_get_nominal_glyph_func_t</code><span class="sig-paren">(</span><em>font</em>, <em>font_data</em>, <em>unicode</em>, <em>glyph</em>, <em>user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#HarfBuzz.font_get_nominal_glyph_func_t" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+<li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
+<li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="HarfBuzz.font_get_variation_glyph_func_t">
+<code class="descclassname">HarfBuzz.</code><code class="descname">font_get_variation_glyph_func_t</code><span class="sig-paren">(</span><em>font</em>, <em>font_data</em>, <em>unicode</em>, <em>variation_selector</em>, <em>glyph</em>, <em>user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#HarfBuzz.font_get_variation_glyph_func_t" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>font</strong> (<a class="reference internal" href="classes/font_t.html#HarfBuzz.font_t" title="HarfBuzz.font_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.font_t</span></code></a>) &#8211; </li>
+<li><strong>font_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
+<li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
+<li><strong>variation_selector</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
+<li><strong>glyph</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -409,13 +545,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>face</strong> (<a class="reference internal" href="structs/face_t.html#HarfBuzz.face_t" title="HarfBuzz.face_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.face_t</span></code></a>) &#8211; </li>
+<li><strong>face</strong> (<a class="reference internal" href="classes/face_t.html#HarfBuzz.face_t" title="HarfBuzz.face_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.face_t</span></code></a>) &#8211; </li>
 <li><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="structs/blob_t.html#HarfBuzz.blob_t" title="HarfBuzz.blob_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.blob_t</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="classes/blob_t.html#HarfBuzz.blob_t" title="HarfBuzz.blob_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.blob_t</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -430,9 +566,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -451,11 +587,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>a</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>b</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>ab</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -474,10 +610,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; a Unicode function structure</li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; a Unicode function structure</li>
 <li><strong>u</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; codepoint to decompose</li>
 <li><strong>decomposed</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; address of codepoint array (of length <a class="reference internal" href="constants.html#HarfBuzz.UNICODE_MAX_DECOMPOSITION_LEN" title="HarfBuzz.UNICODE_MAX_DECOMPOSITION_LEN"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.UNICODE_MAX_DECOMPOSITION_LEN</span></code></a>) to write decomposition into</li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; user data pointer as passed to <a class="reference internal" href="functions.html#HarfBuzz.unicode_funcs_set_decompose_compatibility_func" title="HarfBuzz.unicode_funcs_set_decompose_compatibility_func"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_set_decompose_compatibility_func</span></code></a>()</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; user data pointer as passed to <a class="reference internal" href="functions.html#HarfBuzz.unicode_funcs_set_decompose_compatibility_func" title="HarfBuzz.unicode_funcs_set_decompose_compatibility_func"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_set_decompose_compatibility_func</span></code></a>()</li>
 </ul>
 </td>
 </tr>
@@ -505,11 +641,11 @@ of this function type must ensure that they do not write past the provided array
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>ab</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>a</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
 <li><strong>b</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -528,9 +664,9 @@ of this function type must ensure that they do not write past the provided array
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -549,9 +685,9 @@ of this function type must ensure that they do not write past the provided array
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -570,9 +706,9 @@ of this function type must ensure that they do not write past the provided array
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -591,9 +727,9 @@ of this function type must ensure that they do not write past the provided array
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ufuncs</strong> (<a class="reference internal" href="structs/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
+<li><strong>ufuncs</strong> (<a class="reference internal" href="classes/unicode_funcs_t.html#HarfBuzz.unicode_funcs_t" title="HarfBuzz.unicode_funcs_t"><code class="xref py py-obj docutils literal"><span class="pre">HarfBuzz.unicode_funcs_t</span></code></a>) &#8211; </li>
 <li><strong>unicode</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; </li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -618,30 +754,4 @@ of this function type must ensure that they do not write past the provided array
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

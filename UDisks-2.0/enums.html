@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="UDisks 2.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
         <link rel="prev" title="Flags" href="flags.html"/> 
@@ -142,13 +175,13 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UDisks.Error">
-<em class="property">class </em><code class="descclassname">UDisks.</code><code class="descname">Error</code><a class="headerlink" href="#UDisks.Error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/UDisks-2.0/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">UDisks.</code><code class="descname">Error</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#UDisks.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Error codes for the #UDISKS_ERROR error domain and the
 corresponding D-Bus error names.</p>
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="UDisks.Error.quark">
-<em class="property">static </em><code class="descname">quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UDisks.Error.quark" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UDisks.Error.quark" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -169,6 +202,36 @@ corresponding D-Bus error names.</p>
 <dt id="UDisks.Error.CANCELLED">
 <code class="descname">CANCELLED</code><em class="property"> = 1</em><a class="headerlink" href="#UDisks.Error.CANCELLED" title="Permalink to this definition">¶</a></dt>
 <dd><p>The operation was cancelled.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UDisks.Error.ALREADY_UNMOUNTING">
+<code class="descname">ALREADY_UNMOUNTING</code><em class="property"> = 10</em><a class="headerlink" href="#UDisks.Error.ALREADY_UNMOUNTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>The device is already unmounting.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UDisks.Error.NOT_SUPPORTED">
+<code class="descname">NOT_SUPPORTED</code><em class="property"> = 11</em><a class="headerlink" href="#UDisks.Error.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>The operation is not supported due to missing driver/tool support.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UDisks.Error.TIMED_OUT">
+<code class="descname">TIMED_OUT</code><em class="property"> = 12</em><a class="headerlink" href="#UDisks.Error.TIMED_OUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The operation timed out.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UDisks.Error.WOULD_WAKEUP">
+<code class="descname">WOULD_WAKEUP</code><em class="property"> = 13</em><a class="headerlink" href="#UDisks.Error.WOULD_WAKEUP" title="Permalink to this definition">¶</a></dt>
+<dd><p>The operation would wake up a disk that is in a deep-sleep state.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UDisks.Error.DEVICE_BUSY">
+<code class="descname">DEVICE_BUSY</code><em class="property"> = 14</em><a class="headerlink" href="#UDisks.Error.DEVICE_BUSY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempting to unmount a device that is busy.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -219,36 +282,6 @@ corresponding D-Bus error names.</p>
 <dd><p>The device is mounted by another user.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UDisks.Error.ALREADY_UNMOUNTING">
-<code class="descname">ALREADY_UNMOUNTING</code><em class="property"> = 10</em><a class="headerlink" href="#UDisks.Error.ALREADY_UNMOUNTING" title="Permalink to this definition">¶</a></dt>
-<dd><p>The device is already unmounting.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UDisks.Error.NOT_SUPPORTED">
-<code class="descname">NOT_SUPPORTED</code><em class="property"> = 11</em><a class="headerlink" href="#UDisks.Error.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
-<dd><p>The operation is not supported due to missing driver/tool support.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UDisks.Error.TIMED_OUT">
-<code class="descname">TIMED_OUT</code><em class="property"> = 12</em><a class="headerlink" href="#UDisks.Error.TIMED_OUT" title="Permalink to this definition">¶</a></dt>
-<dd><p>The operation timed out.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UDisks.Error.WOULD_WAKEUP">
-<code class="descname">WOULD_WAKEUP</code><em class="property"> = 13</em><a class="headerlink" href="#UDisks.Error.WOULD_WAKEUP" title="Permalink to this definition">¶</a></dt>
-<dd><p>The operation would wake up a disk that is in a deep-sleep state.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UDisks.Error.DEVICE_BUSY">
-<code class="descname">DEVICE_BUSY</code><em class="property"> = 14</em><a class="headerlink" href="#UDisks.Error.DEVICE_BUSY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempting to unmount a device that is busy.</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -265,30 +298,4 @@ corresponding D-Bus error names.</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

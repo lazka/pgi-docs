@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="GstRtspServer 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
         <link rel="prev" title="Flags" href="flags.html"/> 
@@ -139,6 +172,7 @@
 <li><a class="reference internal" href="#GstRtspServer.RTSPAddressPoolResult" title="GstRtspServer.RTSPAddressPoolResult"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPAddressPoolResult</span></code></a></li>
 <li><a class="reference internal" href="#GstRtspServer.RTSPFilterResult" title="GstRtspServer.RTSPFilterResult"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPFilterResult</span></code></a></li>
 <li><a class="reference internal" href="#GstRtspServer.RTSPMediaStatus" title="GstRtspServer.RTSPMediaStatus"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPMediaStatus</span></code></a></li>
+<li><a class="reference internal" href="#GstRtspServer.RTSPPublishClockMode" title="GstRtspServer.RTSPPublishClockMode"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPPublishClockMode</span></code></a></li>
 <li><a class="reference internal" href="#GstRtspServer.RTSPSuspendMode" title="GstRtspServer.RTSPSuspendMode"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPSuspendMode</span></code></a></li>
 <li><a class="reference internal" href="#GstRtspServer.RTSPThreadType" title="GstRtspServer.RTSPThreadType"><code class="xref py py-class docutils literal"><span class="pre">GstRtspServer.RTSPThreadType</span></code></a></li>
 </ul>
@@ -146,19 +180,13 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="GstRtspServer.RTSPAddressPoolResult">
-<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPAddressPoolResult</code><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstRtspServer-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPAddressPoolResult</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>Result codes from RTSP address pool functions.</p>
 <dl class="attribute">
-<dt id="GstRtspServer.RTSPAddressPoolResult.ELAST">
-<code class="descname">ELAST</code><em class="property"> = -4</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.ELAST" title="Permalink to this definition">¶</a></dt>
-<dd><p>last error</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="GstRtspServer.RTSPAddressPoolResult.ERANGE">
-<code class="descname">ERANGE</code><em class="property"> = -3</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.ERANGE" title="Permalink to this definition">¶</a></dt>
-<dd><p>the address is not in the pool</p>
+<dt id="GstRtspServer.RTSPAddressPoolResult.EINVAL">
+<code class="descname">EINVAL</code><em class="property"> = -1</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.EINVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>invalid arguments were provided to a function</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -168,9 +196,15 @@
 </dd></dl>
 
 <dl class="attribute">
-<dt id="GstRtspServer.RTSPAddressPoolResult.EINVAL">
-<code class="descname">EINVAL</code><em class="property"> = -1</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.EINVAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>invalid arguments were provided to a function</p>
+<dt id="GstRtspServer.RTSPAddressPoolResult.ERANGE">
+<code class="descname">ERANGE</code><em class="property"> = -3</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.ERANGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the address is not in the pool</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GstRtspServer.RTSPAddressPoolResult.ELAST">
+<code class="descname">ELAST</code><em class="property"> = -4</em><a class="headerlink" href="#GstRtspServer.RTSPAddressPoolResult.ELAST" title="Permalink to this definition">¶</a></dt>
+<dd><p>last error</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -183,8 +217,8 @@
 
 <dl class="class">
 <dt id="GstRtspServer.RTSPFilterResult">
-<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPFilterResult</code><a class="headerlink" href="#GstRtspServer.RTSPFilterResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstRtspServer-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPFilterResult</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPFilterResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>Possible return values for <a class="reference internal" href="classes/RTSPSessionPool.html#GstRtspServer.RTSPSessionPool.filter" title="GstRtspServer.RTSPSessionPool.filter"><code class="xref py py-obj docutils literal"><span class="pre">GstRtspServer.RTSPSessionPool.filter</span></code></a>().</p>
 <dl class="attribute">
 <dt id="GstRtspServer.RTSPFilterResult.REMOVE">
@@ -208,8 +242,8 @@
 
 <dl class="class">
 <dt id="GstRtspServer.RTSPMediaStatus">
-<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPMediaStatus</code><a class="headerlink" href="#GstRtspServer.RTSPMediaStatus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstRtspServer-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPMediaStatus</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPMediaStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The state of the media pipeline.</p>
 <dl class="attribute">
 <dt id="GstRtspServer.RTSPMediaStatus.UNPREPARED">
@@ -251,9 +285,34 @@ shutdown.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="GstRtspServer.RTSPPublishClockMode">
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPPublishClockMode</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPPublishClockMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<p>Whether the clock and possibly RTP/clock offset should be published according to RFC7273.</p>
+<dl class="attribute">
+<dt id="GstRtspServer.RTSPPublishClockMode.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GstRtspServer.RTSPPublishClockMode.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish nothing</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GstRtspServer.RTSPPublishClockMode.CLOCK">
+<code class="descname">CLOCK</code><em class="property"> = 1</em><a class="headerlink" href="#GstRtspServer.RTSPPublishClockMode.CLOCK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish the clock but not the offset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GstRtspServer.RTSPPublishClockMode.CLOCK_AND_OFFSET">
+<code class="descname">CLOCK_AND_OFFSET</code><em class="property"> = 2</em><a class="headerlink" href="#GstRtspServer.RTSPPublishClockMode.CLOCK_AND_OFFSET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish the clock and offset</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="GstRtspServer.RTSPSuspendMode">
-<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPSuspendMode</code><a class="headerlink" href="#GstRtspServer.RTSPSuspendMode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstRtspServer-1.0/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPSuspendMode</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPSuspendMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>The suspend mode of the media pipeline. A media pipeline is suspended right
 after creating the SDP and when the client performs a PAUSED <code class="xref py py-obj docutils literal"><span class="pre">GstRtsp.request</span></code>.</p>
 <dl class="attribute">
@@ -278,8 +337,8 @@ after creating the SDP and when the client performs a PAUSED <code class="xref p
 
 <dl class="class">
 <dt id="GstRtspServer.RTSPThreadType">
-<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPThreadType</code><a class="headerlink" href="#GstRtspServer.RTSPThreadType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/GstRtspServer-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">GstRtspServer.</code><code class="descname">RTSPThreadType</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GstRtspServer.RTSPThreadType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>Different thread types</p>
 <dl class="attribute">
 <dt id="GstRtspServer.RTSPThreadType.CLIENT">
@@ -309,30 +368,4 @@ after creating the SDP and when the client performs a PAUSED <code class="xref p
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

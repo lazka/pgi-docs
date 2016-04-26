@@ -35,9 +35,42 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="PackageKitGlib 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Callbacks" href="callbacks.html"/>
-        <link rel="prev" title="PackageKitGlib 1.0 (1.0.11)" href="index.html"/> 
+        <link rel="prev" title="PackageKitGlib 1.0 (1.1.5)" href="index.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -135,7 +168,7 @@
             
   <div class="section" id="functions">
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="1%" />
 <col width="99%" />
@@ -274,10 +307,16 @@
 <td><a class="reference internal" href="#PackageKitGlib.offline_auth_set_prepared_ids" title="PackageKitGlib.offline_auth_set_prepared_ids"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_set_prepared_ids</span></code></a> (package_ids)</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
-<td><a class="reference internal" href="#PackageKitGlib.offline_auth_set_results" title="PackageKitGlib.offline_auth_set_results"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_set_results</span></code></a> (results)</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_auth_set_prepared_upgrade" title="PackageKitGlib.offline_auth_set_prepared_upgrade"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_set_prepared_upgrade</span></code></a> (name, release_ver)</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_auth_set_results" title="PackageKitGlib.offline_auth_set_results"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_set_results</span></code></a> (results)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.offline_auth_trigger" title="PackageKitGlib.offline_auth_trigger"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_trigger</span></code></a> (action)</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_auth_trigger_upgrade" title="PackageKitGlib.offline_auth_trigger_upgrade"><code class="xref py py-func docutils literal"><span class="pre">offline_auth_trigger_upgrade</span></code></a> (action)</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.offline_cancel" title="PackageKitGlib.offline_cancel"><code class="xref py py-func docutils literal"><span class="pre">offline_cancel</span></code></a> (cancellable)</td>
@@ -304,6 +343,18 @@
 <td><a class="reference internal" href="#PackageKitGlib.offline_get_prepared_sack" title="PackageKitGlib.offline_get_prepared_sack"><code class="xref py py-func docutils literal"><span class="pre">offline_get_prepared_sack</span></code></a> ()</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_get_prepared_upgrade" title="PackageKitGlib.offline_get_prepared_upgrade"><code class="xref py py-func docutils literal"><span class="pre">offline_get_prepared_upgrade</span></code></a> ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_get_prepared_upgrade_monitor" title="PackageKitGlib.offline_get_prepared_upgrade_monitor"><code class="xref py py-func docutils literal"><span class="pre">offline_get_prepared_upgrade_monitor</span></code></a> (cancellable)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_get_prepared_upgrade_name" title="PackageKitGlib.offline_get_prepared_upgrade_name"><code class="xref py py-func docutils literal"><span class="pre">offline_get_prepared_upgrade_name</span></code></a> ()</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_get_prepared_upgrade_version" title="PackageKitGlib.offline_get_prepared_upgrade_version"><code class="xref py py-func docutils literal"><span class="pre">offline_get_prepared_upgrade_version</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.offline_get_results" title="PackageKitGlib.offline_get_results"><code class="xref py py-func docutils literal"><span class="pre">offline_get_results</span></code></a> ()</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
@@ -313,72 +364,75 @@
 <td><a class="reference internal" href="#PackageKitGlib.offline_trigger" title="PackageKitGlib.offline_trigger"><code class="xref py py-func docutils literal"><span class="pre">offline_trigger</span></code></a> (action, cancellable)</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
+<td><a class="reference internal" href="#PackageKitGlib.offline_trigger_upgrade" title="PackageKitGlib.offline_trigger_upgrade"><code class="xref py py-func docutils literal"><span class="pre">offline_trigger_upgrade</span></code></a> (action, cancellable)</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.polkit_agent_close" title="PackageKitGlib.polkit_agent_close"><code class="xref py py-func docutils literal"><span class="pre">polkit_agent_close</span></code></a> ()</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.polkit_agent_open" title="PackageKitGlib.polkit_agent_open"><code class="xref py py-func docutils literal"><span class="pre">polkit_agent_open</span></code></a> ()</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.ptr_array_to_strv" title="PackageKitGlib.ptr_array_to_strv"><code class="xref py py-func docutils literal"><span class="pre">ptr_array_to_strv</span></code></a> (array)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.restart_enum_from_string" title="PackageKitGlib.restart_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">restart_enum_from_string</span></code></a> (restart)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.restart_enum_to_string" title="PackageKitGlib.restart_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">restart_enum_to_string</span></code></a> (restart)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.role_bitfield_from_string" title="PackageKitGlib.role_bitfield_from_string"><code class="xref py py-func docutils literal"><span class="pre">role_bitfield_from_string</span></code></a> (roles)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.role_bitfield_to_string" title="PackageKitGlib.role_bitfield_to_string"><code class="xref py py-func docutils literal"><span class="pre">role_bitfield_to_string</span></code></a> (roles)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.role_enum_from_string" title="PackageKitGlib.role_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">role_enum_from_string</span></code></a> (role)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.role_enum_to_localised_present" title="PackageKitGlib.role_enum_to_localised_present"><code class="xref py py-func docutils literal"><span class="pre">role_enum_to_localised_present</span></code></a> (role)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.role_enum_to_string" title="PackageKitGlib.role_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">role_enum_to_string</span></code></a> (role)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.sig_type_enum_from_string" title="PackageKitGlib.sig_type_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">sig_type_enum_from_string</span></code></a> (sig_type)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.sig_type_enum_to_string" title="PackageKitGlib.sig_type_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">sig_type_enum_to_string</span></code></a> (sig_type)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.status_enum_from_string" title="PackageKitGlib.status_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">status_enum_from_string</span></code></a> (status)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.status_enum_to_localised_text" title="PackageKitGlib.status_enum_to_localised_text"><code class="xref py py-func docutils literal"><span class="pre">status_enum_to_localised_text</span></code></a> (status)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.status_enum_to_string" title="PackageKitGlib.status_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">status_enum_to_string</span></code></a> (status)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.transaction_flag_bitfield_from_string" title="PackageKitGlib.transaction_flag_bitfield_from_string"><code class="xref py py-func docutils literal"><span class="pre">transaction_flag_bitfield_from_string</span></code></a> (transaction_flags)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.transaction_flag_bitfield_to_string" title="PackageKitGlib.transaction_flag_bitfield_to_string"><code class="xref py py-func docutils literal"><span class="pre">transaction_flag_bitfield_to_string</span></code></a> (transaction_flags)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.transaction_flag_enum_from_string" title="PackageKitGlib.transaction_flag_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">transaction_flag_enum_from_string</span></code></a> (transaction_flag)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.transaction_flag_enum_to_string" title="PackageKitGlib.transaction_flag_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">transaction_flag_enum_to_string</span></code></a> (transaction_flag)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.update_state_enum_from_string" title="PackageKitGlib.update_state_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">update_state_enum_from_string</span></code></a> (update_state)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.update_state_enum_to_string" title="PackageKitGlib.update_state_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">update_state_enum_to_string</span></code></a> (update_state)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.upgrade_kind_enum_from_string" title="PackageKitGlib.upgrade_kind_enum_from_string"><code class="xref py py-func docutils literal"><span class="pre">upgrade_kind_enum_from_string</span></code></a> (upgrade_kind)</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-odd"><td>&nbsp;</td>
 <td><a class="reference internal" href="#PackageKitGlib.upgrade_kind_enum_to_string" title="PackageKitGlib.upgrade_kind_enum_to_string"><code class="xref py py-func docutils literal"><span class="pre">upgrade_kind_enum_to_string</span></code></a> (upgrade_kind)</td>
 </tr>
 </tbody>
@@ -434,7 +488,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </td>
 </tr>
 </tbody>
 </table>
@@ -465,7 +519,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </td>
 </tr>
 </tbody>
 </table>
@@ -484,7 +538,7 @@
 </tr>
 </tbody>
 </table>
-<p>We are a <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a> that sets errors</p>
+<p>We are a <a class="reference external" href="../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a> that sets errors</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.5.2.</span></p>
 </div>
@@ -581,7 +635,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>table</strong> (<a class="reference internal" href="structs/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a>) &#8211; A <a class="reference internal" href="structs/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a> enum table of values</li>
+<li><strong>table</strong> (<a class="reference internal" href="classes/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a>) &#8211; A <a class="reference internal" href="classes/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a> enum table of values</li>
 <li><strong>value</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; the enumerated constant value, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.SigTypeEnum.GPG" title="PackageKitGlib.SigTypeEnum.GPG"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.SigTypeEnum.GPG</span></code></a></li>
 </ul>
 </td>
@@ -605,7 +659,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>table</strong> (<a class="reference internal" href="structs/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a>) &#8211; A <a class="reference internal" href="structs/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a> enum table of values</li>
+<li><strong>table</strong> (<a class="reference internal" href="classes/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a>) &#8211; A <a class="reference internal" href="classes/EnumMatch.html#PackageKitGlib.EnumMatch" title="PackageKitGlib.EnumMatch"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.EnumMatch</span></code></a> enum table of values</li>
 <li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string constant to search for, e.g. &#8220;desktop-gnome&#8221;</li>
 </ul>
 </td>
@@ -628,7 +682,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; </td>
 </tr>
 </tbody>
 </table>
@@ -986,7 +1040,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>date</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/structs/Date.html#GLib.Date" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Date</span></code></a>) &#8211; a <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/structs/Date.html#GLib.Date" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Date</span></code></a> to convert</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>date</strong> (<a class="reference external" href="../GLib-2.0/classes/Date.html#GLib.Date" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Date</span></code></a>) &#8211; a <a class="reference external" href="../GLib-2.0/classes/Date.html#GLib.Date" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Date</span></code></a> to convert</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">If valid then a new ISO8601 date, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
@@ -1150,7 +1204,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1172,7 +1226,7 @@ scheduled offline operation then this method returns with success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1194,7 +1248,7 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1219,7 +1273,7 @@ is manually installed or removed.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> (<a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>) &#8211; a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1242,7 +1296,7 @@ is manually installed or removed.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>package_ids</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; Array of package-ids</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1257,6 +1311,36 @@ is manually installed or removed.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="PackageKitGlib.offline_auth_set_prepared_upgrade">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_auth_set_prepared_upgrade</code><span class="sig-paren">(</span><em>name</em>, <em>release_ver</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_auth_set_prepared_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; Distro name to upgrade to</li>
+<li><strong>release_ver</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; Distro version to upgrade to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Saves the distro name and version to upgrade to a prepared transaction file.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.1.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="PackageKitGlib.offline_auth_set_results">
 <code class="descclassname">PackageKitGlib.</code><code class="descname">offline_auth_set_results</code><span class="sig-paren">(</span><em>results</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_auth_set_results" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -1265,7 +1349,7 @@ is manually installed or removed.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<a class="reference internal" href="classes/Results.html#PackageKitGlib.Results" title="PackageKitGlib.Results"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.Results</span></code></a>) &#8211; A <a class="reference internal" href="classes/Results.html#PackageKitGlib.Results" title="PackageKitGlib.Results"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.Results</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1288,7 +1372,7 @@ is manually installed or removed.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> (<a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>) &#8211; a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1304,15 +1388,39 @@ pending transaction.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="PackageKitGlib.offline_auth_trigger_upgrade">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_auth_trigger_upgrade</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_auth_trigger_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> (<a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>) &#8211; a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Triggers the offline system upgrade so that the next reboot will perform the
+pending transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.0.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="PackageKitGlib.offline_cancel">
 <code class="descclassname">PackageKitGlib.</code><code class="descname">offline_cancel</code><span class="sig-paren">(</span><em>cancellable</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_cancel" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1334,9 +1442,9 @@ scheduled offline operation then this method returns with success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</td>
 </tr>
@@ -1376,7 +1484,7 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></td>
 </tr>
@@ -1398,13 +1506,13 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1421,7 +1529,7 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array of package-ids, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
@@ -1442,13 +1550,13 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1465,7 +1573,7 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new <a class="reference internal" href="classes/PackageSack.html#PackageKitGlib.PackageSack" title="PackageKitGlib.PackageSack"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.PackageSack</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
@@ -1480,13 +1588,109 @@ If the report does not exist then this method returns success.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="PackageKitGlib.offline_get_prepared_upgrade">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_get_prepared_upgrade</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_get_prepared_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">name:</th><td class="field-body">Return location for the distro name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">release_ver:</th><td class="field-body">Return location for the distro version</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a>, <strong>name</strong>: <a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>, <strong>release_ver</strong>: <a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>)</td>
+</tr>
+</tbody>
+</table>
+<p>Gets details about a prepared system upgrade transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.1.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PackageKitGlib.offline_get_prepared_upgrade_monitor">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_get_prepared_upgrade_monitor</code><span class="sig-paren">(</span><em>cancellable</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_get_prepared_upgrade_monitor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../Gio-2.0/classes/FileMonitor.html#Gio.FileMonitor" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.FileMonitor</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Gets a file monitor for the prepared system upgrade transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.0.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PackageKitGlib.offline_get_prepared_upgrade_name">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_get_prepared_upgrade_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_get_prepared_upgrade_name" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the name, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if unset, free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.free</span></code></a>()</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Gets the name of the prepared system upgrade in the prepared transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.1.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PackageKitGlib.offline_get_prepared_upgrade_version">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_get_prepared_upgrade_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_get_prepared_upgrade_version" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the version, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if unset, free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.free</span></code></a>()</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Gets the version of the prepared system upgrade in the prepared transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.0.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="PackageKitGlib.offline_get_results">
 <code class="descclassname">PackageKitGlib.</code><code class="descname">offline_get_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_get_results" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <a class="reference internal" href="classes/Results.html#PackageKitGlib.Results" title="PackageKitGlib.Results"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.Results</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
@@ -1507,7 +1711,7 @@ If the report does not exist then this method returns success.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a unix time, or 0 for error.</td>
 </tr>
@@ -1515,7 +1719,7 @@ If the report does not exist then this method returns success.</p>
 </tr>
 </tbody>
 </table>
-<p>Gets the motification time of the prepared transaction.</p>
+<p>Gets the modification time of the prepared transaction.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.9.6.</span></p>
 </div>
@@ -1530,11 +1734,11 @@ If the report does not exist then this method returns success.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>action</strong> (<a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>) &#8211; a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></li>
-<li><strong>cancellable</strong> (<a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</p>
@@ -1549,6 +1753,37 @@ If the report does not exist then this method returns success.</p>
 pending transaction.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.9.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="PackageKitGlib.offline_trigger_upgrade">
+<code class="descclassname">PackageKitGlib.</code><code class="descname">offline_trigger_upgrade</code><span class="sig-paren">(</span><em>action</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="headerlink" href="#PackageKitGlib.offline_trigger_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>action</strong> (<a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>) &#8211; a <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction" title="PackageKitGlib.OfflineAction"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction</span></code></a>, e.g. <a class="reference internal" href="enums.html#PackageKitGlib.OfflineAction.REBOOT" title="PackageKitGlib.OfflineAction.REBOOT"><code class="xref py py-obj docutils literal"><span class="pre">PackageKitGlib.OfflineAction.REBOOT</span></code></a></li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; A <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a> for success, else <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a> and <cite>error</cite> set</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Triggers the offline system upgrade so that the next reboot will perform the
+pending transaction.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.0.12.</span></p>
 </div>
 </dd></dl>
 
@@ -1577,7 +1812,7 @@ pending transaction.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/structs/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.PtrArray</span></code></a> of strings</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the <a class="reference external" href="../GLib-2.0/classes/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.PtrArray</span></code></a> of strings</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the string array, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if invalid</td>
 </tr>
@@ -1586,7 +1821,7 @@ pending transaction.</p>
 </tbody>
 </table>
 <p>Form a composite string array of strings.
-The data in the <a class="reference external" href="_docs/PackageKitGlib-1.0/../../../GLib-2.0/structs/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.PtrArray</span></code></a> is copied.</p>
+The data in the <a class="reference external" href="../GLib-2.0/classes/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.PtrArray</span></code></a> is copied.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.5.2.</span></p>
 </div>
@@ -2017,30 +2252,4 @@ The data in the <a class="reference external" href="_docs/PackageKitGlib-1.0/../
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

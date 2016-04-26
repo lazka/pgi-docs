@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="EDataServer 1.2 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
         <link rel="prev" title="Flags" href="flags.html"/> 
@@ -146,6 +179,7 @@
 <li><a class="reference internal" href="#EDataServer.SourceLDAPAuthentication" title="EDataServer.SourceLDAPAuthentication"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.SourceLDAPAuthentication</span></code></a></li>
 <li><a class="reference internal" href="#EDataServer.SourceLDAPScope" title="EDataServer.SourceLDAPScope"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.SourceLDAPScope</span></code></a></li>
 <li><a class="reference internal" href="#EDataServer.SourceLDAPSecurity" title="EDataServer.SourceLDAPSecurity"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.SourceLDAPSecurity</span></code></a></li>
+<li><a class="reference internal" href="#EDataServer.SourceMailCompositionReplyStyle" title="EDataServer.SourceMailCompositionReplyStyle"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.SourceMailCompositionReplyStyle</span></code></a></li>
 <li><a class="reference internal" href="#EDataServer.SourceWeatherUnits" title="EDataServer.SourceWeatherUnits"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.SourceWeatherUnits</span></code></a></li>
 <li><a class="reference internal" href="#EDataServer.TimeParseStatus" title="EDataServer.TimeParseStatus"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.TimeParseStatus</span></code></a></li>
 <li><a class="reference internal" href="#EDataServer.TrustPromptResponse" title="EDataServer.TrustPromptResponse"><code class="xref py py-class docutils literal"><span class="pre">EDataServer.TrustPromptResponse</span></code></a></li>
@@ -156,8 +190,8 @@
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="EDataServer.ClientError">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">ClientError</code><a class="headerlink" href="#EDataServer.ClientError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">ClientError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.ClientError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>Error codes for <a class="reference internal" href="classes/Client.html#EDataServer.Client" title="EDataServer.Client"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Client</span></code></a> operations.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.2.</span></p>
@@ -172,54 +206,6 @@
 <dt id="EDataServer.ClientError.BUSY">
 <code class="descname">BUSY</code><em class="property"> = 1</em><a class="headerlink" href="#EDataServer.ClientError.BUSY" title="Permalink to this definition">¶</a></dt>
 <dd><p>The client is busy</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.SOURCE_NOT_LOADED">
-<code class="descname">SOURCE_NOT_LOADED</code><em class="property"> = 2</em><a class="headerlink" href="#EDataServer.ClientError.SOURCE_NOT_LOADED" title="Permalink to this definition">¶</a></dt>
-<dd><p>The source is not loaded</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.SOURCE_ALREADY_LOADED">
-<code class="descname">SOURCE_ALREADY_LOADED</code><em class="property"> = 3</em><a class="headerlink" href="#EDataServer.ClientError.SOURCE_ALREADY_LOADED" title="Permalink to this definition">¶</a></dt>
-<dd><p>The source is already loaded</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.AUTHENTICATION_FAILED">
-<code class="descname">AUTHENTICATION_FAILED</code><em class="property"> = 4</em><a class="headerlink" href="#EDataServer.ClientError.AUTHENTICATION_FAILED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Authentication failed</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.AUTHENTICATION_REQUIRED">
-<code class="descname">AUTHENTICATION_REQUIRED</code><em class="property"> = 5</em><a class="headerlink" href="#EDataServer.ClientError.AUTHENTICATION_REQUIRED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Authentication required</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.REPOSITORY_OFFLINE">
-<code class="descname">REPOSITORY_OFFLINE</code><em class="property"> = 6</em><a class="headerlink" href="#EDataServer.ClientError.REPOSITORY_OFFLINE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The repository (client) is offline</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.OFFLINE_UNAVAILABLE">
-<code class="descname">OFFLINE_UNAVAILABLE</code><em class="property"> = 7</em><a class="headerlink" href="#EDataServer.ClientError.OFFLINE_UNAVAILABLE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The operation is unavailable in offline mode</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.PERMISSION_DENIED">
-<code class="descname">PERMISSION_DENIED</code><em class="property"> = 8</em><a class="headerlink" href="#EDataServer.ClientError.PERMISSION_DENIED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Permission denied for the operation</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="EDataServer.ClientError.CANCELLED">
-<code class="descname">CANCELLED</code><em class="property"> = 9</em><a class="headerlink" href="#EDataServer.ClientError.CANCELLED" title="Permalink to this definition">¶</a></dt>
-<dd><p>The operation was cancelled</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -283,6 +269,12 @@
 </dd></dl>
 
 <dl class="attribute">
+<dt id="EDataServer.ClientError.SOURCE_NOT_LOADED">
+<code class="descname">SOURCE_NOT_LOADED</code><em class="property"> = 2</em><a class="headerlink" href="#EDataServer.ClientError.SOURCE_NOT_LOADED" title="Permalink to this definition">¶</a></dt>
+<dd><p>The source is not loaded</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="EDataServer.ClientError.NOT_OPENED">
 <code class="descname">NOT_OPENED</code><em class="property"> = 20</em><a class="headerlink" href="#EDataServer.ClientError.NOT_OPENED" title="Permalink to this definition">¶</a></dt>
 <dd><p>The client is not opened</p>
@@ -294,12 +286,54 @@
 <dd><p>The clien tis out of sync</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="EDataServer.ClientError.SOURCE_ALREADY_LOADED">
+<code class="descname">SOURCE_ALREADY_LOADED</code><em class="property"> = 3</em><a class="headerlink" href="#EDataServer.ClientError.SOURCE_ALREADY_LOADED" title="Permalink to this definition">¶</a></dt>
+<dd><p>The source is already loaded</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.AUTHENTICATION_FAILED">
+<code class="descname">AUTHENTICATION_FAILED</code><em class="property"> = 4</em><a class="headerlink" href="#EDataServer.ClientError.AUTHENTICATION_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authentication failed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.AUTHENTICATION_REQUIRED">
+<code class="descname">AUTHENTICATION_REQUIRED</code><em class="property"> = 5</em><a class="headerlink" href="#EDataServer.ClientError.AUTHENTICATION_REQUIRED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authentication required</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.REPOSITORY_OFFLINE">
+<code class="descname">REPOSITORY_OFFLINE</code><em class="property"> = 6</em><a class="headerlink" href="#EDataServer.ClientError.REPOSITORY_OFFLINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The repository (client) is offline</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.OFFLINE_UNAVAILABLE">
+<code class="descname">OFFLINE_UNAVAILABLE</code><em class="property"> = 7</em><a class="headerlink" href="#EDataServer.ClientError.OFFLINE_UNAVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The operation is unavailable in offline mode</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.PERMISSION_DENIED">
+<code class="descname">PERMISSION_DENIED</code><em class="property"> = 8</em><a class="headerlink" href="#EDataServer.ClientError.PERMISSION_DENIED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Permission denied for the operation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.ClientError.CANCELLED">
+<code class="descname">CANCELLED</code><em class="property"> = 9</em><a class="headerlink" href="#EDataServer.ClientError.CANCELLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>The operation was cancelled</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="EDataServer.CollatorError">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">CollatorError</code><a class="headerlink" href="#EDataServer.CollatorError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">CollatorError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.CollatorError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>Errors from the #E_COLLATOR_ERROR domain.</p>
 <dl class="attribute">
 <dt id="EDataServer.CollatorError.OPEN">
@@ -316,15 +350,15 @@
 <dl class="attribute">
 <dt id="EDataServer.CollatorError.INVALID_LOCALE">
 <code class="descname">INVALID_LOCALE</code><em class="property"> = 2</em><a class="headerlink" href="#EDataServer.CollatorError.INVALID_LOCALE" title="Permalink to this definition">¶</a></dt>
-<dd><p>A malformed locale name was given to <a class="reference internal" href="structs/Collator.html#EDataServer.Collator.new" title="EDataServer.Collator.new"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Collator.new</span></code></a>()</p>
+<dd><p>A malformed locale name was given to <a class="reference internal" href="classes/Collator.html#EDataServer.Collator.new" title="EDataServer.Collator.new"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Collator.new</span></code></a>()</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="EDataServer.MdnResponsePolicy">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">MdnResponsePolicy</code><a class="headerlink" href="#EDataServer.MdnResponsePolicy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">MdnResponsePolicy</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.MdnResponsePolicy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Policy for responding to Message Disposition Notification requests
 (i.e. a Disposition-Notification-To header) when receiving messages.
 See RFC 2298 for more information about MDN requests.</p>
@@ -353,8 +387,8 @@ See RFC 2298 for more information about MDN requests.</p>
 
 <dl class="class">
 <dt id="EDataServer.ProxyMethod">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">ProxyMethod</code><a class="headerlink" href="#EDataServer.ProxyMethod" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">ProxyMethod</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.ProxyMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Network proxy configuration methods.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.12.</span></p>
@@ -362,7 +396,7 @@ See RFC 2298 for more information about MDN requests.</p>
 <dl class="attribute">
 <dt id="EDataServer.ProxyMethod.DEFAULT">
 <code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#EDataServer.ProxyMethod.DEFAULT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use the default <a class="reference external" href="_docs/EDataServer-1.2/../../../Gio-2.0/interfaces/ProxyResolver.html#Gio.ProxyResolver" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.ProxyResolver</span></code></a> (see <a class="reference external" href="_docs/EDataServer-1.2/../../../Gio-2.0/interfaces/ProxyResolver.html#Gio.ProxyResolver.get_default" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.ProxyResolver.get_default</span></code></a>()).</p>
+<dd><p>Use the default <a class="reference external" href="../Gio-2.0/classes/ProxyResolver.html#Gio.ProxyResolver" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.ProxyResolver</span></code></a> (see <a class="reference external" href="../Gio-2.0/classes/ProxyResolver.html#Gio.ProxyResolver.get_default" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.ProxyResolver.get_default</span></code></a>()).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -387,8 +421,8 @@ See RFC 2298 for more information about MDN requests.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceAuthenticationResult">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceAuthenticationResult</code><a class="headerlink" href="#EDataServer.SourceAuthenticationResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceAuthenticationResult</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceAuthenticationResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Status codes used by the #EBackend authentication wrapper.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.6.</span></p>
@@ -430,8 +464,8 @@ See RFC 2298 for more information about MDN requests.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceConnectionStatus">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceConnectionStatus</code><a class="headerlink" href="#EDataServer.SourceConnectionStatus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceConnectionStatus</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceConnectionStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Connection status codes used by the <a class="reference internal" href="classes/Source.html#EDataServer.Source" title="EDataServer.Source"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Source</span></code></a> to indicate its connection state.
 This is used in combination with authentication of the <a class="reference internal" href="classes/Source.html#EDataServer.Source" title="EDataServer.Source"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Source</span></code></a>. For example,
 if there are multiple clients asking for a password and a user enters the password
@@ -476,8 +510,8 @@ is currently awaiting for them.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceCredentialsReason">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceCredentialsReason</code><a class="headerlink" href="#EDataServer.SourceCredentialsReason" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceCredentialsReason</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceCredentialsReason" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>An <a class="reference internal" href="classes/Source.html#EDataServer.Source" title="EDataServer.Source"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Source</span></code></a>&#8216;s authentication reason, used by an <a class="reference internal" href="classes/Source.html#EDataServer.Source" title="EDataServer.Source"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.Source</span></code></a> <code class="xref py py-func docutils literal"><span class="pre">::CredentialsRequired</span></code> method.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.16.</span></p>
@@ -522,8 +556,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceLDAPAuthentication">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPAuthentication</code><a class="headerlink" href="#EDataServer.SourceLDAPAuthentication" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPAuthentication</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceLDAPAuthentication" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Defines authentication types for LDAP sources.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.18.</span></p>
@@ -550,8 +584,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceLDAPScope">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPScope</code><a class="headerlink" href="#EDataServer.SourceLDAPScope" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPScope</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceLDAPScope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Defines search scope for LDAP sources.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.18.</span></p>
@@ -572,8 +606,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.SourceLDAPSecurity">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPSecurity</code><a class="headerlink" href="#EDataServer.SourceLDAPSecurity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceLDAPSecurity</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceLDAPSecurity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Defines what connection security should be used for LDAP sources.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.18.</span></p>
@@ -599,9 +633,49 @@ at the moment usually.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="EDataServer.SourceMailCompositionReplyStyle">
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceMailCompositionReplyStyle</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<p>Set of preferred reply styles for an <a class="reference internal" href="classes/SourceMailComposition.html#EDataServer.SourceMailComposition" title="EDataServer.SourceMailComposition"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.SourceMailComposition</span></code></a> extension.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.20.</span></p>
+</div>
+<dl class="attribute">
+<dt id="EDataServer.SourceMailCompositionReplyStyle.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use default reply style.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.SourceMailCompositionReplyStyle.QUOTED">
+<code class="descname">QUOTED</code><em class="property"> = 1</em><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle.QUOTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use quoted reply style.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.SourceMailCompositionReplyStyle.DO_NOT_QUOTE">
+<code class="descname">DO_NOT_QUOTE</code><em class="property"> = 2</em><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle.DO_NOT_QUOTE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do not quote anything in replies.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.SourceMailCompositionReplyStyle.ATTACH">
+<code class="descname">ATTACH</code><em class="property"> = 3</em><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle.ATTACH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach original message in replies.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="EDataServer.SourceMailCompositionReplyStyle.OUTLOOK">
+<code class="descname">OUTLOOK</code><em class="property"> = 4</em><a class="headerlink" href="#EDataServer.SourceMailCompositionReplyStyle.OUTLOOK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use Outlook reply style.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="EDataServer.SourceWeatherUnits">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceWeatherUnits</code><a class="headerlink" href="#EDataServer.SourceWeatherUnits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">SourceWeatherUnits</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.SourceWeatherUnits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>Units to be used in an <a class="reference internal" href="classes/SourceWeather.html#EDataServer.SourceWeather" title="EDataServer.SourceWeather"><code class="xref py py-obj docutils literal"><span class="pre">EDataServer.SourceWeather</span></code></a> extension.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.18.</span></p>
@@ -628,8 +702,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.TimeParseStatus">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">TimeParseStatus</code><a class="headerlink" href="#EDataServer.TimeParseStatus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">TimeParseStatus</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.TimeParseStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <dl class="attribute">
 <dt id="EDataServer.TimeParseStatus.OK">
 <code class="descname">OK</code><em class="property"> = 0</em><a class="headerlink" href="#EDataServer.TimeParseStatus.OK" title="Permalink to this definition">¶</a></dt>
@@ -652,8 +726,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.TrustPromptResponse">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">TrustPromptResponse</code><a class="headerlink" href="#EDataServer.TrustPromptResponse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">TrustPromptResponse</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.TrustPromptResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>XXX Document me!</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.8.</span></p>
@@ -687,8 +761,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.XmlHashStatus">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">XmlHashStatus</code><a class="headerlink" href="#EDataServer.XmlHashStatus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">XmlHashStatus</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.XmlHashStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <dl class="attribute">
 <dt id="EDataServer.XmlHashStatus.SAME">
 <code class="descname">SAME</code><em class="property"> = 0</em><a class="headerlink" href="#EDataServer.XmlHashStatus.SAME" title="Permalink to this definition">¶</a></dt>
@@ -711,8 +785,8 @@ at the moment usually.</p>
 
 <dl class="class">
 <dt id="EDataServer.XmlHashType">
-<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">XmlHashType</code><a class="headerlink" href="#EDataServer.XmlHashType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/EDataServer-1.2/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">EDataServer.</code><code class="descname">XmlHashType</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#EDataServer.XmlHashType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <dl class="attribute">
 <dt id="EDataServer.XmlHashType.OBJECT_UID">
 <code class="descname">OBJECT_UID</code><em class="property"> = 0</em><a class="headerlink" href="#EDataServer.XmlHashType.OBJECT_UID" title="Permalink to this definition">¶</a></dt>
@@ -741,30 +815,4 @@ at the moment usually.</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

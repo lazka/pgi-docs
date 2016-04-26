@@ -35,8 +35,41 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Json 1.0 Python API Docs" href="index.html"/>
-        <link rel="next" title="Interfaces" href="interfaces/index.html"/>
+        <link rel="next" title="Interfaces" href="interfaces.html"/>
         <link rel="prev" title="Functions" href="functions.html"/> 
 </head>
 
@@ -65,7 +98,7 @@
 
 
 
-<td><a accesskey="n" href="interfaces/index.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -105,7 +138,7 @@
 
 
 
-<td><a accesskey="n" href="interfaces/index.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -135,7 +168,7 @@
             
   <div class="section" id="callbacks">
 <h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h1>
-<table border="1" class="docutils">
+<table border="1" class="colwidths-given docutils">
 <colgroup>
 <col width="1%" />
 <col width="99%" />
@@ -145,9 +178,12 @@
 <td><a class="reference internal" href="#Json.ArrayForeach" title="Json.ArrayForeach"><code class="xref py py-func docutils literal"><span class="pre">ArrayForeach</span></code></a> (array, index_, element_node, user_data)</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
-<td><a class="reference internal" href="#Json.BoxedSerializeFunc" title="Json.BoxedSerializeFunc"><code class="xref py py-func docutils literal"><span class="pre">BoxedSerializeFunc</span></code></a> (boxed)</td>
+<td><a class="reference internal" href="#Json.BoxedDeserializeFunc" title="Json.BoxedDeserializeFunc"><code class="xref py py-func docutils literal"><span class="pre">BoxedDeserializeFunc</span></code></a> (node)</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
+<td><a class="reference internal" href="#Json.BoxedSerializeFunc" title="Json.BoxedSerializeFunc"><code class="xref py py-func docutils literal"><span class="pre">BoxedSerializeFunc</span></code></a> (boxed)</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
 <td><a class="reference internal" href="#Json.ObjectForeach" title="Json.ObjectForeach"><code class="xref py py-func docutils literal"><span class="pre">ObjectForeach</span></code></a> (object, member_name, member_node, user_data)</td>
 </tr>
 </tbody>
@@ -162,20 +198,41 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>array</strong> (<a class="reference internal" href="structs/Array.html#Json.Array" title="Json.Array"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array</span></code></a>) &#8211; the iterated <a class="reference internal" href="structs/Array.html#Json.Array" title="Json.Array"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array</span></code></a></li>
+<li><strong>array</strong> (<a class="reference internal" href="classes/Array.html#Json.Array" title="Json.Array"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array</span></code></a>) &#8211; the iterated <a class="reference internal" href="classes/Array.html#Json.Array" title="Json.Array"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array</span></code></a></li>
 <li><strong>index</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; the index of the element</li>
-<li><strong>element_node</strong> (<a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a>) &#8211; a <a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a> containing the value at <cite>index_</cite></li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; data passed to the function</li>
+<li><strong>element_node</strong> (<a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a>) &#8211; a <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a> containing the value at <cite>index_</cite></li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; data passed to the function</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The function to be passed to <a class="reference internal" href="structs/Array.html#Json.Array.foreach_element" title="Json.Array.foreach_element"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array.foreach_element</span></code></a>(). You
+<p>The function to be passed to <a class="reference internal" href="classes/Array.html#Json.Array.foreach_element" title="Json.Array.foreach_element"><code class="xref py py-obj docutils literal"><span class="pre">Json.Array.foreach_element</span></code></a>(). You
 should not add or remove elements to and from <cite>array</cite> within
 this function. It is safe to change the value of <cite>element_node</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Json.BoxedDeserializeFunc">
+<code class="descclassname">Json.</code><code class="descname">BoxedDeserializeFunc</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#Json.BoxedDeserializeFunc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a>) &#8211; a <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the newly created boxed type</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Deserializes the contents of the passed <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a> into a <a class="reference external" href="../GObject-2.0/constants.html#GObject.GBoxed" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.GBoxed</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.10.</span></p>
 </div>
 </dd></dl>
 
@@ -186,15 +243,15 @@ this function. It is safe to change the value of <cite>element_node</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boxed</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; a <a class="reference external" href="_docs/Json-1.0/../../../GObject-2.0/constants.html#GObject.GBoxed" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.GBoxed</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boxed</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; a <a class="reference external" href="../GObject-2.0/constants.html#GObject.GBoxed" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.GBoxed</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the newly created <a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the newly created <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Serializes the passed <a class="reference external" href="_docs/Json-1.0/../../../GObject-2.0/constants.html#GObject.GBoxed" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.GBoxed</span></code></a> and stores it inside a <a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></p>
+<p>Serializes the passed <a class="reference external" href="../GObject-2.0/constants.html#GObject.GBoxed" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.GBoxed</span></code></a> and stores it inside a <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a></p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.10.</span></p>
 </div>
@@ -208,16 +265,16 @@ this function. It is safe to change the value of <cite>element_node</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>object</strong> (<a class="reference internal" href="structs/Object.html#Json.Object" title="Json.Object"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object</span></code></a>) &#8211; the iterated <a class="reference internal" href="structs/Object.html#Json.Object" title="Json.Object"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object</span></code></a></li>
+<li><strong>object</strong> (<a class="reference internal" href="classes/Object.html#Json.Object" title="Json.Object"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object</span></code></a>) &#8211; the iterated <a class="reference internal" href="classes/Object.html#Json.Object" title="Json.Object"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object</span></code></a></li>
 <li><strong>member_name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the name of the member</li>
-<li><strong>member_node</strong> (<a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a>) &#8211; a <a class="reference internal" href="structs/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a> containing the <cite>member_name</cite> value</li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>) &#8211; data passed to the function</li>
+<li><strong>member_node</strong> (<a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a>) &#8211; a <a class="reference internal" href="classes/Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal"><span class="pre">Json.Node</span></code></a> containing the <cite>member_name</cite> value</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) &#8211; data passed to the function</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The function to be passed to <a class="reference internal" href="structs/Object.html#Json.Object.foreach_member" title="Json.Object.foreach_member"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object.foreach_member</span></code></a>(). You
+<p>The function to be passed to <a class="reference internal" href="classes/Object.html#Json.Object.foreach_member" title="Json.Object.foreach_member"><code class="xref py py-obj docutils literal"><span class="pre">Json.Object.foreach_member</span></code></a>(). You
 should not add or remove members to and from <cite>object</cite> within
 this function. It is safe to change the value of <cite>member_node</cite>.</p>
 <div class="versionadded">
@@ -239,30 +296,4 @@ this function. It is safe to change the value of <cite>member_node</cite>.</p>
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

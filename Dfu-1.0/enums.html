@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Dfu 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
         <link rel="prev" title="Flags" href="flags.html"/> 
@@ -136,6 +169,7 @@
   <div class="section" id="enums">
 <h1>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
+<li><a class="reference internal" href="#Dfu.Action" title="Dfu.Action"><code class="xref py py-class docutils literal"><span class="pre">Dfu.Action</span></code></a></li>
 <li><a class="reference internal" href="#Dfu.CipherKind" title="Dfu.CipherKind"><code class="xref py py-class docutils literal"><span class="pre">Dfu.CipherKind</span></code></a></li>
 <li><a class="reference internal" href="#Dfu.Error" title="Dfu.Error"><code class="xref py py-class docutils literal"><span class="pre">Dfu.Error</span></code></a></li>
 <li><a class="reference internal" href="#Dfu.FirmwareFormat" title="Dfu.FirmwareFormat"><code class="xref py py-class docutils literal"><span class="pre">Dfu.FirmwareFormat</span></code></a></li>
@@ -143,13 +177,69 @@
 <li><a class="reference internal" href="#Dfu.Request" title="Dfu.Request"><code class="xref py py-class docutils literal"><span class="pre">Dfu.Request</span></code></a></li>
 <li><a class="reference internal" href="#Dfu.State" title="Dfu.State"><code class="xref py py-class docutils literal"><span class="pre">Dfu.State</span></code></a></li>
 <li><a class="reference internal" href="#Dfu.Status" title="Dfu.Status"><code class="xref py py-class docutils literal"><span class="pre">Dfu.Status</span></code></a></li>
+<li><a class="reference internal" href="#Dfu.Version" title="Dfu.Version"><code class="xref py py-class docutils literal"><span class="pre">Dfu.Version</span></code></a></li>
 </ul>
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="Dfu.Action">
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Action</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<p>The device DFU attributes.</p>
+<dl class="attribute">
+<dt id="Dfu.Action.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#Dfu.Action.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>No progress state</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.IDLE">
+<code class="descname">IDLE</code><em class="property"> = 1</em><a class="headerlink" href="#Dfu.Action.IDLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device is idle</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.READ">
+<code class="descname">READ</code><em class="property"> = 2</em><a class="headerlink" href="#Dfu.Action.READ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reading from the device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.WRITE">
+<code class="descname">WRITE</code><em class="property"> = 3</em><a class="headerlink" href="#Dfu.Action.WRITE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writing to the device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.VERIFY">
+<code class="descname">VERIFY</code><em class="property"> = 4</em><a class="headerlink" href="#Dfu.Action.VERIFY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifying the write</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.ERASE">
+<code class="descname">ERASE</code><em class="property"> = 5</em><a class="headerlink" href="#Dfu.Action.ERASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Erasing the device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.DETACH">
+<code class="descname">DETACH</code><em class="property"> = 6</em><a class="headerlink" href="#Dfu.Action.DETACH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detach into DFU mode</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Action.ATTACH">
+<code class="descname">ATTACH</code><em class="property"> = 7</em><a class="headerlink" href="#Dfu.Action.ATTACH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach into APP mode</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="Dfu.CipherKind">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">CipherKind</code><a class="headerlink" href="#Dfu.CipherKind" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">CipherKind</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.CipherKind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The type of cipher used for transfering the firmware.</p>
 <dl class="attribute">
 <dt id="Dfu.CipherKind.NONE">
@@ -163,12 +253,24 @@
 <dd><p>XTEA cipher detected</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="Dfu.CipherKind.DEVO">
+<code class="descname">DEVO</code><em class="property"> = 2</em><a class="headerlink" href="#Dfu.CipherKind.DEVO" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEVO cipher detected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.CipherKind.RSA">
+<code class="descname">RSA</code><em class="property"> = 3</em><a class="headerlink" href="#Dfu.CipherKind.RSA" title="Permalink to this definition">¶</a></dt>
+<dd><p>RSA cipher detected</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="Dfu.Error">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Error</code><a class="headerlink" href="#Dfu.Error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Error</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The error code.</p>
 <dl class="attribute">
 <dt id="Dfu.Error.INTERNAL">
@@ -216,8 +318,8 @@
 
 <dl class="class">
 <dt id="Dfu.FirmwareFormat">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">FirmwareFormat</code><a class="headerlink" href="#Dfu.FirmwareFormat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">FirmwareFormat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.FirmwareFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The known versions of the DFU standard in BCD format.</p>
 <dl class="attribute">
 <dt id="Dfu.FirmwareFormat.UNKNOWN">
@@ -232,29 +334,35 @@
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Dfu.FirmwareFormat.INTEL_HEX">
-<code class="descname">INTEL_HEX</code><em class="property"> = 2</em><a class="headerlink" href="#Dfu.FirmwareFormat.INTEL_HEX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intel HEX</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Dfu.FirmwareFormat.DFU_1_0">
-<code class="descname">DFU_1_0</code><em class="property"> = 256</em><a class="headerlink" href="#Dfu.FirmwareFormat.DFU_1_0" title="Permalink to this definition">¶</a></dt>
-<dd><p>DFU 1.0</p>
+<dt id="Dfu.FirmwareFormat.DFU">
+<code class="descname">DFU</code><em class="property"> = 2</em><a class="headerlink" href="#Dfu.FirmwareFormat.DFU" title="Permalink to this definition">¶</a></dt>
+<dd><p>DFU footer</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="Dfu.FirmwareFormat.DFUSE">
-<code class="descname">DFUSE</code><em class="property"> = 282</em><a class="headerlink" href="#Dfu.FirmwareFormat.DFUSE" title="Permalink to this definition">¶</a></dt>
-<dd><p>DfuSe extension</p>
+<code class="descname">DFUSE</code><em class="property"> = 3</em><a class="headerlink" href="#Dfu.FirmwareFormat.DFUSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>DfuSe header</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.FirmwareFormat.INTEL_HEX">
+<code class="descname">INTEL_HEX</code><em class="property"> = 4</em><a class="headerlink" href="#Dfu.FirmwareFormat.INTEL_HEX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intel HEX</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.FirmwareFormat.ELF">
+<code class="descname">ELF</code><em class="property"> = 5</em><a class="headerlink" href="#Dfu.FirmwareFormat.ELF" title="Permalink to this definition">¶</a></dt>
+<dd><p>ELF</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="Dfu.Mode">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Mode</code><a class="headerlink" href="#Dfu.Mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Mode</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The mode enumerated kind.</p>
 <dl class="attribute">
 <dt id="Dfu.Mode.UNKNOWN">
@@ -278,8 +386,8 @@
 
 <dl class="class">
 <dt id="Dfu.Request">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Request</code><a class="headerlink" href="#Dfu.Request" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Request</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The DFU request kinds.</p>
 <dl class="attribute">
 <dt id="Dfu.Request.DETACH">
@@ -327,8 +435,8 @@
 
 <dl class="class">
 <dt id="Dfu.State">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">State</code><a class="headerlink" href="#Dfu.State" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">State</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The state enumerated kind.</p>
 <dl class="attribute">
 <dt id="Dfu.State.APP_IDLE">
@@ -340,6 +448,12 @@
 <dt id="Dfu.State.APP_DETACH">
 <code class="descname">APP_DETACH</code><em class="property"> = 1</em><a class="headerlink" href="#Dfu.State.APP_DETACH" title="Permalink to this definition">¶</a></dt>
 <dd><p>State 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.State.DFU_ERROR">
+<code class="descname">DFU_ERROR</code><em class="property"> = 10</em><a class="headerlink" href="#Dfu.State.DFU_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd><p>State 10</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -390,18 +504,12 @@
 <dd><p>State 9</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="Dfu.State.DFU_ERROR">
-<code class="descname">DFU_ERROR</code><em class="property"> = 10</em><a class="headerlink" href="#Dfu.State.DFU_ERROR" title="Permalink to this definition">¶</a></dt>
-<dd><p>State 10</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="Dfu.Status">
-<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Status</code><a class="headerlink" href="#Dfu.Status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Dfu-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Status</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The status enumerated kind.</p>
 <dl class="attribute">
 <dt id="Dfu.Status.OK">
@@ -413,6 +521,42 @@
 <dt id="Dfu.Status.ERR_TARGET">
 <code class="descname">ERR_TARGET</code><em class="property"> = 1</em><a class="headerlink" href="#Dfu.Status.ERR_TARGET" title="Permalink to this definition">¶</a></dt>
 <dd><p>File is not targeted for use by this device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_FIRMWARE">
+<code class="descname">ERR_FIRMWARE</code><em class="property"> = 10</em><a class="headerlink" href="#Dfu.Status.ERR_FIRMWARE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device firmware is corrupt</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_VENDOR">
+<code class="descname">ERR_VENDOR</code><em class="property"> = 11</em><a class="headerlink" href="#Dfu.Status.ERR_VENDOR" title="Permalink to this definition">¶</a></dt>
+<dd><p>iString indicates a vendor-specific error</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_USBR">
+<code class="descname">ERR_USBR</code><em class="property"> = 12</em><a class="headerlink" href="#Dfu.Status.ERR_USBR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device detected unexpected USB reset signaling</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_POR">
+<code class="descname">ERR_POR</code><em class="property"> = 13</em><a class="headerlink" href="#Dfu.Status.ERR_POR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device detected unexpected power on reset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_UNKNOWN">
+<code class="descname">ERR_UNKNOWN</code><em class="property"> = 14</em><a class="headerlink" href="#Dfu.Status.ERR_UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Something unexpected went wrong</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Dfu.Status.ERR_STALLDPKT">
+<code class="descname">ERR_STALLDPKT</code><em class="property"> = 15</em><a class="headerlink" href="#Dfu.Status.ERR_STALLDPKT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device stalled an unexpected request</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -463,40 +607,35 @@
 <dd><p>Received DFU_DNLOAD with wLength = 0 but data is incomplete</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="Dfu.Version">
+<em class="property">class </em><code class="descclassname">Dfu.</code><code class="descname">Version</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Dfu.Version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<p>The known versions of the DFU standard in BCD format.</p>
 <dl class="attribute">
-<dt id="Dfu.Status.ERR_FIRMWARE">
-<code class="descname">ERR_FIRMWARE</code><em class="property"> = 10</em><a class="headerlink" href="#Dfu.Status.ERR_FIRMWARE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Device firmware is corrupt</p>
+<dt id="Dfu.Version.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#Dfu.Version.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format unknown</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Dfu.Status.ERR_VENDOR">
-<code class="descname">ERR_VENDOR</code><em class="property"> = 11</em><a class="headerlink" href="#Dfu.Status.ERR_VENDOR" title="Permalink to this definition">¶</a></dt>
-<dd><p>iString indicates a vendor-specific error</p>
+<dt id="Dfu.Version.DFU_1_0">
+<code class="descname">DFU_1_0</code><em class="property"> = 256</em><a class="headerlink" href="#Dfu.Version.DFU_1_0" title="Permalink to this definition">¶</a></dt>
+<dd><p>DFU 1.0</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Dfu.Status.ERR_USBR">
-<code class="descname">ERR_USBR</code><em class="property"> = 12</em><a class="headerlink" href="#Dfu.Status.ERR_USBR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Device detected unexpected USB reset signaling</p>
+<dt id="Dfu.Version.DFU_1_1">
+<code class="descname">DFU_1_1</code><em class="property"> = 272</em><a class="headerlink" href="#Dfu.Version.DFU_1_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>DFU 1.1</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Dfu.Status.ERR_POR">
-<code class="descname">ERR_POR</code><em class="property"> = 13</em><a class="headerlink" href="#Dfu.Status.ERR_POR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Device detected unexpected power on reset</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Dfu.Status.ERR_UNKNOWN">
-<code class="descname">ERR_UNKNOWN</code><em class="property"> = 14</em><a class="headerlink" href="#Dfu.Status.ERR_UNKNOWN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Something unexpected went wrong</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="Dfu.Status.ERR_STALLDPKT">
-<code class="descname">ERR_STALLDPKT</code><em class="property"> = 15</em><a class="headerlink" href="#Dfu.Status.ERR_STALLDPKT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Device stalled an unexpected request</p>
+<dt id="Dfu.Version.DFUSE">
+<code class="descname">DFUSE</code><em class="property"> = 282</em><a class="headerlink" href="#Dfu.Version.DFUSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>DfuSe</p>
 </dd></dl>
 
 </dd></dl>
@@ -515,30 +654,4 @@
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

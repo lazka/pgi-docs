@@ -35,6 +35,39 @@
   
     <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
   
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Fwupd 1.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Constants" href="constants.html"/>
         <link rel="prev" title="Flags" href="flags.html"/> 
@@ -137,14 +170,16 @@
 <h1>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="#Fwupd.Error" title="Fwupd.Error"><code class="xref py py-class docutils literal"><span class="pre">Fwupd.Error</span></code></a></li>
+<li><a class="reference internal" href="#Fwupd.InstallFlags" title="Fwupd.InstallFlags"><code class="xref py py-class docutils literal"><span class="pre">Fwupd.InstallFlags</span></code></a></li>
 <li><a class="reference internal" href="#Fwupd.Status" title="Fwupd.Status"><code class="xref py py-class docutils literal"><span class="pre">Fwupd.Status</span></code></a></li>
+<li><a class="reference internal" href="#Fwupd.UpdateState" title="Fwupd.UpdateState"><code class="xref py py-class docutils literal"><span class="pre">Fwupd.UpdateState</span></code></a></li>
 </ul>
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="Fwupd.Error">
-<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">Error</code><a class="headerlink" href="#Fwupd.Error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Fwupd-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">Error</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Fwupd.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The error code.</p>
 <dl class="attribute">
 <dt id="Fwupd.Error.INTERNAL">
@@ -156,6 +191,24 @@
 <dt id="Fwupd.Error.VERSION_NEWER">
 <code class="descname">VERSION_NEWER</code><em class="property"> = 1</em><a class="headerlink" href="#Fwupd.Error.VERSION_NEWER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Installed newer firmware version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.Error.NOT_SUPPORTED">
+<code class="descname">NOT_SUPPORTED</code><em class="property"> = 10</em><a class="headerlink" href="#Fwupd.Error.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Action was not possible</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.Error.SIGNATURE_INVALID">
+<code class="descname">SIGNATURE_INVALID</code><em class="property"> = 11</em><a class="headerlink" href="#Fwupd.Error.SIGNATURE_INVALID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signature was invalid</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.Error.AC_POWER_REQUIRED">
+<code class="descname">AC_POWER_REQUIRED</code><em class="property"> = 12</em><a class="headerlink" href="#Fwupd.Error.AC_POWER_REQUIRED" title="Permalink to this definition">¶</a></dt>
+<dd><p>AC power was required</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -206,69 +259,127 @@
 <dd><p>Nothing to do</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="Fwupd.InstallFlags">
+<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">InstallFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Fwupd.InstallFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<p>Flags to set when performing the firwmare update or install.</p>
 <dl class="attribute">
-<dt id="Fwupd.Error.NOT_SUPPORTED">
-<code class="descname">NOT_SUPPORTED</code><em class="property"> = 10</em><a class="headerlink" href="#Fwupd.Error.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Action was not possible</p>
+<dt id="Fwupd.InstallFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#Fwupd.InstallFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No flags set</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="Fwupd.Error.SIGNATURE_INVALID">
-<code class="descname">SIGNATURE_INVALID</code><em class="property"> = 11</em><a class="headerlink" href="#Fwupd.Error.SIGNATURE_INVALID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Signature was invalid</p>
+<dt id="Fwupd.InstallFlags.OFFLINE">
+<code class="descname">OFFLINE</code><em class="property"> = 1</em><a class="headerlink" href="#Fwupd.InstallFlags.OFFLINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform this offline</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.InstallFlags.ALLOW_REINSTALL">
+<code class="descname">ALLOW_REINSTALL</code><em class="property"> = 2</em><a class="headerlink" href="#Fwupd.InstallFlags.ALLOW_REINSTALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow reinstalling the same version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.InstallFlags.ALLOW_OLDER">
+<code class="descname">ALLOW_OLDER</code><em class="property"> = 4</em><a class="headerlink" href="#Fwupd.InstallFlags.ALLOW_OLDER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow downgrading firmware</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.InstallFlags.FORCE">
+<code class="descname">FORCE</code><em class="property"> = 8</em><a class="headerlink" href="#Fwupd.InstallFlags.FORCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="Fwupd.Status">
-<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">Status</code><a class="headerlink" href="#Fwupd.Status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="_docs/Fwupd-1.0/../../../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">Status</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Fwupd.Status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
 <p>The flags to show daemon status.</p>
 <dl class="attribute">
 <dt id="Fwupd.Status.UNKNOWN">
 <code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#Fwupd.Status.UNKNOWN" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Unknown state</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.IDLE">
 <code class="descname">IDLE</code><em class="property"> = 1</em><a class="headerlink" href="#Fwupd.Status.IDLE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Idle</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.LOADING">
 <code class="descname">LOADING</code><em class="property"> = 2</em><a class="headerlink" href="#Fwupd.Status.LOADING" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Loading a resource</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.DECOMPRESSING">
 <code class="descname">DECOMPRESSING</code><em class="property"> = 3</em><a class="headerlink" href="#Fwupd.Status.DECOMPRESSING" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Decompressing firmware</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.DEVICE_RESTART">
 <code class="descname">DEVICE_RESTART</code><em class="property"> = 4</em><a class="headerlink" href="#Fwupd.Status.DEVICE_RESTART" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Restarting the device</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.DEVICE_WRITE">
 <code class="descname">DEVICE_WRITE</code><em class="property"> = 5</em><a class="headerlink" href="#Fwupd.Status.DEVICE_WRITE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Writing to a device</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.DEVICE_VERIFY">
 <code class="descname">DEVICE_VERIFY</code><em class="property"> = 6</em><a class="headerlink" href="#Fwupd.Status.DEVICE_VERIFY" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Verifying (reading) a device</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="Fwupd.Status.SCHEDULING">
 <code class="descname">SCHEDULING</code><em class="property"> = 7</em><a class="headerlink" href="#Fwupd.Status.SCHEDULING" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Scheduling an offline update</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Fwupd.UpdateState">
+<em class="property">class </em><code class="descclassname">Fwupd.</code><code class="descname">UpdateState</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Fwupd.UpdateState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GLib-2.0/enums.html#GLib.Enum" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GLib.Enum</span></code></a></p>
+<p>The update state.</p>
+<dl class="attribute">
+<dt id="Fwupd.UpdateState.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 0</em><a class="headerlink" href="#Fwupd.UpdateState.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unknown</p>
+</dd></dl>
 
 <dl class="attribute">
-<dt id="Fwupd.Status.LAST">
-<code class="descname">LAST</code><em class="property"> = 8</em><a class="headerlink" href="#Fwupd.Status.LAST" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="Fwupd.UpdateState.PENDING">
+<code class="descname">PENDING</code><em class="property"> = 1</em><a class="headerlink" href="#Fwupd.UpdateState.PENDING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update is pending</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.UpdateState.SUCCESS">
+<code class="descname">SUCCESS</code><em class="property"> = 2</em><a class="headerlink" href="#Fwupd.UpdateState.SUCCESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update was successfull</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Fwupd.UpdateState.FAILED">
+<code class="descname">FAILED</code><em class="property"> = 3</em><a class="headerlink" href="#Fwupd.UpdateState.FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update failed</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -286,30 +397,4 @@
   </div> 
 
 </body>
-
-  
-  <script>
-
-    function openSidebar(element) {
-        window.location.href = element.href + location.hash;
-        return false;
-    }
-
-      function inIframe() {
-            try {
-                return window.self !== window.top;
-            } catch (e) {
-                return true;
-            }
-      }
-
-    if(!inIframe()) {
-        var icons = document.getElementsByClassName('open-sidebar');
-
-        for (var i = 0; i < icons.length; i ++) {
-            icons[i].style.display = 'table-cell';
-        }
-    }
-  </script>
-
 </html>

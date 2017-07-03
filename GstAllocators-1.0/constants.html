@@ -171,6 +171,7 @@
 <ul class="simple">
 <li><a class="reference internal" href="#GstAllocators.ALLOCATOR_DMABUF" title="GstAllocators.ALLOCATOR_DMABUF"><code class="xref py py-obj docutils literal"><span class="pre">GstAllocators.ALLOCATOR_DMABUF</span></code></a></li>
 <li><a class="reference internal" href="#GstAllocators.ALLOCATOR_FD" title="GstAllocators.ALLOCATOR_FD"><code class="xref py py-obj docutils literal"><span class="pre">GstAllocators.ALLOCATOR_FD</span></code></a></li>
+<li><a class="reference internal" href="#GstAllocators.CAPS_FEATURE_MEMORY_DMABUF" title="GstAllocators.CAPS_FEATURE_MEMORY_DMABUF"><code class="xref py py-obj docutils literal"><span class="pre">GstAllocators.CAPS_FEATURE_MEMORY_DMABUF</span></code></a></li>
 </ul>
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
@@ -183,6 +184,34 @@
 <dt id="GstAllocators.ALLOCATOR_FD">
 <code class="descclassname">GstAllocators.</code><code class="descname">ALLOCATOR_FD</code><em class="property"> = 'fd'</em><a class="headerlink" href="#GstAllocators.ALLOCATOR_FD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="data">
+<dt id="GstAllocators.CAPS_FEATURE_MEMORY_DMABUF">
+<code class="descclassname">GstAllocators.</code><code class="descname">CAPS_FEATURE_MEMORY_DMABUF</code><em class="property"> = 'memory:DMABuf'</em><a class="headerlink" href="#GstAllocators.CAPS_FEATURE_MEMORY_DMABUF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant that defines the caps feature name for DMA buffer sharing.</p>
+<p>It has to be used for non-mappable dma-buf only, i.e. when the underlying
+memory is not mappable to user space. Or when the mapped memory contains
+non meaningful data. It can be the case for protected content or when the
+user wants explicitly avoid any software post processing.</p>
+<p>In these cases all elements between the exported and the importer has to work
+in passthrough mode. This is done by adding this caps feature.</p>
+<p>When the memory is mappable for read and write requests then it is assumes
+to be a fast path and so this caps feature should not be used. Though
+according to the dma-buf protocal, while it is mapped it prevents the
+exporter to migrate the buffer.</p>
+<p>This caps feature should not serve at all the purpose of selecting the
+<a class="reference internal" href="#GstAllocators.ALLOCATOR_DMABUF" title="GstAllocators.ALLOCATOR_DMABUF"><code class="xref py py-obj docutils literal"><span class="pre">GstAllocators.ALLOCATOR_DMABUF</span></code></a> allocator during caps negotiation.
+When the exporter is the upstream element from the importer point of view,
+the exporter should try to map the dma buffer at runtime (preferrably during
+decide_allocation phase). When it succeeds for <code class="xref py py-obj docutils literal"><span class="pre">Gst.MAP_READWRITE</span></code> this caps
+feature should not be used. This allows scalers, color converts and any image
+processing filters to work directly on the dma buffer.
+In this case the importer element should check all incomming memory using
+<a class="reference internal" href="functions.html#GstAllocators.is_dmabuf_memory" title="GstAllocators.is_dmabuf_memory"><code class="xref py py-obj docutils literal"><span class="pre">GstAllocators.is_dmabuf_memory</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.11.</span></p>
+</div>
+</dd></dl>
 
 </div>
 </div>

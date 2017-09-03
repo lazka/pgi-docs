@@ -315,7 +315,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference internal" href="Container.html#gtk-container-methods"><span class="std std-ref">Gtk.Container (35)</span></a>,     <a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (278)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (38)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (10)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference internal" href="Container.html#gtk-container-methods"><span class="std std-ref">Gtk.Container (35)</span></a>,     <a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (278)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (40)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (10)</span></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Structs:</th><td class="field-body"><a class="reference internal" href="ContainerClass.html#gtk-containerclass-methods"><span class="std std-ref">Gtk.ContainerClass (5)</span></a>,     <a class="reference internal" href="WidgetClass.html#gtk-widgetclass-methods"><span class="std std-ref">Gtk.WidgetClass (12)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></td>
 </tr>
@@ -330,10 +330,10 @@
 <tr class="row-odd"><td><em>class</em></td>
 <td><a class="reference internal" href="#Gtk.Fixed.new" title="Gtk.Fixed.new"><code class="xref py py-func docutils literal"><span class="pre">new</span></code></a> ()</td>
 </tr>
-<tr class="row-even"><td>&nbsp;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Gtk.Fixed.move" title="Gtk.Fixed.move"><code class="xref py py-func docutils literal"><span class="pre">move</span></code></a> (widget, x, y)</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Gtk.Fixed.put" title="Gtk.Fixed.put"><code class="xref py py-func docutils literal"><span class="pre">put</span></code></a> (widget, x, y)</td>
 </tr>
 </tbody>
@@ -445,7 +445,7 @@
 <tr class="row-even"><td>container</td>
 <td><a class="reference internal" href="Container.html#Gtk.Container" title="Gtk.Container"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Container</span></code></a></td>
 <td>r</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -480,17 +480,18 @@ other display bugs:</p>
 <li>Fonts other than the one you used to write the app will of course
 change the size of widgets containing text; keep in mind that
 users may use a larger font because of difficulty reading the
-default, or they may be using Windows or the framebuffer port of
-GTK+, where different fonts are available.</li>
+default, or they may be using a different OS that provides different fonts.</li>
 <li>Translation of text into other languages changes its size. Also,
 display of non-English text will use a different font in many
 cases.</li>
 </ul>
-<p>In addition, the fixed widget can’t properly be mirrored in
-right-to-left languages such as Hebrew and Arabic. i.e. normally
-GTK+ will flip the interface to put labels to the right of the
-thing they label, but it can’t do that with <a class="reference internal" href="#Gtk.Fixed" title="Gtk.Fixed"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Fixed</span></code></a>. So your
-application will not be usable in right-to-left languages.</p>
+<p>In addition, <a class="reference internal" href="#Gtk.Fixed" title="Gtk.Fixed"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Fixed</span></code></a> does not pay attention to text direction and thus may
+produce unwanted results if your app is run under right-to-left languages
+such as Hebrew or Arabic. That is: normally GTK+ will order containers
+appropriately for the text direction, e.g. to put labels to the right of the
+thing they label when using an RTL language, but it can’t do that with
+<a class="reference internal" href="#Gtk.Fixed" title="Gtk.Fixed"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Fixed</span></code></a>. So if you need to reorder widgets depending on the text direction,
+you would need to manually detect it and adjust child positions accordingly.</p>
 <p>Finally, fixed positioning makes it kind of annoying to add/remove
 GUI elements, since you have to reposition all the other
 elements. This is a long-term maintenance problem for your
@@ -498,9 +499,11 @@ application.</p>
 <p>If you know none of these things are an issue for your application,
 and prefer the simplicity of <a class="reference internal" href="#Gtk.Fixed" title="Gtk.Fixed"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Fixed</span></code></a>, by all means use the
 widget. But you should be aware of the tradeoffs.</p>
+<p>See also <a class="reference internal" href="Layout.html#Gtk.Layout" title="Gtk.Layout"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Layout</span></code></a>, which shares the ability to perform fixed positioning
+of child widgets and additionally adds custom drawing and scrollability.</p>
 <dl class="classmethod">
 <dt id="Gtk.Fixed.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.16#n188"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.19#n193"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -516,7 +519,7 @@ widget. But you should be aware of the tradeoffs.</p>
 
 <dl class="method">
 <dt id="Gtk.Fixed.move">
-<code class="descname">move</code><span class="sig-paren">(</span><em>widget</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.16#n199"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.move" title="Permalink to this definition">¶</a></dt>
+<code class="descname">move</code><span class="sig-paren">(</span><em>widget</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.19#n204"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.move" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -535,7 +538,7 @@ widget. But you should be aware of the tradeoffs.</p>
 
 <dl class="method">
 <dt id="Gtk.Fixed.put">
-<code class="descname">put</code><span class="sig-paren">(</span><em>widget</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.16#n226"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.put" title="Permalink to this definition">¶</a></dt>
+<code class="descname">put</code><span class="sig-paren">(</span><em>widget</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/gtk+/tree/gtk/gtkfixed.c?h=3.22.19#n231"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.Fixed.put" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

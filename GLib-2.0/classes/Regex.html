@@ -280,47 +280,47 @@ Perl regular expression.</p>
 <p>Some functions accept a <cite>start_position</cite> argument, setting it differs
 from just passing over a shortened string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a>
 in the case of a pattern that begins with any kind of lookbehind assertion.
-For example, consider the pattern &#8220;\Biss\B&#8221; which finds occurrences of &#8220;iss&#8221;
-in the middle of words. (&#8220;\B&#8221; matches only if the current position in the
-subject is not a word boundary.) When applied to the string &#8220;Mississipi&#8221;
-from the fourth byte, namely &#8220;issipi&#8221;, it does not match, because &#8220;\B&#8221; is
+For example, consider the pattern “\Biss\B” which finds occurrences of “iss”
+in the middle of words. (“\B” matches only if the current position in the
+subject is not a word boundary.) When applied to the string “Mississipi”
+from the fourth byte, namely “issipi”, it does not match, because “\B” is
 always false at the start of the subject, which is deemed to be a word
 boundary. However, if the entire string is passed , but with
-<cite>start_position</cite> set to 4, it finds the second occurrence of &#8220;iss&#8221; because
+<cite>start_position</cite> set to 4, it finds the second occurrence of “iss” because
 it is able to look behind the starting point to discover that it is
 preceded by a letter.</p>
 <p>Note that, unless you set the <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.RAW" title="GLib.RegexCompileFlags.RAW"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.RAW</span></code></a> flag, all the strings passed
 to these functions must be encoded in UTF-8. The lengths and the positions
 inside the strings are in bytes and not in characters, so, for instance,
-&#8220;\xc3\xa0&#8221; (i.e. &#8220;à&#8221;) is two bytes long but it is treated as a
+“\xc3\xa0” (i.e. “à”) is two bytes long but it is treated as a
 single character. If you set <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.RAW" title="GLib.RegexCompileFlags.RAW"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.RAW</span></code></a> the strings can be non-valid
-UTF-8 strings and a byte is treated as a character, so &#8220;\xc3\xa0&#8221; is two
+UTF-8 strings and a byte is treated as a character, so “\xc3\xa0” is two
 bytes and two characters long.</p>
-<p>When matching a pattern, &#8220;\n&#8221; matches only against a &#8220;\n&#8221; character in
-the string, and &#8220;\r&#8221; matches only a &#8220;\r&#8221; character. To match any newline
-sequence use &#8220;\R&#8221;. This particular group matches either the two-character
-sequence CR + LF (&#8220;\r\n&#8221;), or one of the single characters LF (linefeed,
-U+000A, &#8220;\n&#8221;), VT vertical tab, U+000B, &#8220;\v&#8221;), FF (formfeed, U+000C, &#8220;\f&#8221;),
-CR (carriage return, U+000D, &#8220;\r&#8221;), NEL (next line, U+0085), LS (line
+<p>When matching a pattern, “\n” matches only against a “\n” character in
+the string, and “\r” matches only a “\r” character. To match any newline
+sequence use “\R”. This particular group matches either the two-character
+sequence CR + LF (“\r\n”), or one of the single characters LF (linefeed,
+U+000A, “\n”), VT vertical tab, U+000B, “\v”), FF (formfeed, U+000C, “\f”),
+CR (carriage return, U+000D, “\r”), NEL (next line, U+0085), LS (line
 separator, U+2028), or PS (paragraph separator, U+2029).</p>
 <p>The behaviour of the dot, circumflex, and dollar metacharacters are
 affected by newline characters, the default is to recognize any newline
-character (the same characters recognized by &#8220;\R&#8221;). This can be changed
+character (the same characters recognized by “\R”). This can be changed
 with <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_CR" title="GLib.RegexCompileFlags.NEWLINE_CR"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.NEWLINE_CR</span></code></a>, <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_LF" title="GLib.RegexCompileFlags.NEWLINE_LF"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.NEWLINE_LF</span></code></a> and <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_CRLF" title="GLib.RegexCompileFlags.NEWLINE_CRLF"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.NEWLINE_CRLF</span></code></a>
 compile options, and with <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_ANY" title="GLib.RegexMatchFlags.NEWLINE_ANY"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NEWLINE_ANY</span></code></a>,
 <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_CR" title="GLib.RegexMatchFlags.NEWLINE_CR"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NEWLINE_CR</span></code></a>, <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_LF" title="GLib.RegexMatchFlags.NEWLINE_LF"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NEWLINE_LF</span></code></a> and
 <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_CRLF" title="GLib.RegexMatchFlags.NEWLINE_CRLF"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NEWLINE_CRLF</span></code></a> match options. These settings are also
 relevant when compiling a pattern if <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.EXTENDED" title="GLib.RegexCompileFlags.EXTENDED"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.EXTENDED</span></code></a> is set, and an
-unescaped &#8220;#&#8221; outside a character class is encountered. This indicates
+unescaped “#” outside a character class is encountered. This indicates
 a comment that lasts until after the next newline.</p>
 <p>When setting the <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.JAVASCRIPT_COMPAT" title="GLib.RegexCompileFlags.JAVASCRIPT_COMPAT"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags.JAVASCRIPT_COMPAT</span></code></a> flag, pattern syntax and pattern
 matching is changed to be compatible with the way that regular expressions
-work in JavaScript. More precisely, a lonely &#8216;]&#8217; character in the pattern
-is a syntax error; the &#8216;\x&#8217; escape only allows 0 to 2 hexadecimal digits, and
-you must use the &#8216;\u&#8217; escape sequence with 4 hex digits to specify a unicode
-codepoint instead of &#8216;\x&#8217; or &#8216;x{....}&#8217;. If &#8216;\x&#8217; or &#8216;\u&#8217; are not followed by
-the specified number of hex digits, they match &#8216;x&#8217; and &#8216;u&#8217; literally; also
-&#8216;\U&#8217; always matches &#8216;U&#8217; instead of being an error in the pattern. Finally,
+work in JavaScript. More precisely, a lonely ‘]’ character in the pattern
+is a syntax error; the ‘\x’ escape only allows 0 to 2 hexadecimal digits, and
+you must use the ‘\u’ escape sequence with 4 hex digits to specify a unicode
+codepoint instead of ‘\x’ or ‘x{….}’. If ‘\x’ or ‘\u’ are not followed by
+the specified number of hex digits, they match ‘x’ and ‘u’ literally; also
+‘\U’ always matches ‘U’ instead of being an error in the pattern. Finally,
 pattern matching is modified so that back references to an unset subpattern
 group produces a match with the empty string instead of an error. See
 pcreapi(3) for more information.</p>
@@ -337,12 +337,12 @@ library written by Philip Hazel.</p>
 </div>
 <dl class="classmethod">
 <dt id="GLib.Regex.check_replacement">
-<em class="property">classmethod </em><code class="descname">check_replacement</code><span class="sig-paren">(</span><em>replacement</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n3021"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.check_replacement" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">check_replacement</code><span class="sig-paren">(</span><em>replacement</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n3021"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.check_replacement" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the replacement string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the replacement string</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
@@ -365,9 +365,9 @@ references in <cite>replacement</cite> or <a class="reference external" href="ht
 (see <a class="reference internal" href="#GLib.Regex.replace" title="GLib.Regex.replace"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.replace</span></code></a>()), i.e. that all escape sequences in
 it are valid.</p>
 <p>If <cite>has_references</cite> is not <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> then <cite>replacement</cite> is checked
-for pattern references. For instance, replacement text &#8216;foo\n&#8217;
+for pattern references. For instance, replacement text ‘foo\n’
 does not contain references and may be evaluated without information
-about actual match, but &#8216;\0\1&#8217; (whole match followed by first
+about actual match, but ‘\0\1’ (whole match followed by first
 subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo" title="GLib.MatchInfo"><code class="xref py py-obj docutils literal"><span class="pre">GLib.MatchInfo</span></code></a> object.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
@@ -376,7 +376,7 @@ subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GL
 
 <dl class="classmethod">
 <dt id="GLib.Regex.error_quark">
-<em class="property">classmethod </em><code class="descname">error_quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1223"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">error_quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1223"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -389,14 +389,14 @@ subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GL
 
 <dl class="classmethod">
 <dt id="GLib.Regex.escape_nul">
-<em class="property">classmethod </em><code class="descname">escape_nul</code><span class="sig-paren">(</span><em>string</em>, <em>length</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n3064"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.escape_nul" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">escape_nul</code><span class="sig-paren">(</span><em>string</em>, <em>length</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n3064"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.escape_nul" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to escape</li>
-<li><strong>length</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; the length of <cite>string</cite></li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to escape</li>
+<li><strong>length</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – the length of <cite>string</cite></li>
 </ul>
 </td>
 </tr>
@@ -408,7 +408,7 @@ subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GL
 </tr>
 </tbody>
 </table>
-<p>Escapes the nul characters in <cite>string</cite> to &#8220;\x00&#8221;.  It can be used
+<p>Escapes the nul characters in <cite>string</cite> to “\x00”.  It can be used
 to compile a regex with embedded nul characters.</p>
 <p>For completeness, <cite>length</cite> can be -1 for a nul-terminated string.
 In this case the output string will be of course equal to <cite>string</cite>.</p>
@@ -419,12 +419,12 @@ In this case the output string will be of course equal to <cite>string</cite>.</
 
 <dl class="classmethod">
 <dt id="GLib.Regex.escape_string">
-<em class="property">classmethod </em><code class="descname">escape_string</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n3129"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.escape_string" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">escape_string</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n3129"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.escape_string" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to escape</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to escape</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a newly-allocated escaped string</td>
 </tr>
@@ -433,9 +433,9 @@ In this case the output string will be of course equal to <cite>string</cite>.</
 </tbody>
 </table>
 <p>Escapes the special characters used for regular expressions
-in <cite>string</cite>, for instance &#8220;a.b*c&#8221; becomes &#8220;a\.b\*c&#8221;. This
+in <cite>string</cite>, for instance “a.b*c” becomes “a.b\*c”. This
 function is useful to dynamically generate regular expressions.</p>
-<p><cite>string</cite> can contain nul characters that are replaced with &#8220;\0&#8221;,
+<p><cite>string</cite> can contain nul characters that are replaced with “\0”,
 in this case remember to specify the correct length of <cite>string</cite>
 in <cite>length</cite>.</p>
 <div class="versionadded">
@@ -445,16 +445,16 @@ in <cite>length</cite>.</p>
 
 <dl class="classmethod">
 <dt id="GLib.Regex.match_simple">
-<em class="property">classmethod </em><code class="descname">match_simple</code><span class="sig-paren">(</span><em>pattern</em>, <em>string</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1644"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_simple" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">match_simple</code><span class="sig-paren">(</span><em>pattern</em>, <em>string</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1644"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_simple" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the regular expression</li>
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to scan for matches</li>
-<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) &#8211; compile options for the regular expression, or 0</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options, or 0</li>
+<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the regular expression</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to scan for matches</li>
+<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) – compile options for the regular expression, or 0</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options, or 0</li>
 </ul>
 </td>
 </tr>
@@ -472,7 +472,7 @@ require to compile the pattern with <a class="reference internal" href="#GLib.Re
 lines of code when you need just to do a match without extracting
 substrings, capture counts, and so on.</p>
 <p>If this function is to be called on the same <cite>pattern</cite> more than
-once, it&#8217;s more efficient to compile the pattern once with
+once, it’s more efficient to compile the pattern once with
 <a class="reference internal" href="#GLib.Regex.new" title="GLib.Regex.new"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.new</span></code></a>() and then use <a class="reference internal" href="#GLib.Regex.match" title="GLib.Regex.match"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.match</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
@@ -481,15 +481,15 @@ once, it&#8217;s more efficient to compile the pattern once with
 
 <dl class="classmethod">
 <dt id="GLib.Regex.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>pattern</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1297"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>pattern</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1297"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the regular expression</li>
-<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) &#8211; compile options for the regular expression, or 0</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options for the regular expression, or 0</li>
+<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the regular expression</li>
+<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) – compile options for the regular expression, or 0</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options for the regular expression, or 0</li>
 </ul>
 </td>
 </tr>
@@ -514,16 +514,16 @@ the initial setup of the <a class="reference internal" href="#GLib.Regex" title=
 
 <dl class="classmethod">
 <dt id="GLib.Regex.split_simple">
-<em class="property">classmethod </em><code class="descname">split_simple</code><span class="sig-paren">(</span><em>pattern</em>, <em>string</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2070"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split_simple" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">split_simple</code><span class="sig-paren">(</span><em>pattern</em>, <em>string</em>, <em>compile_options</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2070"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split_simple" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the regular expression</li>
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to scan for matches</li>
-<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) &#8211; compile options for the regular expression, or 0</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options, or 0</li>
+<li><strong>pattern</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the regular expression</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to scan for matches</li>
+<li><strong>compile_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexCompileFlags</span></code></a>) – compile options for the regular expression, or 0</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options, or 0</li>
 </ul>
 </td>
 </tr>
@@ -546,19 +546,19 @@ not require to compile the pattern with <a class="reference internal" href="#GLi
 some lines of code when you need just to do a split without
 extracting substrings, capture counts, and so on.</p>
 <p>If this function is to be called on the same <cite>pattern</cite> more than
-once, it&#8217;s more efficient to compile the pattern once with
+once, it’s more efficient to compile the pattern once with
 <a class="reference internal" href="#GLib.Regex.new" title="GLib.Regex.new"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.new</span></code></a>() and then use <a class="reference internal" href="#GLib.Regex.split" title="GLib.Regex.split"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.split</span></code></a>().</p>
-<p>As a special case, the result of splitting the empty string &#8220;&#8221;
+<p>As a special case, the result of splitting the empty string “”
 is an empty vector, not a vector containing a single string.
 The reason for this special case is that being able to represent
 a empty vector is typically more useful than consistent handling
 of empty elements. If you do need to represent empty elements,
-you&#8217;ll need to check for the empty string before calling this
+you’ll need to check for the empty string before calling this
 function.</p>
 <p>A pattern that can match empty strings splits <cite>string</cite> into
 separate characters wherever it matches the empty string between
-characters. For example splitting &#8220;ab c&#8221; using as a separator
-&#8220;\s*&#8221;, you will get &#8220;a&#8221;, &#8220;b&#8221; and &#8220;c&#8221;.</p>
+characters. For example splitting “ab c” using as a separator
+“\s*”, you will get “a”, “b” and “c”.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -566,7 +566,7 @@ characters. For example splitting &#8220;ab c&#8221; using as a separator
 
 <dl class="method">
 <dt id="GLib.Regex.get_capture_count">
-<code class="descname">get_capture_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1524"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_capture_count" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_capture_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1524"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_capture_count" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -585,7 +585,7 @@ characters. For example splitting &#8220;ab c&#8221; using as a separator
 
 <dl class="method">
 <dt id="GLib.Regex.get_compile_flags">
-<code class="descname">get_compile_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1594"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_compile_flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_compile_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1594"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_compile_flags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -607,7 +607,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.get_has_cr_or_lf">
-<code class="descname">get_has_cr_or_lf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1545"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_has_cr_or_lf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_has_cr_or_lf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1545"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_has_cr_or_lf" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -626,7 +626,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.get_match_flags">
-<code class="descname">get_match_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1612"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_match_flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_match_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1612"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_match_flags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -645,7 +645,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.get_max_backref">
-<code class="descname">get_max_backref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1503"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_max_backref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_backref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1503"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_max_backref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -666,7 +666,7 @@ back references.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.get_max_lookbehind">
-<code class="descname">get_max_lookbehind</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1568"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_max_lookbehind" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_lookbehind</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1568"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_max_lookbehind" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -687,7 +687,7 @@ the partial matching facilities.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.get_pattern">
-<code class="descname">get_pattern</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1484"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_pattern" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_pattern</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1484"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_pattern" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -707,12 +707,12 @@ the string passed to <a class="reference internal" href="#GLib.Regex.new" title=
 
 <dl class="method">
 <dt id="GLib.Regex.get_string_number">
-<code class="descname">get_string_number</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2012"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_string_number" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_string_number</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2012"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.get_string_number" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; name of the subexpression</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – name of the subexpression</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of the subexpression or -1 if <cite>name</cite>
 does not exists</td>
@@ -729,14 +729,14 @@ does not exists</td>
 
 <dl class="method">
 <dt id="GLib.Regex.match">
-<code class="descname">match</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1712"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match" title="Permalink to this definition">¶</a></dt>
+<code class="descname">match</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1712"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to scan for matches</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to scan for matches</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options</li>
 </ul>
 </td>
 </tr>
@@ -799,14 +799,14 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.match_all">
-<code class="descname">match_all</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1843"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_all" title="Permalink to this definition">¶</a></dt>
+<code class="descname">match_all</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1843"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_all" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to scan for matches</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to scan for matches</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options</li>
 </ul>
 </td>
 </tr>
@@ -847,15 +847,15 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.match_all_full">
-<code class="descname">match_all_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1908"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_all_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">match_all_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1908"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_all_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to scan for matches</li>
-<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; starting index of the string to match, in bytes</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options</li>
+<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to scan for matches</li>
+<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options</li>
 </ul>
 </td>
 </tr>
@@ -883,14 +883,14 @@ the <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo" title="GL
 <p>Using the standard algorithm for regular expression matching only
 the longest match in the string is retrieved, it is not possible
 to obtain all the available matches. For instance matching
-&#8220;&lt;a&gt; &lt;b&gt; &lt;c&gt;&#8221; against the pattern &#8220;&lt;.*&gt;&#8221;
-you get &#8220;&lt;a&gt; &lt;b&gt; &lt;c&gt;&#8221;.</p>
+“&lt;a&gt; &lt;b&gt; &lt;c&gt;” against the pattern “&lt;.*&gt;”
+you get “&lt;a&gt; &lt;b&gt; &lt;c&gt;”.</p>
 <p>This function uses a different algorithm (called DFA, i.e. deterministic
 finite automaton), so it can retrieve all the possible matches, all
 starting at the same point in the string. For instance matching
-&#8220;&lt;a&gt; &lt;b&gt; &lt;c&gt;&#8221; against the pattern &#8220;&lt;.*&gt;;&#8221;
-you would obtain three matches: &#8220;&lt;a&gt; &lt;b&gt; &lt;c&gt;&#8221;,
-&#8220;&lt;a&gt; &lt;b&gt;&#8221; and &#8220;&lt;a&gt;&#8221;.</p>
+“&lt;a&gt; &lt;b&gt; &lt;c&gt;” against the pattern “&lt;.*&gt;;”
+you would obtain three matches: “&lt;a&gt; &lt;b&gt; &lt;c&gt;”,
+“&lt;a&gt; &lt;b&gt;” and “&lt;a&gt;”.</p>
 <p>The number of matched strings is retrieved using
 <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo.get_match_count" title="GLib.MatchInfo.get_match_count"><code class="xref py py-obj docutils literal"><span class="pre">GLib.MatchInfo.get_match_count</span></code></a>(). To obtain the matched strings and
 their position you can use, respectively, <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo.fetch" title="GLib.MatchInfo.fetch"><code class="xref py py-obj docutils literal"><span class="pre">GLib.MatchInfo.fetch</span></code></a>() and
@@ -901,7 +901,7 @@ given first.</p>
 is not able to capture substrings, so backreferences do not work.</p>
 <p>Setting <cite>start_position</cite> differs from just passing over a shortened
 string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the case of a pattern
-that begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
+that begins with any kind of lookbehind assertion, such as “\b”.</p>
 <p>A <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo" title="GLib.MatchInfo"><code class="xref py py-obj docutils literal"><span class="pre">GLib.MatchInfo</span></code></a> structure, used to get information on the match, is
 stored in <cite>match_info</cite> if not <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>. Note that if <cite>match_info</cite> is
 not <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> then it is created even if the function returns <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a>,
@@ -917,15 +917,15 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.match_full">
-<code class="descname">match_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1790"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">match_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1790"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.match_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to scan for matches</li>
-<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; starting index of the string to match, in bytes</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match options</li>
+<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to scan for matches</li>
+<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match options</li>
 </ul>
 </td>
 </tr>
@@ -956,7 +956,7 @@ when the <cite>self</cite> structure was created, letting you have more
 flexibility in reusing <a class="reference internal" href="#GLib.Regex" title="GLib.Regex"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex</span></code></a> structures.</p>
 <p>Setting <cite>start_position</cite> differs from just passing over a shortened
 string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the case of a pattern
-that begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
+that begins with any kind of lookbehind assertion, such as “\b”.</p>
 <p>A <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo" title="GLib.MatchInfo"><code class="xref py py-obj docutils literal"><span class="pre">GLib.MatchInfo</span></code></a> structure, used to get information on the match, is
 stored in <cite>match_info</cite> if not <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>. Note that if <cite>match_info</cite> is
 not <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> then it is created even if the function returns <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#False" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a>,
@@ -1001,7 +1001,7 @@ string you can use <a class="reference internal" href="MatchInfo.html#GLib.Match
 
 <dl class="method">
 <dt id="GLib.Regex.ref">
-<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1238"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.ref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1238"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.ref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1020,16 +1020,16 @@ string you can use <a class="reference internal" href="MatchInfo.html#GLib.Match
 
 <dl class="method">
 <dt id="GLib.Regex.replace">
-<code class="descname">replace</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>replacement</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2799"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.replace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">replace</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>replacement</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2799"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.replace" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to perform matches against</li>
-<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; starting index of the string to match, in bytes</li>
-<li><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; text to replace each match with</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; options for the match</li>
+<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to perform matches against</li>
+<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</li>
+<li><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – text to replace each match with</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – options for the match</li>
 </ul>
 </td>
 </tr>
@@ -1045,13 +1045,13 @@ string you can use <a class="reference internal" href="MatchInfo.html#GLib.Match
 </tbody>
 </table>
 <p>Replaces all occurrences of the pattern in <cite>self</cite> with the
-replacement text. Backreferences of the form &#8216;\number&#8217; or
-&#8216;\g&lt;number&gt;&#8217; in the replacement text are interpolated by the
-number-th captured subexpression of the match, &#8216;\g&lt;name&gt;&#8217; refers
-to the captured subexpression with the given name. &#8216;\0&#8217; refers
-to the complete match, but &#8216;\0&#8217; followed by a number is the octal
-representation of a character. To include a literal &#8216;\&#8217; in the
-replacement, write &#8216;\\&#8217;.</p>
+replacement text. Backreferences of the form ‘\number’ or
+‘\g&lt;number&gt;’ in the replacement text are interpolated by the
+number-th captured subexpression of the match, ‘\g&lt;name&gt;’ refers
+to the captured subexpression with the given name. ‘\0’ refers
+to the complete match, but ‘\0’ followed by a number is the octal
+representation of a character. To include a literal ‘' in the
+replacement, write ‘\’.</p>
 <p>There are also escapes that changes the case of the following text:</p>
 <ul class="simple">
 <li>\l: Convert to lower case the next character</li>
@@ -1066,7 +1066,7 @@ passed to <a class="reference internal" href="#GLib.Regex.new" title="GLib.Regex
 you can use <a class="reference internal" href="#GLib.Regex.replace_literal" title="GLib.Regex.replace_literal"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Regex.replace_literal</span></code></a>().</p>
 <p>Setting <cite>start_position</cite> differs from just passing over a shortened
 string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the case of a pattern that
-begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
+begins with any kind of lookbehind assertion, such as “\b”.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -1074,16 +1074,16 @@ begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.replace_literal">
-<code class="descname">replace_literal</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>replacement</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2872"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.replace_literal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">replace_literal</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>replacement</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2872"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.replace_literal" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to perform matches against</li>
-<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; starting index of the string to match, in bytes</li>
-<li><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; text to replace each match with</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; options for the match</li>
+<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to perform matches against</li>
+<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</li>
+<li><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – text to replace each match with</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – options for the match</li>
 </ul>
 </td>
 </tr>
@@ -1104,7 +1104,7 @@ include backreferences use <a class="reference internal" href="#GLib.Regex.repla
 <p>Setting <cite>start_position</cite> differs from just passing over a
 shortened string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the
 case of a pattern that begins with any kind of lookbehind
-assertion, such as &#8220;\b&#8221;.</p>
+assertion, such as “\b”.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -1112,14 +1112,14 @@ assertion, such as &#8220;\b&#8221;.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.split">
-<code class="descname">split</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2116"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split" title="Permalink to this definition">¶</a></dt>
+<code class="descname">split</code><span class="sig-paren">(</span><em>string</em>, <em>match_options</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2116"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; the string to split with the pattern</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match time option flags</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the string to split with the pattern</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match time option flags</li>
 </ul>
 </td>
 </tr>
@@ -1137,16 +1137,16 @@ If the pattern contains capturing parentheses, then the text for each
 of the substrings will also be returned. If the pattern does not match
 anywhere in the string, then the whole string is returned as the first
 token.</p>
-<p>As a special case, the result of splitting the empty string &#8220;&#8221; is an
+<p>As a special case, the result of splitting the empty string “” is an
 empty vector, not a vector containing a single string. The reason for
 this special case is that being able to represent a empty vector is
 typically more useful than consistent handling of empty elements. If
-you do need to represent empty elements, you&#8217;ll need to check for the
+you do need to represent empty elements, you’ll need to check for the
 empty string before calling this function.</p>
 <p>A pattern that can match empty strings splits <cite>string</cite> into separate
 characters wherever it matches the empty string between characters.
-For example splitting &#8220;ab c&#8221; using as a separator &#8220;\s*&#8221;, you will get
-&#8220;a&#8221;, &#8220;b&#8221; and &#8220;c&#8221;.</p>
+For example splitting “ab c” using as a separator “\s*”, you will get
+“a”, “b” and “c”.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -1154,16 +1154,16 @@ For example splitting &#8220;ab c&#8221; using as a separator &#8220;\s*&#8221;,
 
 <dl class="method">
 <dt id="GLib.Regex.split_full">
-<code class="descname">split_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em>, <em>max_tokens</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n2167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">split_full</code><span class="sig-paren">(</span><em>string</em>, <em>start_position</em>, <em>match_options</em>, <em>max_tokens</em><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n2167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.split_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) &#8211; the string to split with the pattern</li>
-<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; starting index of the string to match, in bytes</li>
-<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) &#8211; match time option flags</li>
-<li><strong>max_tokens</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) &#8211; the maximum number of tokens to split <cite>string</cite> into.
+<li><strong>string</strong> ([<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>]) – the string to split with the pattern</li>
+<li><strong>start_position</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</li>
+<li><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – match time option flags</li>
+<li><strong>max_tokens</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – the maximum number of tokens to split <cite>string</cite> into.
 If this is less than 1, the string is split completely</li>
 </ul>
 </td>
@@ -1185,19 +1185,19 @@ If the pattern contains capturing parentheses, then the text for each
 of the substrings will also be returned. If the pattern does not match
 anywhere in the string, then the whole string is returned as the first
 token.</p>
-<p>As a special case, the result of splitting the empty string &#8220;&#8221; is an
+<p>As a special case, the result of splitting the empty string “” is an
 empty vector, not a vector containing a single string. The reason for
 this special case is that being able to represent a empty vector is
 typically more useful than consistent handling of empty elements. If
-you do need to represent empty elements, you&#8217;ll need to check for the
+you do need to represent empty elements, you’ll need to check for the
 empty string before calling this function.</p>
 <p>A pattern that can match empty strings splits <cite>string</cite> into separate
 characters wherever it matches the empty string between characters.
-For example splitting &#8220;ab c&#8221; using as a separator &#8220;\s*&#8221;, you will get
-&#8220;a&#8221;, &#8220;b&#8221; and &#8220;c&#8221;.</p>
+For example splitting “ab c” using as a separator “\s*”, you will get
+“a”, “b” and “c”.</p>
 <p>Setting <cite>start_position</cite> differs from just passing over a shortened
 string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the case of a pattern
-that begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
+that begins with any kind of lookbehind assertion, such as “\b”.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -1205,7 +1205,7 @@ that begins with any kind of lookbehind assertion, such as &#8220;\b&#8221;.</p>
 
 <dl class="method">
 <dt id="GLib.Regex.unref">
-<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.53.4#n1255"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.unref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://git.gnome.org/browse/glib/tree/glib/gregex.c?h=2.54.2#n1255"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Regex.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases reference count of <cite>self</cite> by 1. When reference count drops
 to zero, it frees all the memory associated with the regex structure.</p>
 <div class="versionadded">

@@ -226,39 +226,39 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>poppler_document</strong> (<a class="reference internal" href="Document.html#Poppler.Document" title="Poppler.Document"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.Document</span></code></a>) – a <a class="reference internal" href="Document.html#Poppler.Document" title="Poppler.Document"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.Document</span></code></a>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a new <a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if document
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a new <a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if document
 doesn’t have structure tree.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Returns the root <a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a> for <cite>document</cite>, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>. The
+<p>Returns the root <a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a> for <cite>document</cite>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>. The
 returned value must be freed with <a class="reference internal" href="#Poppler.StructureElementIter.free" title="Poppler.StructureElementIter.free"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.free</span></code></a>().</p>
-<p>Documents may have an associated structure tree &amp;amp;mdashmostly, Tagged-PDF
-compliant documents— which can be used to obtain information about
+<p>Documents may have an associated structure tree &amp;mdashmostly, Tagged-PDF
+compliant documents&amp;mdash; which can be used to obtain information about
 the document structure and its contents. Each node in the tree contains
 a <a class="reference internal" href="StructureElement.html#Poppler.StructureElement" title="Poppler.StructureElement"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElement</span></code></a>.</p>
 <p>Here is a simple example that walks the whole tree:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>static void
-walk_structure (PopplerStructureElementIter *iter)
+<p>&lt;informalexample&gt;&lt;programlisting&gt;
+static void
+walk_structure (<a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a> *iter)
 {
-  do {
-    /* Get the element and do something with it */
-    PopplerStructureElementIter *child = poppler_structure_element_iter_get_child (iter);
-    if (child)
-      walk_structure (child);
-    poppler_structure_element_iter_free (child);
-  } while (poppler_structure_element_iter_next (iter));
+do {
+/&lt;!– –&gt;* Get the element and do something with it *&lt;!– –&gt;/
+<a class="reference internal" href="#Poppler.StructureElementIter" title="Poppler.StructureElementIter"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter</span></code></a> *child = <a class="reference internal" href="#Poppler.StructureElementIter.get_child" title="Poppler.StructureElementIter.get_child"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.get_child</span></code></a> (iter);
+if (child)
+walk_structure (child);
+<a class="reference internal" href="#Poppler.StructureElementIter.free" title="Poppler.StructureElementIter.free"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.free</span></code></a> (child);
+} while (<a class="reference internal" href="#Poppler.StructureElementIter.next" title="Poppler.StructureElementIter.next"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.next</span></code></a> (iter));
 }
-...
+…
 {
-  iter = poppler_structure_element_iter_new (document);
-  walk_structure (iter);
-  poppler_structure_element_iter_free (iter);
+iter = <a class="reference internal" href="#Poppler.StructureElementIter.new" title="Poppler.StructureElementIter.new"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.new</span></code></a> (document);
+walk_structure (iter);
+<a class="reference internal" href="#Poppler.StructureElementIter.free" title="Poppler.StructureElementIter.free"><code class="xref py py-obj docutils literal"><span class="pre">Poppler.StructureElementIter.free</span></code></a> (iter);
 }
-</pre></div>
-</div>
+&lt;/programlisting&gt;&lt;/informalexample&gt;</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.26.</span></p>
 </div>
@@ -340,9 +340,9 @@ be freed with <a class="reference internal" href="#Poppler.StructureElementIter.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/constants.html#True" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>, if <cite>self</cite> was set to the next structure element</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">True</span></code></a>, if <cite>self</cite> was set to the next structure element</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>

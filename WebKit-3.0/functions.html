@@ -265,7 +265,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the application cache database directory path</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -285,13 +285,13 @@ $XDG_CACHE_HOME/webkitgtk/applications and cannot be modified.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>major</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
-<li><strong>minor</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
-<li><strong>micro</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
+<li><strong>major</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
+<li><strong>minor</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
+<li><strong>micro</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -317,62 +317,54 @@ $XDG_CACHE_HOME/webkitgtk/applications and cannot be modified.</p>
 can be used to determine the items present in the default context menu.
 In order to inspect the default context menu, you should connect to
 <a class="reference internal" href="classes/WebView.html#WebKit.WebView" title="WebKit.WebView"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.WebView</span></code></a> <a class="reference internal" href="classes/WebView.html#WebKit.WebView.signals.context_menu" title="WebKit.WebView.signals.context_menu"><code class="xref py py-func docutils literal"><span class="pre">::context-menu</span></code></a> signal.</p>
-<dl class="docutils">
-<dt>Inspecting the default context menu</dt>
-<dd></dd>
-</dl>
-<div class="highlight-none"><div class="highlight"><pre><span></span>static gboolean context_menu_cb (WebKitWebView       *webView,
-                                 GtkWidget           *default_menu,
-                                 WebKitHitTestResult *hit_test_result,
-                                 gboolean             triggered_with_keyboard,
-                                 gpointer             user_data)
+<p>&lt;example&gt;
+&lt;title&gt;Inspecting the default context menu&lt;/title&gt;
+&lt;programlisting&gt;
+static <a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a> context_menu_cb (<a class="reference internal" href="classes/WebView.html#WebKit.WebView" title="WebKit.WebView"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.WebView</span></code></a>       *webView,
+<a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Widget</span></code></a>           *default_menu,
+<a class="reference internal" href="classes/HitTestResult.html#WebKit.HitTestResult" title="WebKit.HitTestResult"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.HitTestResult</span></code></a> *hit_test_result,
+<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code></a>             triggered_with_keyboard,
+<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a>             user_data)
 {
-    GList *items = gtk_container_get_children (GTK_CONTAINER (default_menu));
-    GList *l;
-    GtkAction *action;
-    GtkWidget *sub_menu;
-
-    for (l = items; l; l = g_list_next (l)) {
-        GtkMenuItem *item = (GtkMenuItem *)l-&gt;data;
-
-        if (GTK_IS_SEPARATOR_MENU_ITEM (item)) {
-            /&amp;amp;ast It&#39;s  separator, do nothing &amp;amp;ast/
-            continue;
-        }
-
-        switch (webkit_context_menu_item_get_action (item)) {
-        case WEBKIT_CONTEXT_MENU_ACTION_NO_ACTION:
-            /&amp;amp;ast No action for this item &amp;amp;ast/
-            break;
-        /&amp;amp;ast Don&#39;t allow to ope links from context menu &amp;amp;ast/
-        case WEBKIT_CONTEXT_MENU_ACTION_OPEN_LINK:
-        case WEBKIT_CONTEXT_MENU_ACTION_OPEN_LINK_IN_NEW_WINDOW:
-            action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (item));
-            gtk_action_set_sensitive (action, FALSE);
-            break;
-        default:
-            break;
-        }
-
-        sub_menu = gtk_menu_item_get_submenu (item);
-        if (sub_menu) {
-            GtkWidget *menu_item;
-
-            /&amp;amp;ast Add custom action to submenu &amp;amp;ast/
-            action = gtk_action_new (&quot;CustomItemName&quot;, &quot;Custom Action&quot;, NULL, NULL);
-            g_signal_connect (action, &quot;activate&quot;, G_CALLBACK (custom_menu_item_activated), NULL);
-
-            menu_item = gtk_action_create_menu_item (action);
-            g_object_unref (action);
-            gtk_menu_shell_append (GTK_MENU_SHELL (sub_menu), menu_item);
-            gtk_widget_show (menu_item);
-        }
-    }
-
-    g_list_free(items);
+<a class="reference external" href="../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.List</span></code></a> *items = <a class="reference external" href="../Gtk-3.0/classes/Container.html#Gtk.Container.get_children" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Container.get_children</span></code></a> (GTK_CONTAINER (default_menu));
+<a class="reference external" href="../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.List</span></code></a> *l;
+<a class="reference external" href="../Gtk-3.0/classes/Action.html#Gtk.Action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Action</span></code></a> *action;
+<a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Widget</span></code></a> *sub_menu;</p>
+<p>for (l = items; l; l = g_list_next (l)) {
+<a class="reference external" href="../Gtk-3.0/classes/MenuItem.html#Gtk.MenuItem" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.MenuItem</span></code></a> *item = (<a class="reference external" href="../Gtk-3.0/classes/MenuItem.html#Gtk.MenuItem" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.MenuItem</span></code></a> *)l-&gt;data;</p>
+<p>if (GTK_IS_SEPARATOR_MENU_ITEM (item)) {
+/&amp;ast; It’s  separator, do nothing &amp;ast;/
+continue;
+}</p>
+<p>switch (<a class="reference internal" href="#WebKit.context_menu_item_get_action" title="WebKit.context_menu_item_get_action"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.context_menu_item_get_action</span></code></a> (item)) {
+case <a class="reference internal" href="enums.html#WebKit.ContextMenuAction.NO_ACTION" title="WebKit.ContextMenuAction.NO_ACTION"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.ContextMenuAction.NO_ACTION</span></code></a>:
+/&amp;ast; No action for this item &amp;ast;/
+break;
+/&amp;ast; Don’t allow to ope links from context menu &amp;ast;/
+case <a class="reference internal" href="enums.html#WebKit.ContextMenuAction.OPEN_LINK" title="WebKit.ContextMenuAction.OPEN_LINK"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.ContextMenuAction.OPEN_LINK</span></code></a>:
+case <a class="reference internal" href="enums.html#WebKit.ContextMenuAction.OPEN_LINK_IN_NEW_WINDOW" title="WebKit.ContextMenuAction.OPEN_LINK_IN_NEW_WINDOW"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.ContextMenuAction.OPEN_LINK_IN_NEW_WINDOW</span></code></a>:
+action = <a class="reference external" href="../Gtk-3.0/classes/Activatable.html#Gtk.Activatable.get_related_action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Activatable.get_related_action</span></code></a> (GTK_ACTIVATABLE (item));
+<a class="reference external" href="../Gtk-3.0/classes/Action.html#Gtk.Action.set_sensitive" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Action.set_sensitive</span></code></a> (action, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a>);
+break;
+default:
+break;
+}</p>
+<p>sub_menu = <a class="reference external" href="../Gtk-3.0/classes/MenuItem.html#Gtk.MenuItem.get_submenu" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.MenuItem.get_submenu</span></code></a> (item);
+if (sub_menu) {
+<a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Widget</span></code></a> *menu_item;</p>
+<p>/&amp;ast; Add custom action to submenu &amp;ast;/
+action = <a class="reference external" href="../Gtk-3.0/classes/Action.html#Gtk.Action.new" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Action.new</span></code></a> (“CustomItemName”, “Custom Action”, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>);
+g_signal_connect (action, “activate”, G_CALLBACK (custom_menu_item_activated), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>);</p>
+<p>menu_item = <a class="reference external" href="../Gtk-3.0/classes/Action.html#Gtk.Action.create_menu_item" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Action.create_menu_item</span></code></a> (action);
+<a class="reference external" href="../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object.unref</span></code></a> (action);
+<a class="reference external" href="../Gtk-3.0/classes/MenuShell.html#Gtk.MenuShell.append" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.MenuShell.append</span></code></a> (GTK_MENU_SHELL (sub_menu), menu_item);
+<a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget.show" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Widget.show</span></code></a> (menu_item);
 }
-</pre></div>
-</div>
+}</p>
+<p>g_list_free(items);
+}
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
 <p>Note that you can get the <a class="reference external" href="../Gtk-3.0/classes/Action.html#Gtk.Action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Action</span></code></a> of any item in the default context menu with
 <a class="reference external" href="../Gtk-3.0/classes/Activatable.html#Gtk.Activatable.get_related_action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Activatable.get_related_action</span></code></a>().</p>
 <div class="versionadded">
@@ -466,7 +458,7 @@ traffic occurs, WebKit will use it instead of the default.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the current default database quota in bytes</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -526,7 +518,7 @@ icons.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheme</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – a URI scheme</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheme</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – a URI scheme</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="flags.html#WebKit.SecurityPolicy" title="WebKit.SecurityPolicy"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SecurityPolicy</span></code></a></td>
 </tr>
@@ -547,7 +539,7 @@ icons.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the <a class="reference internal" href="classes/SpellChecker.html#WebKit.SpellChecker" title="WebKit.SpellChecker"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SpellChecker</span></code></a> used by WebKit, or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if spell
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the <a class="reference internal" href="classes/SpellChecker.html#WebKit.SpellChecker" title="WebKit.SpellChecker"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SpellChecker</span></code></a> used by WebKit, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> if spell
 checking is not enabled</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a></td>
@@ -568,7 +560,7 @@ checking is not enabled</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the current database directory path in the filesystem encoding</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -609,7 +601,7 @@ all the plugins WebKit knows about in this instance.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The major version</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -628,7 +620,7 @@ all the plugins WebKit knows about in this instance.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The micro version</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -647,7 +639,7 @@ all the plugins WebKit knows about in this instance.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The minor version</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -664,7 +656,7 @@ all the plugins WebKit knows about in this instance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -677,7 +669,7 @@ all the plugins WebKit knows about in this instance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -690,7 +682,7 @@ all the plugins WebKit knows about in this instance.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -744,7 +736,7 @@ specifying <a class="reference internal" href="enums.html#WebKit.CacheModel.DOCU
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>defaultQuota</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – the new default database quota</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>defaultQuota</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>) – the new default database quota</td>
 </tr>
 </tbody>
 </table>
@@ -762,7 +754,7 @@ specifying <a class="reference internal" href="enums.html#WebKit.CacheModel.DOCU
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>scheme</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – a URI scheme</li>
+<li><strong>scheme</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – a URI scheme</li>
 <li><strong>policy</strong> (<a class="reference internal" href="flags.html#WebKit.SecurityPolicy" title="WebKit.SecurityPolicy"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SecurityPolicy</span></code></a>) – a <a class="reference internal" href="flags.html#WebKit.SecurityPolicy" title="WebKit.SecurityPolicy"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SecurityPolicy</span></code></a></li>
 </ul>
 </td>
@@ -782,7 +774,7 @@ specifying <a class="reference internal" href="enums.html#WebKit.CacheModel.DOCU
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>checker</strong> (<a class="reference external" href="../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a>) – a <a class="reference internal" href="classes/SpellChecker.html#WebKit.SpellChecker" title="WebKit.SpellChecker"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SpellChecker</span></code></a> or <a class="reference external" href="http://docs.python.org/2.7/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>checker</strong> (<a class="reference external" href="../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a>) – a <a class="reference internal" href="classes/SpellChecker.html#WebKit.SpellChecker" title="WebKit.SpellChecker"><code class="xref py py-obj docutils literal"><span class="pre">WebKit.SpellChecker</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -802,7 +794,7 @@ grammar checking).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the new database directory path in the filesystem encoding</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) – the new database directory path in the filesystem encoding</td>
 </tr>
 </tbody>
 </table>

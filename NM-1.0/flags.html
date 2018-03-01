@@ -181,6 +181,8 @@
 <li><a class="reference internal" href="#NM.SettingDcbFlags" title="NM.SettingDcbFlags"><code class="xref py py-class docutils literal"><span class="pre">NM.SettingDcbFlags</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingSecretFlags" title="NM.SettingSecretFlags"><code class="xref py py-class docutils literal"><span class="pre">NM.SettingSecretFlags</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingWiredWakeOnLan" title="NM.SettingWiredWakeOnLan"><code class="xref py py-class docutils literal"><span class="pre">NM.SettingWiredWakeOnLan</span></code></a></li>
+<li><a class="reference internal" href="#NM.SettingsUpdate2Flags" title="NM.SettingsUpdate2Flags"><code class="xref py py-class docutils literal"><span class="pre">NM.SettingsUpdate2Flags</span></code></a></li>
+<li><a class="reference internal" href="#NM.TeamLinkWatcherArpPingFlags" title="NM.TeamLinkWatcherArpPingFlags"><code class="xref py py-class docutils literal"><span class="pre">NM.TeamLinkWatcherArpPingFlags</span></code></a></li>
 <li><a class="reference internal" href="#NM.VlanFlags" title="NM.VlanFlags"><code class="xref py py-class docutils literal"><span class="pre">NM.VlanFlags</span></code></a></li>
 <li><a class="reference internal" href="#NM.VpnEditorPluginCapability" title="NM.VpnEditorPluginCapability"><code class="xref py py-class docutils literal"><span class="pre">NM.VpnEditorPluginCapability</span></code></a></li>
 </ul>
@@ -707,6 +709,106 @@ are supported by all devices.</p>
 <dt id="NM.SettingWiredWakeOnLan.MULTICAST">
 <code class="descname">MULTICAST</code><em class="property"> = 8</em><a class="headerlink" href="#NM.SettingWiredWakeOnLan.MULTICAST" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wake on multicast messages</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="NM.SettingsUpdate2Flags">
+<em class="property">class </em><code class="descclassname">NM.</code><code class="descname">SettingsUpdate2Flags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.SettingsUpdate2Flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.10.2.</span></p>
+</div>
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>an alias for numeric zero, no flags set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.TO_DISK">
+<code class="descname">TO_DISK</code><em class="property"> = 1</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.TO_DISK" title="Permalink to this definition">¶</a></dt>
+<dd><p>to persist the connection to disk.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.VOLATILE">
+<code class="descname">VOLATILE</code><em class="property"> = 16</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.VOLATILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This can be specified with either
+<a class="reference internal" href="#NM.SettingsUpdate2Flags.IN_MEMORY_DETACHED" title="NM.SettingsUpdate2Flags.IN_MEMORY_DETACHED"><code class="xref py py-obj docutils literal"><span class="pre">NM.SettingsUpdate2Flags.IN_MEMORY_DETACHED</span></code></a> or <a class="reference internal" href="#NM.SettingsUpdate2Flags.IN_MEMORY_ONLY" title="NM.SettingsUpdate2Flags.IN_MEMORY_ONLY"><code class="xref py py-obj docutils literal"><span class="pre">NM.SettingsUpdate2Flags.IN_MEMORY_ONLY</span></code></a>.
+After making the connection in-memory only, the connection is marked
+as volatile. That means, if the connection is currently not active
+it will be deleted right away. Otherwise, it is marked to for deletion
+once the connection deactivates. A volatile connection cannot autoactivate
+again (because it’s about to be deleted), but a manual activation will
+clear the volatile flag.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.IN_MEMORY">
+<code class="descname">IN_MEMORY</code><em class="property"> = 2</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.IN_MEMORY" title="Permalink to this definition">¶</a></dt>
+<dd><p>to make the connection in-memory only.
+If the connection was previously persistent, the corresponding file on disk
+is not deleted but merely the connection is decoupled from the file
+on disk. If you later delete an in-memory connection, the connection
+on disk will be deleted as well.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.BLOCK_AUTOCONNECT">
+<code class="descname">BLOCK_AUTOCONNECT</code><em class="property"> = 32</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.BLOCK_AUTOCONNECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>usually, when the connection
+has autoconnect enabled and is modified, it becomes elegible to autoconnect
+right away. Setting this flag, disables autoconnect until the connection
+is manually activated.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.IN_MEMORY_DETACHED">
+<code class="descname">IN_MEMORY_DETACHED</code><em class="property"> = 4</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.IN_MEMORY_DETACHED" title="Permalink to this definition">¶</a></dt>
+<dd><p>this is like <a class="reference internal" href="#NM.SettingsUpdate2Flags.IN_MEMORY" title="NM.SettingsUpdate2Flags.IN_MEMORY"><code class="xref py py-obj docutils literal"><span class="pre">NM.SettingsUpdate2Flags.IN_MEMORY</span></code></a>,
+but if the connection has a corresponding file on disk, the association between
+the connection and the file is forgotten but the file is not modified.
+The difference to <a class="reference internal" href="#NM.SettingsUpdate2Flags.IN_MEMORY" title="NM.SettingsUpdate2Flags.IN_MEMORY"><code class="xref py py-obj docutils literal"><span class="pre">NM.SettingsUpdate2Flags.IN_MEMORY</span></code></a> is if you later
+save the connection again to disk, a new file name will be chosen without
+overwriting the remaining file on disk. Also, if you delete the connection
+later, the file on disk will not be deleted.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.SettingsUpdate2Flags.IN_MEMORY_ONLY">
+<code class="descname">IN_MEMORY_ONLY</code><em class="property"> = 8</em><a class="headerlink" href="#NM.SettingsUpdate2Flags.IN_MEMORY_ONLY" title="Permalink to this definition">¶</a></dt>
+<dd><p>this is like <a class="reference internal" href="#NM.SettingsUpdate2Flags.IN_MEMORY" title="NM.SettingsUpdate2Flags.IN_MEMORY"><code class="xref py py-obj docutils literal"><span class="pre">NM.SettingsUpdate2Flags.IN_MEMORY</span></code></a>,
+but if the connection has a corresponding file on disk, the file on
+disk will be deleted.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="NM.TeamLinkWatcherArpPingFlags">
+<em class="property">class </em><code class="descclassname">NM.</code><code class="descname">TeamLinkWatcherArpPingFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.TeamLinkWatcherArpPingFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal"><span class="pre">GObject.GFlags</span></code></a></p>
+<dl class="attribute">
+<dt id="NM.TeamLinkWatcherArpPingFlags.VALIDATE_ACTIVE">
+<code class="descname">VALIDATE_ACTIVE</code><em class="property"> = 2</em><a class="headerlink" href="#NM.TeamLinkWatcherArpPingFlags.VALIDATE_ACTIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the arp_ping link watcher
+option ‘validate_active’ is enabled (set to true).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.TeamLinkWatcherArpPingFlags.VALIDATE_INACTIVE">
+<code class="descname">VALIDATE_INACTIVE</code><em class="property"> = 4</em><a class="headerlink" href="#NM.TeamLinkWatcherArpPingFlags.VALIDATE_INACTIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the arp_ping link watcher
+option ‘validate_inactive’ is enabled (set to true).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.TeamLinkWatcherArpPingFlags.SEND_ALWAYS">
+<code class="descname">SEND_ALWAYS</code><em class="property"> = 8</em><a class="headerlink" href="#NM.TeamLinkWatcherArpPingFlags.SEND_ALWAYS" title="Permalink to this definition">¶</a></dt>
+<dd><p>the arp_ping link watcher option
+‘send_always’ is enabled (set to true).</p>
 </dd></dl>
 
 </dd></dl>

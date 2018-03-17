@@ -586,24 +586,30 @@ message, or something along those lines. The basic idea is that creating an
 icon in the notification area is less annoying than popping up a dialog.</p>
 <p>A <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon</span></code></a> object can be used to display an icon in a “system tray”.
 The icon can have a tooltip, and the user can interact with it by
-activating it or popping up a context menu. Critical information should
-not solely be displayed in a <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon</span></code></a>, since it may not be
-visible (e.g. when the user doesn’t have a notification area on his panel).
-This can be checked with <a class="reference internal" href="#Gtk.StatusIcon.is_embedded" title="Gtk.StatusIcon.is_embedded"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon.is_embedded</span></code></a>().</p>
+activating it or popping up a context menu.</p>
+<p>It is very important to notice that status icons depend on the existence
+of a notification area being available to the user; you should not use status
+icons as the only way to convey critical information regarding your application,
+as the notification area may not exist on the user’s environment, or may have
+been removed. You should always check that a status icon has been embedded into
+a notification area by using <a class="reference internal" href="#Gtk.StatusIcon.is_embedded" title="Gtk.StatusIcon.is_embedded"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon.is_embedded</span></code></a>(), and gracefully
+recover if the function returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">False</span></code></a>.</p>
 <p>On X11, the implementation follows the
 <a class="reference external" href="http://www.freedesktop.org/wiki/Specifications/systemtray-spec">FreeDesktop System Tray Specification</a>.
 Implementations of the “tray” side of this specification can
 be found e.g. in the GNOME 2 and KDE panel applications.</p>
-<p>Note that a <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon</span></code></a> is not a widget, but just
-a <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a>. Making it a widget would be impractical, since the system tray
-on Win32 doesn’t allow to embed arbitrary widgets.</p>
+<p>Note that a <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon</span></code></a> is not a widget, but just a <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GObject.Object</span></code></a>. Making it a
+widget would be impractical, since the system tray on Windows doesn’t allow
+to embed arbitrary widgets.</p>
 <p><a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon</span></code></a> has been deprecated in 3.14. You should consider using
 notifications or more modern platform-specific APIs instead. GLib provides
-the <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> API which works well with <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a>. Also see this
-<a class="reference external" href="https://wiki.gnome.org/HowDoI/GNotification">HowDoI</a>.</p>
+the <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> API which works well with <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> on multiple
+platforms and environments, and should be the preferred mechanism to notify
+the users of transient status updates. See this <a class="reference external" href="https://wiki.gnome.org/HowDoI/GNotification">HowDoI</a>
+for code examples.</p>
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1198"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1206"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -619,13 +625,13 @@ the <a class="reference external" href="../../Gio-2.0/classes/Notification.html#
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new_from_file">
-<em class="property">classmethod </em><code class="descname">new_from_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1242"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_file" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1252"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -645,13 +651,13 @@ space in the notification area, if necessary.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new_from_gicon">
-<em class="property">classmethod </em><code class="descname">new_from_gicon</code><span class="sig-paren">(</span><em>icon</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1308"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_gicon" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_gicon</code><span class="sig-paren">(</span><em>icon</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1321"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_gicon" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -670,13 +676,13 @@ themed icon, it will be updated when the theme changes.</p>
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new_from_icon_name">
-<em class="property">classmethod </em><code class="descname">new_from_icon_name</code><span class="sig-paren">(</span><em>icon_name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1287"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_icon_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_icon_name</code><span class="sig-paren">(</span><em>icon_name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1299"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_icon_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -696,13 +702,13 @@ appropriately.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new_from_pixbuf">
-<em class="property">classmethod </em><code class="descname">new_from_pixbuf</code><span class="sig-paren">(</span><em>pixbuf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1219"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_pixbuf" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_pixbuf</code><span class="sig-paren">(</span><em>pixbuf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1228"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_pixbuf" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -722,13 +728,13 @@ space in the notification area, if necessary.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.new_from_stock">
-<em class="property">classmethod </em><code class="descname">new_from_stock</code><span class="sig-paren">(</span><em>stock_id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1265"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_stock" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_stock</code><span class="sig-paren">(</span><em>stock_id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1276"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.new_from_stock" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -749,13 +755,13 @@ own stock icon names, see <a class="reference internal" href="IconFactory.html#G
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.10: </span>Use <a class="reference internal" href="#Gtk.StatusIcon.new_from_icon_name" title="Gtk.StatusIcon.new_from_icon_name"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.StatusIcon.new_from_icon_name</span></code></a>() instead.</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications</p>
 </div>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="Gtk.StatusIcon.position_menu">
-<em class="property">classmethod </em><code class="descname">position_menu</code><span class="sig-paren">(</span><em>menu</em>, <em>x</em>, <em>y</em>, <em>user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2241"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.position_menu" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">position_menu</code><span class="sig-paren">(</span><em>menu</em>, <em>x</em>, <em>y</em>, <em>user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2287"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.position_menu" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -796,13 +802,13 @@ to position <cite>menu</cite> aligned to the status icon <cite>user_data</cite>.
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; notifications do not have menus, but can have buttons, and actions associated with each button</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_geometry">
-<code class="descname">get_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2394"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_geometry" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2443"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -845,13 +851,13 @@ is embedded in a notification area, see
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as the platform is responsible for the presentation of notifications</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_gicon">
-<code class="descname">get_gicon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2017"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_gicon" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_gicon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2047"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_gicon" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -872,13 +878,13 @@ returned <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_has_tooltip">
-<code class="descname">get_has_tooltip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2495"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_has_tooltip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_has_tooltip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2549"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_has_tooltip" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -895,13 +901,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon">
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_icon_name">
-<code class="descname">get_icon_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1987"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_icon_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_icon_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2015"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_icon_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -921,13 +927,13 @@ be freed or modified.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_pixbuf">
-<code class="descname">get_pixbuf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1930"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_pixbuf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_pixbuf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1956"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_pixbuf" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -948,13 +954,13 @@ returned pixbuf.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_screen">
-<code class="descname">get_screen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2093"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_screen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_screen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2131"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_screen" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -970,13 +976,13 @@ returned pixbuf.</p>
 <p><span class="versionmodified">New in version 2.12.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as notifications are managed by the platform</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_size">
-<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2048"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2081"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_size" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -998,13 +1004,13 @@ status icon is embedded (see <a class="reference internal" href="#Gtk.StatusIcon
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as the representation of a notification is left to the platform</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_stock">
-<code class="descname">get_stock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1959"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_stock" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_stock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1985"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_stock" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1031,7 +1037,7 @@ be freed or modified.</p>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_storage_type">
-<code class="descname">get_storage_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1906"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_storage_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_storage_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1930"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_storage_type" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1049,13 +1055,13 @@ the return value will be <a class="reference internal" href="../enums.html#Gtk.I
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, and <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> only supports <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio.Icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> instances</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_title">
-<code class="descname">get_title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2797"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_title" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2866"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_title" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1071,13 +1077,13 @@ the return value will be <a class="reference internal" href="../enums.html#Gtk.I
 <p><span class="versionmodified">New in version 2.18.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_tooltip_markup">
-<code class="descname">get_tooltip_markup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2683"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_tooltip_markup" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tooltip_markup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2745"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_tooltip_markup" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1094,13 +1100,13 @@ returned string with <a class="reference external" href="../../GLib-2.0/function
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_tooltip_text">
-<code class="descname">get_tooltip_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2593"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_tooltip_text" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tooltip_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2651"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_tooltip_text" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1117,13 +1123,13 @@ returned string with <a class="reference external" href="../../GLib-2.0/function
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_visible">
-<code class="descname">get_visible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2178"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_visible" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_visible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2220"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_visible" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1142,13 +1148,13 @@ the user can actually see the icon, see also
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.get_x11_window_id">
-<code class="descname">get_x11_window_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2731"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_x11_window_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_x11_window_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2796"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.get_x11_window_id" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1160,8 +1166,8 @@ underlying X11 Window</td>
 </tr>
 </tbody>
 </table>
-<p>This function is only useful on the X11/freedesktop.org platform.
-It returns a window ID for the widget in the underlying
+<p>This function is only useful on the X11/freedesktop.org platform.</p>
+<p>It returns a window ID for the widget in the underlying
 status icon implementation.  This is useful for the Galago
 notification service, which can send a window ID in the protocol
 in order for the server to position notification windows
@@ -1173,13 +1179,13 @@ as <a class="reference internal" href="#Gtk.StatusIcon.position_menu" title="Gtk
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.is_embedded">
-<code class="descname">is_embedded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.is_embedded" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_embedded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2244"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.is_embedded" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1197,13 +1203,13 @@ area.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_from_file">
-<code class="descname">set_from_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1806"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_from_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1823"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1218,13 +1224,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon.new_from_file" title="Gt
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; you can use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_icon</span></code></a>() to associate a <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio.Icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> with a notification</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_from_gicon">
-<code class="descname">set_from_gicon</code><span class="sig-paren">(</span><em>icon</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1882"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_gicon" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_from_gicon</code><span class="sig-paren">(</span><em>icon</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1903"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_gicon" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1239,13 +1245,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon.new_from_gicon" title="G
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; you can use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_icon</span></code></a>() to associate a <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio.Icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> with a notification</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_from_icon_name">
-<code class="descname">set_from_icon_name</code><span class="sig-paren">(</span><em>icon_name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1859"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_icon_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_from_icon_name</code><span class="sig-paren">(</span><em>icon_name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1878"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_icon_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1261,13 +1267,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon.new_from_icon_name" titl
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; you can use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_icon</span></code></a>() to associate a <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio.Icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> with a notification</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_from_pixbuf">
-<code class="descname">set_from_pixbuf</code><span class="sig-paren">(</span><em>pixbuf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1783"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_pixbuf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_from_pixbuf</code><span class="sig-paren">(</span><em>pixbuf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1798"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_pixbuf" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1282,13 +1288,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon.new_from_pixbuf" title="
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; you can use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_icon</span></code></a>() to associate a <a class="reference external" href="../../Gio-2.0/classes/Icon.html#Gio.Icon" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Icon</span></code></a> with a notification</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_from_stock">
-<code class="descname">set_from_stock</code><span class="sig-paren">(</span><em>stock_id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L1835"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_stock" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_from_stock</code><span class="sig-paren">(</span><em>stock_id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L1852"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_from_stock" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1309,7 +1315,7 @@ See <a class="reference internal" href="#Gtk.StatusIcon.new_from_stock" title="G
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_has_tooltip">
-<code class="descname">set_has_tooltip</code><span class="sig-paren">(</span><em>has_tooltip</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2447"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_has_tooltip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_has_tooltip</code><span class="sig-paren">(</span><em>has_tooltip</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2499"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_has_tooltip" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1324,13 +1330,13 @@ See <a class="reference internal" href="#Gtk.StatusIcon" title="Gtk.StatusIcon">
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, but notifications can display an arbitrary amount of text using <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_body" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_body</span></code></a>()</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_name">
-<code class="descname">set_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2837"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2909"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1347,13 +1353,13 @@ the user.</p>
 <p><span class="versionmodified">New in version 2.20.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as notifications are associated with a unique application identifier by <a class="reference external" href="../../Gio-2.0/classes/Application.html#Gio.Application" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Application</span></code></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_screen">
-<code class="descname">set_screen</code><span class="sig-paren">(</span><em>screen</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2070"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_screen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_screen</code><span class="sig-paren">(</span><em>screen</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2106"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_screen" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1369,13 +1375,13 @@ then remapped on the new screen.</p>
 <p><span class="versionmodified">New in version 2.12.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as GTK typically only has one <a class="reference external" href="../../Gdk-3.0/classes/Screen.html#Gdk.Screen" title="(in Gdk 3.0 v3.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gdk.Screen</span></code></a> and notifications are managed by the platform</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_title">
-<code class="descname">set_title</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2760"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_title" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_title</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2827"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_title" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1392,13 +1398,13 @@ readers to render the tray icon.</p>
 <p><span class="versionmodified">New in version 2.18.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; you should use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_title" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_title</span></code></a>() and <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification.set_body" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification.set_body</span></code></a>() to present text inside your notification</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_tooltip_markup">
-<code class="descname">set_tooltip_markup</code><span class="sig-paren">(</span><em>markup</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2638"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_tooltip_markup" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_tooltip_markup</code><span class="sig-paren">(</span><em>markup</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2698"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_tooltip_markup" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1417,13 +1423,13 @@ and of the default handler for the <a class="reference internal" href="#Gtk.Stat
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_tooltip_text">
-<code class="descname">set_tooltip_text</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2538"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_tooltip_text" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_tooltip_text</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2594"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_tooltip_text" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1442,13 +1448,13 @@ signal.</p>
 <p><span class="versionmodified">New in version 2.16.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gtk.StatusIcon.set_visible">
-<code class="descname">set_visible</code><span class="sig-paren">(</span><em>visible</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.28/gtk/deprecated/gtkstatusicon.c#L2118"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_visible" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_visible</code><span class="sig-paren">(</span><em>visible</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/3.22.29/gtk/deprecated/gtkstatusicon.c#L2158"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gtk.StatusIcon.set_visible" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1462,7 +1468,7 @@ signal.</p>
 <p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.14: </span>Use notifications</p>
+<p><span class="versionmodified">Deprecated since version 3.14: </span>Use <a class="reference external" href="../../Gio-2.0/classes/Notification.html#Gio.Notification" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">Gio.Notification</span></code></a> and <a class="reference internal" href="Application.html#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal"><span class="pre">Gtk.Application</span></code></a> to provide status notifications; there is no direct replacement for this function, as notifications are managed by the platform</p>
 </div>
 </dd></dl>
 

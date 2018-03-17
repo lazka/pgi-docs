@@ -252,6 +252,9 @@
 <td><a class="reference internal" href="#Jsonrpc.Server.add_handler" title="Jsonrpc.Server.add_handler"><code class="xref py py-func docutils literal"><span class="pre">add_handler</span></code></a> (method, handler, *handler_data)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Jsonrpc.Server.foreach" title="Jsonrpc.Server.foreach"><code class="xref py py-func docutils literal"><span class="pre">foreach</span></code></a> (foreach_func, *user_data)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Jsonrpc.Server.remove_handler" title="Jsonrpc.Server.remove_handler"><code class="xref py py-func docutils literal"><span class="pre">remove_handler</span></code></a> (handler_id)</td>
 </tr>
 </tbody>
@@ -274,9 +277,12 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>&#160;</td>
-<td><a class="reference internal" href="#Jsonrpc.Server.do_handle_call" title="Jsonrpc.Server.do_handle_call"><code class="xref py py-func docutils literal"><span class="pre">do_handle_call</span></code></a> (client, method, id, params)</td>
+<td><a class="reference internal" href="#Jsonrpc.Server.do_client_accepted" title="Jsonrpc.Server.do_client_accepted"><code class="xref py py-func docutils literal"><span class="pre">do_client_accepted</span></code></a> (client)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Jsonrpc.Server.do_handle_call" title="Jsonrpc.Server.do_handle_call"><code class="xref py py-func docutils literal"><span class="pre">do_handle_call</span></code></a> (client, method, id, params)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Jsonrpc.Server.do_notification" title="Jsonrpc.Server.do_notification"><code class="xref py py-func docutils literal"><span class="pre">do_notification</span></code></a> (client, method, params)</td>
 </tr>
 </tbody>
@@ -307,10 +313,13 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="#Jsonrpc.Server.signals.handle_call" title="Jsonrpc.Server.signals.handle_call"><code class="xref py py-func docutils literal"><span class="pre">handle-call</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#Jsonrpc.Server.signals.client_accepted" title="Jsonrpc.Server.signals.client_accepted"><code class="xref py py-func docutils literal"><span class="pre">client-accepted</span></code></a></td>
+<td>This signal is emitted when a new client has been accepted.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#Jsonrpc.Server.signals.handle_call" title="Jsonrpc.Server.signals.handle_call"><code class="xref py py-func docutils literal"><span class="pre">handle-call</span></code></a></td>
 <td>This method is emitted when the client requests a method call.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#Jsonrpc.Server.signals.notification" title="Jsonrpc.Server.signals.notification"><code class="xref py py-func docutils literal"><span class="pre">notification</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#Jsonrpc.Server.signals.notification" title="Jsonrpc.Server.signals.notification"><code class="xref py py-func docutils literal"><span class="pre">notification</span></code></a></td>
 <td>This signal is emitted when the client has sent a notification to us.</td>
 </tr>
 </tbody>
@@ -435,6 +444,27 @@ execute when an incoming method matches <cite>methods</cite></li>
 </dd></dl>
 
 <dl class="method">
+<dt id="Jsonrpc.Server.foreach">
+<code class="descname">foreach</code><span class="sig-paren">(</span><em>foreach_func</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#Jsonrpc.Server.foreach" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>foreach_func</strong> (<a class="reference external" href="../../GLib-2.0/callbacks.html#GLib.Func" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">GLib.Func</span></code></a>) – a callback for each client</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>) – closure data for <cite>foreach_func</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calls <cite>foreach_func</cite> for every client connected.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.28.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="Jsonrpc.Server.remove_handler">
 <code class="descname">remove_handler</code><span class="sig-paren">(</span><em>handler_id</em><span class="sig-paren">)</span><a class="headerlink" href="#Jsonrpc.Server.remove_handler" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -449,6 +479,19 @@ execute when an incoming method matches <cite>methods</cite></li>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.26.</span></p>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Jsonrpc.Server.do_client_accepted">
+<code class="descname">do_client_accepted</code><span class="sig-paren">(</span><em>client</em><span class="sig-paren">)</span><em class="property"> virtual</em><a class="headerlink" href="#Jsonrpc.Server.do_client_accepted" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>client</strong> (<a class="reference internal" href="Client.html#Jsonrpc.Client" title="Jsonrpc.Client"><code class="xref py py-obj docutils literal"><span class="pre">Jsonrpc.Client</span></code></a>) – </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -496,6 +539,33 @@ execute when an incoming method matches <cite>methods</cite></li>
 </div>
 <div class="section" id="signal-details">
 <h2>Signal Details<a class="headerlink" href="#signal-details" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="Jsonrpc.Server.signals.client_accepted">
+<code class="descclassname">Jsonrpc.Server.signals.</code><code class="descname">client_accepted</code><span class="sig-paren">(</span><em>server</em>, <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#Jsonrpc.Server.signals.client_accepted" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Signal Name:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">client-accepted</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.RUN_LAST" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal"><span class="pre">RUN_LAST</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>server</strong> (<a class="reference internal" href="#Jsonrpc.Server" title="Jsonrpc.Server"><code class="xref py py-obj docutils literal"><span class="pre">Jsonrpc.Server</span></code></a>) – The object which received the signal</li>
+<li><strong>client</strong> (<a class="reference internal" href="Client.html#Jsonrpc.Client" title="Jsonrpc.Client"><code class="xref py py-obj docutils literal"><span class="pre">Jsonrpc.Client</span></code></a>) – A <a class="reference internal" href="Client.html#Jsonrpc.Client" title="Jsonrpc.Client"><code class="xref py py-obj docutils literal"><span class="pre">Jsonrpc.Client</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This signal is emitted when a new client has been accepted.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.28.</span></p>
+</div>
+</dd></dl>
+
 <dl class="function">
 <dt id="Jsonrpc.Server.signals.handle_call">
 <code class="descclassname">Jsonrpc.Server.signals.</code><code class="descname">handle_call</code><span class="sig-paren">(</span><em>server</em>, <em>client</em>, <em>method</em>, <em>id</em>, <em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#Jsonrpc.Server.signals.handle_call" title="Permalink to this definition">¶</a></dt>

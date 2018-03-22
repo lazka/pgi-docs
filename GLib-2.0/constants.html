@@ -444,14 +444,14 @@ flags &amp; ~:obj:<cite>GLib.DATALIST_FLAGS_MASK</cite> != 0 is an error.</p>
 
 <dl class="data">
 <dt id="GLib.DIR_SEPARATOR">
-<code class="descclassname">GLib.</code><code class="descname">DIR_SEPARATOR</code><em class="property"> = 92</em><a class="headerlink" href="#GLib.DIR_SEPARATOR" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">DIR_SEPARATOR</code><em class="property"> = 47</em><a class="headerlink" href="#GLib.DIR_SEPARATOR" title="Permalink to this definition">¶</a></dt>
 <dd><p>The directory separator character.
 This is ‘/’ on UNIX machines and ‘' under Windows.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GLib.DIR_SEPARATOR_S">
-<code class="descclassname">GLib.</code><code class="descname">DIR_SEPARATOR_S</code><em class="property"> = '\\'</em><a class="headerlink" href="#GLib.DIR_SEPARATOR_S" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">DIR_SEPARATOR_S</code><em class="property"> = '/'</em><a class="headerlink" href="#GLib.DIR_SEPARATOR_S" title="Permalink to this definition">¶</a></dt>
 <dd><p>The directory separator as a string.
 This is “/” on UNIX machines and “&quot; under Windows.</p>
 </dd></dl>
@@ -1116,21 +1116,27 @@ See #G_BYTE_ORDER.</p>
 <dl class="data">
 <dt id="GLib.LOG_DOMAIN">
 <code class="descclassname">GLib.</code><code class="descname">LOG_DOMAIN</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.LOG_DOMAIN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the log domain.</p>
+<dd><p>Defines the log domain. See <a class="reference external" href="#log-domains">Log Domains</a>.</p>
 <p>Libraries should define this so that any messages
 which they log can be differentiated from messages from other
 libraries and application code. But be careful not to define
 it in any public header files.</p>
-<p>For example, GTK+ uses this in its Makefile.am:</p>
+<p>Log domains must be unique, and it is recommended that they are the
+application or library name, optionally followed by a hyphen and a sub-domain
+name. For example, <code class="docutils literal"><span class="pre">bloatpad</span></code> or <code class="docutils literal"><span class="pre">bloatpad-io</span></code>.</p>
+<p>If undefined, it defaults to the default <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> (or <code class="docutils literal"><span class="pre">&quot;&quot;</span></code>) log domain; this is
+not advisable, as it cannot be filtered against using the <code class="docutils literal"><span class="pre">G_MESSAGES_DEBUG</span></code>
+environment variable.</p>
+<p>For example, GTK+ uses this in its <code class="docutils literal"><span class="pre">Makefile.am</span></code> :</p>
 <p><code class="docutils literal"><span class="pre">AM_CPPFLAGS</span> <span class="pre">=</span> <span class="pre">-DG_LOG_DOMAIN=\&quot;Gtk\&quot;</span></code></p>
-<p>Applications can choose to leave it as the default <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> (or “”)
+<p>Applications can choose to leave it as the default <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a> (or <code class="docutils literal"><span class="pre">&quot;&quot;</span></code>)
 domain. However, defining the domain offers the same advantages as
 above.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GLib.LOG_FATAL_MASK">
-<code class="descclassname">GLib.</code><code class="descname">LOG_FATAL_MASK</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.LOG_FATAL_MASK" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">LOG_FATAL_MASK</code><em class="property"> = 5</em><a class="headerlink" href="#GLib.LOG_FATAL_MASK" title="Permalink to this definition">¶</a></dt>
 <dd><p>GLib log levels that are considered fatal by default.</p>
 <p>This is not used if structured logging is enabled; see
 ‘Using Structured Logging [using-structured-logging]’.</p>
@@ -1275,7 +1281,7 @@ linked against at application run time.</p>
 
 <dl class="data">
 <dt id="GLib.MICRO_VERSION">
-<code class="descclassname">GLib.</code><code class="descname">MICRO_VERSION</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">MICRO_VERSION</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The micro version number of the GLib library.</p>
 <p>Like #gtk_micro_version, but from the headers used at
 application compile time, rather than from the library
@@ -1342,7 +1348,7 @@ linked against at application run time.</p>
 
 <dl class="data">
 <dt id="GLib.MINOR_VERSION">
-<code class="descclassname">GLib.</code><code class="descname">MINOR_VERSION</code><em class="property"> = 54</em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">MINOR_VERSION</code><em class="property"> = 56</em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minor version number of the GLib library.</p>
 <p>Like #gtk_minor_version, but from the headers used at
 application compile time, rather than from the library
@@ -1515,14 +1521,14 @@ pending redraws, so that widgets are not redrawn twice unnecessarily.)</p>
 
 <dl class="data">
 <dt id="GLib.SEARCHPATH_SEPARATOR">
-<code class="descclassname">GLib.</code><code class="descname">SEARCHPATH_SEPARATOR</code><em class="property"> = 59</em><a class="headerlink" href="#GLib.SEARCHPATH_SEPARATOR" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">SEARCHPATH_SEPARATOR</code><em class="property"> = 58</em><a class="headerlink" href="#GLib.SEARCHPATH_SEPARATOR" title="Permalink to this definition">¶</a></dt>
 <dd><p>The search path separator character.
 This is ‘:’ on UNIX machines and ‘;’ under Windows.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GLib.SEARCHPATH_SEPARATOR_S">
-<code class="descclassname">GLib.</code><code class="descname">SEARCHPATH_SEPARATOR_S</code><em class="property"> = ';'</em><a class="headerlink" href="#GLib.SEARCHPATH_SEPARATOR_S" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">SEARCHPATH_SEPARATOR_S</code><em class="property"> = ':'</em><a class="headerlink" href="#GLib.SEARCHPATH_SEPARATOR_S" title="Permalink to this definition">¶</a></dt>
 <dd><p>The search path separator as a string.
 This is “:” on UNIX machines and “;” under Windows.</p>
 </dd></dl>
@@ -1789,7 +1795,7 @@ using functions deprecated in later releases will not).</p>
 
 <dl class="data">
 <dt id="GLib.glib_version">
-<code class="descclassname">GLib.</code><code class="descname">glib_version</code><em class="property"> = (2, 54, 2)</em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">glib_version</code><em class="property"> = (2, 56, 0)</em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">

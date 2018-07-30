@@ -209,7 +209,7 @@ the same collection ID.  See <code class="docutils literal notranslate"><span cl
 This is most useful in concert with <code class="docutils literal notranslate"><span class="pre">OSTREE_COMMIT_META_KEY_REF_BINDING</span></code>,
 as it more strongly binds the commit to the repository and branch.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 2017.9.</span></p>
+<p><span class="versionmodified">New in version 2018.6.</span></p>
 </div>
 </dd></dl>
 
@@ -315,7 +315,7 @@ see <a class="reference internal" href="classes/Deployment.html#OSTree.Deploymen
 
 <dl class="data">
 <dt id="OSTree.RELEASE_VERSION">
-<code class="descclassname">OSTree.</code><code class="descname">RELEASE_VERSION</code><em class="property"> = 5</em><a class="headerlink" href="#OSTree.RELEASE_VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">OSTree.</code><code class="descname">RELEASE_VERSION</code><em class="property"> = 7</em><a class="headerlink" href="#OSTree.RELEASE_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>ostree release version component (e.g. 2 if <a class="reference internal" href="#OSTree.VERSION" title="OSTree.VERSION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.VERSION</span></code></a> is 2017.2)</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2017.4.</span></p>
@@ -325,7 +325,23 @@ see <a class="reference internal" href="classes/Deployment.html#OSTree.Deploymen
 <dl class="data">
 <dt id="OSTree.REPO_METADATA_REF">
 <code class="descclassname">OSTree.</code><code class="descname">REPO_METADATA_REF</code><em class="property"> = 'ostree-metadata'</em><a class="headerlink" href="#OSTree.REPO_METADATA_REF" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The name of a ref which is used to store metadata for the entire repository,
+such as its expected update time (<code class="docutils literal notranslate"><span class="pre">ostree.summary.expires</span></code>), name, or new
+GPG keys. Metadata is stored on contentless commits in the ref, and hence is
+signed with the commits.</p>
+<p>This supersedes the additional metadata dictionary in the <code class="docutils literal notranslate"><span class="pre">summary</span></code> file
+(see <a class="reference internal" href="classes/Repo.html#OSTree.Repo.regenerate_summary" title="OSTree.Repo.regenerate_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.Repo.regenerate_summary</span></code></a>()), as the use of a ref means that the
+metadata for multiple upstream repositories can be included in a single mirror
+repository, disambiguating the refs using collection IDs. In order to support
+peer to peer redistribution of repository metadata, repositories must set a
+collection ID (<a class="reference internal" href="classes/Repo.html#OSTree.Repo.set_collection_id" title="OSTree.Repo.set_collection_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.Repo.set_collection_id</span></code></a>()).</p>
+<p>Users of OSTree may place arbitrary metadata in commits on this ref, but the
+keys must be namespaced by product or developer. For example,
+<code class="docutils literal notranslate"><span class="pre">exampleos.end-of-life</span></code>. The <code class="docutils literal notranslate"><span class="pre">ostree.</span></code> prefix is reserved.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2018.6.</span></p>
+</div>
+</dd></dl>
 
 <dl class="data">
 <dt id="OSTree.SHA256_DIGEST_LEN">
@@ -364,7 +380,7 @@ users who had been using zero before.</p>
 
 <dl class="data">
 <dt id="OSTree.VERSION">
-<code class="descclassname">OSTree.</code><code class="descname">VERSION</code><em class="property"> = 2018.5</em><a class="headerlink" href="#OSTree.VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">OSTree.</code><code class="descname">VERSION</code><em class="property"> = 2018.7</em><a class="headerlink" href="#OSTree.VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>ostree version.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2017.4.</span></p>
@@ -373,7 +389,7 @@ users who had been using zero before.</p>
 
 <dl class="data">
 <dt id="OSTree.VERSION_S">
-<code class="descclassname">OSTree.</code><code class="descname">VERSION_S</code><em class="property"> = '2018.5'</em><a class="headerlink" href="#OSTree.VERSION_S" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">OSTree.</code><code class="descname">VERSION_S</code><em class="property"> = '2018.7'</em><a class="headerlink" href="#OSTree.VERSION_S" title="Permalink to this definition">¶</a></dt>
 <dd><p>ostree version, encoded as a string, useful for printing and
 concatenation.</p>
 <div class="versionadded">

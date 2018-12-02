@@ -233,7 +233,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (38)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Structs:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></td>
 </tr>
@@ -442,7 +442,7 @@
 <tr class="row-even"><td>parent</td>
 <td><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></td>
 <td>r</td>
-<td>&#160;</td>
+<td>parent instance</td>
 </tr>
 </tbody>
 </table>
@@ -464,7 +464,7 @@
 </tr>
 </tbody>
 </table>
-<p>The <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> is an object representing the parsed form of a SVG</p>
+<p>Lets you load SVG data and render it.</p>
 <dl class="classmethod">
 <dt id="Rsvg.Handle.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Rsvg.Handle.new" title="Permalink to this definition">¶</a></dt>
@@ -689,10 +689,8 @@ freed until <cite>g_object_unref</cite> is called.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – An element’s id within the SVG, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to get
-the dimension of the whole SVG.  For example, if you have a layer
-called “layer1” for that you want to get the dimension, pass
-“#layer1” as the id.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – An element’s id within the SVG, starting with “##”, for
+example, “##layer1”; or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the whole SVG.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -708,7 +706,8 @@ called “layer1” for that you want to get the dimension, pass
 </tr>
 </tbody>
 </table>
-<p>Get the size of a subelement of the SVG file. Do not call from within the size_func callback, because an infinite loop will occur.</p>
+<p>Get the size of a subelement of the SVG file. Do not call from within the
+size_func callback, because an infinite loop will occur.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.22.</span></p>
 </div>
@@ -741,21 +740,25 @@ will be returned.  Note that the pixbuf may not be complete until
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The id of an element inside the SVG, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to
-render the whole SVG. For example, if you have a layer called
-“layer1” that you wish to render, pass “##layer1” as the id.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – An element’s id within the SVG, starting with “##”, for
+example, “##layer1”; or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the whole SVG.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the pixbuf loaded by <cite>self</cite>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a pixbuf, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an error occurs
+during rendering.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../../GdkPixbuf-2.0/classes/Pixbuf.html#GdkPixbuf.Pixbuf" title="(in GdkPixbuf 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GdkPixbuf.Pixbuf</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Returns the pixbuf loaded by <cite>self</cite>.  The pixbuf returned will be reffed, so
-the caller of this function must assume that ref.  If insufficient data has
-been read to create the pixbuf, or an error occurred in loading, then <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
-will be returned.  Note that the pixbuf may not be complete until
-<cite>rsvg_handle_close</cite> has been called.</p>
+<p>Creates a <a class="reference external" href="../../GdkPixbuf-2.0/classes/Pixbuf.html#GdkPixbuf.Pixbuf" title="(in GdkPixbuf 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GdkPixbuf.Pixbuf</span></code></a> the same size as the entire SVG loaded into <cite>self</cite>, but
+only renders the sub-element that has the specified <cite>id</cite> (and all its
+sub-sub-elements recursively).  If <cite>id</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, this function renders the
+whole SVG.</p>
+<p>If you need to render an image which is only big enough to fit a particular
+sub-element of the SVG, consider using <a class="reference internal" href="#Rsvg.Handle.render_cairo_sub" title="Rsvg.Handle.render_cairo_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.render_cairo_sub</span></code></a>(), upon a
+surface that is just the size returned by <a class="reference internal" href="#Rsvg.Handle.get_dimensions_sub" title="Rsvg.Handle.get_dimensions_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.get_dimensions_sub</span></code></a>().
+You will need to offset the rendering by the amount returned in
+<a class="reference internal" href="#Rsvg.Handle.get_position_sub" title="Rsvg.Handle.get_position_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.get_position_sub</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -768,9 +771,8 @@ will be returned.  Note that the pixbuf may not be complete until
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – An element’s id within the SVG.
-For example, if you have a layer called “layer1” for that you want to get
-the position, pass “##layer1” as the id.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – An element’s id within the SVG, starting with “##”, for
+example, “##layer1”; or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the whole SVG.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -800,7 +802,7 @@ the size_func callback, because an infinite loop will occur.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an element’s id within the SVG</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an element’s id within the SVG, starting with “##”, for example, “##layer1”.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>id</cite> exists in the SVG document</td>
 </tr>
@@ -871,13 +873,16 @@ returned.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cr</strong> (<a class="reference external" href="https://pycairo.readthedocs.io/en/latest/reference/context.html#cairo.Context" title="(in Pycairo)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cairo.Context</span></code></a>) – A Cairo renderer</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if drawing succeeded.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if drawing succeeded; <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Draws a SVG to a Cairo surface</p>
+<p>Draws a loaded SVG handle to a Cairo context.  Drawing will occur with
+respect to the <cite>cr</cite>’s current transformation:  for example, if the <cite>cr</cite> has a
+rotated current transformation matrix, the whole SVG will be rotated in the
+rendered version.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>
@@ -898,7 +903,7 @@ that you wish to render, pass “##layer1” as the id.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if drawing succeeded.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if drawing succeeded; <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -906,7 +911,10 @@ that you wish to render, pass “##layer1” as the id.</li>
 </tr>
 </tbody>
 </table>
-<p>Draws a subset of a SVG to a Cairo surface</p>
+<p>Draws a subset of a loaded SVG handle to a Cairo context.  Drawing will occur with
+respect to the <cite>cr</cite>’s current transformation:  for example, if the <cite>cr</cite> has a
+rotated current transformation matrix, the whole SVG will be rotated in the
+rendered version.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.14.</span></p>
 </div>

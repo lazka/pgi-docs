@@ -330,7 +330,7 @@ location of a single resource with an individual file.</p>
 </div>
 <dl class="classmethod">
 <dt id="Gio.Resource.load">
-<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L583"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L601"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.load" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -349,6 +349,10 @@ location of a single resource with an individual file.</p>
 you to query it for data.</p>
 <p>If you want to use this resource in the global resource namespace you need
 to register it with <code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Resource._register</span></code>().</p>
+<p>If <cite>filename</cite> is empty or the data in it is corrupt,
+<a class="reference internal" href="../enums.html#Gio.ResourceError.INTERNAL" title="Gio.ResourceError.INTERNAL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ResourceError.INTERNAL</span></code></a> will be returned. If <cite>filename</cite> doesn’t exist, or
+there is an error in reading it, an error from <a class="reference external" href="../../GLib-2.0/classes/MappedFile.html#GLib.MappedFile.new" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MappedFile.new</span></code></a>() will be
+returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.32.</span></p>
 </div>
@@ -356,7 +360,7 @@ to register it with <code class="xref py py-obj docutils literal notranslate"><s
 
 <dl class="classmethod">
 <dt id="Gio.Resource.new_from_data">
-<em class="property">classmethod </em><code class="descname">new_from_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L537"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.new_from_data" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_from_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L552"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.new_from_data" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -379,6 +383,7 @@ to register it with <code class="xref py py-obj docutils literal notranslate"><s
 <p>Note: <cite>data</cite> must be backed by memory that is at least pointer aligned.
 Otherwise this function will internally create a copy of the memory since
 GLib 2.56, or in older versions fail and exit the process.</p>
+<p>If <cite>data</cite> is empty or corrupt, <a class="reference internal" href="../enums.html#Gio.ResourceError.INTERNAL" title="Gio.ResourceError.INTERNAL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ResourceError.INTERNAL</span></code></a> will be returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.32.</span></p>
 </div>
@@ -386,7 +391,7 @@ GLib 2.56, or in older versions fail and exit the process.</p>
 
 <dl class="method">
 <dt id="Gio.Resource.enumerate_children">
-<code class="descname">enumerate_children</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L863"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.enumerate_children" title="Permalink to this definition">¶</a></dt>
+<code class="descname">enumerate_children</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L886"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.enumerate_children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -421,7 +426,7 @@ be released with <a class="reference external" href="../../GLib-2.0/functions.ht
 
 <dl class="method">
 <dt id="Gio.Resource.get_info">
-<code class="descname">get_info</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L834"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.get_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_info</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L857"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.get_info" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -466,7 +471,7 @@ if found returns information about it.</p>
 
 <dl class="method">
 <dt id="Gio.Resource.lookup_data">
-<code class="descname">lookup_data</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L742"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.lookup_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_data</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L765"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.lookup_data" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -507,7 +512,7 @@ the heap and automatically uncompress the data.</p>
 
 <dl class="method">
 <dt id="Gio.Resource.open_stream">
-<code class="descname">open_stream</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L682"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.open_stream" title="Permalink to this definition">¶</a></dt>
+<code class="descname">open_stream</code><span class="sig-paren">(</span><em>path</em>, <em>lookup_flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L705"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.open_stream" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -540,7 +545,7 @@ returns a <a class="reference internal" href="InputStream.html#Gio.InputStream" 
 
 <dl class="method">
 <dt id="Gio.Resource.ref">
-<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L470"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.ref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L470"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.ref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -560,7 +565,7 @@ function is MT-safe and may be called from any thread.</p>
 
 <dl class="method">
 <dt id="Gio.Resource.unref">
-<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gio/gresource.c#L488"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.unref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gio/gresource.c#L488"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.Resource.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Atomically decrements the reference count of <cite>self</cite> by one. If the
 reference count drops to 0, all memory allocated by the resource is
 released. This function is MT-safe and may be called from any

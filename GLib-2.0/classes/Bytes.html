@@ -260,7 +260,7 @@ a mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" tit
 </div>
 <dl class="classmethod">
 <dt id="GLib.Bytes.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L93"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L94"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -282,7 +282,7 @@ a mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" tit
 
 <dl class="classmethod">
 <dt id="GLib.Bytes.new_take">
-<em class="property">classmethod </em><code class="descname">new_take</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L125"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new_take" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_take</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L126"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new_take" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -311,22 +311,28 @@ g_bytes_new_with_free_func().</p>
 
 <dl class="method">
 <dt id="GLib.Bytes.compare">
-<code class="descname">compare</code><span class="sig-paren">(</span><em>bytes2</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L414"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.compare" title="Permalink to this definition">¶</a></dt>
+<code class="descname">compare</code><span class="sig-paren">(</span><em>bytes2</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L423"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.compare" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bytes2</strong> (<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a pointer to a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> to compare with <cite>self</cite></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a negative value if bytes2 is lesser, a positive value if bytes2 is
-greater, and zero if bytes2 is equal to bytes1</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a negative value if <cite>self</cite> is less than <cite>bytes2</cite>, a positive value
+if <cite>self</cite> is greater than <cite>bytes2</cite>, and zero if <cite>self</cite> is equal to
+<cite>bytes2</cite></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
 <p>Compares the two <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> values.</p>
-<p>This function can be used to sort <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> instances in lexographical order.</p>
+<p>This function can be used to sort <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> instances in lexicographical order.</p>
+<p>If <cite>self</cite> and <cite>bytes2</cite> have different length but the shorter one is a
+prefix of the longer one then the shorter one is considered to be less than
+the longer one. Otherwise the first byte where both differ is used for
+comparison. If <cite>self</cite> has a smaller value at that position it is
+considered less, otherwise greater than <cite>bytes2</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.32.</span></p>
 </div>
@@ -334,7 +340,7 @@ greater, and zero if bytes2 is equal to bytes1</td>
 
 <dl class="method">
 <dt id="GLib.Bytes.equal">
-<code class="descname">equal</code><span class="sig-paren">(</span><em>bytes2</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L358"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.equal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">equal</code><span class="sig-paren">(</span><em>bytes2</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L359"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.equal" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -358,7 +364,7 @@ parameter, when using non-<a class="reference external" href="http://docs.python
 
 <dl class="method">
 <dt id="GLib.Bytes.get_data">
-<code class="descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L270"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L271"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -381,7 +387,7 @@ not be returned if <cite>size</cite> is non-zero.</p>
 
 <dl class="method">
 <dt id="GLib.Bytes.get_size">
-<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L291"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.get_size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L292"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.get_size" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -401,7 +407,7 @@ not be returned if <cite>size</cite> is non-zero.</p>
 
 <dl class="method">
 <dt id="GLib.Bytes.hash">
-<code class="descname">hash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L384"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.hash" title="Permalink to this definition">¶</a></dt>
+<code class="descname">hash</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L385"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.hash" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -422,7 +428,7 @@ parameter, when using non-<a class="reference external" href="http://docs.python
 
 <dl class="method">
 <dt id="GLib.Bytes.new_from_bytes">
-<code class="descname">new_from_bytes</code><span class="sig-paren">(</span><em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L220"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new_from_bytes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">new_from_bytes</code><span class="sig-paren">(</span><em>offset</em>, <em>length</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L221"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.new_from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -457,7 +463,7 @@ usage of <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><co
 
 <dl class="method">
 <dt id="GLib.Bytes.ref">
-<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L309"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.ref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L310"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.ref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -476,7 +482,7 @@ usage of <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><co
 
 <dl class="method">
 <dt id="GLib.Bytes.unref">
-<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L328"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L329"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Releases a reference on <cite>self</cite>.  This may result in the bytes being
 freed. If <cite>self</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, it will return immediately.</p>
 <div class="versionadded">
@@ -486,7 +492,7 @@ freed. If <cite>self</cite> is <a class="reference external" href="http://docs.p
 
 <dl class="method">
 <dt id="GLib.Bytes.unref_to_array">
-<code class="descname">unref_to_array</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L518"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref_to_array" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref_to_array</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L527"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref_to_array" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -510,7 +516,7 @@ other cases the data is copied.</p>
 
 <dl class="method">
 <dt id="GLib.Bytes.unref_to_data">
-<code class="descname">unref_to_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/glib/gbytes.c#L474"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref_to_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref_to_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/glib/gbytes.c#L483"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Bytes.unref_to_data" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

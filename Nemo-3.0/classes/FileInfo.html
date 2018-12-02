@@ -722,7 +722,15 @@ or <a class="reference external" href="http://docs.python.org/3/library/constant
 <dl class="method">
 <dt id="Nemo.FileInfo.invalidate_extension_info">
 <code class="descname">invalidate_extension_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Nemo.FileInfo.invalidate_extension_info" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Notifies nemo to re-run info provider extensions on the given file.</p>
+<p>This is useful if you have an extension that listens or responds to some external
+interface for changes to local file metadata (such as a cloud drive changing file emblems.)</p>
+<p>When a change such as this occurs, call this on the file in question, and nemo will
+schedule a call to extension-&gt;update_file_info to update its own internal metadata.</p>
+<p>NOTE: This does *not* need to be called on the tail end of a update_full/update_complete
+asynchronous extension.  Prior to Nemo 3.6 this was indeed the case, however, due to a
+recursion issue in nemo-directory-async.c (see nemo 9e67417f8f09.)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Nemo.FileInfo.is_directory">
@@ -980,7 +988,15 @@ or <a class="reference external" href="http://docs.python.org/3/library/constant
 <dl class="method">
 <dt id="Nemo.FileInfo.do_invalidate_extension_info">
 <code class="descname">do_invalidate_extension_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"> virtual</em><a class="headerlink" href="#Nemo.FileInfo.do_invalidate_extension_info" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Notifies nemo to re-run info provider extensions on the given file.</p>
+<p>This is useful if you have an extension that listens or responds to some external
+interface for changes to local file metadata (such as a cloud drive changing file emblems.)</p>
+<p>When a change such as this occurs, call this on the file in question, and nemo will
+schedule a call to extension-&gt;update_file_info to update its own internal metadata.</p>
+<p>NOTE: This does *not* need to be called on the tail end of a update_full/update_complete
+asynchronous extension.  Prior to Nemo 3.6 this was indeed the case, however, due to a
+recursion issue in nemo-directory-async.c (see nemo 9e67417f8f09.)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Nemo.FileInfo.do_is_directory">

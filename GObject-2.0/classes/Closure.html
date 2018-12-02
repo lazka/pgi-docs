@@ -313,7 +313,9 @@ converts between <a class="reference internal" href="Value.html#GObject.Value" t
 library provides the <a class="reference internal" href="CClosure.html#GObject.CClosure" title="GObject.CClosure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.CClosure</span></code></a> type for this purpose. Bindings for
 other languages need marshallers which convert between <a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Values</span></code></a>
 and suitable representations in the runtime of the language in
-order to use functions written in that languages as callbacks.</p>
+order to use functions written in that language as callbacks. Use
+g_closure_set_marshal() to set the marshaller on such a custom
+closure implementation.</p>
 <p>Within <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, closures play an important role in the
 implementation of signals. When a signal is registered, the
 <cite>c_marshaller</cite> argument to <a class="reference internal" href="../functions.html#GObject.signal_new" title="GObject.signal_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.signal_new</span></code></a>() specifies the default C
@@ -340,7 +342,7 @@ automatically removed when the objects they point to go away.</li>
 </ul>
 <dl class="classmethod">
 <dt id="GObject.Closure.new_object">
-<em class="property">classmethod </em><code class="descname">new_object</code><span class="sig-paren">(</span><em>sizeof_closure</em>, <em>object</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gobject.c#L4171"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.new_object" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_object</code><span class="sig-paren">(</span><em>sizeof_closure</em>, <em>object</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gobject.c#L4177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.new_object" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -369,7 +371,7 @@ when implementing new types of closures.</p>
 
 <dl class="classmethod">
 <dt id="GObject.Closure.new_simple">
-<em class="property">classmethod </em><code class="descname">new_simple</code><span class="sig-paren">(</span><em>sizeof_closure</em>, <em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L191"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.new_simple" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_simple</code><span class="sig-paren">(</span><em>sizeof_closure</em>, <em>data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L193"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.new_simple" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -428,7 +430,7 @@ implementing new types of closures.</p>
 
 <dl class="method">
 <dt id="GObject.Closure.invalidate">
-<code class="descname">invalidate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L572"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.invalidate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">invalidate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L576"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.invalidate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a flag on the closure to indicate that its calling
 environment has become invalid, and thus causes any future
 invocations of <a class="reference internal" href="#GObject.Closure.invoke" title="GObject.Closure.invoke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure.invoke</span></code></a>() on this <cite>self</cite> to be
@@ -445,7 +447,7 @@ been invalidated before).</p>
 
 <dl class="method">
 <dt id="GObject.Closure.invoke">
-<code class="descname">invoke</code><span class="sig-paren">(</span><em>param_values</em>, <em>invocation_hint</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L774"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.invoke" title="Permalink to this definition">¶</a></dt>
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>param_values</em>, <em>invocation_hint</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L780"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.invoke" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -473,7 +475,7 @@ doesn’t return a value.</p>
 
 <dl class="method">
 <dt id="GObject.Closure.ref">
-<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L540"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.ref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L544"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.ref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -490,7 +492,7 @@ alive while the caller holds a pointer to it.</p>
 
 <dl class="method">
 <dt id="GObject.Closure.sink">
-<code class="descname">sink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L679"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.sink" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L685"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.sink" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes over the initial ownership of a closure.  Each closure is
 initially created in a “floating” state, which means that the initial
 reference count is not owned by any caller. <a class="reference internal" href="#GObject.Closure.sink" title="GObject.Closure.sink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure.sink</span></code></a>() checks
@@ -531,7 +533,7 @@ of storing a closure for later notification looks like:</p>
 
 <dl class="method">
 <dt id="GObject.Closure.unref">
-<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.56.1/gobject/gclosure.c#L597"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.unref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.1/gobject/gclosure.c#L601"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GObject.Closure.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrements the reference count of a closure after it was previously
 incremented by the same caller. If no other callers are using the
 closure, then the closure will be destroyed and freed.</p>

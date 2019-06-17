@@ -568,6 +568,10 @@ is <a class="reference external" href="http://docs.python.org/3/library/constant
 When the function is called by JavaScript or <a class="reference internal" href="#JavaScriptCore.Value.function_call" title="JavaScriptCore.Value.function_call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value.function_call</span></code></a>(), <cite>callback</cite> is called
 receiving the function parameters and then <cite>user_data</cite> as last parameter. When the function is
 cleared in <cite>context</cite>, <cite>destroy_notify</cite> is called with <cite>user_data</cite> as parameter.</p>
+<p>Note that the value returned by <cite>callback</cite> must be fully transferred. In case of boxed types, you could use
+<a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_POINTER" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_POINTER</span></code></a> instead of the actual boxed <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> to ensure that the instance owned by <a class="reference internal" href="Class.html#JavaScriptCore.Class" title="JavaScriptCore.Class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Class</span></code></a> is used.
+If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a <a class="reference internal" href="#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> created
+with <a class="reference internal" href="#JavaScriptCore.Value.new_object" title="JavaScriptCore.Value.new_object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value.new_object</span></code></a>() that receives the copy as instance parameter.</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -598,6 +602,10 @@ cleared in <cite>context</cite>, <cite>destroy_notify</cite> is called with <cit
 When the function is called by JavaScript or <a class="reference internal" href="#JavaScriptCore.Value.function_call" title="JavaScriptCore.Value.function_call"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value.function_call</span></code></a>(), <cite>callback</cite> is called
 receiving an <a class="reference external" href="../../GLib-2.0/classes/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PtrArray</span></code></a> of <a class="reference internal" href="#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> s with the arguments and then <cite>user_data</cite> as last parameter.
 When the function is cleared in <cite>context</cite>, <cite>destroy_notify</cite> is called with <cite>user_data</cite> as parameter.</p>
+<p>Note that the value returned by <cite>callback</cite> must be fully transferred. In case of boxed types, you could use
+<a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_POINTER" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_POINTER</span></code></a> instead of the actual boxed <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> to ensure that the instance owned by <a class="reference internal" href="Class.html#JavaScriptCore.Class" title="JavaScriptCore.Class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Class</span></code></a> is used.
+If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a <a class="reference internal" href="#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> created
+with <a class="reference internal" href="#JavaScriptCore.Value.new_object" title="JavaScriptCore.Value.new_object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value.new_object</span></code></a>() that receives the copy as instance parameter.</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -665,7 +673,8 @@ When the function is cleared in <cite>context</cite>, <cite>destroy_notify</cite
 </tbody>
 </table>
 <p>Create a new <a class="reference internal" href="#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> from <cite>instance</cite>. If <cite>instance</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> a new empty object is created.
-When <cite>instance</cite> is provided, <cite>jsc_class</cite> must be provided too.</p>
+When <cite>instance</cite> is provided, <cite>jsc_class</cite> must be provided too. <cite>jsc_class</cite> takes ownership of
+<cite>instance</cite> that will be freed by the <a class="reference external" href="../../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a> passed to <a class="reference internal" href="Context.html#JavaScriptCore.Context.register_class" title="JavaScriptCore.Context.register_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Context.register_class</span></code></a>().</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -959,6 +968,10 @@ property value needs to be getted or set, <cite>getter</cite> and <cite>setter</
 When the property is cleared in the <a class="reference internal" href="Class.html#JavaScriptCore.Class" title="JavaScriptCore.Class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Class</span></code></a> context, <cite>destroy_notify</cite> is called with
 <cite>user_data</cite> as parameter. This is equivalent to JavaScript Object.defineProperty()
 when used with an accessor descriptor.</p>
+<p>Note that the value returned by <cite>getter</cite> must be fully transferred. In case of boxed types, you could use
+<a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_POINTER" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_POINTER</span></code></a> instead of the actual boxed <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> to ensure that the instance owned by <a class="reference internal" href="Class.html#JavaScriptCore.Class" title="JavaScriptCore.Class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Class</span></code></a> is used.
+If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a <a class="reference internal" href="#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> created
+with <a class="reference internal" href="#JavaScriptCore.Value.new_object" title="JavaScriptCore.Value.new_object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value.new_object</span></code></a>() that receives the copy as instance parameter.</p>
 </dd></dl>
 
 <dl class="method">

@@ -2945,14 +2945,16 @@ decide_policy_cb (WebKitWebView *web_view,
                   WebKitPolicyDecisionType type)
 {
     switch (type) {
-    case WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION:
+    case WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION: {
         WebKitNavigationPolicyDecision *navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
         /* Make a policy decision here. */
         break;
-    case WEBKIT_POLICY_DECISION_TYPE_NEW_WINDOW_ACTION:
+    }
+    case WEBKIT_POLICY_DECISION_TYPE_NEW_WINDOW_ACTION: {
         WebKitNavigationPolicyDecision *navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
         /* Make a policy decision here. */
         break;
+    }
     case WEBKIT_POLICY_DECISION_TYPE_RESPONSE:
         WebKitResponsePolicyDecision *response = WEBKIT_RESPONSE_POLICY_DECISION (decision);
         /* Make a policy decision here. */
@@ -3549,6 +3551,11 @@ on the dialog type:</p>
 a text entry with the default text.</li>
 <li><a class="reference internal" href="../enums.html#WebKit2.ScriptDialogType.BEFORE_UNLOAD_CONFIRM" title="WebKit2.ScriptDialogType.BEFORE_UNLOAD_CONFIRM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.ScriptDialogType.BEFORE_UNLOAD_CONFIRM</span></code></a>: message dialog with Stay and Leave buttons.</li>
 </ul>
+<p>It is possible to handle the script dialog request asynchronously, by simply
+caling <a class="reference internal" href="ScriptDialog.html#WebKit2.ScriptDialog.ref" title="WebKit2.ScriptDialog.ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.ScriptDialog.ref</span></code></a>() on the <cite>dialog</cite> argument and calling
+<a class="reference internal" href="ScriptDialog.html#WebKit2.ScriptDialog.close" title="WebKit2.ScriptDialog.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.ScriptDialog.close</span></code></a>() when done.
+If the last reference is removed on a <a class="reference internal" href="ScriptDialog.html#WebKit2.ScriptDialog" title="WebKit2.ScriptDialog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.ScriptDialog</span></code></a> and the dialog has not been
+closed, <a class="reference internal" href="ScriptDialog.html#WebKit2.ScriptDialog.close" title="WebKit2.ScriptDialog.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.ScriptDialog.close</span></code></a>() will be called.</p>
 </dd></dl>
 
 <dl class="function">

@@ -979,7 +979,7 @@ list.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the <a class="reference internal" href="#NM.SettingWirelessSecurity" title="NM.SettingWirelessSecurity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurity</span></code></a> <a class="reference internal" href="#NM.SettingWirelessSecurity.props.wps_method" title="NM.SettingWirelessSecurity.props.wps_method"><code class="xref py py-data docutils literal notranslate"><span class="pre">:wps-method</span></code></a> property of the setting</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../enums.html#NM.SettingWirelessSecurityWpsMethod" title="NM.SettingWirelessSecurityWpsMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurityWpsMethod</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../flags.html#NM.SettingWirelessSecurityWpsMethod" title="NM.SettingWirelessSecurityWpsMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurityWpsMethod</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1047,7 +1047,7 @@ algorithm list.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pairwise</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the encryption algorithm to remove, one of “tkip” or “ccmp”</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the encryption algorith was found and removed; <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if it was not.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the encryption algorithm was found and removed; <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if it was not.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
@@ -1210,8 +1210,8 @@ list element may be one of “wep40”, “wep104”, “tkip”, or “ccmp”.
 </table>
 <p>Key management used for the connection.  One of “none” (WEP), “ieee8021x”
 (Dynamic WEP), “wpa-none” (Ad-Hoc WPA-PSK), “wpa-psk” (infrastructure
-WPA-PSK), or “wpa-eap” (WPA-Enterprise).  This property must be set for
-any Wi-Fi connection that uses security.</p>
+WPA-PSK), “sae” (SAE) or “wpa-eap” (WPA-Enterprise).
+This property must be set for any Wi-Fi connection that uses security.</p>
 </dd></dl>
 
 <dl class="data">
@@ -1369,12 +1369,11 @@ not specified, both WPA and RSN connections are allowed.</p>
 </tr>
 </tbody>
 </table>
-<p>Pre-Shared-Key for WPA networks.  If the key is 64-characters long, it
-must contain only hexadecimal characters and is interpreted as a
-hexadecimal WPA key.  Otherwise, the key must be between 8 and 63 ASCII
-characters (as specified in the 802.11i standard) and is interpreted as a
-WPA passphrase, and is hashed to derive the actual WPA-PSK used when
-connecting to the Wi-Fi network.</p>
+<p>Pre-Shared-Key for WPA networks. For WPA-PSK, it’s either an ASCII
+passphrase of 8 to 63 characters that is (as specified in the 802.11i
+standard) hashed to derive the actual key, or the key in form of 64
+hexadecimal character. The WPA3-Personal networks use a passphrase
+of any length for SAE authentication.</p>
 </dd></dl>
 
 <dl class="data">

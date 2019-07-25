@@ -191,6 +191,7 @@
 <li><a class="reference internal" href="#NM.Metered" title="NM.Metered"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.Metered</span></code></a></li>
 <li><a class="reference internal" href="#NM.RollbackResult" title="NM.RollbackResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.RollbackResult</span></code></a></li>
 <li><a class="reference internal" href="#NM.SecretAgentError" title="NM.SecretAgentError"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SecretAgentError</span></code></a></li>
+<li><a class="reference internal" href="#NM.Setting8021xAuthFlags" title="NM.Setting8021xAuthFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.Setting8021xAuthFlags</span></code></a></li>
 <li><a class="reference internal" href="#NM.Setting8021xCKFormat" title="NM.Setting8021xCKFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.Setting8021xCKFormat</span></code></a></li>
 <li><a class="reference internal" href="#NM.Setting8021xCKScheme" title="NM.Setting8021xCKScheme"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.Setting8021xCKScheme</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingCompareFlags" title="NM.SettingCompareFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingCompareFlags</span></code></a></li>
@@ -211,7 +212,6 @@
 <li><a class="reference internal" href="#NM.SettingWirelessPowersave" title="NM.SettingWirelessPowersave"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingWirelessPowersave</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingWirelessSecurityFils" title="NM.SettingWirelessSecurityFils"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurityFils</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingWirelessSecurityPmf" title="NM.SettingWirelessSecurityPmf"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurityPmf</span></code></a></li>
-<li><a class="reference internal" href="#NM.SettingWirelessSecurityWpsMethod" title="NM.SettingWirelessSecurityWpsMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingWirelessSecurityWpsMethod</span></code></a></li>
 <li><a class="reference internal" href="#NM.SettingsError" title="NM.SettingsError"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SettingsError</span></code></a></li>
 <li><a class="reference internal" href="#NM.SriovVFVlanProtocol" title="NM.SriovVFVlanProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.SriovVFVlanProtocol</span></code></a></li>
 <li><a class="reference internal" href="#NM.State" title="NM.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">NM.State</span></code></a></li>
@@ -581,8 +581,14 @@ connectivity check can be enabled or disabled</p>
 
 <dl class="attribute">
 <dt id="NM.ClientPermission.LAST">
-<code class="descname">LAST</code><em class="property"> = 16</em><a class="headerlink" href="#NM.ClientPermission.LAST" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LAST</code><em class="property"> = 17</em><a class="headerlink" href="#NM.ClientPermission.LAST" title="Permalink to this definition">¶</a></dt>
 <dd><p>a reserved boundary value</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.ClientPermission.WIFI_SCAN">
+<code class="descname">WIFI_SCAN</code><em class="property"> = 17</em><a class="headerlink" href="#NM.ClientPermission.WIFI_SCAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>controls whether wifi scans can be performed</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -836,7 +842,7 @@ shell should use this state to indicate the network connection is unavailable.</
 <dd><p>The Internet connection is hijacked by a captive
 portal gateway. The graphical shell may open a sandboxed web browser window
 (because the captive portals typically attempt a man-in-the-middle attacks
-agains the https connections) for the purpose of authenticating to a gateway
+against the https connections) for the purpose of authenticating to a gateway
 and retrigger the connectivity check with CheckConnectivity() when the
 browser window is dismissed.</p>
 </dd></dl>
@@ -947,6 +953,15 @@ returned from D-Bus operations (where they correspond to errors in the
 <dt id="NM.DeviceError.CREATIONFAILED">
 <code class="descname">CREATIONFAILED</code><em class="property"> = 1</em><a class="headerlink" href="#NM.DeviceError.CREATIONFAILED" title="Permalink to this definition">¶</a></dt>
 <dd><p>NetworkManager failed to create the device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.DeviceError.INVALIDARGUMENT">
+<code class="descname">INVALIDARGUMENT</code><em class="property"> = 10</em><a class="headerlink" href="#NM.DeviceError.INVALIDARGUMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>invalid argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.16.</span></p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -1073,7 +1088,7 @@ to the requested network.</p>
 <dt id="NM.DeviceState.CONFIG">
 <code class="descname">CONFIG</code><em class="property"> = 50</em><a class="headerlink" href="#NM.DeviceState.CONFIG" title="Permalink to this definition">¶</a></dt>
 <dd><p>the device is connecting to the requested network.
-This may include operations like associating with the WiFi AP, dialing
+This may include operations like associating with the Wi-Fi AP, dialing
 the modem, connecting to the remote Bluetooth device, etc.</p>
 </dd></dl>
 
@@ -1413,7 +1428,7 @@ activated</p>
 <dl class="attribute">
 <dt id="NM.DeviceStateReason.SSID_NOT_FOUND">
 <code class="descname">SSID_NOT_FOUND</code><em class="property"> = 53</em><a class="headerlink" href="#NM.DeviceStateReason.SSID_NOT_FOUND" title="Permalink to this definition">¶</a></dt>
-<dd><p>The WiFi network could not be found</p>
+<dd><p>The Wi-Fi network could not be found</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1498,6 +1513,12 @@ activated</p>
 <dt id="NM.DeviceStateReason.SRIOV_CONFIGURATION_FAILED">
 <code class="descname">SRIOV_CONFIGURATION_FAILED</code><em class="property"> = 66</em><a class="headerlink" href="#NM.DeviceStateReason.SRIOV_CONFIGURATION_FAILED" title="Permalink to this definition">¶</a></dt>
 <dd><p>configuration of SR-IOV parameters failed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.DeviceStateReason.PEER_NOT_FOUND">
+<code class="descname">PEER_NOT_FOUND</code><em class="property"> = 67</em><a class="headerlink" href="#NM.DeviceStateReason.PEER_NOT_FOUND" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Wi-Fi P2P peer could not be found</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1601,7 +1622,7 @@ device object.</p>
 <dl class="attribute">
 <dt id="NM.DeviceType.WIFI">
 <code class="descname">WIFI</code><em class="property"> = 2</em><a class="headerlink" href="#NM.DeviceType.WIFI" title="Permalink to this definition">¶</a></dt>
-<dd><p>an 802.11 WiFi device</p>
+<dd><p>an 802.11 Wi-Fi device</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1673,6 +1694,12 @@ device object.</p>
 <dt id="NM.DeviceType.UNUSED1">
 <code class="descname">UNUSED1</code><em class="property"> = 3</em><a class="headerlink" href="#NM.DeviceType.UNUSED1" title="Permalink to this definition">¶</a></dt>
 <dd><p>not used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.DeviceType.WIFI_P2P">
+<code class="descname">WIFI_P2P</code><em class="property"> = 30</em><a class="headerlink" href="#NM.DeviceType.WIFI_P2P" title="Permalink to this definition">¶</a></dt>
+<dd><p>an 802.11 Wi-Fi P2P device (Since: 1.16)</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -2050,6 +2077,47 @@ connection</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="NM.Setting8021xAuthFlags">
+<em class="property">class </em><code class="descclassname">NM.</code><code class="descname">Setting8021xAuthFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.Setting8021xAuthFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GEnum</span></code></a></p>
+<p><a class="reference internal" href="#NM.Setting8021xAuthFlags" title="NM.Setting8021xAuthFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Setting8021xAuthFlags</span></code></a> values indicate which authentication settings
+should be used.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.8.</span></p>
+</div>
+<dl class="attribute">
+<dt id="NM.Setting8021xAuthFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#NM.Setting8021xAuthFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No flags</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.Setting8021xAuthFlags.TLS_1_0_DISABLE">
+<code class="descname">TLS_1_0_DISABLE</code><em class="property"> = 1</em><a class="headerlink" href="#NM.Setting8021xAuthFlags.TLS_1_0_DISABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable TLSv1.0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.Setting8021xAuthFlags.TLS_1_1_DISABLE">
+<code class="descname">TLS_1_1_DISABLE</code><em class="property"> = 2</em><a class="headerlink" href="#NM.Setting8021xAuthFlags.TLS_1_1_DISABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable TLSv1.1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.Setting8021xAuthFlags.TLS_1_2_DISABLE">
+<code class="descname">TLS_1_2_DISABLE</code><em class="property"> = 4</em><a class="headerlink" href="#NM.Setting8021xAuthFlags.TLS_1_2_DISABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable TLSv1.2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="NM.Setting8021xAuthFlags.ALL">
+<code class="descname">ALL</code><em class="property"> = 7</em><a class="headerlink" href="#NM.Setting8021xAuthFlags.ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>All supported flags</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="NM.Setting8021xCKFormat">
 <em class="property">class </em><code class="descclassname">NM.</code><code class="descname">Setting8021xCKFormat</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.Setting8021xCKFormat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GEnum</span></code></a></p>
@@ -2354,7 +2422,7 @@ if you specify <a class="reference internal" href="#NM.SettingCompareFlags.DIFF_
 
 <dl class="attribute">
 <dt id="NM.SettingDiffResult.IN_B_DEFAULT">
-<code class="descname">IN_B_DEFAULT</code><em class="property"> = 4</em><a class="headerlink" href="#NM.SettingDiffResult.IN_B_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">IN_B_DEFAULT</code><em class="property"> = 8</em><a class="headerlink" href="#NM.SettingDiffResult.IN_B_DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd><p>analog to <a class="reference internal" href="#NM.SettingDiffResult.IN_A_DEFAULT" title="NM.SettingDiffResult.IN_A_DEFAULT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingDiffResult.IN_A_DEFAULT</span></code></a>.</p>
 </dd></dl>
 
@@ -2707,46 +2775,6 @@ verify frames are dropped</p>
 <dt id="NM.SettingWirelessSecurityPmf.REQUIRED">
 <code class="descname">REQUIRED</code><em class="property"> = 3</em><a class="headerlink" href="#NM.SettingWirelessSecurityPmf.REQUIRED" title="Permalink to this definition">¶</a></dt>
 <dd><p>require PMF and fail if not available</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="NM.SettingWirelessSecurityWpsMethod">
-<em class="property">class </em><code class="descclassname">NM.</code><code class="descname">SettingWirelessSecurityWpsMethod</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GEnum</span></code></a></p>
-<p>Configure the use of WPS by a connection while it activates.</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 1.10.</span></p>
-</div>
-<dl class="attribute">
-<dt id="NM.SettingWirelessSecurityWpsMethod.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod.DEFAULT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempt whichever method AP supports</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="NM.SettingWirelessSecurityWpsMethod.DISABLED">
-<code class="descname">DISABLED</code><em class="property"> = 1</em><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod.DISABLED" title="Permalink to this definition">¶</a></dt>
-<dd><p>WPS can not be used.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="NM.SettingWirelessSecurityWpsMethod.AUTO">
-<code class="descname">AUTO</code><em class="property"> = 2</em><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod.AUTO" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use WPS, any method</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="NM.SettingWirelessSecurityWpsMethod.PBC">
-<code class="descname">PBC</code><em class="property"> = 4</em><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod.PBC" title="Permalink to this definition">¶</a></dt>
-<dd><p>use WPS push-buthon method</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="NM.SettingWirelessSecurityWpsMethod.PIN">
-<code class="descname">PIN</code><em class="property"> = 8</em><a class="headerlink" href="#NM.SettingWirelessSecurityWpsMethod.PIN" title="Permalink to this definition">¶</a></dt>
-<dd><p>use PIN method</p>
 </dd></dl>
 
 </dd></dl>
@@ -3365,9 +3393,9 @@ the VPN plugin.</p>
 <em class="property">class </em><code class="descclassname">NM.</code><code class="descname">WepKeyType</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.WepKeyType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GEnum</span></code></a></p>
 <p>The <a class="reference internal" href="#NM.WepKeyType" title="NM.WepKeyType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.WepKeyType</span></code></a> values specify how any WEP keys present in the setting
-are intepreted.  There are no standards governing how to hash the various WEP
+are interpreted.  There are no standards governing how to hash the various WEP
 key/passphrase formats into the actual WEP key.  Unfortunately some WEP keys
-can be interpreted in multiple ways, requring the setting to specify how to
+can be interpreted in multiple ways, requiring the setting to specify how to
 interpret the any WEP keys.  For example, the key “732f2d712e4a394a375d366931”
 is both a valid Hexadecimal WEP key and a WEP passphrase.  Further, many
 ASCII keys are also valid WEP passphrases, but since passphrases and ASCII

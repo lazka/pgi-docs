@@ -316,6 +316,12 @@
 <td><a class="reference internal" href="#NM.Client.activate_connection_finish" title="NM.Client.activate_connection_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">activate_connection_finish</span></code></a> (result)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#NM.Client.add_and_activate_connection2" title="NM.Client.add_and_activate_connection2"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_and_activate_connection2</span></code></a> (partial, device, specific_object, options, cancellable, callback, *user_data)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#NM.Client.add_and_activate_connection2_finish" title="NM.Client.add_and_activate_connection2_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_and_activate_connection2_finish</span></code></a> (result, out_result)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#NM.Client.add_and_activate_connection_async" title="NM.Client.add_and_activate_connection_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_and_activate_connection_async</span></code></a> (partial, device, specific_object, cancellable, callback, *user_data)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
@@ -931,6 +937,92 @@ failure, in which case <cite>error</cite> will be set.</td>
 </tbody>
 </table>
 <p>Gets the result of a call to <a class="reference internal" href="#NM.Client.activate_connection_async" title="NM.Client.activate_connection_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Client.activate_connection_async</span></code></a>().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="NM.Client.add_and_activate_connection2">
+<code class="descname">add_and_activate_connection2</code><span class="sig-paren">(</span><em>partial</em>, <em>device</em>, <em>specific_object</em>, <em>options</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.Client.add_and_activate_connection2" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>partial</strong> (<a class="reference internal" href="Connection.html#NM.Connection" title="NM.Connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Connection</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an <a class="reference internal" href="Connection.html#NM.Connection" title="NM.Connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Connection</span></code></a> to add; the connection may be
+partially filled (or even <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) and will be completed by NetworkManager
+using the given <cite>device</cite> and <cite>specific_object</cite> before being added</li>
+<li><strong>device</strong> (<a class="reference internal" href="Device.html#NM.Device" title="NM.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Device</span></code></a>) – the <a class="reference internal" href="Device.html#NM.Device" title="NM.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Device</span></code></a></li>
+<li><strong>specific_object</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the object path of a connection-type-specific
+object this activation should use. This parameter is currently ignored for
+wired and mobile broadband connections, and the value of <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> should be used
+(ie, no specific object).  For Wi-Fi or WiMAX connections, pass the object
+path of a <a class="reference internal" href="AccessPoint.html#NM.AccessPoint" title="NM.AccessPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.AccessPoint</span></code></a> or <a class="reference internal" href="WimaxNsp.html#NM.WimaxNsp" title="NM.WimaxNsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.WimaxNsp</span></code></a> owned by <cite>device</cite>, which you can
+get using <a class="reference internal" href="Object.html#NM.Object.get_path" title="NM.Object.get_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Object.get_path</span></code></a>(), and which will be used to complete the
+details of the newly added connection.</li>
+<li><strong>options</strong> (<a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> containing a dictionary with options, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></li>
+<li><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – callback to be called when the activation has started</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – caller-specific data passed to <cite>callback</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a new connection using the given details (if any) as a template,
+automatically filling in missing settings with the capabilities of the given
+device and specific object.  The new connection is then asynchronously
+activated as with <a class="reference internal" href="#NM.Client.activate_connection_async" title="NM.Client.activate_connection_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Client.activate_connection_async</span></code></a>(). Cannot be used for
+VPN connections at this time.</p>
+<p>Note that the callback is invoked when NetworkManager has started activating
+the new connection, not when it finishes. You can used the returned
+<a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection" title="NM.ActiveConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection</span></code></a> object (in particular, <a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection" title="NM.ActiveConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection</span></code></a> <a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection.props.state" title="NM.ActiveConnection.props.state"><code class="xref py py-data docutils literal notranslate"><span class="pre">:state</span></code></a>) to
+track the activation to its completion.</p>
+<p>This is identitcal to <a class="reference internal" href="#NM.Client.add_and_activate_connection_async" title="NM.Client.add_and_activate_connection_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Client.add_and_activate_connection_async</span></code></a>() but takes
+a further <cite>options</cite> parameter. Currently the following options are supported
+by the daemon:</p>
+<ul class="simple">
+<li>“persist”: A string describing how the connection should be stored.
+The default is “disk”, but it can be modified to “memory” (until
+the daemon quits) or “volatile” (will be deleted on disconnect).</li>
+<li>“bind-activation”: Bind the connection lifetime to something. The default is “none”,
+meaning an explicit disconnect is needed. The value “dbus-client”
+means the connection will automatically be deactivated when the calling
+DBus client disappears from the system bus.</li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.16.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="NM.Client.add_and_activate_connection2_finish">
+<code class="descname">add_and_activate_connection2_finish</code><span class="sig-paren">(</span><em>result</em>, <em>out_result</em><span class="sig-paren">)</span><a class="headerlink" href="#NM.Client.add_and_activate_connection2_finish" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the result passed to the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a></li>
+<li><strong>out_result</strong> (<a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the output result
+of type “a{sv}” returned by D-Bus’ AddAndActivate2 call. Currently no
+output is implemented yet.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the new <a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection" title="NM.ActiveConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection</span></code></a> on success, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on
+failure, in which case <cite>error</cite> will be set.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection" title="NM.ActiveConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Gets the result of a call to <a class="reference internal" href="#NM.Client.add_and_activate_connection2" title="NM.Client.add_and_activate_connection2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Client.add_and_activate_connection2</span></code></a>().</p>
+<p>You can call <a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection.get_connection" title="NM.ActiveConnection.get_connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection.get_connection</span></code></a>() on the returned
+<a class="reference internal" href="ActiveConnection.html#NM.ActiveConnection" title="NM.ActiveConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ActiveConnection</span></code></a> to find the path of the created <a class="reference internal" href="Connection.html#NM.Connection" title="NM.Connection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Connection</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -2867,13 +2959,8 @@ permission to read the details of.)</p>
 </tr>
 </tbody>
 </table>
-<p>The current DNS configuration represented as an array of
-dictionaries.  Each dictionary has the “nameservers”,
-“priority” keys and, optionally, “interface” and “vpn”.
-“nameservers” is the list of DNS servers, “priority” their
-relative priority, “interface” the interface on which these
-servers are contacted, “vpn” a boolean telling whether the
-configuration was obtained from a VPN connection.</p>
+<p>The current DNS configuration, represented as an array
+of <a class="reference internal" href="DnsEntry.html#NM.DnsEntry" title="NM.DnsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.DnsEntry</span></code></a> objects.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.6.</span></p>
 </div>

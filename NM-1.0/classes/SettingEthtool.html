@@ -270,6 +270,9 @@
 <td><a class="reference internal" href="#NM.SettingEthtool.get_feature" title="NM.SettingEthtool.get_feature"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_feature</span></code></a> (optname)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#NM.SettingEthtool.get_optnames" title="NM.SettingEthtool.get_optnames"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_optnames</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#NM.SettingEthtool.set_feature" title="NM.SettingEthtool.set_feature"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_feature</span></code></a> (optname, value)</td>
 </tr>
 </tbody>
@@ -281,7 +284,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference internal" href="Setting.html#nm-setting-vfuncs"><span class="std std-ref">NM.Setting (6)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-vfuncs" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (7)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference internal" href="Setting.html#nm-setting-vfuncs"><span class="std std-ref">NM.Setting (7)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-vfuncs" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (7)</span></a></td>
 </tr>
 </tbody>
 </table>
@@ -386,8 +389,41 @@ is enabled, disabled, or left untouched.</td>
 </table>
 <p>Gets and offload feature setting. Returns <a class="reference internal" href="../enums.html#NM.Ternary.DEFAULT" title="NM.Ternary.DEFAULT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Ternary.DEFAULT</span></code></a> if the
 feature is not set.</p>
+<p>Note that <cite>optname</cite> must be a valid name for a feature, according to
+<a class="reference internal" href="../functions.html#NM.ethtool_optname_is_feature" title="NM.ethtool_optname_is_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ethtool_optname_is_feature</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="NM.SettingEthtool.get_optnames">
+<code class="descname">get_optnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NM.SettingEthtool.get_optnames" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of set option
+names or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no options are set. The option names are still owned by
+<cite>self</cite> and may get invalidated when <cite>self</cite> gets modified.<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">out_length:</th><td class="field-body">return location for the number of keys returned, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">([<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>], <strong>out_length</strong>: <a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</td>
+</tr>
+</tbody>
+</table>
+<p>This returns all options names that are set. This includes the feature names
+like <a class="reference internal" href="../constants.html#NM.ETHTOOL_OPTNAME_FEATURE_GRO" title="NM.ETHTOOL_OPTNAME_FEATURE_GRO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ETHTOOL_OPTNAME_FEATURE_GRO</span></code></a>. See <a class="reference internal" href="../functions.html#NM.ethtool_optname_is_feature" title="NM.ethtool_optname_is_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ethtool_optname_is_feature</span></code></a>() to
+check whether the option name is valid for offload features.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.20.</span></p>
 </div>
 </dd></dl>
 
@@ -408,6 +444,8 @@ means to clear the offload feature setting.</li>
 </tbody>
 </table>
 <p>Sets and offload feature setting.</p>
+<p>Note that <cite>optname</cite> must be a valid name for a feature, according to
+<a class="reference internal" href="../functions.html#NM.ethtool_optname_is_feature" title="NM.ethtool_optname_is_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.ethtool_optname_is_feature</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.14.</span></p>
 </div>

@@ -500,6 +500,12 @@
 <td><a class="reference internal" href="#Ggit.Repository.lookup_tree" title="Ggit.Repository.lookup_tree"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_tree</span></code></a> (oid)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Ggit.Repository.merge" title="Ggit.Repository.merge"><code class="xref py py-func docutils literal notranslate"><span class="pre">merge</span></code></a> (their_heads, merge_opts, checkout_opts)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Ggit.Repository.merge_base" title="Ggit.Repository.merge_base"><code class="xref py py-func docutils literal notranslate"><span class="pre">merge_base</span></code></a> (oid_one, oid_two)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Ggit.Repository.merge_commits" title="Ggit.Repository.merge_commits"><code class="xref py py-func docutils literal notranslate"><span class="pre">merge_commits</span></code></a> (our_commit, their_commit, merge_options)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
@@ -2301,6 +2307,57 @@ does not exist, <a class="reference external" href="http://docs.python.org/3/lib
 </tbody>
 </table>
 <p>Lookups a branch by its name in a repository.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Ggit.Repository.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>their_heads</em>, <em>merge_opts</em>, <em>checkout_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#Ggit.Repository.merge" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>their_heads</strong> ([<a class="reference internal" href="AnnotatedCommit.html#Ggit.AnnotatedCommit" title="Ggit.AnnotatedCommit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.AnnotatedCommit</span></code></a>]) – the heads to merge into</li>
+<li><strong>merge_opts</strong> (<a class="reference internal" href="MergeOptions.html#Ggit.MergeOptions" title="Ggit.MergeOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.MergeOptions</span></code></a>) – merge options</li>
+<li><strong>checkout_opts</strong> (<a class="reference internal" href="CheckoutOptions.html#Ggit.CheckoutOptions" title="Ggit.CheckoutOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.CheckoutOptions</span></code></a>) – checkout options</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Merges the given commit(s) into HEAD, writing the results into the working directory.
+Any changes are staged for commit and any conflicts are written to the index.</p>
+<p>Callers should inspect the repository’s index after this completes, resolve any conflicts and prepare a commit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Ggit.Repository.merge_base">
+<code class="descname">merge_base</code><span class="sig-paren">(</span><em>oid_one</em>, <em>oid_two</em><span class="sig-paren">)</span><a class="headerlink" href="#Ggit.Repository.merge_base" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>oid_one</strong> (<a class="reference internal" href="OId.html#Ggit.OId" title="Ggit.OId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.OId</span></code></a>) – the oid of one of the commits.</li>
+<li><strong>oid_two</strong> (<a class="reference internal" href="OId.html#Ggit.OId" title="Ggit.OId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.OId</span></code></a>) – the oid of the second of the commits</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a new <a class="reference internal" href="OId.html#Ggit.OId" title="Ggit.OId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.OId</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an error occurred.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="OId.html#Ggit.OId" title="Ggit.OId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ggit.OId</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Find the merge base between two commits</p>
 </dd></dl>
 
 <dl class="method">

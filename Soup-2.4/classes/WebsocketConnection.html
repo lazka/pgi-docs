@@ -74,7 +74,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Soup 2.4 Python API Docs" href="../index.html"/>
         <link rel="up" title="Classes" href="../classes.html"/>
-        <link rel="next" title="Hierarchy" href="../hierarchy.html"/>
+        <link rel="next" title="Soup.WebsocketExtension" href="WebsocketExtension.html"/>
         <link rel="prev" title="Soup.Socket" href="Socket.html"/> 
 </head>
 
@@ -105,7 +105,7 @@
 
 
 
-<td><a accesskey="n" href="../hierarchy.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="WebsocketExtension.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -154,7 +154,7 @@
 
 
 
-<td><a accesskey="n" href="../hierarchy.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="WebsocketExtension.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -252,17 +252,23 @@
 <tr class="row-odd"><td><em>class</em></td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.new" title="Soup.WebsocketConnection.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new</span></code></a> (stream, uri, type, origin, protocol)</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-even"><td><em>class</em></td>
+<td><a class="reference internal" href="#Soup.WebsocketConnection.new_with_extensions" title="Soup.WebsocketConnection.new_with_extensions"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_with_extensions</span></code></a> (stream, uri, type, origin, protocol, extensions)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.close" title="Soup.WebsocketConnection.close"><code class="xref py py-func docutils literal notranslate"><span class="pre">close</span></code></a> (code, data)</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.get_close_code" title="Soup.WebsocketConnection.get_close_code"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_close_code</span></code></a> ()</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.get_close_data" title="Soup.WebsocketConnection.get_close_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_close_data</span></code></a> ()</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.get_connection_type" title="Soup.WebsocketConnection.get_connection_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_connection_type</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Soup.WebsocketConnection.get_extensions" title="Soup.WebsocketConnection.get_extensions"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_extensions</span></code></a> ()</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.get_io_stream" title="Soup.WebsocketConnection.get_io_stream"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_io_stream</span></code></a> ()</td>
@@ -289,12 +295,15 @@
 <td><a class="reference internal" href="#Soup.WebsocketConnection.send_binary" title="Soup.WebsocketConnection.send_binary"><code class="xref py py-func docutils literal notranslate"><span class="pre">send_binary</span></code></a> (data)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
-<td><a class="reference internal" href="#Soup.WebsocketConnection.send_text" title="Soup.WebsocketConnection.send_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">send_text</span></code></a> (text)</td>
+<td><a class="reference internal" href="#Soup.WebsocketConnection.send_message" title="Soup.WebsocketConnection.send_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">send_message</span></code></a> (type, message)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
-<td><a class="reference internal" href="#Soup.WebsocketConnection.set_keepalive_interval" title="Soup.WebsocketConnection.set_keepalive_interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_keepalive_interval</span></code></a> (interval)</td>
+<td><a class="reference internal" href="#Soup.WebsocketConnection.send_text" title="Soup.WebsocketConnection.send_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">send_text</span></code></a> (text)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Soup.WebsocketConnection.set_keepalive_interval" title="Soup.WebsocketConnection.set_keepalive_interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_keepalive_interval</span></code></a> (interval)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Soup.WebsocketConnection.set_max_incoming_payload_size" title="Soup.WebsocketConnection.set_max_incoming_payload_size"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_max_incoming_payload_size</span></code></a> (max_incoming_payload_size)</td>
 </tr>
 </tbody>
@@ -356,37 +365,42 @@
 <td>r/w/co</td>
 <td>Connection type (client/server)</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.io_stream" title="Soup.WebsocketConnection.props.io_stream"><code class="xref py py-data docutils literal notranslate"><span class="pre">io-stream</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.extensions" title="Soup.WebsocketConnection.props.extensions"><code class="xref py py-data docutils literal notranslate"><span class="pre">extensions</span></code></a></td>
+<td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+<td>r/w/co</td>
+<td>The list of active extensions</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.io_stream" title="Soup.WebsocketConnection.props.io_stream"><code class="xref py py-data docutils literal notranslate"><span class="pre">io-stream</span></code></a></td>
 <td><a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a></td>
 <td>r/w/co</td>
 <td>Underlying I/O stream</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.keepalive_interval" title="Soup.WebsocketConnection.props.keepalive_interval"><code class="xref py py-data docutils literal notranslate"><span class="pre">keepalive-interval</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.keepalive_interval" title="Soup.WebsocketConnection.props.keepalive_interval"><code class="xref py py-data docutils literal notranslate"><span class="pre">keepalive-interval</span></code></a></td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w/c</td>
 <td>Keepalive interval</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.max_incoming_payload_size" title="Soup.WebsocketConnection.props.max_incoming_payload_size"><code class="xref py py-data docutils literal notranslate"><span class="pre">max-incoming-payload-size</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.max_incoming_payload_size" title="Soup.WebsocketConnection.props.max_incoming_payload_size"><code class="xref py py-data docutils literal notranslate"><span class="pre">max-incoming-payload-size</span></code></a></td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w/c</td>
 <td>Max incoming payload size</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.origin" title="Soup.WebsocketConnection.props.origin"><code class="xref py py-data docutils literal notranslate"><span class="pre">origin</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.origin" title="Soup.WebsocketConnection.props.origin"><code class="xref py py-data docutils literal notranslate"><span class="pre">origin</span></code></a></td>
 <td><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 <td>r/w/co</td>
 <td>The WebSocket origin</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.protocol" title="Soup.WebsocketConnection.props.protocol"><code class="xref py py-data docutils literal notranslate"><span class="pre">protocol</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.protocol" title="Soup.WebsocketConnection.props.protocol"><code class="xref py py-data docutils literal notranslate"><span class="pre">protocol</span></code></a></td>
 <td><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 <td>r/w/co</td>
 <td>The chosen WebSocket protocol</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.state" title="Soup.WebsocketConnection.props.state"><code class="xref py py-data docutils literal notranslate"><span class="pre">state</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.state" title="Soup.WebsocketConnection.props.state"><code class="xref py py-data docutils literal notranslate"><span class="pre">state</span></code></a></td>
 <td><a class="reference internal" href="../enums.html#Soup.WebsocketState" title="Soup.WebsocketState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketState</span></code></a></td>
 <td>r</td>
 <td>State</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.uri" title="Soup.WebsocketConnection.props.uri"><code class="xref py py-data docutils literal notranslate"><span class="pre">uri</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#Soup.WebsocketConnection.props.uri" title="Soup.WebsocketConnection.props.uri"><code class="xref py py-data docutils literal notranslate"><span class="pre">uri</span></code></a></td>
 <td><a class="reference internal" href="URI.html#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a></td>
 <td>r/w/co</td>
 <td>The WebSocket URI</td>
@@ -519,6 +533,39 @@ protocol.</p>
 </div>
 </dd></dl>
 
+<dl class="classmethod">
+<dt id="Soup.WebsocketConnection.new_with_extensions">
+<em class="property">classmethod </em><code class="descname">new_with_extensions</code><span class="sig-paren">(</span><em>stream</em>, <em>uri</em>, <em>type</em>, <em>origin</em>, <em>protocol</em>, <em>extensions</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.WebsocketConnection.new_with_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> connected to the WebSocket server</li>
+<li><strong>uri</strong> (<a class="reference internal" href="URI.html#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a>) – the URI of the connection</li>
+<li><strong>type</strong> (<a class="reference internal" href="../enums.html#Soup.WebsocketConnectionType" title="Soup.WebsocketConnectionType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketConnectionType</span></code></a>) – the type of connection (client/side)</li>
+<li><strong>origin</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the Origin of the client</li>
+<li><strong>protocol</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the subprotocol in use</li>
+<li><strong>extensions</strong> ([<a class="reference internal" href="WebsocketExtension.html#Soup.WebsocketExtension" title="Soup.WebsocketExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketExtension</span></code></a>]) – a <a class="reference external" href="../../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.List</span></code></a> of <a class="reference internal" href="WebsocketExtension.html#Soup.WebsocketExtension" title="Soup.WebsocketExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketExtension</span></code></a> objects</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a new <a class="reference internal" href="#Soup.WebsocketConnection" title="Soup.WebsocketConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketConnection</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#Soup.WebsocketConnection" title="Soup.WebsocketConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketConnection</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Creates a <a class="reference internal" href="#Soup.WebsocketConnection" title="Soup.WebsocketConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketConnection</span></code></a> on <cite>stream</cite> with the given active <cite>extensions</cite>.
+This should be called after completing the handshake to begin using the WebSocket
+protocol.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.68.</span></p>
+</div>
+</dd></dl>
+
 <dl class="method">
 <dt id="Soup.WebsocketConnection.close">
 <code class="descname">close</code><span class="sig-paren">(</span><em>code</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.WebsocketConnection.close" title="Permalink to this definition">¶</a></dt>
@@ -539,6 +586,8 @@ protocol.</p>
 is not yet completely closed. The close message is not even sent until the
 main loop runs.</p>
 <p>The <cite>code</cite> and <cite>data</cite> are sent to the peer along with the close request.
+If <cite>code</cite> is <a class="reference internal" href="../enums.html#Soup.WebsocketCloseCode.NO_STATUS" title="Soup.WebsocketCloseCode.NO_STATUS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketCloseCode.NO_STATUS</span></code></a> a close message with no body
+(without code and data) is sent.
 Note that the <cite>data</cite> must be UTF-8 valid.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.50.</span></p>
@@ -606,6 +655,25 @@ the main loop is run, so copy it if you need to keep it around.</p>
 <p>Get the connection type (client/server) of the connection.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.50.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Soup.WebsocketConnection.get_extensions">
+<code class="descname">get_extensions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Soup.WebsocketConnection.get_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference external" href="../../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.List</span></code></a> of <a class="reference internal" href="WebsocketExtension.html#Soup.WebsocketExtension" title="Soup.WebsocketExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketExtension</span></code></a> objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference internal" href="WebsocketExtension.html#Soup.WebsocketExtension" title="Soup.WebsocketExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketExtension</span></code></a>]</td>
+</tr>
+</tbody>
+</table>
+<p>Get the extensions chosen via negotiation with the peer.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.68.</span></p>
 </div>
 </dd></dl>
 
@@ -751,15 +819,39 @@ for clients it is the address connected to.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – the message contents</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the message contents</td>
 </tr>
 </tbody>
 </table>
-<p>Send a binary message to the peer.</p>
+<p>Send a binary message to the peer. If <cite>length</cite> is 0, <cite>data</cite> may be <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 <p>The message is queued to be sent and will be sent when the main loop
 is run.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.50.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Soup.WebsocketConnection.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>type</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.WebsocketConnection.send_message" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>type</strong> (<a class="reference internal" href="../enums.html#Soup.WebsocketDataType" title="Soup.WebsocketDataType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketDataType</span></code></a>) – the type of message contents</li>
+<li><strong>message</strong> (<a class="reference external" href="../../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – the message data as <a class="reference external" href="../../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Send a message of the given <cite>type</cite> to the peer. Note that this method,
+allows to send text messages containing <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> characters.</p>
+<p>The message is queued to be sent and will be sent when the main loop
+is run.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.68.</span></p>
 </div>
 </dd></dl>
 
@@ -774,7 +866,9 @@ is run.</p>
 </tr>
 </tbody>
 </table>
-<p>Send a text (UTF-8) message to the peer.</p>
+<p>Send a <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated text (UTF-8) message to the peer. If you need
+to send text messages containing <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> characters use
+<a class="reference internal" href="#Soup.WebsocketConnection.send_message" title="Soup.WebsocketConnection.send_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketConnection.send_message</span></code></a>() instead.</p>
 <p>The message is queued to be sent and will be sent when the main loop
 is run.</p>
 <div class="versionadded">
@@ -1036,6 +1130,29 @@ the length count.</p>
 <p>The type of connection (client/server).</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.50.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="Soup.WebsocketConnection.props.extensions">
+<code class="descclassname">Soup.WebsocketConnection.props.</code><code class="descname">extensions</code><a class="headerlink" href="#Soup.WebsocketConnection.props.extensions" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">extensions</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Default Value:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>List of <a class="reference internal" href="WebsocketExtension.html#Soup.WebsocketExtension" title="Soup.WebsocketExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.WebsocketExtension</span></code></a> objects that are active in the connection.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.68.</span></p>
 </div>
 </dd></dl>
 

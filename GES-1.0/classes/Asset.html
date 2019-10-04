@@ -544,12 +544,12 @@ for (tmp = formatter_assets; tmp; tmp = tmp-&gt;next) {
 g_list_free (transition_assets);
 </pre></div>
 </div>
-<p>You can request the creation of <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> using either <a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a> or
-<a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>. All the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> are cached and thus any asset that has already
+<p>You can request the creation of <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> using either <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>() or
+<a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>(). All the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> are cached and thus any asset that has already
 been created can be requested again without overhead.</p>
 <dl class="classmethod">
 <dt id="GES.Asset.needs_reload">
-<em class="property">classmethod </em><code class="descname">needs_reload</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1205"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.needs_reload" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">needs_reload</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1232"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.needs_reload" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -581,7 +581,7 @@ cache before.</p>
 
 <dl class="classmethod">
 <dt id="GES.Asset.request">
-<em class="property">classmethod </em><code class="descname">request</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L967"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L981"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -612,7 +612,7 @@ it will not work with this method, but you can instead use the specific
 
 <dl class="classmethod">
 <dt id="GES.Asset.request_async">
-<em class="property">classmethod </em><code class="descname">request_async</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1103"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_async" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request_async</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1125"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -636,6 +636,13 @@ method. This asset can not be used as is.</li>
 </tr>
 </tbody>
 </table>
+<p>The <cite>callback</cite> will be called from a running <a class="reference external" href="../../GLib-2.0/classes/MainLoop.html#GLib.MainLoop" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop</span></code></a> which is iterating a <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.
+Note that, users should ensure the <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>, since this method will notify
+<cite>callback</cite> from the thread which was associated with a thread default
+<a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> at calling <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>().
+For example, if a user wants non-default <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> to be associated
+with <cite>callback</cite>, <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>() must be called after <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext.push_thread_default</span></code></a> ()
+with custom <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.</p>
 <p>Request a new <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> asyncronously, <cite>callback</cite> will be called when the materail is
 ready to be used or if an error occured.</p>
 <p>Example of request of a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> async:</p>
@@ -667,7 +674,7 @@ ges_asset_request_async (GES_TYPE_URI_CLIP, some_uri, NULL,
 
 <dl class="classmethod">
 <dt id="GES.Asset.request_finish">
-<em class="property">classmethod </em><code class="descname">request_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1296"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_finish" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1323"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -687,7 +694,7 @@ ges_asset_request_async (GES_TYPE_URI_CLIP, some_uri, NULL,
 
 <dl class="method">
 <dt id="GES.Asset.extract">
-<code class="descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1265"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.extract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1292"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.extract" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -708,7 +715,7 @@ type will be extracted from <cite>asset</cite> using
 
 <dl class="method">
 <dt id="GES.Asset.get_error">
-<code class="descname">get_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1364"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_error" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1391"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_error" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -727,7 +734,7 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.get_extractable_type">
-<code class="descname">get_extractable_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L944"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_extractable_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_extractable_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L958"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_extractable_type" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -743,7 +750,7 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.get_id">
-<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L1245"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L1272"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_id" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -759,7 +766,7 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.get_proxy">
-<code class="descname">get_proxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L839"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_proxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L853"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -774,7 +781,7 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.get_proxy_target">
-<code class="descname">get_proxy_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L857"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy_target" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_proxy_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L871"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy_target" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -789,7 +796,7 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.list_proxies">
-<code class="descname">list_proxies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L825"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.list_proxies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_proxies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L839"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.list_proxies" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -805,7 +812,7 @@ used is always the first in that list.</td>
 
 <dl class="method">
 <dt id="GES.Asset.set_proxy">
-<code class="descname">set_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L705"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.set_proxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L719"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.set_proxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -828,7 +835,7 @@ of the same file) as proxy. Note that when an asset is proxied, calling
 
 <dl class="method">
 <dt id="GES.Asset.unproxy">
-<code class="descname">unproxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.14.4/ges/ges-asset.c#L797"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.unproxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unproxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.1/ges/ges-asset.c#L811"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.unproxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

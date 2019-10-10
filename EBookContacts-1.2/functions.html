@@ -72,7 +72,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="EBookContacts 1.2 Python API Docs" href="index.html"/>
         <link rel="next" title="Classes" href="classes.html"/>
-        <link rel="prev" title="EBookContacts 1.2 (3.30.5)" href="index.html"/> 
+        <link rel="prev" title="EBookContacts 1.2 (3.34.0)" href="index.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -213,6 +213,12 @@
 <td><a class="reference internal" href="#EBookContacts.book_query_vcard_field_test" title="EBookContacts.book_query_vcard_field_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">book_query_vcard_field_test</span></code></a> (field, test, value)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#EBookContacts.book_util_conflict_resolution_to_operation_flags" title="EBookContacts.book_util_conflict_resolution_to_operation_flags"><code class="xref py py-func docutils literal notranslate"><span class="pre">book_util_conflict_resolution_to_operation_flags</span></code></a> (conflict_resolution)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#EBookContacts.book_util_operation_flags_to_conflict_resolution" title="EBookContacts.book_util_operation_flags_to_conflict_resolution"><code class="xref py py-func docutils literal notranslate"><span class="pre">book_util_operation_flags_to_conflict_resolution</span></code></a> (flags)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#EBookContacts.contact_attr_list_copy" title="EBookContacts.contact_attr_list_copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">contact_attr_list_copy</span></code></a> (list)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
@@ -286,7 +292,7 @@ structure of type <a class="reference internal" href="classes/AddressWestern.htm
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>a new <a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> containing an E_BOOK_CLIENT_ERROR of the given
 <cite>code</cite>. If the <cite>custom_msg</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then the error message is
-the one returned from <a class="reference internal" href="enums.html#EBookContacts.BookClientError.to_string" title="EBookContacts.BookClientError.to_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookClientError.to_string</span></code></a>() for the <cite>code</cite>,
+the one returned from <a class="reference internal" href="#EBookContacts.book_client_error_to_string" title="EBookContacts.book_client_error_to_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.book_client_error_to_string</span></code></a>() for the <cite>code</cite>,
 otherwise the given message is used.</p>
 <p>Returned pointer should be freed with <code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code>().</p>
 </p>
@@ -299,9 +305,6 @@ otherwise the given message is used.</p>
 </table>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.2.</span></p>
-</div>
-<div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 3.8: </span>Just use the <a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> API directly.</p>
 </div>
 </dd></dl>
 
@@ -512,6 +515,49 @@ should be a vCard field name, such as <a class="reference internal" href="consta
 <p>Creates a new <a class="reference internal" href="classes/BookQuery.html#EBookContacts.BookQuery" title="EBookContacts.BookQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookQuery</span></code></a> which tests <cite>field</cite> for <cite>value</cite> using the test <cite>test</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.22.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="EBookContacts.book_util_conflict_resolution_to_operation_flags">
+<code class="descclassname">EBookContacts.</code><code class="descname">book_util_conflict_resolution_to_operation_flags</code><span class="sig-paren">(</span><em>conflict_resolution</em><span class="sig-paren">)</span><a class="headerlink" href="#EBookContacts.book_util_conflict_resolution_to_operation_flags" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conflict_resolution</strong> (<a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a>) – an <a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a bit-or of <a class="reference internal" href="flags.html#EBookContacts.BookOperationFlags" title="EBookContacts.BookOperationFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookOperationFlags</span></code></a>, corresponding to the <cite>conflict_resolution</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Encodes the <a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a> into the bit-or of <a class="reference internal" href="flags.html#EBookContacts.BookOperationFlags" title="EBookContacts.BookOperationFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookOperationFlags</span></code></a>.
+The returned value can be bit-or-ed with other <a class="reference internal" href="flags.html#EBookContacts.BookOperationFlags" title="EBookContacts.BookOperationFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookOperationFlags</span></code></a> values.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.34.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="EBookContacts.book_util_operation_flags_to_conflict_resolution">
+<code class="descclassname">EBookContacts.</code><code class="descname">book_util_operation_flags_to_conflict_resolution</code><span class="sig-paren">(</span><em>flags</em><span class="sig-paren">)</span><a class="headerlink" href="#EBookContacts.book_util_operation_flags_to_conflict_resolution" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flags</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – bit-or of <a class="reference internal" href="flags.html#EBookContacts.BookOperationFlags" title="EBookContacts.BookOperationFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookOperationFlags</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an <a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a> as stored in the <cite>flags</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Decodes the <a class="reference external" href="../EDataServer-1.2/enums.html#EDataServer.ConflictResolution" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.ConflictResolution</span></code></a> from the bit-or of <a class="reference internal" href="flags.html#EBookContacts.BookOperationFlags" title="EBookContacts.BookOperationFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBookContacts.BookOperationFlags</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.34.</span></p>
 </div>
 </dd></dl>
 

@@ -343,6 +343,7 @@
 <li><a class="reference internal" href="#GLib.SYSDEF_MSG_DONTROUTE" title="GLib.SYSDEF_MSG_DONTROUTE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SYSDEF_MSG_DONTROUTE</span></code></a></li>
 <li><a class="reference internal" href="#GLib.SYSDEF_MSG_OOB" title="GLib.SYSDEF_MSG_OOB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SYSDEF_MSG_OOB</span></code></a></li>
 <li><a class="reference internal" href="#GLib.SYSDEF_MSG_PEEK" title="GLib.SYSDEF_MSG_PEEK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SYSDEF_MSG_PEEK</span></code></a></li>
+<li><a class="reference internal" href="#GLib.TEST_OPTION_ISOLATE_DIRS" title="GLib.TEST_OPTION_ISOLATE_DIRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TEST_OPTION_ISOLATE_DIRS</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TIME_SPAN_DAY" title="GLib.TIME_SPAN_DAY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TIME_SPAN_DAY</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TIME_SPAN_HOUR" title="GLib.TIME_SPAN_HOUR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TIME_SPAN_HOUR</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TIME_SPAN_MILLISECOND" title="GLib.TIME_SPAN_MILLISECOND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TIME_SPAN_MILLISECOND</span></code></a></li>
@@ -567,22 +568,12 @@ It is a string literal.</p>
 <dl class="data">
 <dt id="GLib.GNUC_FUNCTION">
 <code class="descclassname">GLib.</code><code class="descname">GNUC_FUNCTION</code><em class="property"> = ''</em><a class="headerlink" href="#GLib.GNUC_FUNCTION" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expands to “” on all modern compilers, and to  __FUNCTION__ on gcc
-version 2.x. Don’t use it.</p>
-<div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.16: </span>Use G_STRFUNC() instead</p>
-</div>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="data">
 <dt id="GLib.GNUC_PRETTY_FUNCTION">
 <code class="descclassname">GLib.</code><code class="descname">GNUC_PRETTY_FUNCTION</code><em class="property"> = ''</em><a class="headerlink" href="#GLib.GNUC_PRETTY_FUNCTION" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expands to “” on all modern compilers, and to __PRETTY_FUNCTION__
-on gcc version 2.x. Don’t use it.</p>
-<div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.16: </span>Use G_STRFUNC() instead</p>
-</div>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="data">
 <dt id="GLib.GSIZE_FORMAT">
@@ -1283,7 +1274,7 @@ linked against at application run time.</p>
 
 <dl class="data">
 <dt id="GLib.MICRO_VERSION">
-<code class="descclassname">GLib.</code><code class="descname">MICRO_VERSION</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">MICRO_VERSION</code><em class="property"> = 6</em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The micro version number of the GLib library.</p>
 <p>Like #gtk_micro_version, but from the headers used at
 application compile time, rather than from the library
@@ -1350,7 +1341,7 @@ linked against at application run time.</p>
 
 <dl class="data">
 <dt id="GLib.MINOR_VERSION">
-<code class="descclassname">GLib.</code><code class="descname">MINOR_VERSION</code><em class="property"> = 58</em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">MINOR_VERSION</code><em class="property"> = 60</em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minor version number of the GLib library.</p>
 <p>Like #gtk_minor_version, but from the headers used at
 application compile time, rather than from the library
@@ -1653,6 +1644,35 @@ the <a class="reference internal" href="classes/Source.html#GLib.Source" title="
 <dd></dd></dl>
 
 <dl class="data">
+<dt id="GLib.TEST_OPTION_ISOLATE_DIRS">
+<code class="descclassname">GLib.</code><code class="descname">TEST_OPTION_ISOLATE_DIRS</code><em class="property"> = 'isolate_dirs'</em><a class="headerlink" href="#GLib.TEST_OPTION_ISOLATE_DIRS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a unique temporary directory for each unit test and uses
+g_set_user_dirs() to set XDG directories to point into subdirectories of it
+for the duration of the unit test. The directory tree is cleaned up after the
+test finishes successfully. Note that this doesn’t take effect until
+<a class="reference internal" href="functions.html#GLib.test_run" title="GLib.test_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.test_run</span></code></a>() is called, so calls to (for example) g_get_user_home_dir() will
+return the system-wide value when made in a test program’s main() function.</p>
+<p>The following functions will return subdirectories of the temporary directory
+when this option is used. The specific subdirectory paths in use are not
+guaranteed to be stable API — always use a getter function to retrieve them.</p>
+<ul class="simple">
+<li><a class="reference internal" href="functions.html#GLib.get_home_dir" title="GLib.get_home_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_home_dir</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_user_cache_dir" title="GLib.get_user_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_cache_dir</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_system_config_dirs" title="GLib.get_system_config_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_system_config_dirs</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_user_config_dir" title="GLib.get_user_config_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_config_dir</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_system_data_dirs" title="GLib.get_system_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_system_data_dirs</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_user_data_dir" title="GLib.get_user_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_data_dir</span></code></a>()</li>
+<li><a class="reference internal" href="functions.html#GLib.get_user_runtime_dir" title="GLib.get_user_runtime_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_runtime_dir</span></code></a>()</li>
+</ul>
+<p>The subdirectories may not be created by the test harness; as with normal
+calls to functions like <a class="reference internal" href="functions.html#GLib.get_user_cache_dir" title="GLib.get_user_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_cache_dir</span></code></a>(), the caller must be prepared
+to create the directory if it doesn’t exist.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.60.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
 <dt id="GLib.TIME_SPAN_DAY">
 <code class="descclassname">GLib.</code><code class="descname">TIME_SPAN_DAY</code><em class="property"> = 86400000000</em><a class="headerlink" href="#GLib.TIME_SPAN_DAY" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates to a time span of one day.</p>
@@ -1797,7 +1817,7 @@ using functions deprecated in later releases will not).</p>
 
 <dl class="data">
 <dt id="GLib.glib_version">
-<code class="descclassname">GLib.</code><code class="descname">glib_version</code><em class="property"> = (2, 58, 2)</em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">GLib.</code><code class="descname">glib_version</code><em class="property"> = (2, 60, 6)</em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">

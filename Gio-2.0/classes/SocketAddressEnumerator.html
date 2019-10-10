@@ -350,11 +350,21 @@
 </tr>
 </tbody>
 </table>
-<p>Enumerator type for objects that contain or generate
-<a class="reference internal" href="SocketAddress.html#Gio.SocketAddress" title="Gio.SocketAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddress</span></code></a> instances.</p>
+<p><a class="reference internal" href="#Gio.SocketAddressEnumerator" title="Gio.SocketAddressEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator</span></code></a> is an enumerator type for <a class="reference internal" href="SocketAddress.html#Gio.SocketAddress" title="Gio.SocketAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddress</span></code></a>
+instances. It is returned by enumeration functions such as
+<a class="reference internal" href="SocketConnectable.html#Gio.SocketConnectable.enumerate" title="Gio.SocketConnectable.enumerate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketConnectable.enumerate</span></code></a>(), which returns a <a class="reference internal" href="#Gio.SocketAddressEnumerator" title="Gio.SocketAddressEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator</span></code></a>
+to list each <a class="reference internal" href="SocketAddress.html#Gio.SocketAddress" title="Gio.SocketAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddress</span></code></a> which could be used to connect to that
+<a class="reference internal" href="SocketConnectable.html#Gio.SocketConnectable" title="Gio.SocketConnectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketConnectable</span></code></a>.</p>
+<p>Enumeration is typically a blocking operation, so the asynchronous methods
+<a class="reference internal" href="#Gio.SocketAddressEnumerator.next_async" title="Gio.SocketAddressEnumerator.next_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator.next_async</span></code></a>() and
+<a class="reference internal" href="#Gio.SocketAddressEnumerator.next_finish" title="Gio.SocketAddressEnumerator.next_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator.next_finish</span></code></a>() should be used where possible.</p>
+<p>Each <a class="reference internal" href="#Gio.SocketAddressEnumerator" title="Gio.SocketAddressEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator</span></code></a> can only be enumerated once. Once
+<a class="reference internal" href="#Gio.SocketAddressEnumerator.next" title="Gio.SocketAddressEnumerator.next"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator.next</span></code></a>() has returned <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> (and no error), further
+enumeration with that <a class="reference internal" href="#Gio.SocketAddressEnumerator" title="Gio.SocketAddressEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator</span></code></a> is not possible, and it can
+be unreffed.</p>
 <dl class="method">
 <dt id="Gio.SocketAddressEnumerator.next">
-<code class="descname">next</code><span class="sig-paren">(</span><em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gsocketaddressenumerator.c#L95"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next" title="Permalink to this definition">¶</a></dt>
+<code class="descname">next</code><span class="sig-paren">(</span><em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gsocketaddressenumerator.c#L95"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -387,7 +397,7 @@ ignored.</p>
 
 <dl class="method">
 <dt id="Gio.SocketAddressEnumerator.next_async">
-<code class="descname">next_async</code><span class="sig-paren">(</span><em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gsocketaddressenumerator.c#L150"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">next_async</code><span class="sig-paren">(</span><em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gsocketaddressenumerator.c#L150"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -405,11 +415,12 @@ is satisfied</li>
 <p>Asynchronously retrieves the next <a class="reference internal" href="SocketAddress.html#Gio.SocketAddress" title="Gio.SocketAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddress</span></code></a> from <cite>self</cite>
 and then calls <cite>callback</cite>, which must call
 <a class="reference internal" href="#Gio.SocketAddressEnumerator.next_finish" title="Gio.SocketAddressEnumerator.next_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator.next_finish</span></code></a>() to get the result.</p>
+<p>It is an error to call this multiple times before the previous callback has finished.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gio.SocketAddressEnumerator.next_finish">
-<code class="descname">next_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gsocketaddressenumerator.c#L189"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">next_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gsocketaddressenumerator.c#L189"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.SocketAddressEnumerator.next_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -483,6 +494,7 @@ is satisfied</li>
 <p>Asynchronously retrieves the next <a class="reference internal" href="SocketAddress.html#Gio.SocketAddress" title="Gio.SocketAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddress</span></code></a> from <cite>enumerator</cite>
 and then calls <cite>callback</cite>, which must call
 <a class="reference internal" href="#Gio.SocketAddressEnumerator.next_finish" title="Gio.SocketAddressEnumerator.next_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator.next_finish</span></code></a>() to get the result.</p>
+<p>It is an error to call this multiple times before the previous callback has finished.</p>
 </dd></dl>
 
 <dl class="method">

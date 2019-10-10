@@ -390,6 +390,11 @@
 <td>r</td>
 <td>&#160;</td>
 </tr>
+<tr class="row-odd"><td>priv</td>
+<td><a class="reference internal" href="TlsDatabasePrivate.html#Gio.TlsDatabasePrivate" title="Gio.TlsDatabasePrivate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabasePrivate</span></code></a></td>
+<td>r</td>
+<td>&#160;</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -410,9 +415,11 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a> is used to lookup certificates and other information
+<p><a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a> is used to look up certificates and other information
 from a certificate or key store. It is an abstract base class which
 TLS library specific subtypes override.</p>
+<p>A <a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a> may be accessed from multiple threads by the TLS backend.
+All implementations are required to be fully thread-safe.</p>
 <p>Most common client applications will not directly interact with
 <a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a>. It is used internally by <a class="reference internal" href="TlsConnection.html#Gio.TlsConnection" title="Gio.TlsConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsConnection</span></code></a>.</p>
 <div class="versionadded">
@@ -420,7 +427,7 @@ TLS library specific subtypes override.</p>
 </div>
 <dl class="method">
 <dt id="Gio.TlsDatabase.create_certificate_handle">
-<code class="descname">create_certificate_handle</code><span class="sig-paren">(</span><em>certificate</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L643"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.create_certificate_handle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_certificate_handle</code><span class="sig-paren">(</span><em>certificate</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L643"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.create_certificate_handle" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -448,7 +455,7 @@ then it is not guaranteed that this handle will continue to point to it.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_for_handle">
-<code class="descname">lookup_certificate_for_handle</code><span class="sig-paren">(</span><em>handle</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L685"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_for_handle</code><span class="sig-paren">(</span><em>handle</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L685"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -473,7 +480,7 @@ then it is not guaranteed that this handle will continue to point to it.</p>
 </tr>
 </tbody>
 </table>
-<p>Lookup a certificate by its handle.</p>
+<p>Look up a certificate by its handle.</p>
 <p>The handle should have been created by calling
 <a class="reference internal" href="#Gio.TlsDatabase.create_certificate_handle" title="Gio.TlsDatabase.create_certificate_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.create_certificate_handle</span></code></a>() on a <a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a> object of
 the same TLS backend. The handle is designed to remain valid across
@@ -489,7 +496,7 @@ the lookup operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_for_handle_async">
-<code class="descname">lookup_certificate_for_handle_async</code><span class="sig-paren">(</span><em>handle</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L724"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_for_handle_async</code><span class="sig-paren">(</span><em>handle</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L724"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -506,7 +513,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup a certificate by its handle in the database. See
+<p>Asynchronously look up a certificate by its handle in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Gio.TlsDatabase.lookup_certificate_for_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_for_handle</span></code></a>() for more information.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.30.</span></p>
@@ -515,7 +522,7 @@ the lookup operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_for_handle_finish">
-<code class="descname">lookup_certificate_for_handle_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L760"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_for_handle_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L760"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_for_handle_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -532,7 +539,7 @@ Use <a class="reference external" href="../../GObject-2.0/classes/Object.html#GO
 </tbody>
 </table>
 <p>Finish an asynchronous lookup of a certificate by its handle. See
-g_tls_database_lookup_certificate_by_handle() for more information.</p>
+<a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Gio.TlsDatabase.lookup_certificate_for_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_for_handle</span></code></a>() for more information.</p>
 <p>If the handle is no longer valid, or does not point to a certificate in
 this database, then <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
 <div class="versionadded">
@@ -542,7 +549,7 @@ this database, then <a class="reference external" href="http://docs.python.org/3
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_issuer">
-<code class="descname">lookup_certificate_issuer</code><span class="sig-paren">(</span><em>certificate</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L800"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_issuer</code><span class="sig-paren">(</span><em>certificate</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L800"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -567,8 +574,8 @@ or <a class="reference external" href="http://docs.python.org/3/library/constant
 </tr>
 </tbody>
 </table>
-<p>Lookup the issuer of <cite>certificate</cite> in the database.</p>
-<p>The %issuer property
+<p>Look up the issuer of <cite>certificate</cite> in the database.</p>
+<p>The <a class="reference internal" href="TlsCertificate.html#Gio.TlsCertificate" title="Gio.TlsCertificate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsCertificate</span></code></a> <a class="reference internal" href="TlsCertificate.html#Gio.TlsCertificate.props.issuer" title="Gio.TlsCertificate.props.issuer"><code class="xref py py-data docutils literal notranslate"><span class="pre">:issuer</span></code></a> property
 of <cite>certificate</cite> is not modified, and the two certificates are not hooked
 into a chain.</p>
 <p>This function can block, use <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_issuer_async" title="Gio.TlsDatabase.lookup_certificate_issuer_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_issuer_async</span></code></a>() to perform
@@ -580,7 +587,7 @@ the lookup operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_issuer_async">
-<code class="descname">lookup_certificate_issuer_async</code><span class="sig-paren">(</span><em>certificate</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L838"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_issuer_async</code><span class="sig-paren">(</span><em>certificate</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L838"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -597,7 +604,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup the issuer of <cite>certificate</cite> in the database. See
+<p>Asynchronously look up the issuer of <cite>certificate</cite> in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_issuer" title="Gio.TlsDatabase.lookup_certificate_issuer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_issuer</span></code></a>() for more information.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.30.</span></p>
@@ -606,7 +613,7 @@ the lookup operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificate_issuer_finish">
-<code class="descname">lookup_certificate_issuer_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L872"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificate_issuer_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L872"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificate_issuer_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -631,7 +638,7 @@ or <a class="reference external" href="http://docs.python.org/3/library/constant
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificates_issued_by">
-<code class="descname">lookup_certificates_issued_by</code><span class="sig-paren">(</span><em>issuer_raw_dn</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L908"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificates_issued_by</code><span class="sig-paren">(</span><em>issuer_raw_dn</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L908"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -656,7 +663,7 @@ objects. Use <a class="reference external" href="../../GObject-2.0/classes/Objec
 </tr>
 </tbody>
 </table>
-<p>Lookup certificates issued by this issuer in the database.</p>
+<p>Look up certificates issued by this issuer in the database.</p>
 <p>This function can block, use <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificates_issued_by_async" title="Gio.TlsDatabase.lookup_certificates_issued_by_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificates_issued_by_async</span></code></a>() to perform
 the lookup operation asynchronously.</p>
 <div class="versionadded">
@@ -666,7 +673,7 @@ the lookup operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificates_issued_by_async">
-<code class="descname">lookup_certificates_issued_by_async</code><span class="sig-paren">(</span><em>issuer_raw_dn</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L950"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificates_issued_by_async</code><span class="sig-paren">(</span><em>issuer_raw_dn</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L950"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -683,7 +690,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup certificates issued by this issuer in the database. See
+<p>Asynchronously look up certificates issued by this issuer in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificates_issued_by" title="Gio.TlsDatabase.lookup_certificates_issued_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificates_issued_by</span></code></a>() for more information.</p>
 <p>The database may choose to hold a reference to the issuer byte array for the duration
 of of this asynchronous operation. The byte array should not be modified during
@@ -695,7 +702,7 @@ this time.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.lookup_certificates_issued_by_finish">
-<code class="descname">lookup_certificates_issued_by_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L984"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lookup_certificates_issued_by_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L984"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.lookup_certificates_issued_by_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -720,7 +727,7 @@ objects. Use <a class="reference external" href="../../GObject-2.0/classes/Objec
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.verify_chain">
-<code class="descname">verify_chain</code><span class="sig-paren">(</span><em>chain</em>, <em>purpose</em>, <em>identity</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L508"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain" title="Permalink to this definition">¶</a></dt>
+<code class="descname">verify_chain</code><span class="sig-paren">(</span><em>chain</em>, <em>purpose</em>, <em>identity</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L508"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -781,7 +788,7 @@ the verification operation asynchronously.</p>
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.verify_chain_async">
-<code class="descname">verify_chain_async</code><span class="sig-paren">(</span><em>chain</em>, <em>purpose</em>, <em>identity</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L562"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">verify_chain_async</code><span class="sig-paren">(</span><em>chain</em>, <em>purpose</em>, <em>identity</em>, <em>interaction</em>, <em>flags</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L562"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -810,7 +817,7 @@ looking up and adding any missing certificates to the chain. See
 
 <dl class="method">
 <dt id="Gio.TlsDatabase.verify_chain_finish">
-<code class="descname">verify_chain_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gtlsdatabase.c#L610"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">verify_chain_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gtlsdatabase.c#L610"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsDatabase.verify_chain_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -893,7 +900,7 @@ then it is not guaranteed that this handle will continue to point to it.</p>
 </tr>
 </tbody>
 </table>
-<p>Lookup a certificate by its handle.</p>
+<p>Look up a certificate by its handle.</p>
 <p>The handle should have been created by calling
 <a class="reference internal" href="#Gio.TlsDatabase.create_certificate_handle" title="Gio.TlsDatabase.create_certificate_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.create_certificate_handle</span></code></a>() on a <a class="reference internal" href="#Gio.TlsDatabase" title="Gio.TlsDatabase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase</span></code></a> object of
 the same TLS backend. The handle is designed to remain valid across
@@ -926,7 +933,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup a certificate by its handle in the database. See
+<p>Asynchronously look up a certificate by its handle in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Gio.TlsDatabase.lookup_certificate_for_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_for_handle</span></code></a>() for more information.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.30.</span></p>
@@ -950,7 +957,7 @@ Use <a class="reference external" href="../../GObject-2.0/classes/Object.html#GO
 </tbody>
 </table>
 <p>Finish an asynchronous lookup of a certificate by its handle. See
-g_tls_database_lookup_certificate_by_handle() for more information.</p>
+<a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_for_handle" title="Gio.TlsDatabase.lookup_certificate_for_handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_for_handle</span></code></a>() for more information.</p>
 <p>If the handle is no longer valid, or does not point to a certificate in
 this database, then <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
 <div class="versionadded">
@@ -982,8 +989,8 @@ or <a class="reference external" href="http://docs.python.org/3/library/constant
 </tr>
 </tbody>
 </table>
-<p>Lookup the issuer of <cite>certificate</cite> in the database.</p>
-<p>The %issuer property
+<p>Look up the issuer of <cite>certificate</cite> in the database.</p>
+<p>The <a class="reference internal" href="TlsCertificate.html#Gio.TlsCertificate" title="Gio.TlsCertificate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsCertificate</span></code></a> <a class="reference internal" href="TlsCertificate.html#Gio.TlsCertificate.props.issuer" title="Gio.TlsCertificate.props.issuer"><code class="xref py py-data docutils literal notranslate"><span class="pre">:issuer</span></code></a> property
 of <cite>certificate</cite> is not modified, and the two certificates are not hooked
 into a chain.</p>
 <p>This function can block, use <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_issuer_async" title="Gio.TlsDatabase.lookup_certificate_issuer_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_issuer_async</span></code></a>() to perform
@@ -1012,7 +1019,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup the issuer of <cite>certificate</cite> in the database. See
+<p>Asynchronously look up the issuer of <cite>certificate</cite> in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificate_issuer" title="Gio.TlsDatabase.lookup_certificate_issuer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificate_issuer</span></code></a>() for more information.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.30.</span></p>
@@ -1066,7 +1073,7 @@ objects. Use <a class="reference external" href="../../GObject-2.0/classes/Objec
 </tr>
 </tbody>
 </table>
-<p>Lookup certificates issued by this issuer in the database.</p>
+<p>Look up certificates issued by this issuer in the database.</p>
 <p>This function can block, use <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificates_issued_by_async" title="Gio.TlsDatabase.lookup_certificates_issued_by_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificates_issued_by_async</span></code></a>() to perform
 the lookup operation asynchronously.</p>
 <div class="versionadded">
@@ -1093,7 +1100,7 @@ the lookup operation asynchronously.</p>
 </tr>
 </tbody>
 </table>
-<p>Asynchronously lookup certificates issued by this issuer in the database. See
+<p>Asynchronously look up certificates issued by this issuer in the database. See
 <a class="reference internal" href="#Gio.TlsDatabase.lookup_certificates_issued_by" title="Gio.TlsDatabase.lookup_certificates_issued_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsDatabase.lookup_certificates_issued_by</span></code></a>() for more information.</p>
 <p>The database may choose to hold a reference to the issuer byte array for the duration
 of of this asynchronous operation. The byte array should not be modified during

@@ -426,12 +426,16 @@ implement the org.freedesktop.DBus interface.</p>
 session or system bus, you should instead use <a class="reference internal" href="../functions.html#Gio.bus_own_name" title="Gio.bus_own_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.bus_own_name</span></code></a>().</p>
 <p>An example of peer-to-peer communication with G-DBus can be found
 in <a class="reference external" href="https://git.gnome.org/browse/glib/tree/gio/tests/gdbus-example-peer.c">gdbus-example-peer.c</a>.</p>
+<p>Note that a minimal <a class="reference internal" href="#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> will accept connections from any
+peer. In many use-cases it will be necessary to add a <a class="reference internal" href="DBusAuthObserver.html#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a>
+that only accepts connections that have successfully authenticated
+as the same user that is running the <a class="reference internal" href="#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.26.</span></p>
 </div>
 <dl class="classmethod">
 <dt id="Gio.DBusServer.new_sync">
-<em class="property">classmethod </em><code class="descname">new_sync</code><span class="sig-paren">(</span><em>address</em>, <em>flags</em>, <em>guid</em>, <em>observer</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L491"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.new_sync" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new_sync</code><span class="sig-paren">(</span><em>address</em>, <em>flags</em>, <em>guid</em>, <em>observer</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L518"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.new_sync" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -461,13 +465,16 @@ in <a class="reference external" href="https://git.gnome.org/browse/glib/tree/gi
 <cite>address</cite> that works.</p>
 <p>Once constructed, you can use <a class="reference internal" href="#Gio.DBusServer.get_client_address" title="Gio.DBusServer.get_client_address"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer.get_client_address</span></code></a>() to
 get a D-Bus address string that clients can use to connect.</p>
+<p>To have control over the available authentication mechanisms and
+the users that are authorized to connect, it is strongly recommended
+to provide a non-<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <a class="reference internal" href="DBusAuthObserver.html#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a>.</p>
 <p>Connect to the <a class="reference internal" href="#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> <a class="reference internal" href="#Gio.DBusServer.signals.new_connection" title="Gio.DBusServer.signals.new_connection"><code class="xref py py-func docutils literal notranslate"><span class="pre">::new-connection</span></code></a> signal to handle
 incoming connections.</p>
 <p>The returned <a class="reference internal" href="#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> isn’t active - you have to start it with
 <a class="reference internal" href="#Gio.DBusServer.start" title="Gio.DBusServer.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer.start</span></code></a>().</p>
 <p><a class="reference internal" href="#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> is used in this ‘example [gdbus-peer-to-peer]’.</p>
-<p>This is a synchronous failable constructor. See
-g_dbus_server_new() for the asynchronous version.</p>
+<p>This is a synchronous failable constructor. There is currently no
+asynchronous version.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.26.</span></p>
 </div>
@@ -475,7 +482,7 @@ g_dbus_server_new() for the asynchronous version.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.get_client_address">
-<code class="descname">get_client_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L525"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_client_address" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_client_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L552"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_client_address" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -497,7 +504,7 @@ string that can be used by clients to connect to <cite>self</cite>.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.get_flags">
-<code class="descname">get_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L559"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L586"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_flags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -516,7 +523,7 @@ string that can be used by clients to connect to <cite>self</cite>.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.get_guid">
-<code class="descname">get_guid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L542"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_guid" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_guid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L569"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.get_guid" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -535,7 +542,7 @@ string that can be used by clients to connect to <cite>self</cite>.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.is_active">
-<code class="descname">is_active</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L576"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.is_active" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_active</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L603"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.is_active" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -554,7 +561,7 @@ string that can be used by clients to connect to <cite>self</cite>.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L591"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.start" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L618"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.26.</span></p>
@@ -563,7 +570,7 @@ string that can be used by clients to connect to <cite>self</cite>.</p>
 
 <dl class="method">
 <dt id="Gio.DBusServer.stop">
-<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusserver.c#L612"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.stop" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusserver.c#L639"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusServer.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stops <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.26.</span></p>

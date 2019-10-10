@@ -336,12 +336,38 @@ peers. Simply instantiate a <a class="reference internal" href="#Gio.DBusAuthObs
 signals you are interested in. Note that new signals may be added
 in the future</p>
 <dl class="docutils">
-<dt>Controlling Authentication</dt>
+<dt>Controlling Authentication Mechanisms</dt>
 <dd></dd>
 </dl>
-<p>For example, if you only want to allow D-Bus connections from
-processes owned by the same uid as the server, you would use a
-signal handler like the following:</p>
+<p>By default, a <a class="reference internal" href="DBusServer.html#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> or server-side <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> will allow
+any authentication mechanism to be used. If you only
+want to allow D-Bus connections with the <code class="docutils literal notranslate"><span class="pre">EXTERNAL</span></code> mechanism,
+which makes use of credentials passing and is the recommended
+mechanism for modern Unix platforms such as Linux and the BSD family,
+you would use a signal handler like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gboolean</span>
+<span class="nf">on_allow_mechanism</span> <span class="p">(</span><span class="n">GDBusAuthObserver</span> <span class="o">*</span><span class="n">observer</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">gchar</span>       <span class="o">*</span><span class="n">mechanism</span><span class="p">,</span>
+                    <span class="n">gpointer</span>           <span class="n">user_data</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">g_strcmp0</span> <span class="p">(</span><span class="n">mechanism</span><span class="p">,</span> <span class="s">&quot;EXTERNAL&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Controlling Authorization</dt>
+<dd></dd>
+</dl>
+<p>By default, a <a class="reference internal" href="DBusServer.html#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> or server-side <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> will accept
+connections from any successfully authenticated user (but not from
+anonymous connections using the <code class="docutils literal notranslate"><span class="pre">ANONYMOUS</span></code> mechanism). If you only
+want to allow D-Bus connections from processes owned by the same uid
+as the server, you would use a signal handler like the following:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gboolean</span>
 <span class="nf">on_authorize_authenticated_peer</span> <span class="p">(</span><span class="n">GDBusAuthObserver</span> <span class="o">*</span><span class="n">observer</span><span class="p">,</span>
                                  <span class="n">GIOStream</span>         <span class="o">*</span><span class="n">stream</span><span class="p">,</span>
@@ -369,7 +395,7 @@ signal handler like the following:</p>
 </div>
 <dl class="classmethod">
 <dt id="Gio.DBusAuthObserver.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusauthobserver.c#L246"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusauthobserver.c#L253"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -388,7 +414,7 @@ signal handler like the following:</p>
 
 <dl class="method">
 <dt id="Gio.DBusAuthObserver.allow_mechanism">
-<code class="descname">allow_mechanism</code><span class="sig-paren">(</span><em>mechanism</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusauthobserver.c#L295"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.allow_mechanism" title="Permalink to this definition">¶</a></dt>
+<code class="descname">allow_mechanism</code><span class="sig-paren">(</span><em>mechanism</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusauthobserver.c#L302"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.allow_mechanism" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -409,7 +435,7 @@ signal handler like the following:</p>
 
 <dl class="method">
 <dt id="Gio.DBusAuthObserver.authorize_authenticated_peer">
-<code class="descname">authorize_authenticated_peer</code><span class="sig-paren">(</span><em>stream</em>, <em>credentials</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.58.2/gio/gdbusauthobserver.c#L268"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.authorize_authenticated_peer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">authorize_authenticated_peer</code><span class="sig-paren">(</span><em>stream</em>, <em>credentials</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.60.6/gio/gdbusauthobserver.c#L275"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.DBusAuthObserver.authorize_authenticated_peer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

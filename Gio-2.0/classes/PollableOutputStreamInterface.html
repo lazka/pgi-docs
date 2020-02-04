@@ -248,6 +248,11 @@
 need to override it if it is possible that your <cite>is_writable</cite>
 implementation may return <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> when the stream is not actually
 writable.</p>
+<p>The default implementation of <cite>writev_nonblocking</cite> calls
+<a class="reference internal" href="PollableOutputStream.html#Gio.PollableOutputStream.write_nonblocking" title="Gio.PollableOutputStream.write_nonblocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableOutputStream.write_nonblocking</span></code></a>() for each vector, and converts
+its return value and error (if set) to a <a class="reference internal" href="../enums.html#Gio.PollableReturn" title="Gio.PollableReturn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableReturn</span></code></a>. You should
+override this where possible to avoid having to allocate a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> to return
+<a class="reference internal" href="../enums.html#Gio.IOErrorEnum.WOULD_BLOCK" title="Gio.IOErrorEnum.WOULD_BLOCK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.WOULD_BLOCK</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.28.</span></p>
 </div>

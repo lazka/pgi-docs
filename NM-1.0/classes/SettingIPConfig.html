@@ -1693,7 +1693,10 @@ providing a static hostname for the computer.  If the
 </tr>
 </tbody>
 </table>
-<p>A timeout for a DHCP transaction in seconds.</p>
+<p>A timeout for a DHCP transaction in seconds. If zero (the default), a
+globally configured default is used. If still unspecified, a device specific
+timeout is used (usually 45 seconds).</p>
+<p>Set to 2147483647 (MAXINT32) for infinity.</p>
 </dd></dl>
 
 <dl class="data">
@@ -1770,10 +1773,11 @@ same connection profile.</p>
 <p>When using dns=default, servers with higher priority will be on top of
 resolv.conf.  To prioritize a given server over another one within the
 same connection, just specify them in the desired order.  When multiple
-devices have configurations with the same priority, the one with an
-active default route will be preferred.  Negative values have the special
+devices have configurations with the same priority, VPNs will be
+considered first, then devices with the best (lowest metric) default
+route and then all other devices.  Negative values have the special
 effect of excluding other configurations with a greater priority value;
-so in presence of at least a negative priority, only DNS servers from
+so in presence of at least one negative priority, only DNS servers from
 connections with the lowest priority value will be used.</p>
 <p>When using a DNS resolver that supports Conditional Forwarding as dns=dnsmasq or
 dns=systemd-resolved, each connection is used to query domains in its

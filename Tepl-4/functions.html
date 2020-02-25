@@ -72,7 +72,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Tepl 4 Python API Docs" href="index.html"/>
         <link rel="next" title="Interfaces" href="interfaces.html"/>
-        <link rel="prev" title="Tepl 4 (4.2.0)" href="index.html"/> 
+        <link rel="prev" title="Tepl 4 (4.3.1)" href="index.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -205,6 +205,24 @@
 </tr>
 <tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Tepl.metadata_manager_shutdown" title="Tepl.metadata_manager_shutdown"><code class="xref py py-func docutils literal notranslate"><span class="pre">metadata_manager_shutdown</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_get_file_extension" title="Tepl.utils_get_file_extension"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_get_file_extension</span></code></a> (filename)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_get_file_shortname" title="Tepl.utils_get_file_shortname"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_get_file_shortname</span></code></a> (filename)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_replace_home_dir_with_tilde" title="Tepl.utils_replace_home_dir_with_tilde"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_replace_home_dir_with_tilde</span></code></a> (filename)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_str_end_truncate" title="Tepl.utils_str_end_truncate"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_str_end_truncate</span></code></a> (str, truncate_length)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_str_middle_truncate" title="Tepl.utils_str_middle_truncate"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_str_middle_truncate</span></code></a> (str, truncate_length)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Tepl.utils_str_replace" title="Tepl.utils_str_replace"><code class="xref py py-func docutils literal notranslate"><span class="pre">utils_str_replace</span></code></a> (string, search, replacement)</td>
 </tr>
 </tbody>
 </table>
@@ -394,6 +412,169 @@ frees the internal data of the metadata manager.</p>
 <p>See also <a class="reference internal" href="#Tepl.finalize" title="Tepl.finalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tepl.finalize</span></code></a>(), which calls this function.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_get_file_extension">
+<code class="descclassname">Tepl.</code><code class="descname">utils_get_file_extension</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_get_file_extension" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a filename.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the <cite>filename</cite>’s extension with the dot, in lowercase. Free with
+<a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<ul class="simple">
+<li>“file.pdf” returns “.pdf”.</li>
+<li>“file.PDF” returns “.pdf”.</li>
+<li>“file.tar.gz” returns “.gz”.</li>
+<li>“path/to/file.pdf” returns “.pdf”.</li>
+<li>“file” (without an extension) returns “” (the empty string).</li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_get_file_shortname">
+<code class="descclassname">Tepl.</code><code class="descname">utils_get_file_shortname</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_get_file_shortname" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a filename.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the <cite>filename</cite> without its extension. Free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Returns <cite>filename</cite> without its extension. With the “extension” having the same
+definition as in <a class="reference internal" href="#Tepl.utils_get_file_extension" title="Tepl.utils_get_file_extension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tepl.utils_get_file_extension</span></code></a>(); in other words it returns
+the other part of <cite>filename</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_replace_home_dir_with_tilde">
+<code class="descclassname">Tepl.</code><code class="descname">utils_replace_home_dir_with_tilde</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_replace_home_dir_with_tilde" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the filename.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the new filename. Free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Replaces the home directory with a tilde, if the home directory is present in
+the <cite>filename</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_str_end_truncate">
+<code class="descclassname">Tepl.</code><code class="descname">utils_str_end_truncate</code><span class="sig-paren">(</span><em>str</em>, <em>truncate_length</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_str_end_truncate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>str</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a UTF-8 string.</li>
+<li><strong>truncate_length</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – truncate the string at that length, in UTF-8 characters
+(not bytes).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the truncated string. Free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Like <a class="reference internal" href="#Tepl.utils_str_middle_truncate" title="Tepl.utils_str_middle_truncate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tepl.utils_str_middle_truncate</span></code></a>() but the “…” character is at the end.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_str_middle_truncate">
+<code class="descclassname">Tepl.</code><code class="descname">utils_str_middle_truncate</code><span class="sig-paren">(</span><em>str</em>, <em>truncate_length</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_str_middle_truncate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>str</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a UTF-8 string.</li>
+<li><strong>truncate_length</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – truncate the string at that length, in UTF-8 characters
+(not bytes).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the truncated string. Free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If <cite>str</cite> is longer than <cite>truncate_length</cite>, then this function returns <cite>str</cite>
+truncated in the middle with a “…” character. Otherwise it just returns a
+copy of <cite>str</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="Tepl.utils_str_replace">
+<code class="descclassname">Tepl.</code><code class="descname">utils_str_replace</code><span class="sig-paren">(</span><em>string</em>, <em>search</em>, <em>replacement</em><span class="sig-paren">)</span><a class="headerlink" href="#Tepl.utils_str_replace" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string</li>
+<li><strong>search</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the search string</li>
+<li><strong>replacement</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the replacement string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A newly allocated string with the replacements. Free with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Replaces all occurences of <cite>search</cite> by <cite>replacement</cite>.</p>
+<p>The function does only one pass, for example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">tepl_utils_str_replace</span> <span class="pre">(&quot;aaaa&quot;,</span> <span class="pre">&quot;aa&quot;,</span> <span class="pre">&quot;a&quot;);</span></code></p>
+<p>returns “aa”, not “a”.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 4.4.</span></p>
 </div>
 </dd></dl>
 

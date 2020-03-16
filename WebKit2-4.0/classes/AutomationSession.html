@@ -448,7 +448,7 @@ after the automation session has been fully created, so this must be called in t
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Signal Name:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">create-web-view</span></code></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.RUN_LAST" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUN_LAST</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.RUN_LAST" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUN_LAST</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.DETAILED" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED</span></code></a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>automation_session</strong> (<a class="reference internal" href="#WebKit2.AutomationSession" title="WebKit2.AutomationSession"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.AutomationSession</span></code></a>) – The object which received the signal</td>
 </tr>
@@ -461,8 +461,14 @@ after the automation session has been fully created, so this must be called in t
 <p>This signal is emitted when the automation client requests a new
 browsing context to interact with it. The callback handler should
 return a <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> created with <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> <a class="reference internal" href="WebView.html#WebKit2.WebView.props.is_controlled_by_automation" title="WebKit2.WebView.props.is_controlled_by_automation"><code class="xref py py-data docutils literal notranslate"><span class="pre">:is-controlled-by-automation</span></code></a>
-construct property enabled. The returned <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> could be an existing
-web view or a new one created and added to a new tab or window.</p>
+construct property enabled and <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> <a class="reference internal" href="WebView.html#WebKit2.WebView.props.automation_presentation_type" title="WebKit2.WebView.props.automation_presentation_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:automation-presentation-type</span></code></a> construct
+property set if needed.</p>
+<p>If the signal is emitted with “tab” detail, the returned <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> should be
+a new web view added to a new tab of the current browsing context window.
+If the signal is emitted with “window” detail, the returned <a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a> should be
+a new web view added to a new window.
+When creating a new web view and there’s an active browsing context, the new window
+or tab shouldn’t be focused.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.18.</span></p>
 </div>

@@ -268,28 +268,37 @@
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse_duration" title="TotemPlParser.Parser.parse_duration"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_duration</span></code></a> (duration, debug)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#TotemPlParser.Parser.add_ignored_glob" title="TotemPlParser.Parser.add_ignored_glob"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_ignored_glob</span></code></a> (glob)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.add_ignored_mimetype" title="TotemPlParser.Parser.add_ignored_mimetype"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_ignored_mimetype</span></code></a> (mimetype)</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.add_ignored_scheme" title="TotemPlParser.Parser.add_ignored_scheme"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_ignored_scheme</span></code></a> (scheme)</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse" title="TotemPlParser.Parser.parse"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse</span></code></a> (uri, fallback)</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse_async" title="TotemPlParser.Parser.parse_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_async</span></code></a> (uri, fallback, cancellable, callback, *user_data)</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse_finish" title="TotemPlParser.Parser.parse_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_finish</span></code></a> (async_result)</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse_with_base" title="TotemPlParser.Parser.parse_with_base"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_with_base</span></code></a> (uri, base, fallback)</td>
 </tr>
-<tr class="row-odd"><td>&#160;</td>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.parse_with_base_async" title="TotemPlParser.Parser.parse_with_base_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_with_base_async</span></code></a> (uri, base, fallback, cancellable, callback, *user_data)</td>
 </tr>
-<tr class="row-even"><td>&#160;</td>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#TotemPlParser.Parser.save" title="TotemPlParser.Parser.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save</span></code></a> (playlist, dest, title, type)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#TotemPlParser.Parser.save_async" title="TotemPlParser.Parser.save_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">save_async</span></code></a> (playlist, dest, title, type, cancellable, callback, *user_data)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#TotemPlParser.Parser.save_finish" title="TotemPlParser.Parser.save_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">save_finish</span></code></a> (result)</td>
 </tr>
 </tbody>
 </table>
@@ -592,6 +601,24 @@ denoting the duration in seconds.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="TotemPlParser.Parser.add_ignored_glob">
+<code class="descname">add_ignored_glob</code><span class="sig-paren">(</span><em>glob</em><span class="sig-paren">)</span><a class="headerlink" href="#TotemPlParser.Parser.add_ignored_glob" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>glob</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a glob to ignore</td>
+</tr>
+</tbody>
+</table>
+<p>Adds a glob to the list of mimetypes to ignore, so that
+any URI of that glob is ignored during playlist parsing.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 3.26.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="TotemPlParser.Parser.add_ignored_mimetype">
 <code class="descname">add_ignored_mimetype</code><span class="sig-paren">(</span><em>mimetype</em><span class="sig-paren">)</span><a class="headerlink" href="#TotemPlParser.Parser.add_ignored_mimetype" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -792,6 +819,54 @@ too, and depend on what kind of filesystem the file is on.</p>
 parts of the playlist to be written are too long.</p>
 <p>If writing a PLA playlist and there is an error converting a URI’s encoding,
 a code from <a class="reference external" href="../../GLib-2.0/enums.html#GLib.ConvertError" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ConvertError</span></code></a> will be returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TotemPlParser.Parser.save_async">
+<code class="descname">save_async</code><span class="sig-paren">(</span><em>playlist</em>, <em>dest</em>, <em>title</em>, <em>type</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#TotemPlParser.Parser.save_async" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>playlist</strong> (<a class="reference internal" href="Playlist.html#TotemPlParser.Playlist" title="TotemPlParser.Playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Playlist</span></code></a>) – a <a class="reference internal" href="Playlist.html#TotemPlParser.Playlist" title="TotemPlParser.Playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Playlist</span></code></a></li>
+<li><strong>dest</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – output <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a></li>
+<li><strong>title</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the playlist title</li>
+<li><strong>type</strong> (<a class="reference internal" href="../enums.html#TotemPlParser.ParserType" title="TotemPlParser.ParserType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.ParserType</span></code></a>) – a <a class="reference internal" href="../enums.html#TotemPlParser.ParserType" title="TotemPlParser.ParserType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.ParserType</span></code></a> for the outputted playlist</li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></li>
+<li><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to call when saving has finished</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data to pass to the <cite>callback</cite> function</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Starts asynchronous version of <a class="reference internal" href="#TotemPlParser.Parser.save" title="TotemPlParser.Parser.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Parser.save</span></code></a>(). For more details
+see <a class="reference internal" href="#TotemPlParser.Parser.save" title="TotemPlParser.Parser.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Parser.save</span></code></a>().</p>
+<p>When the operation is finished, <cite>callback</cite> will be called. You can then call
+<a class="reference internal" href="#TotemPlParser.Parser.save_finish" title="TotemPlParser.Parser.save_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Parser.save_finish</span></code></a>() to get the results of the operation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TotemPlParser.Parser.save_finish">
+<code class="descname">save_finish</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#TotemPlParser.Parser.save_finish" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> on failure.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Finishes an asynchronous playlist saving operation started with <a class="reference internal" href="#TotemPlParser.Parser.save_async" title="TotemPlParser.Parser.save_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TotemPlParser.Parser.save_async</span></code></a>().</p>
+<p>If saving of the playlist is cancelled part-way through, <a class="reference external" href="../../Gio-2.0/enums.html#Gio.IOErrorEnum.CANCELLED" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.CANCELLED</span></code></a> will be
+returned when this function is called.</p>
 </dd></dl>
 
 <dl class="method">

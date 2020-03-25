@@ -236,6 +236,12 @@
 <td><a class="reference internal" href="#Gegl.Rectangle.new" title="Gegl.Rectangle.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new</span></code></a> (x, y, width, height)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Gegl.Rectangle.align" title="Gegl.Rectangle.align"><code class="xref py py-obj docutils literal notranslate"><span class="pre">align</span></code></a> (rectangle, tile, alignment)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Gegl.Rectangle.align_to_buffer" title="Gegl.Rectangle.align_to_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">align_to_buffer</span></code></a> (rectangle, buffer, alignment)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Gegl.Rectangle.bounding_box" title="Gegl.Rectangle.bounding_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounding_box</span></code></a> (source1, source2)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
@@ -269,7 +275,13 @@
 <td><a class="reference internal" href="#Gegl.Rectangle.set" title="Gegl.Rectangle.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a> (x, y, width, height)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Gegl.Rectangle.subtract" title="Gegl.Rectangle.subtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract</span></code></a> (minuend, subtrahend)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Gegl.Rectangle.subtract_bounding_box" title="Gegl.Rectangle.subtract_bounding_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract_bounding_box</span></code></a> (minuend, subtrahend)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Gegl.Rectangle.xor" title="Gegl.Rectangle.xor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xor</span></code></a> (source1, source2)</td>
 </tr>
 </tbody>
 </table>
@@ -314,6 +326,64 @@
 </tbody>
 </table>
 <p>Creates a new rectangle set with the values from <cite>x</cite>, <cite>y</cite>, <cite>width</cite> and <cite>height</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Gegl.Rectangle.align">
+<code class="descname">align</code><span class="sig-paren">(</span><em>rectangle</em>, <em>tile</em>, <em>alignment</em><span class="sig-paren">)</span><a class="headerlink" href="#Gegl.Rectangle.align" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rectangle</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+<li><strong>tile</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+<li><strong>alignment</strong> (<a class="reference internal" href="../enums.html#Gegl.RectangleAlignment" title="Gegl.RectangleAlignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.RectangleAlignment</span></code></a>) – a <a class="reference internal" href="../enums.html#Gegl.RectangleAlignment" title="Gegl.RectangleAlignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.RectangleAlignment</span></code></a> value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Aligns <cite>rectangle</cite> to a regular tile grid, of which <cite>tile</cite> is a representative
+tile, and stores the result in <cite>self</cite>.</p>
+<p><cite>alignment</cite> can be one of:</p>
+<p>GEGL_RECTANGLE_ALIGNMENT_SUBSET:  Calculate the biggest aligned rectangle
+contained in <cite>rectangle</cite>.</p>
+<p>GEGL_RECTANGLE_ALIGNMENT_SUPERSET:  Calculate the smallest aligned
+rectangle containing <cite>rectangle</cite>.</p>
+<p>GEGL_RECTANGLE_ALIGNMENT_NEAREST:  Calculate the nearest aligned rectangle
+to <cite>rectangle</cite>.</p>
+<p><cite>self</cite> may point to the same object as <cite>rectangle</cite> or <cite>tile</cite>.</p>
+<p>Returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the result is not empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Gegl.Rectangle.align_to_buffer">
+<code class="descname">align_to_buffer</code><span class="sig-paren">(</span><em>rectangle</em>, <em>buffer</em>, <em>alignment</em><span class="sig-paren">)</span><a class="headerlink" href="#Gegl.Rectangle.align_to_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rectangle</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+<li><strong>buffer</strong> (<a class="reference internal" href="Buffer.html#Gegl.Buffer" title="Gegl.Buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Buffer</span></code></a>) – a <a class="reference internal" href="Buffer.html#Gegl.Buffer" title="Gegl.Buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Buffer</span></code></a></li>
+<li><strong>alignment</strong> (<a class="reference internal" href="../enums.html#Gegl.RectangleAlignment" title="Gegl.RectangleAlignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.RectangleAlignment</span></code></a>) – a <a class="reference internal" href="../enums.html#Gegl.RectangleAlignment" title="Gegl.RectangleAlignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.RectangleAlignment</span></code></a> value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Aligns <cite>rectangle</cite> to the tile grid of <cite>buffer</cite>, and stores the result in
+<cite>self</cite>.</p>
+<p><cite>alignment</cite> has the same meaning as for <a class="reference internal" href="#Gegl.Rectangle.align" title="Gegl.Rectangle.align"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle.align</span></code></a>().</p>
+<p><cite>self</cite> may point to the same object as <cite>rectangle</cite>.</p>
+<p>Returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the result is not empty.</p>
 </dd></dl>
 
 <dl class="method">
@@ -508,6 +578,30 @@ are undefined.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Gegl.Rectangle.subtract">
+<code class="descname">subtract</code><span class="sig-paren">(</span><em>minuend</em>, <em>subtrahend</em><span class="sig-paren">)</span><a class="headerlink" href="#Gegl.Rectangle.subtract" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>minuend</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+<li><strong>subtrahend</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Subtracts <cite>subtrahend</cite> from <cite>minuend</cite>, and stores the resulting rectangles in
+<cite>self</cite>.  Between 0 and 4 disjoint rectangles may be produced.</p>
+<p><cite>self</cite> may contain <cite>minuend</cite> or <cite>subtrahend</cite>.</p>
+<p>Returns the number of resulting rectangles.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="Gegl.Rectangle.subtract_bounding_box">
 <code class="descname">subtract_bounding_box</code><span class="sig-paren">(</span><em>minuend</em>, <em>subtrahend</em><span class="sig-paren">)</span><a class="headerlink" href="#Gegl.Rectangle.subtract_bounding_box" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -529,6 +623,31 @@ are undefined.</p>
 from <cite>minuend</cite>, and stores the result in <cite>self</cite>.</p>
 <p><cite>self</cite> may point to the same object as <cite>minuend</cite> or <cite>subtrahend</cite>.</p>
 <p>Returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the result is not empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Gegl.Rectangle.xor">
+<code class="descname">xor</code><span class="sig-paren">(</span><em>source1</em>, <em>source2</em><span class="sig-paren">)</span><a class="headerlink" href="#Gegl.Rectangle.xor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source1</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+<li><strong>source2</strong> (<a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a>) – a <a class="reference internal" href="#Gegl.Rectangle" title="Gegl.Rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gegl.Rectangle</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Computes the symmetric difference of the rectangles <cite>source1</cite> and <cite>source2</cite>,
+and stores the resulting rectangles in <cite>self</cite>.  Between 0 and 4
+disjoint rectangles may be produced.</p>
+<p><cite>self</cite> may contain <cite>rectangle1</cite> or <cite>rectangle2</cite>.</p>
+<p>Returns the number of resulting rectangles.</p>
 </dd></dl>
 
 </dd></dl>

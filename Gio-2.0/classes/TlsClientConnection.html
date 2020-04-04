@@ -352,7 +352,7 @@
 </div>
 <dl class="classmethod">
 <dt id="Gio.TlsClientConnection.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>base_io_stream</em>, <em>server_identity</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>base_io_stream</em>, <em>server_identity</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -388,7 +388,7 @@ this function has returned.</p>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.copy_session_state">
-<code class="descname">copy_session_state</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L387"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.copy_session_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_session_state</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L387"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.copy_session_state" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -397,12 +397,32 @@ this function has returned.</p>
 </tr>
 </tbody>
 </table>
-<p>Copies session state from one connection to another. This is
-not normally needed, but may be used when the same session
-needs to be used between different endpoints as is required
-by some protocols such as FTP over TLS. <cite>source</cite> should have
-already completed a handshake, and <cite>self</cite> should not have
-completed a handshake.</p>
+<p>Possibly copies session state from one connection to another, for use
+in TLS session resumption. This is not normally needed, but may be
+used when the same session needs to be used between different
+endpoints, as is required by some protocols, such as FTP over TLS.
+<cite>source</cite> should have already completed a handshake and, since TLS 1.3,
+it should have been used to read data at least once. <cite>self</cite> should not
+have completed a handshake.</p>
+<p>It is not possible to know whether a call to this function will
+actually do anything. Because session resumption is normally used
+only for performance benefit, the TLS backend might not implement
+this function. Even if implemented, it may not actually succeed in
+allowing <cite>self</cite> to resume <cite>source</cite>’s TLS session, because the server
+may not have sent a session resumption token to <cite>source</cite>, or it may
+refuse to accept the token from <cite>self</cite>. There is no way to know
+whether a call to this function is actually successful.</p>
+<p>Using this function is not required to benefit from session
+resumption. If the TLS backend supports session resumption, the
+session will be resumed automatically if it is possible to do so
+without weakening the privacy guarantees normally provided by TLS,
+without need to call this function. For example, with TLS 1.3,
+a session ticket will be automatically copied from any
+<a class="reference internal" href="#Gio.TlsClientConnection" title="Gio.TlsClientConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection</span></code></a> that has previously received session tickets
+from the server, provided a ticket is available that has not
+previously been used for session resumption, since session ticket
+reuse would be a privacy weakness. Using this function causes the
+ticket to be copied without regard for privacy considerations.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.46.</span></p>
 </div>
@@ -410,7 +430,7 @@ completed a handshake.</p>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.get_accepted_cas">
-<code class="descname">get_accepted_cas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L339"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_accepted_cas" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_accepted_cas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L339"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_accepted_cas" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -436,7 +456,7 @@ subject DN of the certificate authority.</p>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.get_server_identity">
-<code class="descname">get_server_identity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L234"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_server_identity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_server_identity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L234"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_server_identity" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -457,31 +477,30 @@ known.</td>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.get_use_ssl3">
-<code class="descname">get_use_ssl3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L281"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_use_ssl3" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_use_ssl3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L281"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_use_ssl3" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">whether <cite>self</cite> will use the lowest-supported TLS protocol version</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Gets whether <cite>self</cite> will force the lowest-supported TLS protocol
-version rather than attempt to negotiate the highest mutually-
-supported version of TLS; see <a class="reference internal" href="#Gio.TlsClientConnection.set_use_ssl3" title="Gio.TlsClientConnection.set_use_ssl3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection.set_use_ssl3</span></code></a>().</p>
+<p>SSL 3.0 is no longer supported. See
+<a class="reference internal" href="#Gio.TlsClientConnection.set_use_ssl3" title="Gio.TlsClientConnection.set_use_ssl3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection.set_use_ssl3</span></code></a>() for details.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.28.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure, and this function does not actually indicate whether it is enabled.</p>
+<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure.</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.get_validation_flags">
-<code class="descname">get_validation_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L191"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_validation_flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_validation_flags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L191"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.get_validation_flags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -500,7 +519,7 @@ supported version of TLS; see <a class="reference internal" href="#Gio.TlsClient
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.set_server_identity">
-<code class="descname">set_server_identity</code><span class="sig-paren">(</span><em>identity</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L260"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_server_identity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_server_identity</code><span class="sig-paren">(</span><em>identity</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L260"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_server_identity" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -520,38 +539,34 @@ performing <a class="reference internal" href="../flags.html#Gio.TlsCertificateF
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.set_use_ssl3">
-<code class="descname">set_use_ssl3</code><span class="sig-paren">(</span><em>use_ssl3</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L313"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_use_ssl3" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_use_ssl3</code><span class="sig-paren">(</span><em>use_ssl3</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L313"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_use_ssl3" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>use_ssl3</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether to use the lowest-supported protocol version</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>use_ssl3</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, ignored</td>
 </tr>
 </tbody>
 </table>
-<p>Since 2.42.1, if <cite>use_ssl3</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, this forces <cite>self</cite> to use the
-lowest-supported TLS protocol version rather than trying to properly
-negotiate the highest mutually-supported protocol version with the
-peer. Be aware that SSL 3.0 is generally disabled by the
-<a class="reference internal" href="TlsBackend.html#Gio.TlsBackend" title="Gio.TlsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsBackend</span></code></a>, so the lowest-supported protocol version is probably
-not SSL 3.0.</p>
-<p>Since 2.58, this may additionally cause an RFC 7507 fallback SCSV to
-be sent to the server, causing modern TLS servers to immediately
-terminate the connection. You should generally only use this function
-if you need to connect to broken servers that exhibit TLS protocol
-version intolerance, and when an initial attempt to connect to a
-server normally has already failed.</p>
+<p>Since GLib 2.42.1, SSL 3.0 is no longer supported.</p>
+<p>From GLib 2.42.1 through GLib 2.62, this function could be used to
+force use of TLS 1.0, the lowest-supported TLS protocol version at
+the time. In the past, this was needed to connect to broken TLS
+servers that exhibited protocol version intolerance. Such servers
+are no longer common, and using TLS 1.0 is no longer considered
+acceptable.</p>
+<p>Since GLib 2.64, this function does nothing.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.28.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure, and this function does not generally enable or disable it, despite its name.</p>
+<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure.</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gio.TlsClientConnection.set_validation_flags">
-<code class="descname">set_validation_flags</code><span class="sig-paren">(</span><em>flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.62.5/gio/gtlsclientconnection.c#L214"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_validation_flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_validation_flags</code><span class="sig-paren">(</span><em>flags</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gtlsclientconnection.c#L214"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.TlsClientConnection.set_validation_flags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -579,12 +594,32 @@ checks performed when validating a server certificate. By default,
 </tr>
 </tbody>
 </table>
-<p>Copies session state from one connection to another. This is
-not normally needed, but may be used when the same session
-needs to be used between different endpoints as is required
-by some protocols such as FTP over TLS. <cite>source</cite> should have
-already completed a handshake, and <cite>conn</cite> should not have
-completed a handshake.</p>
+<p>Possibly copies session state from one connection to another, for use
+in TLS session resumption. This is not normally needed, but may be
+used when the same session needs to be used between different
+endpoints, as is required by some protocols, such as FTP over TLS.
+<cite>source</cite> should have already completed a handshake and, since TLS 1.3,
+it should have been used to read data at least once. <cite>conn</cite> should not
+have completed a handshake.</p>
+<p>It is not possible to know whether a call to this function will
+actually do anything. Because session resumption is normally used
+only for performance benefit, the TLS backend might not implement
+this function. Even if implemented, it may not actually succeed in
+allowing <cite>conn</cite> to resume <cite>source</cite>’s TLS session, because the server
+may not have sent a session resumption token to <cite>source</cite>, or it may
+refuse to accept the token from <cite>conn</cite>. There is no way to know
+whether a call to this function is actually successful.</p>
+<p>Using this function is not required to benefit from session
+resumption. If the TLS backend supports session resumption, the
+session will be resumed automatically if it is possible to do so
+without weakening the privacy guarantees normally provided by TLS,
+without need to call this function. For example, with TLS 1.3,
+a session ticket will be automatically copied from any
+<a class="reference internal" href="#Gio.TlsClientConnection" title="Gio.TlsClientConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection</span></code></a> that has previously received session tickets
+from the server, provided a ticket is available that has not
+previously been used for session resumption, since session ticket
+reuse would be a privacy weakness. Using this function causes the
+ticket to be copied without regard for privacy considerations.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.46.</span></p>
 </div>
@@ -674,14 +709,13 @@ virtual hosts.</p>
 </tr>
 </tbody>
 </table>
-<p>If <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, forces the connection to use a fallback version of TLS
-or SSL, rather than trying to negotiate the best version of TLS
-to use. See <a class="reference internal" href="#Gio.TlsClientConnection.set_use_ssl3" title="Gio.TlsClientConnection.set_use_ssl3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection.set_use_ssl3</span></code></a>().</p>
+<p>SSL 3.0 is no longer supported. See
+<a class="reference internal" href="#Gio.TlsClientConnection.set_use_ssl3" title="Gio.TlsClientConnection.set_use_ssl3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsClientConnection.set_use_ssl3</span></code></a>() for details.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.28.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure, and this property does not generally enable or disable it, despite its name.</p>
+<p><span class="versionmodified">Deprecated since version 2.56: </span>SSL 3.0 is insecure.</p>
 </div>
 </dd></dl>
 

@@ -193,13 +193,16 @@
 <col width="99%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>&#160;</td>
-<td><a class="reference internal" href="#Pango.ScriptIter.free" title="Pango.ScriptIter.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free</span></code></a> ()</td>
+<tr class="row-odd"><td><em>class</em></td>
+<td><a class="reference internal" href="#Pango.ScriptIter.new" title="Pango.ScriptIter.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new</span></code></a> (text, length)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
-<td><a class="reference internal" href="#Pango.ScriptIter.get_range" title="Pango.ScriptIter.get_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_range</span></code></a> ()</td>
+<td><a class="reference internal" href="#Pango.ScriptIter.free" title="Pango.ScriptIter.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free</span></code></a> ()</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Pango.ScriptIter.get_range" title="Pango.ScriptIter.get_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_range</span></code></a> ()</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#Pango.ScriptIter.next" title="Pango.ScriptIter.next"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next</span></code></a> ()</td>
 </tr>
 </tbody>
@@ -212,10 +215,43 @@
 <em class="property">class </em><code class="descclassname">Pango.</code><code class="descname">ScriptIter</code><a class="headerlink" href="#Pango.ScriptIter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A <a class="reference internal" href="#Pango.ScriptIter" title="Pango.ScriptIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter</span></code></a> is used to iterate through a string
 and identify ranges in different scripts.</p>
+<dl class="classmethod">
+<dt id="Pango.ScriptIter.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>text</em>, <em>length</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-script.c#L147"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.new" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a UTF-8 string</li>
+<li><strong>length</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – length of <cite>text</cite>, or -1 if <cite>text</cite> is nul-terminated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the new script iterator, initialized
+to point at the first range in the text, which should be
+freed with <a class="reference internal" href="#Pango.ScriptIter.free" title="Pango.ScriptIter.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter.free</span></code></a>(). If the string is
+empty, it will point at an empty range.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#Pango.ScriptIter" title="Pango.ScriptIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a new <a class="reference internal" href="#Pango.ScriptIter" title="Pango.ScriptIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter</span></code></a>, used to break a string of
+Unicode text into runs by Unicode script. No copy is made of
+<cite>text</cite>, so the caller needs to make sure it remains valid until
+the iterator is freed with <a class="reference internal" href="#Pango.ScriptIter.free" title="Pango.ScriptIter.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter.free</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.4.</span></p>
+</div>
+</dd></dl>
+
 <dl class="method">
 <dt id="Pango.ScriptIter.free">
-<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-script.c#L156"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.free" title="Permalink to this definition">¶</a></dt>
-<dd><p>Frees a <a class="reference internal" href="#Pango.ScriptIter" title="Pango.ScriptIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter</span></code></a> created with pango_script_iter_new().</p>
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-script.c#L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.free" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frees a <a class="reference internal" href="#Pango.ScriptIter" title="Pango.ScriptIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter</span></code></a> created with <a class="reference internal" href="#Pango.ScriptIter.new" title="Pango.ScriptIter.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.ScriptIter.new</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.4.</span></p>
 </div>
@@ -223,7 +259,7 @@ and identify ranges in different scripts.</p>
 
 <dl class="method">
 <dt id="Pango.ScriptIter.get_range">
-<code class="descname">get_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-script.c#L179"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.get_range" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-script.c#L200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.get_range" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -249,6 +285,10 @@ and identify ranges in different scripts.</p>
 <p>Gets information about the range to which <cite>self</cite> currently points.
 The range is the set of locations p where *start &lt;= p &lt; *end.
 (That is, it doesn’t include the character stored at *end)</p>
+<p>Note that while the type of the <cite>script</cite> argument is declared
+as <a class="reference internal" href="../enums.html#Pango.Script" title="Pango.Script"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Script</span></code></a>, as of Pango 1.18, this function simply returns
+<a class="reference external" href="../../GLib-2.0/enums.html#GLib.UnicodeScript" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UnicodeScript</span></code></a> values. Callers must be prepared to handle unknown
+values.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.4.</span></p>
 </div>
@@ -256,7 +296,7 @@ The range is the set of locations p where *start &lt;= p &lt; *end.
 
 <dl class="method">
 <dt id="Pango.ScriptIter.next">
-<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-script.c#L252"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.next" title="Permalink to this definition">¶</a></dt>
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-script.c#L314"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.ScriptIter.next" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

@@ -233,12 +233,15 @@
 <td><a class="reference internal" href="#Pango.Item.new" title="Pango.Item.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new</span></code></a> ()</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
-<td><a class="reference internal" href="#Pango.Item.copy" title="Pango.Item.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a> ()</td>
+<td><a class="reference internal" href="#Pango.Item.apply_attrs" title="Pango.Item.apply_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_attrs</span></code></a> (iter)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
-<td><a class="reference internal" href="#Pango.Item.free" title="Pango.Item.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free</span></code></a> ()</td>
+<td><a class="reference internal" href="#Pango.Item.copy" title="Pango.Item.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a> ()</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Pango.Item.free" title="Pango.Item.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Pango.Item.split" title="Pango.Item.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split</span></code></a> (split_index, split_offset)</td>
 </tr>
 </tbody>
@@ -252,7 +255,7 @@
 <dd><p>The <a class="reference internal" href="#Pango.Item" title="Pango.Item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Item</span></code></a> structure stores information about a segment of text.</p>
 <dl class="classmethod">
 <dt id="Pango.Item.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-item.c#L36"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-item.c#L36"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -268,8 +271,33 @@ be freed with <a class="reference internal" href="#Pango.Item.free" title="Pango
 </dd></dl>
 
 <dl class="method">
+<dt id="Pango.Item.apply_attrs">
+<code class="descname">apply_attrs</code><span class="sig-paren">(</span><em>iter</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-item.c#L190"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.apply_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>iter</strong> (<a class="reference internal" href="AttrIterator.html#Pango.AttrIterator" title="Pango.AttrIterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrIterator</span></code></a>) – a <a class="reference internal" href="AttrIterator.html#Pango.AttrIterator" title="Pango.AttrIterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrIterator</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Add attributes to a <a class="reference internal" href="#Pango.Item" title="Pango.Item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Item</span></code></a>. The idea is that you have
+attributes that don’t affect itemization, such as font features,
+so you filter them out using <a class="reference internal" href="AttrList.html#Pango.AttrList.filter" title="Pango.AttrList.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrList.filter</span></code></a>(), itemize
+your text, then reapply the attributes to the resulting items
+using this function.</p>
+<p>The <cite>iter</cite> should be positioned before the range of the item,
+and will be advanced past it. This function is meant to be called
+in a loop over the items resulting from itemization, while passing
+the iter to each call.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.44.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="Pango.Item.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-item.c#L54"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-item.c#L54"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.copy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -287,13 +315,13 @@ should be freed with <a class="reference internal" href="#Pango.Item.free" title
 
 <dl class="method">
 <dt id="Pango.Item.free">
-<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-item.c#L92"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.free" title="Permalink to this definition">¶</a></dt>
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-item.c#L92"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free a <a class="reference internal" href="#Pango.Item" title="Pango.Item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Item</span></code></a> and all associated memory.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="Pango.Item.split">
-<code class="descname">split</code><span class="sig-paren">(</span><em>split_index</em>, <em>split_offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.42.3/pango/pango-item.c#L136"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.split" title="Permalink to this definition">¶</a></dt>
+<code class="descname">split</code><span class="sig-paren">(</span><em>split_index</em>, <em>split_offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.44.7/pango/pango-item.c#L136"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Pango.Item.split" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

@@ -810,11 +810,14 @@ implies to automatically choose a fwmark.</p>
 </tbody>
 </table>
 <p>Whether to enable special handling of the IPv4 default route.
-If enabled, the IPv4 default route will be placed to a dedicated
-routing-table and two policy routing rules will be added.
-The fwmark number is also used as routing-table for the default-route,
-and if fwmark is zero, a unused fwmark/table is chosen automatically.
-This corresponds to what wg-quick does with Table=auto.</p>
+If enabled, the IPv4 default route from wireguard.peer-routes
+will be placed to a dedicated routing-table and two policy routing rules
+will be added. The fwmark number is also used as routing-table for the default-route,
+and if fwmark is zero, an unused fwmark/table is chosen automatically.
+This corresponds to what wg-quick does with Table=auto and what WireGuard
+calls “Improved Rule-based Routing”.</p>
+<p>Note that for this automatism to work, you usually don’t want to set
+ipv4.gateway, because that will result in a conflicting default route.</p>
 <p>Leaving this at the default will enable this option automatically
 if ipv4.never-default is not set and there are any peers that use
 a default-route as allowed-ips.</p>
@@ -917,10 +920,13 @@ time of activation.</p>
 <p>Whether to automatically add routes for the AllowedIPs ranges
 of the peers. If <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> (the default), NetworkManager will automatically
 add routes in the routing tables according to ipv4.route-table and
-ipv6.route-table.
+ipv6.route-table. Usually you want this automatism enabled.
 If <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, no such routes are added automatically. In this case, the
 user may want to configure static routes in ipv4.routes and ipv6.routes,
 respectively.</p>
+<p>Note that if the peer’s AllowedIPs is “0.0.0.0/0” or “::/0” and the profile’s
+ipv4.never-default or ipv6.never-default setting is enabled, the peer route for
+this peer won’t be added automatically.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.16.</span></p>
 </div>

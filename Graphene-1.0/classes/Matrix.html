@@ -540,7 +540,7 @@ published in “Graphics Gems II”, edited by Jim Arvo, and
 <p>Checks whether the two given <a class="reference internal" href="#Graphene.Matrix" title="Graphene.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix</span></code></a> matrices are
 byte-by-byte equal.</p>
 <p>While this function is faster than <a class="reference internal" href="#Graphene.Matrix.equal" title="Graphene.Matrix.equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.equal</span></code></a>(), it
-can also return <a class="reference internal" href="../constants.html#Graphene.false" title="Graphene.false"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.false</span></code></a> negatives, so it should be used in
+can also return false negatives, so it should be used in
 conjuction with either <a class="reference internal" href="#Graphene.Matrix.equal" title="Graphene.Matrix.equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.equal</span></code></a>() or
 <a class="reference internal" href="#Graphene.Matrix.near" title="Graphene.Matrix.near"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.near</span></code></a>(). For instance:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">graphene_matrix_equal_fast</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
@@ -928,6 +928,16 @@ this is the <a class="reference internal" href="Vec3.html#Graphene.Vec3.y_axis" 
 at the given <cite>eye</cite> coordinates towards an object at the <cite>center</cite>
 coordinates. The top of the camera is aligned to the direction
 of the <cite>up</cite> vector.</p>
+<p>Before the transform, the camera is assumed to be placed at the
+origin, looking towards the negative Z axis, with the top side of
+the camera facing in the direction of the Y axis and the right
+side in the direction of the X axis.</p>
+<p>In theory, one could use <cite>self</cite> to transform a model of such a camera
+into world-space. However, it is more common to use the inverse of
+<cite>self</cite> to transform another object from world coordinates to the view
+coordinates of the camera. Typically you would then apply the
+camera projection transform to get from view to screen
+coordinates.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
 </div>
@@ -1381,7 +1391,8 @@ rectangle</td>
 </tr>
 </tbody>
 </table>
-<p>Projects a <a class="reference internal" href="Rect.html#Graphene.Rect" title="Graphene.Rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a> using the given matrix.</p>
+<p>Projects all corners of a <a class="reference internal" href="Rect.html#Graphene.Rect" title="Graphene.Rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a> using the given matrix.</p>
+<p>See also: <a class="reference internal" href="#Graphene.Matrix.project_point" title="Graphene.Matrix.project_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.project_point</span></code></a>()</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.2.</span></p>
 </div>
@@ -1405,7 +1416,7 @@ rectangle</td>
 </table>
 <p>Projects a <a class="reference internal" href="Rect.html#Graphene.Rect" title="Graphene.Rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a> using the given matrix.</p>
 <p>The resulting rectangle is the axis aligned bounding rectangle capable
-of containing fully the projected rectangle.</p>
+of fully containing the projected rectangle.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
 </div>
@@ -1694,6 +1705,7 @@ of the transformed rectangle</td>
 <p>Transforms each corner of a <a class="reference internal" href="Rect.html#Graphene.Rect" title="Graphene.Rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a> using the given matrix <cite>self</cite>.</p>
 <p>The result is the axis aligned bounding rectangle containing the coplanar
 quadrilateral.</p>
+<p>See also: <a class="reference internal" href="#Graphene.Matrix.transform_point" title="Graphene.Matrix.transform_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.transform_point</span></code></a>()</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
 </div>
@@ -1768,6 +1780,7 @@ the dot product of each row vector of the matrix.</p>
 <p>Unlike <a class="reference internal" href="#Graphene.Matrix.transform_vec3" title="Graphene.Matrix.transform_vec3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.transform_vec3</span></code></a>(), this function will take into
 account the fourth row vector of the <a class="reference internal" href="#Graphene.Matrix" title="Graphene.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix</span></code></a> when computing
 the dot product of each row vector of the matrix.</p>
+<p>See also: graphene_simd4x4f_point3_mul()</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.2.</span></p>
 </div>
@@ -1813,6 +1826,7 @@ transformed quad</td>
 </table>
 <p>Transforms each corner of a <a class="reference internal" href="Rect.html#Graphene.Rect" title="Graphene.Rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a> using the given matrix <cite>self</cite>.</p>
 <p>The result is a coplanar quadrilateral.</p>
+<p>See also: <a class="reference internal" href="#Graphene.Matrix.transform_point" title="Graphene.Matrix.transform_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Matrix.transform_point</span></code></a>()</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.0.</span></p>
 </div>

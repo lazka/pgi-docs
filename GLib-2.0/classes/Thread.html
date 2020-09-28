@@ -200,7 +200,13 @@
 <td><a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a> (retval)</td>
 </tr>
 <tr class="row-odd"><td><em>class</em></td>
+<td><a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new</span></code></a> (name, func, *data)</td>
+</tr>
+<tr class="row-even"><td><em>class</em></td>
 <td><a class="reference internal" href="#GLib.Thread.self" title="GLib.Thread.self"><code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code></a> ()</td>
+</tr>
+<tr class="row-odd"><td><em>class</em></td>
+<td><a class="reference internal" href="#GLib.Thread.try_new" title="GLib.Thread.try_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">try_new</span></code></a> (name, func, *data)</td>
 </tr>
 <tr class="row-even"><td><em>class</em></td>
 <td><a class="reference internal" href="#GLib.Thread.yield_" title="GLib.Thread.yield_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yield_</span></code></a> ()</td>
@@ -223,7 +229,7 @@
 <dt id="GLib.Thread">
 <em class="property">class </em><code class="descclassname">GLib.</code><code class="descname">Thread</code><a class="headerlink" href="#GLib.Thread" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a> struct represents a running thread. This struct
-is returned by g_thread_new() or g_thread_try_new(). You can
+is returned by <a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.new</span></code></a>() or <a class="reference internal" href="#GLib.Thread.try_new" title="GLib.Thread.try_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.try_new</span></code></a>(). You can
 obtain the <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a> struct representing the current thread by
 calling <a class="reference internal" href="#GLib.Thread.self" title="GLib.Thread.self"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.self</span></code></a>().</p>
 <p><a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a> is refcounted, see <a class="reference internal" href="#GLib.Thread.ref" title="GLib.Thread.ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.ref</span></code></a>() and <a class="reference internal" href="#GLib.Thread.unref" title="GLib.Thread.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.unref</span></code></a>().
@@ -235,7 +241,7 @@ explicitly.</p>
 accessed.</p>
 <dl class="classmethod">
 <dt id="GLib.Thread.error_quark">
-<em class="property">classmethod </em><code class="descname">error_quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L506"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">error_quark</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L507"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -248,7 +254,7 @@ accessed.</p>
 
 <dl class="classmethod">
 <dt id="GLib.Thread.exit">
-<em class="property">classmethod </em><code class="descname">exit</code><span class="sig-paren">(</span><em>retval</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L942"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.exit" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">exit</code><span class="sig-paren">(</span><em>retval</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L956"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.exit" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -262,16 +268,64 @@ accessed.</p>
 waiting thread will be woken up and get <cite>retval</cite> as the return value
 of <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.join</span></code></a>().</p>
 <p>Calling <a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.exit</span></code></a>() with a parameter <cite>retval</cite> is equivalent to
-returning <cite>retval</cite> from the function <cite>func</cite>, as given to g_thread_new().</p>
+returning <cite>retval</cite> from the function <cite>func</cite>, as given to <a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.new</span></code></a>().</p>
 <p>You must only call <a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.exit</span></code></a>() from a thread that you created
-yourself with g_thread_new() or related APIs. You must not call
+yourself with <a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.new</span></code></a>() or related APIs. You must not call
 this function from a thread created with another threading library
 or or from within a <a class="reference internal" href="ThreadPool.html#GLib.ThreadPool" title="GLib.ThreadPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ThreadPool</span></code></a>.</p>
 </dd></dl>
 
 <dl class="classmethod">
+<dt id="GLib.Thread.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>name</em>, <em>func</em>, <em>*data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L872"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.new" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an (optional) name for the new thread</li>
+<li><strong>func</strong> (<a class="reference internal" href="../callbacks.html#GLib.ThreadFunc" title="GLib.ThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ThreadFunc</span></code></a>) – a function to execute in the new thread</li>
+<li><strong>data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an argument to supply to the new thread</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the new <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function creates a new thread. The new thread starts by invoking
+<cite>func</cite> with the argument data. The thread will run until <cite>func</cite> returns
+or until <a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.exit</span></code></a>() is called from the new thread. The return value
+of <cite>func</cite> becomes the return value of the thread, which can be obtained
+with <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.join</span></code></a>().</p>
+<p>The <cite>name</cite> can be useful for discriminating threads in a debugger.
+It is not used for other purposes and does not have to be unique.
+Some systems restrict the length of <cite>name</cite> to 16 bytes.</p>
+<p>If the thread can not be created the program aborts. See
+<a class="reference internal" href="#GLib.Thread.try_new" title="GLib.Thread.try_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.try_new</span></code></a>() if you want to attempt to deal with failures.</p>
+<p>If you are using threads to offload (potentially many) short-lived tasks,
+<a class="reference internal" href="ThreadPool.html#GLib.ThreadPool" title="GLib.ThreadPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ThreadPool</span></code></a> may be more appropriate than manually spawning and tracking
+multiple <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Threads</span></code></a>.</p>
+<p>To free the struct returned by this function, use <a class="reference internal" href="#GLib.Thread.unref" title="GLib.Thread.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.unref</span></code></a>().
+Note that <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.join</span></code></a>() implicitly unrefs the <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a> as well.</p>
+<p>New threads by default inherit their scheduler policy (POSIX) or thread
+priority (Windows) of the thread creating the new thread.</p>
+<p>This behaviour changed in GLib 2.64: before threads on Windows were not
+inheriting the thread priority but were spawned with the default priority.
+Starting with GLib 2.64 the behaviour is now consistent between Windows and
+POSIX and all threads inherit their parent thread’s priority.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.32.</span></p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
 <dt id="GLib.Thread.self">
-<em class="property">classmethod </em><code class="descname">self</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L1014"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.self" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">self</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L1028"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.self" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -293,8 +347,42 @@ as <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.joi
 </dd></dl>
 
 <dl class="classmethod">
+<dt id="GLib.Thread.try_new">
+<em class="property">classmethod </em><code class="descname">try_new</code><span class="sig-paren">(</span><em>name</em>, <em>func</em>, <em>*data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L906"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.try_new" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an (optional) name for the new thread</li>
+<li><strong>func</strong> (<a class="reference internal" href="../callbacks.html#GLib.ThreadFunc" title="GLib.ThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ThreadFunc</span></code></a>) – a function to execute in the new thread</li>
+<li><strong>data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an argument to supply to the new thread</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the new <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a>, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an error occurred</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is the same as <a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.new</span></code></a>() except that
+it allows for the possibility of failure.</p>
+<p>If a thread can not be created (due to resource limits),
+<cite>error</cite> is set and <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.32.</span></p>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
 <dt id="GLib.Thread.yield_">
-<em class="property">classmethod </em><code class="descname">yield_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread-posix.c#L1339"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.yield_" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">yield_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread-posix.c#L1343"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.yield_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Causes the calling thread to voluntarily relinquish the CPU, so
 that other threads can run.</p>
 <p>This function is often used as a method to make busy wait less evil.</p>
@@ -302,7 +390,7 @@ that other threads can run.</p>
 
 <dl class="method">
 <dt id="GLib.Thread.join">
-<code class="descname">join</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L978"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.join" title="Permalink to this definition">¶</a></dt>
+<code class="descname">join</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L992"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.join" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -314,7 +402,7 @@ that other threads can run.</p>
 </tbody>
 </table>
 <p>Waits until <cite>self</cite> finishes, i.e. the function <cite>func</cite>, as
-given to g_thread_new(), returns or <a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.exit</span></code></a>() is called.
+given to <a class="reference internal" href="#GLib.Thread.new" title="GLib.Thread.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.new</span></code></a>(), returns or <a class="reference internal" href="#GLib.Thread.exit" title="GLib.Thread.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.exit</span></code></a>() is called.
 If <cite>self</cite> has already terminated, then <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.join</span></code></a>()
 returns immediately.</p>
 <p>Any thread can wait for any other thread by calling <a class="reference internal" href="#GLib.Thread.join" title="GLib.Thread.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread.join</span></code></a>(),
@@ -330,7 +418,7 @@ want to keep the <a class="reference internal" href="#GLib.Thread" title="GLib.T
 
 <dl class="method">
 <dt id="GLib.Thread.ref">
-<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L747"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.ref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L760"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.ref" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -349,7 +437,7 @@ want to keep the <a class="reference internal" href="#GLib.Thread" title="GLib.T
 
 <dl class="method">
 <dt id="GLib.Thread.unref">
-<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/glib/gthread.c#L770"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.unref" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/glib/gthread.c#L783"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GLib.Thread.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrease the reference count on <cite>self</cite>, possibly freeing all
 resources associated with it.</p>
 <p>Note that each thread holds a reference to its <a class="reference internal" href="#GLib.Thread" title="GLib.Thread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Thread</span></code></a> while

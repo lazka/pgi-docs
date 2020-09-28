@@ -201,17 +201,17 @@
 <tr class="row-even"><td>applied_rate</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></td>
 <td>r/w</td>
-<td>the already applied rate to the segment</td>
+<td>The applied rate is the rate that has been applied to the stream. The effective/resulting playback rate of a stream is <code class="docutils literal notranslate"><span class="pre">rate</span> <span class="pre">*</span> <span class="pre">applied_rate</span></code>. The applied rate can be set by source elements when a server is sending the stream with an already modified playback speed rate. Filter elements that modify the stream in a way that modifies the playback speed should also modify the applied rate. For example the #videorate element when its #videorate:rate property is set will set the applied rate of the segment it pushed downstream. Also #scaletempo applies the input segment rate to the stream and outputs a segment with rate=1.0 and applied_rate=&lt;inputsegment.rate&gt;.</td>
 </tr>
 <tr class="row-odd"><td>base</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the running time (plus elapsed time, see offset) of the segment start</td>
+<td>the running time (plus elapsed time, see offset) of the segment <a class="reference external" href="GstSegment.start">start</a> (<a class="reference external" href="GstSegment.stop">stop</a> if rate &lt; 0.0).</td>
 </tr>
 <tr class="row-even"><td>duration</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the duration of the stream</td>
+<td>the duration of the segment is the maximum absolute difference between <a class="reference internal" href="#gst-segment-fields"><span class="std std-ref">Gst.Segment.start</span></a> and <a class="reference internal" href="#gst-segment-fields"><span class="std std-ref">Gst.Segment.stop</span></a> if stop is not set, otherwise it should be the difference between those two values. This should be set by elements that know the overall stream duration (like demuxers) and will be used when seeking with <a class="reference internal" href="../enums.html#Gst.SeekType.END" title="Gst.SeekType.END"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.SeekType.END</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td>flags</td>
 <td><a class="reference internal" href="../flags.html#Gst.SegmentFlags" title="Gst.SegmentFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.SegmentFlags</span></code></a></td>
@@ -221,37 +221,37 @@
 <tr class="row-even"><td>format</td>
 <td><a class="reference internal" href="../enums.html#Gst.Format" title="Gst.Format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Format</span></code></a></td>
 <td>r/w</td>
-<td>the format of the segment values</td>
+<td>the unit used for all of the segment’s values.</td>
 </tr>
 <tr class="row-odd"><td>offset</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the amount (in buffer timestamps) that has already been elapsed in the segment</td>
+<td>the offset expresses the elapsed time (in buffer timestamps) before a seek with its start (stop if rate &lt; 0.0) seek type set to <a class="reference internal" href="../enums.html#Gst.SeekType.NONE" title="Gst.SeekType.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.SeekType.NONE</span></code></a>, the value is set to the position of the segment at the time of the seek.</td>
 </tr>
 <tr class="row-even"><td>position</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the buffer timestamp position in the segment (used internally by elements such as sources, demuxers or parsers to track progress)</td>
+<td>the buffer timestamp position in the segment is supposed to be updated by elements such as sources, demuxers or parsers to track progress by setting it to the last pushed buffer’ end time (<a class="reference external" href="GstBuffer.pts">timestamp</a> + <a class="reference internal" href="Buffer.html#gst-buffer-fields"><span class="std std-ref">Gst.Buffer.duration</span></a>) for that specific segment. The position is used when reconfiguring the segment with <a class="reference internal" href="#Gst.Segment.do_seek" title="Gst.Segment.do_seek"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Segment.do_seek</span></code></a> when the seek is only updating the segment (see <a class="reference external" href="GstSegment.offset">offset</a>).</td>
 </tr>
 <tr class="row-odd"><td>rate</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></td>
 <td>r/w</td>
-<td>the playback rate of the segment</td>
+<td>the playback rate of the segment is set in response to a seek event and, without any seek, the value should be <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. This value is used by elements that synchronize buffer <a class="reference external" href="additional/design/synchronisation.md#running-time">running                times</a> on the clock (usually the sink elements), leading to consuming buffers faster (for a value <code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">1.0</span></code>) or slower (for <code class="docutils literal notranslate"><span class="pre">0.0</span> <span class="pre">&lt;</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">value</span> <span class="pre">&lt;</span> <span class="pre">1.0</span></code>) than normal playback speed. The rate also defines the playback direction, meaning that when the value is lower than <code class="docutils literal notranslate"><span class="pre">0.0</span></code>, the playback happens in reverse, and the <a class="reference external" href="additional/design/synchronisation.md#stream-time">stream-time</a> is going backward. The <code class="docutils literal notranslate"><span class="pre">rate</span></code> value should never be <code class="docutils literal notranslate"><span class="pre">0.0</span></code>.</td>
 </tr>
 <tr class="row-even"><td>start</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the start of the segment in buffer timestamp time (PTS)</td>
+<td>the start time of the segment (in buffer timestamps) <a class="reference external" href="GstBuffer.pts">(PTS)</a>, that is the timestamp of the first buffer to output inside the segment (last one during reverse playback). For example decoders will <a class="reference external" href="gst_segment_clip">clip</a> out the buffers before the start time.</td>
 </tr>
 <tr class="row-odd"><td>stop</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the stop of the segment in buffer timestamp time (PTS)</td>
+<td>the stop time of the segment (in buffer timestamps) <a class="reference external" href="GstBuffer.pts">(PTS)</a>, that is the timestamp of the last buffer to output inside the segment (first one during reverse playback). For example decoders will <a class="reference external" href="gst_segment_clip">clip</a> out buffers after the stop time.</td>
 </tr>
 <tr class="row-even"><td>time</td>
 <td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 <td>r/w</td>
-<td>the stream time of the segment start</td>
+<td>the stream time of the segment <a class="reference external" href="GstSegment.start">start</a> (<a class="reference external" href="GstSegment.stop">stop</a> if rate &lt; 0.0).</td>
 </tr>
 </tbody>
 </table>
@@ -368,7 +368,7 @@ any rate or applied_rate conversions.</p>
 info to stream time (which is always between 0 and the duration of the stream).</p>
 <dl class="classmethod">
 <dt id="Gst.Segment.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L138"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L138"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -386,7 +386,7 @@ info to stream time (which is always between 0 and the duration of the stream).<
 
 <dl class="method">
 <dt id="Gst.Segment.clip">
-<code class="descname">clip</code><span class="sig-paren">(</span><em>format</em>, <em>start</em>, <em>stop</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L890"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.clip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">clip</code><span class="sig-paren">(</span><em>format</em>, <em>start</em>, <em>stop</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L897"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.clip" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -433,7 +433,7 @@ segment. Depending on the use case, this may or may not be what you want.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.copy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -450,7 +450,7 @@ segment. Depending on the use case, this may or may not be what you want.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.copy_into">
-<code class="descname">copy_into</code><span class="sig-paren">(</span><em>dest</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.copy_into" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_into</code><span class="sig-paren">(</span><em>dest</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.copy_into" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -464,7 +464,7 @@ segment. Depending on the use case, this may or may not be what you want.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.do_seek">
-<code class="descname">do_seek</code><span class="sig-paren">(</span><em>rate</em>, <em>format</em>, <em>flags</em>, <em>start_type</em>, <em>start</em>, <em>stop_type</em>, <em>stop</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.do_seek" title="Permalink to this definition">¶</a></dt>
+<code class="descname">do_seek</code><span class="sig-paren">(</span><em>rate</em>, <em>format</em>, <em>flags</em>, <em>start_type</em>, <em>start</em>, <em>stop_type</em>, <em>stop</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.do_seek" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -523,13 +523,13 @@ has been changed but not the playback position.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.free">
-<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L155"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.free" title="Permalink to this definition">¶</a></dt>
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L155"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free the allocated segment <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="Gst.Segment.init">
-<code class="descname">init</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.init" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.init" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -546,7 +546,7 @@ flags are set.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.is_equal">
-<code class="descname">is_equal</code><span class="sig-paren">(</span><em>s1</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L1222"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.is_equal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_equal</code><span class="sig-paren">(</span><em>s1</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L1229"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.is_equal" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -568,7 +568,7 @@ as perfect equality, including floating point values.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.offset_running_time">
-<code class="descname">offset_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L1176"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.offset_running_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">offset_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L1183"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.offset_running_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -597,7 +597,7 @@ future running-time calculations.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.position_from_running_time">
-<code class="descname">position_from_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L946"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_running_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">position_from_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L953"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_running_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -626,7 +626,7 @@ future running-time calculations.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.position_from_running_time_full">
-<code class="descname">position_from_running_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L1008"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_running_time_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">position_from_running_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L1015"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_running_time_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -673,7 +673,7 @@ position.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.position_from_stream_time">
-<code class="descname">position_from_stream_time</code><span class="sig-paren">(</span><em>format</em>, <em>stream_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L668"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_stream_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">position_from_stream_time</code><span class="sig-paren">(</span><em>format</em>, <em>stream_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L675"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_stream_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -702,7 +702,7 @@ position.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.position_from_stream_time_full">
-<code class="descname">position_from_stream_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>stream_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L570"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_stream_time_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">position_from_stream_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>stream_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L577"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.position_from_stream_time_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -748,7 +748,7 @@ to get the real negative segment position.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.set_running_time">
-<code class="descname">set_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L1128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.set_running_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L1135"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.set_running_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -774,7 +774,7 @@ buffer will be one with <cite>running_time</cite>.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.to_position">
-<code class="descname">to_position</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L1108"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_position" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_position</code><span class="sig-paren">(</span><em>format</em>, <em>running_time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L1115"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_position" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -803,7 +803,7 @@ buffer will be one with <cite>running_time</cite>.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.to_running_time">
-<code class="descname">to_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L834"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_running_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_running_time</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L841"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_running_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -834,7 +834,7 @@ starting from 0. When <a class="reference internal" href="#Gst.Segment.init" tit
 
 <dl class="method">
 <dt id="Gst.Segment.to_running_time_full">
-<code class="descname">to_running_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L729"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_running_time_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_running_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L736"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_running_time_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -880,7 +880,7 @@ to get the real negative running time.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.to_stream_time">
-<code class="descname">to_stream_time</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L515"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_stream_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_stream_time</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L522"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_stream_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -916,7 +916,7 @@ media stream.</p>
 
 <dl class="method">
 <dt id="Gst.Segment.to_stream_time_full">
-<code class="descname">to_stream_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/gst/gstsegment.c#L412"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_stream_time_full" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_stream_time_full</code><span class="sig-paren">(</span><em>format</em>, <em>position</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/gst/gstsegment.c#L419"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gst.Segment.to_stream_time_full" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

@@ -209,7 +209,7 @@
 <g id="node2" class="node">
 <title>OSTree.Repo</title>
 <g id="a_node2"><a xlink:href="#OSTree.Repo" xlink:title="OSTree.Repo">
-<path fill="none" stroke="#75507b" d="M69.5,-18C69.5,-18 10.5,-18 10.5,-18 7.5,-18 4.5,-15 4.5,-12 4.5,-12 4.5,-6 4.5,-6 4.5,-3 7.5,0 10.5,0 10.5,0 69.5,0 69.5,0 72.5,0 75.5,-3 75.5,-6 75.5,-6 75.5,-12 75.5,-12 75.5,-15 72.5,-18 69.5,-18"/>
+<path fill="none" stroke="#75507b" d="M69,-18C69,-18 11,-18 11,-18 8,-18 5,-15 5,-12 5,-12 5,-6 5,-6 5,-3 8,0 11,0 11,0 69,0 69,0 72,0 75,-3 75,-6 75,-6 75,-12 75,-12 75,-15 72,-18 69,-18"/>
 <text text-anchor="middle" x="40" y="-6.7" font-family="inherit" font-size="8.50">OSTree.Repo</text>
 </a>
 </g>
@@ -2481,7 +2481,7 @@ active at a time.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>flags</strong> (<a class="reference internal" href="../enums.html#OSTree.RepoPruneFlags" title="OSTree.RepoPruneFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags</span></code></a>) – Options controlling prune process</li>
+<li><strong>flags</strong> (<a class="reference internal" href="../flags.html#OSTree.RepoPruneFlags" title="OSTree.RepoPruneFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags</span></code></a>) – Options controlling prune process</li>
 <li><strong>depth</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Stop traversal after this many iterations (-1 for unlimited)</li>
 <li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Cancellable</li>
 </ul>
@@ -2517,11 +2517,11 @@ active at a time.</p>
 only delete “orphaned” objects not referred to by any commit.  This
 can happen during a local commit operation, when we have written
 content objects but not saved the commit referencing them.</p>
-<p>However, if <a class="reference internal" href="../enums.html#OSTree.RepoPruneFlags.REFS_ONLY" title="OSTree.RepoPruneFlags.REFS_ONLY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.REFS_ONLY</span></code></a> is provided, instead
+<p>However, if <a class="reference internal" href="../flags.html#OSTree.RepoPruneFlags.REFS_ONLY" title="OSTree.RepoPruneFlags.REFS_ONLY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.REFS_ONLY</span></code></a> is provided, instead
 of traversing all commits, only refs will be used.  Particularly
 when combined with <cite>depth</cite>, this is a convenient way to delete
 history from the repository.</p>
-<p>Use the <a class="reference internal" href="../enums.html#OSTree.RepoPruneFlags.NO_PRUNE" title="OSTree.RepoPruneFlags.NO_PRUNE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.NO_PRUNE</span></code></a> to just determine
+<p>Use the <a class="reference internal" href="../flags.html#OSTree.RepoPruneFlags.NO_PRUNE" title="OSTree.RepoPruneFlags.NO_PRUNE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.NO_PRUNE</span></code></a> to just determine
 statistics on objects that would be deleted, without actually
 deleting them.</p>
 <p>Locking: exclusive</p>
@@ -2573,7 +2573,7 @@ unreferenced objects and deletes them.</p>
 <p>Use this API when you want to perform more selective pruning - for example,
 retain all commits from a production branch, but just GC some history from
 your dev branch.</p>
-<p>The <a class="reference internal" href="../enums.html#OSTree.RepoPruneFlags.NO_PRUNE" title="OSTree.RepoPruneFlags.NO_PRUNE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.NO_PRUNE</span></code></a> flag may be specified to just determine
+<p>The <a class="reference internal" href="../flags.html#OSTree.RepoPruneFlags.NO_PRUNE" title="OSTree.RepoPruneFlags.NO_PRUNE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPruneFlags.NO_PRUNE</span></code></a> flag may be specified to just determine
 statistics on objects that would be deleted, without actually deleting them.</p>
 <p>Locking: exclusive</p>
 <div class="versionadded">
@@ -2791,39 +2791,48 @@ subpath.</p>
 <p>Like <a class="reference internal" href="#OSTree.Repo.pull" title="OSTree.Repo.pull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.Repo.pull</span></code></a>(), but supports an extensible set of flags.
 The following are currently defined:</p>
 <ul class="simple">
-<li>refs (as): Array of string refs</li>
-<li>collection-refs (a(sss)): Array of (collection ID, ref name, checksum) tuples to pull;
+<li><code class="docutils literal notranslate"><span class="pre">refs</span></code> (<code class="docutils literal notranslate"><span class="pre">as</span></code>): Array of string refs</li>
+<li><code class="docutils literal notranslate"><span class="pre">collection-refs</span></code> (<code class="docutils literal notranslate"><span class="pre">a(sss)</span></code>): Array of (collection ID, ref name, checksum) tuples to pull;
 mutually exclusive with <code class="docutils literal notranslate"><span class="pre">refs</span></code> and <code class="docutils literal notranslate"><span class="pre">override-commit-ids</span></code>. Checksums may be the empty
 string to pull the latest commit for that ref</li>
-<li>flags (i): An instance of <a class="reference internal" href="../flags.html#OSTree.RepoPullFlags" title="OSTree.RepoPullFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPullFlags</span></code></a></li>
-<li>subdir (s): Pull just this subdirectory</li>
-<li>subdirs (as): Pull just these subdirectories</li>
-<li>override-remote-name (s): If local, add this remote to refspec</li>
-<li>gpg-verify (b): GPG verify commits</li>
-<li>gpg-verify-summary (b): GPG verify summary</li>
-<li>depth (i): How far in the history to traverse; default is 0, -1 means infinite</li>
-<li>disable-static-deltas (b): Do not use static deltas</li>
-<li>require-static-deltas (b): Require static deltas</li>
-<li>override-commit-ids (as): Array of specific commit IDs to fetch for refs</li>
-<li>timestamp-check (b): Verify commit timestamps are newer than current (when pulling via ref);  * metadata-size-restriction (t): Restrict metadata objects to a maximum number of bytes; 0 to disable.  * dry-run (b): Only print information on what will be downloaded (requires static deltas)</li>
-<li>override-url (s): Fetch objects from this URL if remote specifies no metalink in options</li>
-<li>inherit-transaction (b): Don’t initiate, finish or abort a transaction, useful to do multiple pulls in one transaction.</li>
-<li>http-headers (a(ss)): Additional headers to add to all HTTP requests</li>
-<li>update-frequency (u): Frequency to call the async progress callback in milliseconds, if any; only values higher than 0 are valid</li>
-<li>localcache-repos (as): File paths for local repos to use as caches when doing remote fetches</li>
-<li>append-user-agent (s): Additional string to append to the user agent</li>
-<li>n-network-retries (u): Number of times to retry each download on receiving
+<li><code class="docutils literal notranslate"><span class="pre">flags</span></code> (<code class="docutils literal notranslate"><span class="pre">i</span></code>): An instance of <a class="reference internal" href="../flags.html#OSTree.RepoPullFlags" title="OSTree.RepoPullFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.RepoPullFlags</span></code></a></li>
+<li><code class="docutils literal notranslate"><span class="pre">subdir</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code>): Pull just this subdirectory</li>
+<li><code class="docutils literal notranslate"><span class="pre">subdirs</span></code> (<code class="docutils literal notranslate"><span class="pre">as</span></code>): Pull just these subdirectories</li>
+<li><code class="docutils literal notranslate"><span class="pre">override-remote-name</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code>): If local, add this remote to refspec</li>
+<li><code class="docutils literal notranslate"><span class="pre">gpg-verify</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): GPG verify commits</li>
+<li><code class="docutils literal notranslate"><span class="pre">gpg-verify-summary</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): GPG verify summary</li>
+<li><code class="docutils literal notranslate"><span class="pre">disable-sign-verify</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Disable signapi verification of commits</li>
+<li><code class="docutils literal notranslate"><span class="pre">disable-sign-verify-summary</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Disable signapi verification of the summary</li>
+<li><code class="docutils literal notranslate"><span class="pre">depth</span></code> (<code class="docutils literal notranslate"><span class="pre">i</span></code>): How far in the history to traverse; default is 0, -1 means infinite</li>
+<li><code class="docutils literal notranslate"><span class="pre">per-object-fsync</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Perform disk writes more slowly, avoiding a single large I/O sync</li>
+<li><code class="docutils literal notranslate"><span class="pre">disable-static-deltas</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Do not use static deltas</li>
+<li><code class="docutils literal notranslate"><span class="pre">require-static-deltas</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Require static deltas</li>
+<li><code class="docutils literal notranslate"><span class="pre">override-commit-ids</span></code> (<code class="docutils literal notranslate"><span class="pre">as</span></code>): Array of specific commit IDs to fetch for refs</li>
+<li><code class="docutils literal notranslate"><span class="pre">timestamp-check</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Verify commit timestamps are newer than current (when pulling via ref);  * <code class="docutils literal notranslate"><span class="pre">timestamp-check-from-rev</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code>): Verify that all fetched commit timestamps are newer than timestamp of given rev;  * <code class="docutils literal notranslate"><span class="pre">metadata-size-restriction</span></code> (<code class="docutils literal notranslate"><span class="pre">t</span></code>): Restrict metadata objects to a maximum number of bytes; 0 to disable.  * <code class="docutils literal notranslate"><span class="pre">dry-run</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Only print information on what will be downloaded (requires static deltas)</li>
+<li><code class="docutils literal notranslate"><span class="pre">override-url</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code>): Fetch objects from this URL if remote specifies no metalink in options</li>
+<li><code class="docutils literal notranslate"><span class="pre">inherit-transaction</span></code> (<code class="docutils literal notranslate"><span class="pre">b</span></code>): Don’t initiate, finish or abort a transaction, useful to do multiple pulls in one transaction.</li>
+<li><code class="docutils literal notranslate"><span class="pre">http-headers</span></code> (<code class="docutils literal notranslate"><span class="pre">a(ss)</span></code>): Additional headers to add to all HTTP requests</li>
+<li><code class="docutils literal notranslate"><span class="pre">update-frequency</span></code> (<code class="docutils literal notranslate"><span class="pre">u</span></code>): Frequency to call the async progress callback in milliseconds, if any; only values higher than 0 are valid</li>
+<li><code class="docutils literal notranslate"><span class="pre">localcache-repos</span></code> (<code class="docutils literal notranslate"><span class="pre">as</span></code>): File paths for local repos to use as caches when doing remote fetches</li>
+<li><code class="docutils literal notranslate"><span class="pre">append-user-agent</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code>): Additional string to append to the user agent</li>
+<li><code class="docutils literal notranslate"><span class="pre">n-network-retries</span></code> (<code class="docutils literal notranslate"><span class="pre">u</span></code>): Number of times to retry each download on receiving
 a transient network error, such as a socket timeout; default is 5, 0
-means return errors without retrying.  * ref-keyring-map (a(sss)): Array of (collection ID, ref name, keyring
+means return errors without retrying.  * <code class="docutils literal notranslate"><span class="pre">ref-keyring-map</span></code> (<code class="docutils literal notranslate"><span class="pre">a(sss)</span></code>): Array of (collection ID, ref name, keyring
 remote name) tuples specifying which remote’s keyring should be used when
 doing GPG verification of each collection-ref. This is useful to prevent a
 remote from serving malicious updates to refs which did not originate from
 it. This can be a subset or superset of the refs being pulled; any ref
 not being pulled will be ignored and any ref without a keyring remote
-will be verified with the keyring of the remote being pulled from.</li>
+will be verified with the keyring of the remote being pulled from.  * <code class="docutils literal notranslate"><span class="pre">summary-bytes</span></code> (<code class="docutils literal notranslate"><span class="pre">ay'):</span> <span class="pre">Contents</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">``summary</span></code> file to use. If this is
+specified, <code class="docutils literal notranslate"><span class="pre">summary-sig-bytes</span></code> must also be specified. This is
+useful if doing multiple pull operations in a transaction, using
+ostree_repo_remote_fetch_summary_with_options() beforehand to download
+the <code class="docutils literal notranslate"><span class="pre">summary</span></code> and <code class="docutils literal notranslate"><span class="pre">summary.sig</span></code> once for the entire transaction. If not
+specified, the <code class="docutils literal notranslate"><span class="pre">summary</span></code> will be downloaded from the remote.  * <code class="docutils literal notranslate"><span class="pre">summary-sig-bytes</span></code> (<code class="docutils literal notranslate"><span class="pre">ay</span></code>): Contents of the <code class="docutils literal notranslate"><span class="pre">summary.sig</span></code> file. If this
+is specified, <a href="#id1"><span class="problematic" id="id2">``</span></a>summary-bytes` must also be specified.</li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 2019.2.</span></p>
+<p><span class="versionmodified">New in version 2020.5.</span></p>
 </div>
 </dd></dl>
 

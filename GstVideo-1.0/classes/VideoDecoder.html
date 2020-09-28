@@ -120,6 +120,7 @@
 <li><a class="reference internal" href="#signals">Signals</a></li>
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#class-details">Class Details</a></li>
+<li><a class="reference internal" href="#property-details">Property Details</a></li>
 </ul>
 </li>
 </ul>
@@ -167,6 +168,7 @@
 <li><a class="reference internal" href="#signals">Signals</a></li>
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#class-details">Class Details</a></li>
+<li><a class="reference internal" href="#property-details">Property Details</a></li>
 </ul>
 </li>
 </ul>
@@ -278,7 +280,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/Element.html#gst-element-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Element (77)</span></a>,     <a class="reference external" href="../../Gst-1.0/classes/Object.html#gst-object-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Object (27)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/Element.html#gst-element-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Element (79)</span></a>,     <a class="reference external" href="../../Gst-1.0/classes/Object.html#gst-object-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Object (27)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Structs:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#gst-elementclass-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.ElementClass (10)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></td>
 </tr>
@@ -481,6 +483,33 @@
 </tr>
 </tbody>
 </table>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="97%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Flags</th>
+<th class="head">Short Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="#GstVideo.VideoDecoder.props.max_errors" title="GstVideo.VideoDecoder.props.max_errors"><code class="xref py py-data docutils literal notranslate"><span class="pre">max-errors</span></code></a></td>
+<td><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+<td>r/w</td>
+<td>Max consecutive decoder errors before returning flow error</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#GstVideo.VideoDecoder.props.qos" title="GstVideo.VideoDecoder.props.qos"><code class="xref py py-data docutils literal notranslate"><span class="pre">qos</span></code></a></td>
+<td><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+<td>r/w</td>
+<td>Handle Quality-of-Service events from downstream</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="signals">
 <span id="gstvideo-videodecoder-signals"></span><h2>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h2>
@@ -600,7 +629,7 @@ Processing below.</li>
 <ul class="simple">
 <li>The base class gathers input data, and optionally allows subclass
 to parse this into subsequently manageable chunks, typically
-corresponding to and referred to as ‘frames’.<ul>
+corresponding to and referred to as ‘frames’.</li>
 <li>Each input frame is provided in turn to the subclass’ <cite>handle_frame</cite>
 callback.
 The ownership of the frame is given to the <cite>handle_frame</cite> callback.</li>
@@ -610,8 +639,6 @@ downstream. Otherwise, the subclass must call
 <cite>gst_video_decoder_drop_frame</cite>, to allow the base class to do timestamp
 and offset tracking, and possibly to requeue the frame for a later
 attempt in the case of reverse playback.</li>
-</ul>
-</li>
 </ul>
 <dl class="docutils">
 <dt>Shutdown phase</dt>
@@ -644,7 +671,7 @@ remaining frames and call <a class="reference internal" href="#GstVideo.VideoDec
 </ul>
 <p>The subclass is responsible for providing pad template caps for
 source and sink pads. The pads need to be named “sink” and “src”. It also
-needs to provide information about the ouptput caps, when they are known.
+needs to provide information about the output caps, when they are known.
 This may be when the base class calls the subclass’ <cite>set_format</cite> function,
 though it might be during decoding, before calling
 <cite>gst_video_decoder_finish_frame</cite>. This is done via
@@ -681,7 +708,7 @@ separate the data belonging to each video frame.</li>
 </ul>
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.add_to_frame">
-<code class="descname">add_to_frame</code><span class="sig-paren">(</span><em>n_bytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3206"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.add_to_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_to_frame</code><span class="sig-paren">(</span><em>n_bytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.add_to_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -695,7 +722,7 @@ separate the data belonging to each video frame.</li>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.allocate_output_buffer">
-<code class="descname">allocate_output_buffer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3936"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_buffer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">allocate_output_buffer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4127"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -715,7 +742,7 @@ function, if possible at all.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.allocate_output_frame">
-<code class="descname">allocate_output_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4004"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">allocate_output_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4195"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -737,7 +764,7 @@ keep references to the frame, not the buffer.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.allocate_output_frame_with_params">
-<code class="descname">allocate_output_frame_with_params</code><span class="sig-paren">(</span><em>frame</em>, <em>params</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4025"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_frame_with_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">allocate_output_frame_with_params</code><span class="sig-paren">(</span><em>frame</em>, <em>params</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4216"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.allocate_output_frame_with_params" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -765,7 +792,7 @@ keep references to the frame, not the buffer.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.drop_frame">
-<code class="descname">drop_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L2828"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.drop_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">drop_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L2960"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.drop_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -785,7 +812,7 @@ In any case, the frame is considered finished and released.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.finish_frame">
-<code class="descname">finish_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L2950"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.finish_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">finish_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3113"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.finish_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -809,7 +836,7 @@ of the buffer.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_allocator">
-<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4414"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_allocator" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4605"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_allocator" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -839,7 +866,7 @@ used by the base class and its <cite>params</cite>.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_buffer_pool">
-<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4389"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4580"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -855,7 +882,7 @@ by the decoder; free it after use it</td>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_estimate_rate">
-<code class="descname">get_estimate_rate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4283"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_estimate_rate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_estimate_rate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4474"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_estimate_rate" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -870,7 +897,7 @@ by the decoder; free it after use it</td>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_frame">
-<code class="descname">get_frame</code><span class="sig-paren">(</span><em>frame_number</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3554"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_frame</code><span class="sig-paren">(</span><em>frame_number</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3717"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -888,7 +915,7 @@ by the decoder; free it after use it</td>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_frames">
-<code class="descname">get_frames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3584"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_frames" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_frames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3747"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_frames" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -904,7 +931,7 @@ by the decoder; free it after use it</td>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_latency">
-<code class="descname">get_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4329"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_latency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4520"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_latency" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -933,7 +960,7 @@ configured mximum latency, or <a class="reference external" href="http://docs.py
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_max_decode_time">
-<code class="descname">get_max_decode_time</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4084"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_max_decode_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_decode_time</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4275"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_max_decode_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -954,7 +981,7 @@ and should therefore occur as soon/skippy as possible.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_max_errors">
-<code class="descname">get_max_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4180"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_max_errors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4371"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_max_errors" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -969,7 +996,7 @@ and should therefore occur as soon/skippy as possible.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_needs_format">
-<code class="descname">get_needs_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4220"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_needs_format" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_needs_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4411"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_needs_format" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -988,7 +1015,7 @@ and should therefore occur as soon/skippy as possible.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_oldest_frame">
-<code class="descname">get_oldest_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3532"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_oldest_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_oldest_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3695"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_oldest_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1004,7 +1031,7 @@ and should therefore occur as soon/skippy as possible.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_output_state">
-<code class="descname">get_output_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3421"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_output_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_output_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3584"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_output_state" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1020,7 +1047,7 @@ and should therefore occur as soon/skippy as possible.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_packetized">
-<code class="descname">get_packetized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4256"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_packetized" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_packetized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4447"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_packetized" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1037,7 +1064,7 @@ base class.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_pending_frame_size">
-<code class="descname">get_pending_frame_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3239"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_pending_frame_size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_pending_frame_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3403"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_pending_frame_size" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1057,7 +1084,7 @@ by calling <a class="reference internal" href="#GstVideo.VideoDecoder.add_to_fra
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.get_qos_proportion">
-<code class="descname">get_qos_proportion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4117"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_qos_proportion" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_qos_proportion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4308"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.get_qos_proportion" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1075,7 +1102,7 @@ by calling <a class="reference internal" href="#GstVideo.VideoDecoder.add_to_fra
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.have_frame">
-<code class="descname">have_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3287"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.have_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">have_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3451"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.have_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1092,7 +1119,7 @@ metadata and passes it along for further processing, i.e. <cite>handle_frame</ci
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.merge_tags">
-<code class="descname">merge_tags</code><span class="sig-paren">(</span><em>tags</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4357"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.merge_tags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">merge_tags</code><span class="sig-paren">(</span><em>tags</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4548"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.merge_tags" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1116,7 +1143,7 @@ not required to use this and can still do tag handling on its own.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.negotiate">
-<code class="descname">negotiate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3901"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.negotiate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">negotiate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4092"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.negotiate" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1134,7 +1161,7 @@ negotiate fails.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.proxy_getcaps">
-<code class="descname">proxy_getcaps</code><span class="sig-paren">(</span><em>caps</em>, <em>filter</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L1728"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.proxy_getcaps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">proxy_getcaps</code><span class="sig-paren">(</span><em>caps</em>, <em>filter</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L1863"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.proxy_getcaps" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1163,7 +1190,7 @@ elements.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.release_frame">
-<code class="descname">release_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L2794"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.release_frame" title="Permalink to this definition">¶</a></dt>
+<code class="descname">release_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L2942"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.release_frame" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1182,7 +1209,7 @@ after which it is considered finished and released.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_estimate_rate">
-<code class="descname">set_estimate_rate</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4269"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_estimate_rate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_estimate_rate</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4460"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_estimate_rate" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1196,7 +1223,7 @@ after which it is considered finished and released.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_interlaced_output_state">
-<code class="descname">set_interlaced_output_state</code><span class="sig-paren">(</span><em>fmt</em>, <em>mode</em>, <em>width</em>, <em>height</em>, <em>reference</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3486"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_interlaced_output_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_interlaced_output_state</code><span class="sig-paren">(</span><em>fmt</em>, <em>mode</em>, <em>width</em>, <em>height</em>, <em>reference</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3649"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_interlaced_output_state" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1227,7 +1254,7 @@ the interlacing mode.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_latency">
-<code class="descname">set_latency</code><span class="sig-paren">(</span><em>min_latency</em>, <em>max_latency</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4302"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_latency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_latency</code><span class="sig-paren">(</span><em>min_latency</em>, <em>max_latency</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4493"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_latency" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1247,7 +1274,7 @@ can reconfigure its global latency.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_max_errors">
-<code class="descname">set_max_errors</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_max_errors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_max_errors</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4357"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_max_errors" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1265,7 +1292,7 @@ warned about, but more than tolerated will lead to fatal error.  You can set
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_needs_format">
-<code class="descname">set_needs_format</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4202"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_needs_format" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_needs_format</code><span class="sig-paren">(</span><em>enabled</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4393"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_needs_format" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1287,7 +1314,7 @@ or based on the input data.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_output_state">
-<code class="descname">set_output_state</code><span class="sig-paren">(</span><em>fmt</em>, <em>width</em>, <em>height</em>, <em>reference</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L3461"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_output_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_output_state</code><span class="sig-paren">(</span><em>fmt</em>, <em>width</em>, <em>height</em>, <em>reference</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L3624"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_output_state" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1323,7 +1350,7 @@ from the next call to <a class="reference internal" href="#GstVideo.VideoDecoder
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_packetized">
-<code class="descname">set_packetized</code><span class="sig-paren">(</span><em>packetized</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4241"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_packetized" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_packetized</code><span class="sig-paren">(</span><em>packetized</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4432"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_packetized" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1338,7 +1365,7 @@ input is packetized, then the <cite>parse</cite> method will not be called.</p>
 
 <dl class="method">
 <dt id="GstVideo.VideoDecoder.set_use_default_pad_acceptcaps">
-<code class="descname">set_use_default_pad_acceptcaps</code><span class="sig-paren">(</span><em>use</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.16.2/gst-libs/gst/video/gstvideodecoder.c#L4442"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_use_default_pad_acceptcaps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_use_default_pad_acceptcaps</code><span class="sig-paren">(</span><em>use</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/blob/1.18.0/gst-libs/gst/gst-libs/gst/video/gstvideodecoder.c#L4633"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstVideo.VideoDecoder.set_use_default_pad_acceptcaps" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1657,6 +1684,59 @@ negotiate fails.</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+</div>
+<div class="section" id="property-details">
+<h2>Property Details<a class="headerlink" href="#property-details" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="GstVideo.VideoDecoder.props.max_errors">
+<code class="descclassname">GstVideo.VideoDecoder.props.</code><code class="descname">max_errors</code><a class="headerlink" href="#GstVideo.VideoDecoder.props.max_errors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">max-errors</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Default Value:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">10</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Maximum number of tolerated consecutive decode errors. See
+<a class="reference internal" href="#GstVideo.VideoDecoder.set_max_errors" title="GstVideo.VideoDecoder.set_max_errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoDecoder.set_max_errors</span></code></a>() for more details.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="GstVideo.VideoDecoder.props.qos">
+<code class="descclassname">GstVideo.VideoDecoder.props.</code><code class="descname">qos</code><a class="headerlink" href="#GstVideo.VideoDecoder.props.qos" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">qos</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Default Value:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>If set to <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> the decoder will handle QoS events received
+from downstream elements.
+This includes dropping output frames which are detected as late
+using the metrics reported by those events.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
 </dd></dl>
 
 </div>

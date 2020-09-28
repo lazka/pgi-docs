@@ -172,6 +172,7 @@
 <h1>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="#GLib.AsciiType" title="GLib.AsciiType"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.AsciiType</span></code></a></li>
+<li><a class="reference internal" href="#GLib.FileSetContentsFlags" title="GLib.FileSetContentsFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.FileSetContentsFlags</span></code></a></li>
 <li><a class="reference internal" href="#GLib.FileTest" title="GLib.FileTest"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.FileTest</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Flags" title="GLib.Flags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Flags</span></code></a></li>
 <li><a class="reference internal" href="#GLib.FormatSizeFlags" title="GLib.FormatSizeFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.FormatSizeFlags</span></code></a></li>
@@ -189,6 +190,9 @@
 <li><a class="reference internal" href="#GLib.TestSubprocessFlags" title="GLib.TestSubprocessFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.TestSubprocessFlags</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TestTrapFlags" title="GLib.TestTrapFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.TestTrapFlags</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TraverseFlags" title="GLib.TraverseFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.TraverseFlags</span></code></a></li>
+<li><a class="reference internal" href="#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a></li>
+<li><a class="reference internal" href="#GLib.UriHideFlags" title="GLib.UriHideFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.UriHideFlags</span></code></a></li>
+<li><a class="reference internal" href="#GLib.UriParamsFlags" title="GLib.UriParamsFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.UriParamsFlags</span></code></a></li>
 </ul>
 <div class="section" id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
@@ -250,6 +254,53 @@
 <dt id="GLib.AsciiType.DIGIT">
 <code class="descname">DIGIT</code><em class="property"> = 8</em><a class="headerlink" href="#GLib.AsciiType.DIGIT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="GLib.FileSetContentsFlags">
+<em class="property">class </em><code class="descclassname">GLib.</code><code class="descname">FileSetContentsFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.FileSetContentsFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#GLib.Flags" title="GLib.Flags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Flags</span></code></a></p>
+<p>Flags to pass to <a class="reference internal" href="functions.html#GLib.file_set_contents_full" title="GLib.file_set_contents_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.file_set_contents_full</span></code></a>() to affect its safety and
+performance.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.66.</span></p>
+</div>
+<dl class="attribute">
+<dt id="GLib.FileSetContentsFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.FileSetContentsFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No guarantees about file consistency or durability.
+The most dangerous setting, which is slightly faster than other settings.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.FileSetContentsFlags.CONSISTENT">
+<code class="descname">CONSISTENT</code><em class="property"> = 1</em><a class="headerlink" href="#GLib.FileSetContentsFlags.CONSISTENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guarantee file consistency: after a crash,
+either the old version of the file or the new version of the file will be
+available, but not a mixture. On Unix systems this equates to an <code class="docutils literal notranslate"><span class="pre">fsync()</span></code>
+on the file and use of an atomic <code class="docutils literal notranslate"><span class="pre">rename()</span></code> of the new version of the file
+over the old.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.FileSetContentsFlags.DURABLE">
+<code class="descname">DURABLE</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.FileSetContentsFlags.DURABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guarantee file durability: after a crash, the
+new version of the file will be available. On Unix systems this equates to
+an <code class="docutils literal notranslate"><span class="pre">fsync()</span></code> on the file (if <a class="reference internal" href="#GLib.FileSetContentsFlags.CONSISTENT" title="GLib.FileSetContentsFlags.CONSISTENT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileSetContentsFlags.CONSISTENT</span></code></a> is unset), or
+the effects of <a class="reference internal" href="#GLib.FileSetContentsFlags.CONSISTENT" title="GLib.FileSetContentsFlags.CONSISTENT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileSetContentsFlags.CONSISTENT</span></code></a> plus an <code class="docutils literal notranslate"><span class="pre">fsync()</span></code> on the
+directory containing the file after calling <code class="docutils literal notranslate"><span class="pre">rename()</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.FileSetContentsFlags.ONLY_EXISTING">
+<code class="descname">ONLY_EXISTING</code><em class="property"> = 4</em><a class="headerlink" href="#GLib.FileSetContentsFlags.ONLY_EXISTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only apply consistency and durability
+guarantees if the file already exists. This may speed up file operations
+if the file doesn’t currently exist, but may result in a corrupted version
+of the new file if the system crashes while writing it.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -1142,7 +1193,7 @@ stdout and stderr will be closed before calling exec() in the child.</p>
 <dl class="attribute">
 <dt id="GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP">
 <code class="descname">SEARCH_PATH_FROM_ENVP</code><em class="property"> = 128</em><a class="headerlink" href="#GLib.SpawnFlags.SEARCH_PATH_FROM_ENVP" title="Permalink to this definition">¶</a></dt>
-<dd><p>if <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> is not an abolute path,
+<dd><p>if <code class="docutils literal notranslate"><span class="pre">argv[0]</span></code> is not an absolute path,
 it will be looked for in the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> from the passed child environment.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.34.</span></p>
@@ -1320,6 +1371,175 @@ version use <a class="reference internal" href="#GLib.TraverseFlags.NON_LEAFS" t
 <dt id="GLib.TraverseFlags.MASK">
 <code class="descname">MASK</code><em class="property"> = 3</em><a class="headerlink" href="#GLib.TraverseFlags.MASK" title="Permalink to this definition">¶</a></dt>
 <dd><p>a mask of all traverse flags.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="GLib.UriFlags">
+<em class="property">class </em><code class="descclassname">GLib.</code><code class="descname">UriFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.UriFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#GLib.Flags" title="GLib.Flags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Flags</span></code></a></p>
+<p>Flags that describe a URI.</p>
+<p>When parsing a URI, if you need to choose different flags based on
+the type of URI, you can use <a class="reference internal" href="classes/Uri.html#GLib.Uri.peek_scheme" title="GLib.Uri.peek_scheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.peek_scheme</span></code></a>() on the URI string
+to check the scheme first, and use that to decide what flags to
+parse it with.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.66.</span></p>
+</div>
+<dl class="attribute">
+<dt id="GLib.UriFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.UriFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No flags set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.PARSE_RELAXED">
+<code class="descname">PARSE_RELAXED</code><em class="property"> = 1</em><a class="headerlink" href="#GLib.UriFlags.PARSE_RELAXED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the URI more relaxedly than the
+<a class="reference external" href="https://tools.ietf.org/html/rfc3986">RFC 3986</a> grammar specifies,
+fixing up or ignoring common mistakes in URIs coming from external
+sources. This is also needed for some obscure URI schemes where <code class="docutils literal notranslate"><span class="pre">;</span></code>
+separates the host from the path. Don’t use this flag unless you need to.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.ENCODED_FRAGMENT">
+<code class="descname">ENCODED_FRAGMENT</code><em class="property"> = 128</em><a class="headerlink" href="#GLib.UriFlags.ENCODED_FRAGMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <a class="reference internal" href="#GLib.UriFlags.ENCODED" title="GLib.UriFlags.ENCODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.ENCODED</span></code></a>, for the
+fragment only.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.NON_DNS">
+<code class="descname">NON_DNS</code><em class="property"> = 16</em><a class="headerlink" href="#GLib.UriFlags.NON_DNS" title="Permalink to this definition">¶</a></dt>
+<dd><p>The host component should not be assumed to be a
+DNS hostname or IP address (for example, for <code class="docutils literal notranslate"><span class="pre">smb</span></code> URIs with NetBIOS
+hostnames).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.HAS_PASSWORD">
+<code class="descname">HAS_PASSWORD</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.UriFlags.HAS_PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>The userinfo field may contain a password,
+which will be separated from the username by <code class="docutils literal notranslate"><span class="pre">:</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.ENCODED_QUERY">
+<code class="descname">ENCODED_QUERY</code><em class="property"> = 32</em><a class="headerlink" href="#GLib.UriFlags.ENCODED_QUERY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <a class="reference internal" href="#GLib.UriFlags.ENCODED" title="GLib.UriFlags.ENCODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.ENCODED</span></code></a>, for the query
+field only.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.HAS_AUTH_PARAMS">
+<code class="descname">HAS_AUTH_PARAMS</code><em class="property"> = 4</em><a class="headerlink" href="#GLib.UriFlags.HAS_AUTH_PARAMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>The userinfo may contain additional
+authentication-related parameters, which will be separated from
+the username and/or password by <code class="docutils literal notranslate"><span class="pre">;</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.ENCODED_PATH">
+<code class="descname">ENCODED_PATH</code><em class="property"> = 64</em><a class="headerlink" href="#GLib.UriFlags.ENCODED_PATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <a class="reference internal" href="#GLib.UriFlags.ENCODED" title="GLib.UriFlags.ENCODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.ENCODED</span></code></a>, for the path only.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriFlags.ENCODED">
+<code class="descname">ENCODED</code><em class="property"> = 8</em><a class="headerlink" href="#GLib.UriFlags.ENCODED" title="Permalink to this definition">¶</a></dt>
+<dd><p>When parsing a URI, this indicates that <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoded
+characters in the userinfo, path, query, and fragment fields
+should not be decoded. (And likewise the host field if
+<a class="reference internal" href="#GLib.UriFlags.NON_DNS" title="GLib.UriFlags.NON_DNS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.NON_DNS</span></code></a> is also set.) When building a URI, it indicates
+that you have already <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoded the components, and so <a class="reference internal" href="classes/Uri.html#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a>
+should not do any encoding itself.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="GLib.UriHideFlags">
+<em class="property">class </em><code class="descclassname">GLib.</code><code class="descname">UriHideFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.UriHideFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#GLib.Flags" title="GLib.Flags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Flags</span></code></a></p>
+<p>Flags describing what parts of the URI to hide in
+<a class="reference internal" href="classes/Uri.html#GLib.Uri.to_string_partial" title="GLib.Uri.to_string_partial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.to_string_partial</span></code></a>(). Note that <a class="reference internal" href="#GLib.UriHideFlags.PASSWORD" title="GLib.UriHideFlags.PASSWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriHideFlags.PASSWORD</span></code></a> and
+<a class="reference internal" href="#GLib.UriHideFlags.AUTH_PARAMS" title="GLib.UriHideFlags.AUTH_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriHideFlags.AUTH_PARAMS</span></code></a> will only work if the <a class="reference internal" href="classes/Uri.html#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> was parsed with
+the corresponding flags.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.66.</span></p>
+</div>
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.UriHideFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No flags set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.USERINFO">
+<code class="descname">USERINFO</code><em class="property"> = 1</em><a class="headerlink" href="#GLib.UriHideFlags.USERINFO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the userinfo.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.FRAGMENT">
+<code class="descname">FRAGMENT</code><em class="property"> = 16</em><a class="headerlink" href="#GLib.UriHideFlags.FRAGMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the fragment.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.PASSWORD">
+<code class="descname">PASSWORD</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.UriHideFlags.PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the password.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.AUTH_PARAMS">
+<code class="descname">AUTH_PARAMS</code><em class="property"> = 4</em><a class="headerlink" href="#GLib.UriHideFlags.AUTH_PARAMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the auth_params.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriHideFlags.QUERY">
+<code class="descname">QUERY</code><em class="property"> = 8</em><a class="headerlink" href="#GLib.UriHideFlags.QUERY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the query.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="GLib.UriParamsFlags">
+<em class="property">class </em><code class="descclassname">GLib.</code><code class="descname">UriParamsFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.UriParamsFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#GLib.Flags" title="GLib.Flags"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Flags</span></code></a></p>
+<p>Flags modifying the way parameters are handled by <a class="reference internal" href="classes/Uri.html#GLib.Uri.parse_params" title="GLib.Uri.parse_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse_params</span></code></a>() and
+<a class="reference internal" href="classes/UriParamsIter.html#GLib.UriParamsIter" title="GLib.UriParamsIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriParamsIter</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.66.</span></p>
+</div>
+<dl class="attribute">
+<dt id="GLib.UriParamsFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#GLib.UriParamsFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>No flags set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriParamsFlags.CASE_INSENSITIVE">
+<code class="descname">CASE_INSENSITIVE</code><em class="property"> = 1</em><a class="headerlink" href="#GLib.UriParamsFlags.CASE_INSENSITIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter names are case insensitive.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriParamsFlags.WWW_FORM">
+<code class="descname">WWW_FORM</code><em class="property"> = 2</em><a class="headerlink" href="#GLib.UriParamsFlags.WWW_FORM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace <code class="docutils literal notranslate"><span class="pre">+</span></code> with space character. Only useful for
+URLs on the web, using the <code class="docutils literal notranslate"><span class="pre">https</span></code> or <code class="docutils literal notranslate"><span class="pre">http</span></code> schemas.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GLib.UriParamsFlags.PARSE_RELAXED">
+<code class="descname">PARSE_RELAXED</code><em class="property"> = 4</em><a class="headerlink" href="#GLib.UriParamsFlags.PARSE_RELAXED" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="#GLib.UriFlags.PARSE_RELAXED" title="GLib.UriFlags.PARSE_RELAXED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.PARSE_RELAXED</span></code></a>.</p>
 </dd></dl>
 
 </dd></dl>

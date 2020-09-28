@@ -196,6 +196,7 @@
 <li><a class="reference internal" href="#Gst.PadTemplateFlags" title="Gst.PadTemplateFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.PadTemplateFlags</span></code></a></li>
 <li><a class="reference internal" href="#Gst.ParseFlags" title="Gst.ParseFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.ParseFlags</span></code></a></li>
 <li><a class="reference internal" href="#Gst.PipelineFlags" title="Gst.PipelineFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.PipelineFlags</span></code></a></li>
+<li><a class="reference internal" href="#Gst.PluginAPIFlags" title="Gst.PluginAPIFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.PluginAPIFlags</span></code></a></li>
 <li><a class="reference internal" href="#Gst.PluginDependencyFlags" title="Gst.PluginDependencyFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.PluginDependencyFlags</span></code></a></li>
 <li><a class="reference internal" href="#Gst.PluginFlags" title="Gst.PluginFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.PluginFlags</span></code></a></li>
 <li><a class="reference internal" href="#Gst.QueryTypeFlags" title="Gst.QueryTypeFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gst.QueryTypeFlags</span></code></a></li>
@@ -411,8 +412,8 @@ stream, for example to reduce bandwidth.</p>
 <dt id="Gst.BufferFlags.MARKER">
 <code class="descname">MARKER</code><em class="property"> = 512</em><a class="headerlink" href="#Gst.BufferFlags.MARKER" title="Permalink to this definition">¶</a></dt>
 <dd><p>the buffer contains a media specific marker. for
-video this is typically the end of a frame boundary, for audio
-this is usually the start of a talkspurt.</p>
+video this is the end of a frame boundary, for audio
+this is the start of a talkspurt.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -959,6 +960,17 @@ memory with <a class="reference internal" href="#Gst.MapFlags.WRITE" title="Gst.
 </dd></dl>
 
 <dl class="attribute">
+<dt id="Gst.MessageType.INSTANT_RATE_REQUEST">
+<code class="descname">INSTANT_RATE_REQUEST</code><em class="property"> = -2147483640</em><a class="headerlink" href="#Gst.MessageType.INSTANT_RATE_REQUEST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Message sent by elements to request the
+running time from the pipeline when an instant rate change should
+be applied (which may be in the past when the answer arrives).</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="Gst.MessageType.DEVICE_CHANGED">
 <code class="descname">DEVICE_CHANGED</code><em class="property"> = -2147483641</em><a class="headerlink" href="#Gst.MessageType.DEVICE_CHANGED" title="Permalink to this definition">¶</a></dt>
 <dd><p>Message indicating a <a class="reference internal" href="classes/Device.html#Gst.Device" title="Gst.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Device</span></code></a> was changed
@@ -1132,7 +1144,9 @@ strategy for Quality of Service reasons.</p>
 <code class="descname">ERROR</code><em class="property"> = 2</em><a class="headerlink" href="#Gst.MessageType.ERROR" title="Permalink to this definition">¶</a></dt>
 <dd><p>an error occurred. When the application receives an error
 message it should stop playback of the pipeline and not assume that more
-data will be played.</p>
+data will be played. It is possible to specify a redirection url to the error
+messages by setting a <code class="docutils literal notranslate"><span class="pre">redirect-location</span></code> field into the error message, application
+or high level bins might use the information as required.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1763,6 +1777,23 @@ by the pipeline description string, put them in a <a class="reference internal" 
 </dd></dl>
 
 <dl class="class">
+<dt id="Gst.PluginAPIFlags">
+<em class="property">class </em><code class="descclassname">Gst.</code><code class="descname">PluginAPIFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gst.PluginAPIFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GFlags</span></code></a></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+<dl class="attribute">
+<dt id="Gst.PluginAPIFlags.MEMBERS">
+<code class="descname">MEMBERS</code><em class="property"> = 1</em><a class="headerlink" href="#Gst.PluginAPIFlags.MEMBERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ignore enum members when generating
+the plugins cache. This is useful if the members of the enum are generated
+dynamically, in order not to expose incorrect documentation to the end user.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="Gst.PluginDependencyFlags">
 <em class="property">class </em><code class="descclassname">Gst.</code><code class="descname">PluginDependencyFlags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Gst.PluginDependencyFlags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GFlags</span></code></a></p>
@@ -1906,6 +1937,15 @@ no EOS will be emitted by the element that performed the seek, but a
 When this message is posted, it is possible to send a new seek event to
 continue playback. With this seek method it is possible to perform seamless
 looping or simple linear editing.</p>
+<p>When only changing the playback rate and not the direction, the
+<a class="reference internal" href="#Gst.SeekFlags.INSTANT_RATE_CHANGE" title="Gst.SeekFlags.INSTANT_RATE_CHANGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.SeekFlags.INSTANT_RATE_CHANGE</span></code></a> flag can be used for a non-flushing seek
+to signal that the rate change should be applied immediately. This requires
+special support in the seek handlers (e.g. demuxers) and any elements
+synchronizing to the clock, and in general can’t work in all cases (for example
+UDP streaming where the delivery rate is controlled by a remote server). The
+instant-rate-change mode supports changing the trickmode-related GST_SEEK_ flags,
+but can’t be used in conjunction with other seek flags that affect the new
+playback position - as the playback position will not be changing.</p>
 <p>When doing fast forward (rate &gt; 1.0) or fast reverse (rate &lt; -1.0) trickmode
 playback, the <a class="reference internal" href="#Gst.SeekFlags.TRICKMODE" title="Gst.SeekFlags.TRICKMODE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.SeekFlags.TRICKMODE</span></code></a> flag can be used to instruct decoders
 and demuxers to adjust the playback rate by skipping frames. This can improve
@@ -1936,6 +1976,18 @@ elements that handle them.</p>
 <dt id="Gst.SeekFlags.FLUSH">
 <code class="descname">FLUSH</code><em class="property"> = 1</em><a class="headerlink" href="#Gst.SeekFlags.FLUSH" title="Permalink to this definition">¶</a></dt>
 <dd><p>flush pipeline</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Gst.SeekFlags.INSTANT_RATE_CHANGE">
+<code class="descname">INSTANT_RATE_CHANGE</code><em class="property"> = 1024</em><a class="headerlink" href="#Gst.SeekFlags.INSTANT_RATE_CHANGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signals that a rate change should be
+applied immediately. Only valid if start/stop position
+are <a class="reference internal" href="constants.html#Gst.CLOCK_TIME_NONE" title="Gst.CLOCK_TIME_NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.CLOCK_TIME_NONE</span></code></a>, the playback direction does not change
+and the seek is not flushing.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -1999,6 +2051,19 @@ the requested position the one at or before the seek target.</p>
 <code class="descname">KEY_UNIT</code><em class="property"> = 4</em><a class="headerlink" href="#Gst.SeekFlags.KEY_UNIT" title="Permalink to this definition">¶</a></dt>
 <dd><p>seek to the nearest keyframe. This might be
 faster but less accurate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Gst.SeekFlags.TRICKMODE_FORWARD_PREDICTED">
+<code class="descname">TRICKMODE_FORWARD_PREDICTED</code><em class="property"> = 512</em><a class="headerlink" href="#Gst.SeekFlags.TRICKMODE_FORWARD_PREDICTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>When doing fast forward or fast reverse
+playback, request that elements only decode keyframes and
+forward predicted frames and skip all other content (for example
+B-Frames), for formats that have keyframes and forward predicted
+frames.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -2082,6 +2147,16 @@ possible</p>
 </dd></dl>
 
 <dl class="attribute">
+<dt id="Gst.SegmentFlags.TRICKMODE_FORWARD_PREDICTED">
+<code class="descname">TRICKMODE_FORWARD_PREDICTED</code><em class="property"> = 512</em><a class="headerlink" href="#Gst.SegmentFlags.TRICKMODE_FORWARD_PREDICTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode only keyframes or forward
+predicted frames, where possible</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="Gst.SegmentFlags.SEGMENT">
 <code class="descname">SEGMENT</code><em class="property"> = 8</em><a class="headerlink" href="#Gst.SegmentFlags.SEGMENT" title="Permalink to this definition">¶</a></dt>
 <dd><p>send SEGMENT_DONE instead of EOS</p>
@@ -2097,10 +2172,21 @@ possible</p>
 <p><span class="versionmodified">New in version 1.12.</span></p>
 </div>
 <dl class="attribute">
+<dt id="Gst.StackTraceFlags.NONE">
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#Gst.StackTraceFlags.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to retrieve the minimum information
+available, which may be none on some platforms</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="Gst.StackTraceFlags.FULL">
 <code class="descname">FULL</code><em class="property"> = 1</em><a class="headerlink" href="#Gst.StackTraceFlags.FULL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Try to retrieve as much information as
-possible when getting the stack trace</p>
+<dd><p>Try to retrieve as much information as possible,
+including source information when getting the
+stack trace</p>
 </dd></dl>
 
 </dd></dl>

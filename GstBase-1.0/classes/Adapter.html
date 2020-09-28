@@ -407,7 +407,7 @@ potentially more convenient for some use cases.</p>
 <p>For example, a sink pad’s chain function that needs to pass data to a library
 in 512-byte chunks could be implemented like this:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">GstFlowReturn</span>
-<span class="nf">sink_pad_chain</span> <span class="p">(</span><span class="n">GstPad</span> <span class="o">*</span><span class="n">pad</span><span class="p">,</span> <span class="n">GstObject</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span> <span class="n">GstBuffer</span> <span class="o">*</span><span class="n">buffer</span><span class="p">)</span>
+<span class="n">sink_pad_chain</span> <span class="p">(</span><span class="n">GstPad</span> <span class="o">*</span><span class="n">pad</span><span class="p">,</span> <span class="n">GstObject</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span> <span class="n">GstBuffer</span> <span class="o">*</span><span class="n">buffer</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">MyElement</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span>
   <span class="n">GstAdapter</span> <span class="o">*</span><span class="n">adapter</span><span class="p">;</span>
@@ -461,8 +461,8 @@ at the last discontinuity, which can be retrieved with
 <a class="reference internal" href="#GstBase.Adapter.offset_at_discont" title="GstBase.Adapter.offset_at_discont"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter.offset_at_discont</span></code></a>(). The number of bytes that were consumed
 since then can be queried with <a class="reference internal" href="#GstBase.Adapter.distance_from_discont" title="GstBase.Adapter.distance_from_discont"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter.distance_from_discont</span></code></a>().</p>
 <p>A last thing to note is that while <a class="reference internal" href="#GstBase.Adapter" title="GstBase.Adapter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter</span></code></a> is pretty optimized,
-merging buffers still might be an operation that requires a malloc() and
-memcpy() operation, and these operations are not the fastest. Because of
+merging buffers still might be an operation that requires a <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">memcpy()</span></code> operation, and these operations are not the fastest. Because of
 this, some functions like <a class="reference internal" href="#GstBase.Adapter.available_fast" title="GstBase.Adapter.available_fast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter.available_fast</span></code></a>() are provided to help
 speed up such cases should you want to. To avoid repeated memory allocations,
 <a class="reference internal" href="#GstBase.Adapter.copy" title="GstBase.Adapter.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter.copy</span></code></a>() can be used to copy data into a (statically allocated)
@@ -477,7 +477,7 @@ access the buffer later. The adapter will never modify the data in the
 buffer pushed in it.</p>
 <dl class="classmethod">
 <dt id="GstBase.Adapter.new">
-<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L245"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.new" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L245"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.new" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -493,7 +493,7 @@ buffer pushed in it.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.available">
-<code class="descname">available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1319"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.available" title="Permalink to this definition">¶</a></dt>
+<code class="descname">available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1319"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.available" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -511,7 +511,7 @@ returning <a class="reference external" href="http://docs.python.org/3/library/c
 
 <dl class="method">
 <dt id="GstBase.Adapter.available_fast">
-<code class="descname">available_fast</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1338"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.available_fast" title="Permalink to this definition">¶</a></dt>
+<code class="descname">available_fast</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1338"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.available_fast" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -530,13 +530,13 @@ temporary buffer).</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.clear">
-<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L257"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.clear" title="Permalink to this definition">¶</a></dt>
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L257"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all buffers from <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GstBase.Adapter.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L619"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L619"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.copy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -566,20 +566,30 @@ the value of the <cite>size</cite> argument an empty <a class="reference externa
 
 <dl class="method">
 <dt id="GstBase.Adapter.distance_from_discont">
-<code class="descname">distance_from_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1383"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.distance_from_discont" title="Permalink to this definition">¶</a></dt>
+<code class="descname">distance_from_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1383"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.distance_from_discont" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The offset. Can be <a class="reference external" href="../../Gst-1.0/constants.html#Gst.BUFFER_OFFSET_NONE" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.BUFFER_OFFSET_NONE</span></code></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Get the distance in bytes since the last buffer with the
+<a class="reference external" href="../../Gst-1.0/flags.html#Gst.BufferFlags.DISCONT" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.BufferFlags.DISCONT</span></code></a> flag.</p>
+<p>The distance will be reset to 0 for all buffers with
+<a class="reference external" href="../../Gst-1.0/flags.html#Gst.BufferFlags.DISCONT" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.BufferFlags.DISCONT</span></code></a> on them, and then calculated for all other
+following buffers based on their size.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.10.</span></p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="GstBase.Adapter.dts_at_discont">
-<code class="descname">dts_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1438"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.dts_at_discont" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dts_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1438"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.dts_at_discont" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -599,7 +609,7 @@ flag, or <a class="reference external" href="../../Gst-1.0/constants.html#Gst.CL
 
 <dl class="method">
 <dt id="GstBase.Adapter.flush">
-<code class="descname">flush</code><span class="sig-paren">(</span><em>flush</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L698"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.flush" title="Permalink to this definition">¶</a></dt>
+<code class="descname">flush</code><span class="sig-paren">(</span><em>flush</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L698"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.flush" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -615,7 +625,7 @@ at least this many bytes are available.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.get_buffer">
-<code class="descname">get_buffer</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L963"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L963"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -643,7 +653,7 @@ usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.get_buffer_fast">
-<code class="descname">get_buffer_fast</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L810"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer_fast" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer_fast</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L810"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer_fast" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -671,7 +681,7 @@ usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.get_buffer_list">
-<code class="descname">get_buffer_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1258"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1258"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_buffer_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -698,7 +708,7 @@ the list after usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.get_list">
-<code class="descname">get_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1146"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1146"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.get_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -725,7 +735,7 @@ buffer in the list before freeing the list after usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.map">
-<code class="descname">map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L484"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.map" title="Permalink to this definition">¶</a></dt>
+<code class="descname">map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L484"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.map" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -751,7 +761,7 @@ as <a class="reference external" href="../../Gst-1.0/classes/Buffer.html#Gst.Buf
 
 <dl class="method">
 <dt id="GstBase.Adapter.masked_scan_uint32">
-<code class="descname">masked_scan_uint32</code><span class="sig-paren">(</span><em>mask</em>, <em>pattern</em>, <em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1788"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.masked_scan_uint32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">masked_scan_uint32</code><span class="sig-paren">(</span><em>mask</em>, <em>pattern</em>, <em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1788"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.masked_scan_uint32" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -806,7 +816,7 @@ for value.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.masked_scan_uint32_peek">
-<code class="descname">masked_scan_uint32_peek</code><span class="sig-paren">(</span><em>mask</em>, <em>pattern</em>, <em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1653"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.masked_scan_uint32_peek" title="Permalink to this definition">¶</a></dt>
+<code class="descname">masked_scan_uint32_peek</code><span class="sig-paren">(</span><em>mask</em>, <em>pattern</em>, <em>offset</em>, <em>size</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1653"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.masked_scan_uint32_peek" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -849,7 +859,7 @@ enough data (offset+size bytes) in the adapter.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.offset_at_discont">
-<code class="descname">offset_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1400"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.offset_at_discont" title="Permalink to this definition">¶</a></dt>
+<code class="descname">offset_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1400"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.offset_at_discont" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -869,7 +879,7 @@ flag, or <a class="reference external" href="../../Gst-1.0/constants.html#Gst.BU
 
 <dl class="method">
 <dt id="GstBase.Adapter.prev_dts">
-<code class="descname">prev_dts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1518"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_dts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prev_dts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1518"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_dts" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -899,7 +909,7 @@ and distance returned are <a class="reference external" href="../../Gst-1.0/cons
 
 <dl class="method">
 <dt id="GstBase.Adapter.prev_dts_at_offset">
-<code class="descname">prev_dts_at_offset</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1598"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_dts_at_offset" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prev_dts_at_offset</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1598"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_dts_at_offset" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -934,7 +944,7 @@ and distance returned are <a class="reference external" href="../../Gst-1.0/cons
 
 <dl class="method">
 <dt id="GstBase.Adapter.prev_offset">
-<code class="descname">prev_offset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1464"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_offset" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prev_offset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1464"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_offset" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -967,7 +977,7 @@ and distance returned are <a class="reference external" href="../../Gst-1.0/cons
 
 <dl class="method">
 <dt id="GstBase.Adapter.prev_pts">
-<code class="descname">prev_pts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1491"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_pts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prev_pts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1491"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_pts" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -997,7 +1007,7 @@ and distance returned are <a class="reference external" href="../../Gst-1.0/cons
 
 <dl class="method">
 <dt id="GstBase.Adapter.prev_pts_at_offset">
-<code class="descname">prev_pts_at_offset</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1548"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_pts_at_offset" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prev_pts_at_offset</code><span class="sig-paren">(</span><em>offset</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1548"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.prev_pts_at_offset" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1032,7 +1042,7 @@ and distance returned are <a class="reference external" href="../../Gst-1.0/cons
 
 <dl class="method">
 <dt id="GstBase.Adapter.pts_at_discont">
-<code class="descname">pts_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1419"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.pts_at_discont" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pts_at_discont</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1419"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.pts_at_discont" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1052,7 +1062,7 @@ flag, or <a class="reference external" href="../../Gst-1.0/constants.html#Gst.CL
 
 <dl class="method">
 <dt id="GstBase.Adapter.push">
-<code class="descname">push</code><span class="sig-paren">(</span><em>buf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L378"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.push" title="Permalink to this definition">¶</a></dt>
+<code class="descname">push</code><span class="sig-paren">(</span><em>buf</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L378"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.push" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1067,7 +1077,7 @@ ownership of the buffer.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.take">
-<code class="descname">take</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L769"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take" title="Permalink to this definition">¶</a></dt>
+<code class="descname">take</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L769"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1086,7 +1096,7 @@ ownership of the buffer.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.take_buffer">
-<code class="descname">take_buffer</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1069"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">take_buffer</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1069"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1120,7 +1130,7 @@ usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.take_buffer_fast">
-<code class="descname">take_buffer_fast</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L901"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer_fast" title="Permalink to this definition">¶</a></dt>
+<code class="descname">take_buffer_fast</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L901"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer_fast" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1160,7 +1170,7 @@ usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.take_buffer_list">
-<code class="descname">take_buffer_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1205"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">take_buffer_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1205"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_buffer_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1188,7 +1198,7 @@ the list after usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.take_list">
-<code class="descname">take_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L1101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">take_list</code><span class="sig-paren">(</span><em>nbytes</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L1101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.take_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1213,7 +1223,7 @@ buffer in the list before freeing the list after usage.</p>
 
 <dl class="method">
 <dt id="GstBase.Adapter.unmap">
-<code class="descname">unmap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstadapter.c#L566"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.unmap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unmap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstadapter.c#L566"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Adapter.unmap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Releases the memory obtained with the last <a class="reference internal" href="#GstBase.Adapter.map" title="GstBase.Adapter.map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Adapter.map</span></code></a>().</p>
 </dd></dl>
 

@@ -280,7 +280,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/Element.html#gst-element-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Element (77)</span></a>,     <a class="reference external" href="../../Gst-1.0/classes/Object.html#gst-object-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Object (27)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/Element.html#gst-element-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Element (79)</span></a>,     <a class="reference external" href="../../Gst-1.0/classes/Object.html#gst-object-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.Object (27)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Structs:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#gst-elementclass-methods" title="(in Gst 1.0 v1.0)"><span class="xref std std-ref">Gst.ElementClass (10)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></td>
 </tr>
@@ -311,7 +311,13 @@
 <td><a class="reference internal" href="#GstBase.BaseSrc.is_live" title="GstBase.BaseSrc.is_live"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_live</span></code></a> ()</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#GstBase.BaseSrc.negotiate" title="GstBase.BaseSrc.negotiate"><code class="xref py py-func docutils literal notranslate"><span class="pre">negotiate</span></code></a> ()</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#GstBase.BaseSrc.new_seamless_segment" title="GstBase.BaseSrc.new_seamless_segment"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_seamless_segment</span></code></a> (start, stop, time)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#GstBase.BaseSrc.new_segment" title="GstBase.BaseSrc.new_segment"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_segment</span></code></a> (segment)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#GstBase.BaseSrc.query_latency" title="GstBase.BaseSrc.query_latency"><code class="xref py py-func docutils literal notranslate"><span class="pre">query_latency</span></code></a> ()</td>
@@ -684,7 +690,7 @@ acceptable.</p>
 should be named “src”. A source implementation (subclass of <a class="reference internal" href="#GstBase.BaseSrc" title="GstBase.BaseSrc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc</span></code></a>)
 should install a pad template in its class_init function, like so:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_element_class_init</span> <span class="p">(</span><span class="n">GstMyElementClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">)</span>
+<span class="n">my_element_class_init</span> <span class="p">(</span><span class="n">GstMyElementClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">GstElementClass</span> <span class="o">*</span><span class="n">gstelement_class</span> <span class="o">=</span> <span class="n">GST_ELEMENT_CLASS</span> <span class="p">(</span><span class="n">klass</span><span class="p">);</span>
   <span class="c1">// srctemplate should be a #GstStaticPadTemplate with direction</span>
@@ -720,7 +726,7 @@ an EOS message to be posted on the pipeline’s bus. Once this EOS message is
 received, it may safely shut down the entire pipeline.</p>
 <dl class="method">
 <dt id="GstBase.BaseSrc.get_allocator">
-<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L4002"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_allocator" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L4090"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_allocator" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -750,7 +756,7 @@ used by the base class and its <cite>params</cite>.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.get_blocksize">
-<code class="descname">get_blocksize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L794"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_blocksize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_blocksize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L794"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_blocksize" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -766,7 +772,7 @@ used by the base class and its <cite>params</cite>.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.get_buffer_pool">
-<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L3973"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L4061"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -782,7 +788,7 @@ by the src; unref it after usage.</td>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.get_do_timestamp">
-<code class="descname">get_do_timestamp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L838"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_do_timestamp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_do_timestamp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L838"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.get_do_timestamp" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -798,7 +804,7 @@ by the src; unref it after usage.</td>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.is_async">
-<code class="descname">is_async</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L704"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.is_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_async</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L704"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.is_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -814,7 +820,7 @@ by the src; unref it after usage.</td>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.is_live">
-<code class="descname">is_live</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L595"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.is_live" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_live</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L595"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.is_live" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -829,8 +835,32 @@ by the src; unref it after usage.</td>
 </dd></dl>
 
 <dl class="method">
+<dt id="GstBase.BaseSrc.negotiate">
+<code class="descname">negotiate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L3476"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.negotiate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the negotiation succeeded, else <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Negotiates src pad caps with downstream elements.
+Unmarks <a class="reference external" href="../../Gst-1.0/flags.html#Gst.PadFlags.NEED_RECONFIGURE" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadFlags.NEED_RECONFIGURE</span></code></a> in any case. But marks it again
+if <a class="reference internal" href="#GstBase.BaseSrc.do_negotiate" title="GstBase.BaseSrc.do_negotiate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_negotiate</span></code></a>() fails.</p>
+<p>Do not call this in the <a class="reference internal" href="#GstBase.BaseSrc.do_fill" title="GstBase.BaseSrc.do_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_fill</span></code></a>() vmethod. Call this in
+<a class="reference internal" href="#GstBase.BaseSrc.do_create" title="GstBase.BaseSrc.do_create"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_create</span></code></a>() or in <a class="reference internal" href="#GstBase.BaseSrc.do_alloc" title="GstBase.BaseSrc.do_alloc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_alloc</span></code></a>(), _before_ any
+buffer is allocated.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="GstBase.BaseSrc.new_seamless_segment">
-<code class="descname">new_seamless_segment</code><span class="sig-paren">(</span><em>start</em>, <em>stop</em>, <em>time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L869"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.new_seamless_segment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">new_seamless_segment</code><span class="sig-paren">(</span><em>start</em>, <em>stop</em>, <em>time</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L871"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.new_seamless_segment" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -851,15 +881,45 @@ by the src; unref it after usage.</td>
 </tbody>
 </table>
 <p>Prepare a new seamless segment for emission downstream. This function must
-only be called by derived sub-classes, and only from the create() function,
+only be called by derived sub-classes, and only from the #GstBaseSrcClass::create function,
 as the stream-lock needs to be held.</p>
 <p>The format for the new segment will be the current format of the source, as
 configured with <a class="reference internal" href="#GstBase.BaseSrc.set_format" title="GstBase.BaseSrc.set_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.set_format</span></code></a>()</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.18: </span>Use <a class="reference internal" href="#GstBase.BaseSrc.new_segment" title="GstBase.BaseSrc.new_segment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.new_segment</span></code></a>()</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="GstBase.BaseSrc.new_segment">
+<code class="descname">new_segment</code><span class="sig-paren">(</span><em>segment</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L921"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.new_segment" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>segment</strong> (<a class="reference external" href="../../Gst-1.0/classes/Segment.html#Gst.Segment" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Segment</span></code></a>) – a pointer to a <a class="reference external" href="../../Gst-1.0/classes/Segment.html#Gst.Segment" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Segment</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if preparation of new segment succeeded.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Prepare a new segment for emission downstream. This function must
+only be called by derived sub-classes, and only from the #GstBaseSrcClass::create function,
+as the stream-lock needs to be held.</p>
+<p>The format for the <cite>segment</cite> must be identical with the current format
+of the source, as configured with <a class="reference internal" href="#GstBase.BaseSrc.set_format" title="GstBase.BaseSrc.set_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.set_format</span></code></a>().</p>
+<p>The format of <cite>self</cite> must not be <a class="reference external" href="../../Gst-1.0/enums.html#Gst.Format.UNDEFINED" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Format.UNDEFINED</span></code></a> and the format
+should be configured via <a class="reference internal" href="#GstBase.BaseSrc.set_format" title="GstBase.BaseSrc.set_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.set_format</span></code></a>() before calling this method.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.query_latency">
-<code class="descname">query_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L736"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.query_latency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L736"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.query_latency" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -891,7 +951,7 @@ buffer.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_async">
-<code class="descname">set_async</code><span class="sig-paren">(</span><em>async_</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L686"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_async</code><span class="sig-paren">(</span><em>async_</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L686"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -908,7 +968,7 @@ blocking operation should be unblocked with the unlock vmethod.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_automatic_eos">
-<code class="descname">set_automatic_eos</code><span class="sig-paren">(</span><em>automatic_eos</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L668"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_automatic_eos" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_automatic_eos</code><span class="sig-paren">(</span><em>automatic_eos</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L668"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_automatic_eos" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -924,7 +984,7 @@ when trying to read more should set this to <a class="reference external" href="
 <p>When <cite>self</cite> operates in <a class="reference external" href="../../Gst-1.0/enums.html#Gst.Format.TIME" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Format.TIME</span></code></a>, <a class="reference internal" href="#GstBase.BaseSrc" title="GstBase.BaseSrc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc</span></code></a> will send an EOS
 when a buffer outside of the currently configured segment is pushed if
 <cite>automatic_eos</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. Since 1.16, if <cite>automatic_eos</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> an
-EOS will be pushed only when the <a class="reference internal" href="#gstbase-basesrc-fields"><span class="std std-ref">GstBase.BaseSrc.create</span></a> implementation
+EOS will be pushed only when the <a class="reference internal" href="#GstBase.BaseSrc.do_create" title="GstBase.BaseSrc.do_create"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_create</span></code></a>() implementation
 returns <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowReturn.EOS" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.FlowReturn.EOS</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.4.</span></p>
@@ -933,7 +993,7 @@ returns <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowRet
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_blocksize">
-<code class="descname">set_blocksize</code><span class="sig-paren">(</span><em>blocksize</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L776"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_blocksize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_blocksize</code><span class="sig-paren">(</span><em>blocksize</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L776"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_blocksize" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -948,7 +1008,7 @@ returns <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowRet
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_caps">
-<code class="descname">set_caps</code><span class="sig-paren">(</span><em>caps</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L934"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_caps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_caps</code><span class="sig-paren">(</span><em>caps</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L991"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_caps" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -966,7 +1026,7 @@ returns <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowRet
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_do_timestamp">
-<code class="descname">set_do_timestamp</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L818"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_do_timestamp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_do_timestamp</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L818"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_do_timestamp" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -982,7 +1042,7 @@ sources.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_dynamic_size">
-<code class="descname">set_dynamic_size</code><span class="sig-paren">(</span><em>dynamic</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L642"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_dynamic_size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_dynamic_size</code><span class="sig-paren">(</span><em>dynamic</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L642"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_dynamic_size" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -998,7 +1058,7 @@ read.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_format">
-<code class="descname">set_format</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L622"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_format" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_format</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L622"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_format" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1016,7 +1076,7 @@ operate in pull mode if the <a class="reference internal" href="#GstBase.BaseSrc
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.set_live">
-<code class="descname">set_live</code><span class="sig-paren">(</span><em>live</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L577"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_live" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_live</code><span class="sig-paren">(</span><em>live</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L577"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.set_live" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1036,7 +1096,7 @@ be <a class="reference external" href="../../Gst-1.0/enums.html#Gst.StateChangeR
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.start_complete">
-<code class="descname">start_complete</code><span class="sig-paren">(</span><em>ret</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L3486"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.start_complete" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start_complete</code><span class="sig-paren">(</span><em>ret</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L3574"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.start_complete" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1053,7 +1113,7 @@ helper thread.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.start_wait">
-<code class="descname">start_wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L3624"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.start_wait" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start_wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L3712"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.start_wait" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1069,7 +1129,7 @@ helper thread.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.submit_buffer_list">
-<code class="descname">submit_buffer_list</code><span class="sig-paren">(</span><em>buffer_list</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L4041"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.submit_buffer_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">submit_buffer_list</code><span class="sig-paren">(</span><em>buffer_list</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L4129"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.submit_buffer_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1099,7 +1159,7 @@ mode.</p>
 
 <dl class="method">
 <dt id="GstBase.BaseSrc.wait_playing">
-<code class="descname">wait_playing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.16.2/libs/gst/base/gstbasesrc.c#L549"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.wait_playing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wait_playing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstbasesrc.c#L549"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.BaseSrc.wait_playing" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1251,12 +1311,13 @@ implementation will call alloc and fill.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filter</strong> (<a class="reference external" href="../../Gst-1.0/classes/Caps.html#Gst.Caps" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Caps</span></code></a>) – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filter</strong> (<a class="reference external" href="../../Gst-1.0/classes/Caps.html#Gst.Caps" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Caps</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../../Gst-1.0/classes/Caps.html#Gst.Caps" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Caps</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Called to get the caps to report.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1311,10 +1372,21 @@ out. The base class will sync on the clock using these times.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the negotiation succeeded, else <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Negotiates src pad caps with downstream elements.
+Unmarks <a class="reference external" href="../../Gst-1.0/flags.html#Gst.PadFlags.NEED_RECONFIGURE" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadFlags.NEED_RECONFIGURE</span></code></a> in any case. But marks it again
+if <a class="reference internal" href="#GstBase.BaseSrc.do_negotiate" title="GstBase.BaseSrc.do_negotiate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_negotiate</span></code></a>() fails.</p>
+<p>Do not call this in the <a class="reference internal" href="#GstBase.BaseSrc.do_fill" title="GstBase.BaseSrc.do_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_fill</span></code></a>() vmethod. Call this in
+<a class="reference internal" href="#GstBase.BaseSrc.do_create" title="GstBase.BaseSrc.do_create"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_create</span></code></a>() or in <a class="reference internal" href="#GstBase.BaseSrc.do_alloc" title="GstBase.BaseSrc.do_alloc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSrc.do_alloc</span></code></a>(), _before_ any
+buffer is allocated.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.18.</span></p>
+</div>
 </dd></dl>
 
 <dl class="method">

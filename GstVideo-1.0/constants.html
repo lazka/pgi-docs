@@ -185,6 +185,9 @@
 <li><a class="reference internal" href="#GstVideo.META_TAG_VIDEO_SIZE_STR" title="GstVideo.META_TAG_VIDEO_SIZE_STR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.META_TAG_VIDEO_SIZE_STR</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.META_TAG_VIDEO_STR" title="GstVideo.META_TAG_VIDEO_STR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.META_TAG_VIDEO_STR</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT2020" title="GstVideo.VIDEO_COLORIMETRY_BT2020"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT2020</span></code></a></li>
+<li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT2020_10" title="GstVideo.VIDEO_COLORIMETRY_BT2020_10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT2020_10</span></code></a></li>
+<li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT2100_HLG" title="GstVideo.VIDEO_COLORIMETRY_BT2100_HLG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT2100_HLG</span></code></a></li>
+<li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT2100_PQ" title="GstVideo.VIDEO_COLORIMETRY_BT2100_PQ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT2100_PQ</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT601" title="GstVideo.VIDEO_COLORIMETRY_BT601"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT601</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_BT709" title="GstVideo.VIDEO_COLORIMETRY_BT709"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_BT709</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_COLORIMETRY_SMPTE240M" title="GstVideo.VIDEO_COLORIMETRY_SMPTE240M"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_COLORIMETRY_SMPTE240M</span></code></a></li>
@@ -229,7 +232,6 @@
 <li><a class="reference internal" href="#GstVideo.VIDEO_FPS_RANGE" title="GstVideo.VIDEO_FPS_RANGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_FPS_RANGE</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_MAX_COMPONENTS" title="GstVideo.VIDEO_MAX_COMPONENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_MAX_COMPONENTS</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_MAX_PLANES" title="GstVideo.VIDEO_MAX_PLANES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_MAX_PLANES</span></code></a></li>
-<li><a class="reference internal" href="#GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS" title="GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B" title="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_C" title="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_C</span></code></a></li>
 <li><a class="reference internal" href="#GstVideo.VIDEO_RESAMPLER_OPT_ENVELOPE" title="GstVideo.VIDEO_RESAMPLER_OPT_ENVELOPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VIDEO_RESAMPLER_OPT_ENVELOPE</span></code></a></li>
@@ -281,8 +283,18 @@ on buffers from the pool.</p>
 <dl class="data">
 <dt id="GstVideo.CAPS_FEATURE_FORMAT_INTERLACED">
 <code class="descclassname">GstVideo.</code><code class="descname">CAPS_FEATURE_FORMAT_INTERLACED</code><em class="property"> = 'format:Interlaced'</em><a class="headerlink" href="#GstVideo.CAPS_FEATURE_FORMAT_INTERLACED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of the caps feature indicating that the stream is interlaced. Currently
-it is only used for video.</p>
+<dd><p>Name of the caps feature indicating that the stream is interlaced.</p>
+<p>Currently it is only used for video with ‘interlace-mode=alternate’
+to ensure backwards compatibility for this new mode.
+In this mode each buffer carries a single field of interlaced video.
+<a class="reference internal" href="flags.html#GstVideo.VideoBufferFlags.TOP_FIELD" title="GstVideo.VideoBufferFlags.TOP_FIELD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoBufferFlags.TOP_FIELD</span></code></a> and <a class="reference internal" href="flags.html#GstVideo.VideoBufferFlags.BOTTOM_FIELD" title="GstVideo.VideoBufferFlags.BOTTOM_FIELD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoBufferFlags.BOTTOM_FIELD</span></code></a>
+indicate whether the buffer carries a top or bottom field. The order of
+buffers/fields in the stream and the timestamps on the buffers indicate the
+temporal order of the fields.
+Top and bottom fields are expected to alternate in this mode.
+The frame rate in the caps still signals the frame rate, so the notional field
+rate will be twice the frame rate from the caps
+(see GST_VIDEO_INFO_FIELD_RATE_N).</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.16..</span></p>
 </div>
@@ -347,6 +359,21 @@ it is only used for video.</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_COLORIMETRY_BT2020">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_COLORIMETRY_BT2020</code><em class="property"> = 'bt2020'</em><a class="headerlink" href="#GstVideo.VIDEO_COLORIMETRY_BT2020" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="GstVideo.VIDEO_COLORIMETRY_BT2020_10">
+<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_COLORIMETRY_BT2020_10</code><em class="property"> = 'bt2020-10'</em><a class="headerlink" href="#GstVideo.VIDEO_COLORIMETRY_BT2020_10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="GstVideo.VIDEO_COLORIMETRY_BT2100_HLG">
+<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_COLORIMETRY_BT2100_HLG</code><em class="property"> = 'bt2100-hlg'</em><a class="headerlink" href="#GstVideo.VIDEO_COLORIMETRY_BT2100_HLG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="GstVideo.VIDEO_COLORIMETRY_BT2100_PQ">
+<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_COLORIMETRY_BT2100_PQ</code><em class="property"> = 'bt2100-pq'</em><a class="headerlink" href="#GstVideo.VIDEO_COLORIMETRY_BT2100_PQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
@@ -417,7 +444,7 @@ it is only used for video.</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_ALPHA_MODE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_ALPHA_MODE</code><em class="property"> = 'GstVideoConverter.alpha-mode'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_ALPHA_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_ALPHA_MODE, the alpha mode to use.
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoAlphaMode" title="GstVideo.VideoAlphaMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoAlphaMode</span></code></a>, the alpha mode to use.
 Default is <a class="reference internal" href="enums.html#GstVideo.VideoAlphaMode.COPY" title="GstVideo.VideoAlphaMode.COPY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoAlphaMode.COPY</span></code></a>.</p>
 </dd></dl>
 
@@ -439,14 +466,14 @@ Default 0xff000000</p>
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_CHROMA_MODE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_CHROMA_MODE</code><em class="property"> = 'GstVideoConverter.chroma-mode'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_CHROMA_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_CHROMA_MODE, set the chroma resample mode subsampled
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoChromaMode" title="GstVideo.VideoChromaMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoChromaMode</span></code></a>, set the chroma resample mode subsampled
 formats. Default is <a class="reference internal" href="enums.html#GstVideo.VideoChromaMode.FULL" title="GstVideo.VideoChromaMode.FULL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoChromaMode.FULL</span></code></a>.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_CHROMA_RESAMPLER_METHOD">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_CHROMA_RESAMPLER_METHOD</code><em class="property"> = 'GstVideoConverter.chroma-resampler-method'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_CHROMA_RESAMPLER_METHOD" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_RESAMPLER_METHOD, The resampler method to use for
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoChromaMethod" title="GstVideo.VideoChromaMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoChromaMethod</span></code></a>, The resampler method to use for
 chroma resampling. Other options for the resampler can be used, see
 the <a class="reference internal" href="classes/VideoResampler.html#GstVideo.VideoResampler" title="GstVideo.VideoResampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoResampler</span></code></a>. Default is <a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod.LINEAR" title="GstVideo.VideoResamplerMethod.LINEAR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoResamplerMethod.LINEAR</span></code></a></p>
 </dd></dl>
@@ -478,7 +505,7 @@ the <a class="reference internal" href="classes/VideoResampler.html#GstVideo.Vid
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_DITHER_METHOD">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_DITHER_METHOD</code><em class="property"> = 'GstVideoConverter.dither-method'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_DITHER_METHOD" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_DITHER_METHOD, The dither method to use when
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoDitherMethod" title="GstVideo.VideoDitherMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoDitherMethod</span></code></a>, The dither method to use when
 changing bit depth.
 Default is <a class="reference internal" href="enums.html#GstVideo.VideoDitherMethod.BAYER" title="GstVideo.VideoDitherMethod.BAYER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoDitherMethod.BAYER</span></code></a>.</p>
 </dd></dl>
@@ -503,14 +530,14 @@ destination are untouched. Default <a class="reference external" href="http://do
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_GAMMA_MODE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_GAMMA_MODE</code><em class="property"> = 'GstVideoConverter.gamma-mode'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_GAMMA_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_GAMMA_MODE, set the gamma mode.
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoGammaMode" title="GstVideo.VideoGammaMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoGammaMode</span></code></a>, set the gamma mode.
 Default is <a class="reference internal" href="enums.html#GstVideo.VideoGammaMode.NONE" title="GstVideo.VideoGammaMode.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoGammaMode.NONE</span></code></a>.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_MATRIX_MODE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_MATRIX_MODE</code><em class="property"> = 'GstVideoConverter.matrix-mode'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_MATRIX_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_MATRIX_MODE, set the color matrix conversion mode for
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoMatrixMode" title="GstVideo.VideoMatrixMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoMatrixMode</span></code></a>, set the color matrix conversion mode for
 converting between Y’PbPr and non-linear RGB (R’G’B’).
 Default is <a class="reference internal" href="enums.html#GstVideo.VideoMatrixMode.FULL" title="GstVideo.VideoMatrixMode.FULL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoMatrixMode.FULL</span></code></a>.</p>
 </dd></dl>
@@ -518,14 +545,14 @@ Default is <a class="reference internal" href="enums.html#GstVideo.VideoMatrixMo
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_PRIMARIES_MODE">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_PRIMARIES_MODE</code><em class="property"> = 'GstVideoConverter.primaries-mode'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_PRIMARIES_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_PRIMARIES_MODE, set the primaries conversion mode.
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoPrimariesMode" title="GstVideo.VideoPrimariesMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoPrimariesMode</span></code></a>, set the primaries conversion mode.
 Default is <a class="reference internal" href="enums.html#GstVideo.VideoPrimariesMode.NONE" title="GstVideo.VideoPrimariesMode.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoPrimariesMode.NONE</span></code></a>.</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_CONVERTER_OPT_RESAMPLER_METHOD">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_CONVERTER_OPT_RESAMPLER_METHOD</code><em class="property"> = 'GstVideoConverter.resampler-method'</em><a class="headerlink" href="#GstVideo.VIDEO_CONVERTER_OPT_RESAMPLER_METHOD" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_RESAMPLER_METHOD, The resampler method to use for
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod" title="GstVideo.VideoResamplerMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoResamplerMethod</span></code></a>, The resampler method to use for
 resampling. Other options for the resampler can be used, see
 the <a class="reference internal" href="classes/VideoResampler.html#GstVideo.VideoResampler" title="GstVideo.VideoResampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoResampler</span></code></a>. Default is <a class="reference internal" href="enums.html#GstVideo.VideoResamplerMethod.CUBIC" title="GstVideo.VideoResamplerMethod.CUBIC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoResamplerMethod.CUBIC</span></code></a></p>
 </dd></dl>
@@ -600,8 +627,24 @@ of cores.</p>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_FORMATS_ALL">
-<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_FORMATS_ALL</code><em class="property"> = '{ I420, YV12, YUY2, UYVY, AYUV, VUYA, RGBx, BGRx, xRGB, xBGR, RGBA, BGRA, ARGB, ABGR, RGB, BGR, Y41B, Y42B, YVYU, Y444, v210, v216, Y210, Y410, NV12, NV21, GRAY8, GRAY16_BE, GRAY16_LE, v308, RGB16, BGR16, RGB15, BGR15, UYVP, A420, RGB8P, YUV9, YVU9, IYU1, ARGB64, AYUV64, r210, I420_10BE, I420_10LE, I422_10BE, I422_10LE, Y444_10BE, Y444_10LE, GBR, GBR_10BE, GBR_10LE, NV16, NV24, NV12_64Z32, A420_10BE, A420_10LE, A422_10BE, A422_10LE, A444_10BE, A444_10LE, NV61, P010_10BE, P010_10LE, IYU2, VYUY, GBRA, GBRA_10BE, GBRA_10LE, BGR10A2_LE, GBR_12BE, GBR_12LE, GBRA_12BE, GBRA_12LE, I420_12BE, I420_12LE, I422_12BE, I422_12LE, Y444_12BE, Y444_12LE, GRAY10_LE32, NV12_10LE32, NV16_10LE32, NV12_10LE40 }'</em><a class="headerlink" href="#GstVideo.VIDEO_FORMATS_ALL" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_FORMATS_ALL</code><em class="property"> = '{ AYUV64, ARGB64, GBRA_12BE, GBRA_12LE, Y412_BE, Y412_LE, A444_10BE, GBRA_10BE, A444_10LE, GBRA_10LE, A422_10BE, A422_10LE, A420_10BE, A420_10LE, Y410, RGB10A2_LE, BGR10A2_LE, GBRA, ABGR, VUYA, BGRA, AYUV, ARGB, RGBA, A420, Y444_16BE, Y444_16LE, v216, P016_BE, P016_LE, Y444_12BE, GBR_12BE, Y444_12LE, GBR_12LE, I422_12BE, I422_12LE, Y212_BE, Y212_LE, I420_12BE, I420_12LE, P012_BE, P012_LE, Y444_10BE, GBR_10BE, Y444_10LE, GBR_10LE, r210, I422_10BE, I422_10LE, NV16_10LE32, Y210, v210, UYVP, I420_10BE, I420_10LE, P010_10BE, P010_10LE, NV12_10LE32, NV12_10LE40, Y444, GBR, NV24, xBGR, BGRx, xRGB, RGBx, BGR, IYU2, v308, RGB, Y42B, NV61, NV16, VYUY, UYVY, YVYU, YUY2, I420, YV12, NV21, NV12, NV12_64Z32, NV12_4L4, NV12_32L32, Y41B, IYU1, YVU9, YUV9, RGB16, BGR16, RGB15, BGR15, RGB8P, GRAY16_BE, GRAY16_LE, GRAY10_LE32, GRAY8 }'</em><a class="headerlink" href="#GstVideo.VIDEO_FORMATS_ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all video formats, for use in template caps strings.</p>
+<p>Formats are sorted by decreasing “quality”, using these criteria by priority:</p>
+<ul class="simple">
+<li>number of components</li>
+<li>depth</li>
+<li>subsampling factor of the width</li>
+<li>subsampling factor of the height</li>
+<li>number of planes</li>
+<li>native endianness preferred</li>
+<li>pixel stride</li>
+<li>poffset</li>
+<li>prefer non-complex formats</li>
+<li>prefer YUV formats over RGB ones</li>
+<li>prefer I420 over YV12</li>
+<li>format name</li>
+</ul>
+</dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_FPS_RANGE">
@@ -617,16 +660,6 @@ of cores.</p>
 <dt id="GstVideo.VIDEO_MAX_PLANES">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_MAX_PLANES</code><em class="property"> = 4</em><a class="headerlink" href="#GstVideo.VIDEO_MAX_PLANES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="data">
-<dt id="GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS">
-<code class="descclassname">GstVideo.</code><code class="descname">VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS</code><em class="property"> = '{ BGRx, RGBx, xRGB, xBGR, RGBA, BGRA, ARGB, ABGR, RGB, BGR, I420, YV12, AYUV, YUY2, UYVY, v308, Y41B, Y42B, Y444, NV12, NV21, A420, YUV9, YVU9, IYU1, GRAY8 }'</em><a class="headerlink" href="#GstVideo.VIDEO_OVERLAY_COMPOSITION_BLEND_FORMATS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Video formats supported by <a class="reference internal" href="classes/VideoOverlayComposition.html#GstVideo.VideoOverlayComposition.blend" title="GstVideo.VideoOverlayComposition.blend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoOverlayComposition.blend</span></code></a>(), for
-use in overlay elements’ pad template caps.</p>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 1.2.</span></p>
-</div>
-</dd></dl>
 
 <dl class="data">
 <dt id="GstVideo.VIDEO_RESAMPLER_OPT_CUBIC_B">
@@ -690,7 +723,7 @@ parameter controls the Keys alpha value. Values between 0.0 and
 <dl class="data">
 <dt id="GstVideo.VIDEO_SCALER_OPT_DITHER_METHOD">
 <code class="descclassname">GstVideo.</code><code class="descname">VIDEO_SCALER_OPT_DITHER_METHOD</code><em class="property"> = 'GstVideoScaler.dither-method'</em><a class="headerlink" href="#GstVideo.VIDEO_SCALER_OPT_DITHER_METHOD" title="Permalink to this definition">¶</a></dt>
-<dd><p>#GST_TYPE_VIDEO_DITHER_METHOD, The dither method to use for propagating
+<dd><p><a class="reference internal" href="enums.html#GstVideo.VideoDitherMethod" title="GstVideo.VideoDitherMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstVideo.VideoDitherMethod</span></code></a>, The dither method to use for propagating
 quatization errors.</p>
 </dd></dl>
 

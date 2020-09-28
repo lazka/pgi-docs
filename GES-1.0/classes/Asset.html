@@ -307,7 +307,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="MetaContainer.html#ges-metacontainer-methods"><span class="std std-ref">GES.MetaContainer (37)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/AsyncInitable.html#gio-asyncinitable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.AsyncInitable (4)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/Initable.html#gio-initable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.Initable (2)</span></a></td>
+<tr class="field-odd field"><th class="field-name">Inherited:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="MetaContainer.html#ges-metacontainer-methods"><span class="std std-ref">GES.MetaContainer (40)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/AsyncInitable.html#gio-asyncinitable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.AsyncInitable (4)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/Initable.html#gio-initable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.Initable (2)</span></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Structs:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></td>
 </tr>
@@ -420,7 +420,7 @@
 <tr class="row-odd"><td><a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">id</span></code></a></td>
 <td><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 <td>r/w/co</td>
-<td>The unic identifier of the asset</td>
+<td>The unique identifier of the asset</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">proxy</span></code></a></td>
 <td><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></td>
@@ -429,7 +429,7 @@
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#GES.Asset.props.proxy_target" title="GES.Asset.props.proxy_target"><code class="xref py py-data docutils literal notranslate"><span class="pre">proxy-target</span></code></a></td>
 <td><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></td>
-<td>r/w</td>
+<td>r</td>
 <td>The target of a proxy asset.</td>
 </tr>
 </tbody>
@@ -496,39 +496,36 @@
 </tr>
 </tbody>
 </table>
-<p>The Assets in the GStreamer Editing Services represent the resources
-that can be used. You can create assets for any type that implements the <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a>
-interface, for example <a class="reference internal" href="Clip.html#GES.Clip" title="GES.Clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Clips</span></code></a>, <a class="reference internal" href="Formatter.html#GES.Formatter" title="GES.Formatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Formatter</span></code></a>, and <a class="reference internal" href="TrackElement.html#GES.TrackElement" title="GES.TrackElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TrackElement</span></code></a> do implement it.
-This means that assets will represent for example a <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClips</span></code></a>, <a class="reference internal" href="BaseEffect.html#GES.BaseEffect" title="GES.BaseEffect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.BaseEffect</span></code></a> etc,
-and then you can extract objects of those types with the appropriate parameters from the asset
-using the <a class="reference internal" href="#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a> method:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GESAsset *effect_asset;
-GESEffect *effect;
-
-// You create an asset for an effect
-effect_asset = ges_asset_request (GES_TYPE_EFFECT, &quot;agingtv&quot;, NULL);
-
-// And now you can extract an instance of GESEffect from that asset
-effect = GES_EFFECT (ges_asset_extract (effect_asset));
-</pre></div>
-</div>
-<p>In that example, the advantages of having a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> are that you can know what effects
-you are working with and let your user know about the avalaible ones, you can add metadata
-to the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> through the <a class="reference internal" href="MetaContainer.html#GES.MetaContainer" title="GES.MetaContainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.MetaContainer</span></code></a> interface and you have a model for your
-custom effects. Note that <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> management is making easier thanks to the <a class="reference internal" href="Project.html#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> class.</p>
-<p>Each asset is represented by a pair of <cite>extractable_type</cite> and <cite>id</cite> (string). Actually the <cite>extractable_type</cite>
-is the type that implements the <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> interface, that means that for example for a <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a>,
-the type that implements the <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> interface is <a class="reference internal" href="Clip.html#GES.Clip" title="GES.Clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Clip</span></code></a>.
-The identifier represents different things depending on the <cite>extractable_type</cite> and you should check
-the documentation of each type to know what the ID of <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> actually represents for that type. By default,
-we only have one <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> per type, and the <cite>id</cite> is the name of the type, but this behaviour is overriden
-to be more useful. For example, for GESTransitionClips, the ID is the vtype of the transition
-you will extract from it (ie crossfade, box-wipe-rc etc..) For <a class="reference internal" href="Effect.html#GES.Effect" title="GES.Effect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Effect</span></code></a> the ID is the
-<cite>bin</cite>-description property of the extracted objects (ie the gst-launch style description of the bin that
-will be used).</p>
-<p>Each and every <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> is cached into GES, and you can query those with the <a class="reference internal" href="../functions.html#GES.list_assets" title="GES.list_assets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.list_assets</span></code></a> function.
-Also the system will automatically register <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> for <a class="reference internal" href="Formatter.html#GES.Formatter" title="GES.Formatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Formatters</span></code></a> and <a class="reference internal" href="TransitionClip.html#GES.TransitionClip" title="GES.TransitionClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TransitionClips</span></code></a>
-and standard effects (actually not implemented yet) and you can simply query those calling:</p>
+<p>A <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> in the GStreamer Editing Services represents a resources
+that can be used. In particular, any class that implements the
+<a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> interface may have some associated assets with a
+corresponding <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a>, from which its objects can be
+extracted using <a class="reference internal" href="#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a>(). Some examples would be
+<a class="reference internal" href="Clip.html#GES.Clip" title="GES.Clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Clip</span></code></a>, <a class="reference internal" href="Formatter.html#GES.Formatter" title="GES.Formatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Formatter</span></code></a> and <a class="reference internal" href="TrackElement.html#GES.TrackElement" title="GES.TrackElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TrackElement</span></code></a>.</p>
+<p>All assets that are created within GES are stored in a cache; one per
+each <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> and <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> pair. These assets can
+be fetched, and initialized if they do not yet exist in the cache,
+using <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>().</p>
+<p>``` c
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> *effect_asset;
+<a class="reference internal" href="Effect.html#GES.Effect" title="GES.Effect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Effect</span></code></a> *effect;</p>
+<p>// You create an asset for an effect
+effect_asset = <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a> (GES_TYPE_EFFECT, “agingtv”, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>// And now you can extract an instance of <a class="reference internal" href="Effect.html#GES.Effect" title="GES.Effect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Effect</span></code></a> from that asset
+effect = GES_EFFECT (<a class="reference internal" href="#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a> (effect_asset));</p>
+<p>```</p>
+<p>The advantage of using assets, rather than simply creating the object
+directly, is that the currently loaded resources can be listed with
+<a class="reference internal" href="../functions.html#GES.list_assets" title="GES.list_assets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.list_assets</span></code></a>() and displayed to an end user. For example, to show
+which media files have been loaded, and a standard list of effects. In
+fact, the GES library already creates assets for <a class="reference internal" href="TransitionClip.html#GES.TransitionClip" title="GES.TransitionClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TransitionClip</span></code></a> and
+<a class="reference internal" href="Formatter.html#GES.Formatter" title="GES.Formatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Formatter</span></code></a>, which you can use to list all the available transition
+types and supported formats.</p>
+<p>The other advantage is that <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> implements <a class="reference internal" href="MetaContainer.html#GES.MetaContainer" title="GES.MetaContainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.MetaContainer</span></code></a>, so
+metadata can be set on the asset, with some subclasses automatically
+creating this metadata on initiation.</p>
+<p>For example, to display information about the supported formats, you
+could do the following:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GList *formatter_assets, *tmp;
 
 //  List all  the transitions
@@ -537,32 +534,70 @@ formatter_assets = ges_list_assets (GES_TYPE_FORMATTER);
 // Print some infos about the formatter GESAsset
 for (tmp = formatter_assets; tmp; tmp = tmp-&gt;next) {
   g_print (&quot;Name of the formatter: %s, file extension it produces: %s&quot;,
-    ges_meta_container_get_string (GES_META_CONTAINER (tmp-&gt;data), GES_META_FORMATTER_NAME),
-    ges_meta_container_get_string (GES_META_CONTAINER (tmp-&gt;data), GES_META_FORMATTER_EXTENSION));
+    ges_meta_container_get_string (
+      GES_META_CONTAINER (tmp-&gt;data), GES_META_FORMATTER_NAME),
+    ges_meta_container_get_string (
+      GES_META_CONTAINER (tmp-&gt;data), GES_META_FORMATTER_EXTENSION));
 }
 
 g_list_free (transition_assets);
 </pre></div>
 </div>
-<p>You can request the creation of <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> using either <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>() or
-<a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>(). All the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Assets</span></code></a> are cached and thus any asset that has already
-been created can be requested again without overhead.</p>
+<dl class="docutils">
+<dt>ID</dt>
+<dd></dd>
+</dl>
+<p>Each asset is uniquely defined in the cache by its
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> and <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a>. Depending on the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a>, the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> can be used to parametrise
+the creation of the object upon extraction. By default, a class that
+implements <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> will only have a single associated asset,
+with an <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> set to the type name of its objects. However, this
+is overwritten by some implementations, which allow a class to have
+multiple associated assets. For example, for <a class="reference internal" href="TransitionClip.html#GES.TransitionClip" title="GES.TransitionClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TransitionClip</span></code></a> the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> will be a nickname of the <a class="reference internal" href="TransitionClip.html#GES.TransitionClip" title="GES.TransitionClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.TransitionClip</span></code></a> <a class="reference internal" href="TransitionClip.html#GES.TransitionClip.props.vtype" title="GES.TransitionClip.props.vtype"><code class="xref py py-data docutils literal notranslate"><span class="pre">:vtype</span></code></a>. You
+should check the documentation for each extractable type to see if they
+differ from the default.</p>
+<p>Moreover, each <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> may also associate itself
+with a specific asset subclass. In such cases, when their asset is
+requested, an asset of this subclass will be returned instead.</p>
+<dl class="docutils">
+<dt>Managing</dt>
+<dd></dd>
+</dl>
+<p>You can use a <a class="reference internal" href="Project.html#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> to easily manage the assets of a
+<a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a>.</p>
+<dl class="docutils">
+<dt>Proxies</dt>
+<dd></dd>
+</dl>
+<p>Some assets can (temporarily) act as the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a> of another
+asset. When the original asset is requested from the cache, the proxy
+will be returned in its place. This can be useful if, say, you want
+to substitute a <a class="reference internal" href="UriClipAsset.html#GES.UriClipAsset" title="GES.UriClipAsset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClipAsset</span></code></a> corresponding to a high resolution
+media file with the asset of a lower resolution stand in.</p>
+<p>An asset may even have several proxies, the first of which will act as
+its default and be returned on requests, but the others will be ordered
+to take its place once it is removed. You can add a proxy to an asset,
+or set its default, using <a class="reference internal" href="#GES.Asset.set_proxy" title="GES.Asset.set_proxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.set_proxy</span></code></a>(), and you can remove
+them with <a class="reference internal" href="#GES.Asset.unproxy" title="GES.Asset.unproxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.unproxy</span></code></a>().</p>
 <dl class="classmethod">
 <dt id="GES.Asset.needs_reload">
-<em class="property">classmethod </em><code class="descname">needs_reload</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1232"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.needs_reload" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">needs_reload</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1501"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.needs_reload" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> of the object that can be extracted from the
-asset to be reloaded.</li>
-<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The identifier of the asset to mark as needing reload</li>
+<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> of the asset that
+needs reloading</li>
+<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset asset that needs
+reloading</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset was in the cache and could be set as needing reload,
-<a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the specified asset exists in the cache and could be
+marked for reloading.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -570,32 +605,34 @@ asset to be reloaded.</li>
 </tr>
 </tbody>
 </table>
-<p>Sets an asset from the internal cache as needing reload. An asset needs reload
-in the case where, for example, we were missing a <a class="reference external" href="../../Gst-1.0/classes/Plugin.html#Gst.Plugin" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Plugin</span></code></a> to use it and that
-plugin has been installed, or, that particular asset content as changed
-meanwhile (in the case of the usage of proxies).</p>
-<p>Once an asset has been set as “needs reload”, requesting that asset again
-will lead to it being re discovered, and reloaded as if it was not in the
-cache before.</p>
+<p>Indicate that an existing <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> in the cache should be reloaded
+upon the next request. This can be used when some condition has
+changed, which may require that an existing asset should be updated.
+For example, if an external resource has changed or now become
+available.</p>
+<p>Note, the asset is not immediately changed, but will only actually
+reload on the next call to <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>() or
+<a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>().</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="GES.Asset.request">
-<em class="property">classmethod </em><code class="descname">request</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L981"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1240"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> of the object that can be extracted from the new asset.</li>
-<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The Identifier or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></li>
+<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> of the asset</li>
+<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A reference to the wanted <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A reference to the requested
+asset, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an error occurred.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -603,130 +640,150 @@ cache before.</p>
 </tr>
 </tbody>
 </table>
-<p>Create a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> in the most simple cases, you should look at the <cite>extractable_type</cite>
-documentation to see if that constructor can be called for this particular type</p>
-<p>As it is recommanded not to instanciate assets for <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a> synchronously,
-it will not work with this method, but you can instead use the specific
-<a class="reference internal" href="UriClipAsset.html#GES.UriClipAsset.request_sync" title="GES.UriClipAsset.request_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClipAsset.request_sync</span></code></a> method if you really want to.</p>
+<p>Returns an asset with the given properties. If such an asset already
+exists in the cache (it has been previously created in GES), then a
+reference to the existing asset is returned. Otherwise, a newly created
+asset is returned, and also added to the cache.</p>
+<p>If the requested asset has been loaded with an error, then <cite>error</cite> is
+set, if given, and <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned instead.</p>
+<p>Note that the given <cite>id</cite> may not be exactly the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> that is
+set on the returned asset. For instance, it may be adjusted into a
+standard format. Or, if a <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> type does not have its
+extraction parametrised, as is the case by default, then the given <cite>id</cite>
+may be ignored entirely and the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> set to some standard, in
+which case a <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <cite>id</cite> can be given.</p>
+<p>Similarly, the given <cite>extractable_type</cite> may not be exactly the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> that is set on the returned asset. Instead,
+the actual extractable type may correspond to a subclass of the given
+<cite>extractable_type</cite>, depending on the given <cite>id</cite>.</p>
+<p>Moreover, depending on the given <cite>extractable_type</cite>, the returned asset
+may belong to a subclass of <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>.</p>
+<p>Finally, if the requested asset has a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a>, then the proxy
+that is found at the end of the chain of proxies is returned (a proxy’s
+proxy will take its place, and so on, unless it has no proxy).</p>
+<p>Some asset subclasses only support asynchronous construction of its
+assets, such as <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a>. For such assets this method will fail, and
+you should use <a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>() instead. In the case of
+<a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a>, you can use <a class="reference internal" href="UriClipAsset.html#GES.UriClipAsset.request_sync" title="GES.UriClipAsset.request_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClipAsset.request_sync</span></code></a>() if you only
+want to wait for the request to finish.</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="GES.Asset.request_async">
-<em class="property">classmethod </em><code class="descname">request_async</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1125"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_async" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request_async</code><span class="sig-paren">(</span><em>extractable_type</em>, <em>id</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1392"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> of the object that can be extracted from the
-new asset. The class must implement the <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> interface.</li>
-<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The Identifier of the asset we want to create. This identifier depends of the extractable,
-type you want. By default it is the name of the class itself (or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>), but for example for a
-<a class="reference internal" href="Effect.html#GES.Effect" title="GES.Effect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Effect</span></code></a>, it will be the pipeline description, for a <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a> it
-will be the name of the file, etc… You should refer to the documentation of the <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a>
-type you want to create a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> for.</li>
-<li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – optional <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to ignore.</li>
-<li><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to call when the initialization is finished,
-Note that the <cite>source</cite> of the callback will be the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>, but you need to
-make sure that the asset is properly loaded using the <a class="reference internal" href="#GES.Asset.request_finish" title="GES.Asset.request_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_finish</span></code></a>
-method. This asset can not be used as is.</li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The user data to pass when <cite>callback</cite> is called</li>
+<li><strong>extractable_type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> of the asset</li>
+<li><strong>id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset</li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – An object to allow cancellation of the
+asset request, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to ignore</li>
+<li><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – A function to call when the initialization is finished</li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Data to be passed to <cite>callback</cite></li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <cite>callback</cite> will be called from a running <a class="reference external" href="../../GLib-2.0/classes/MainLoop.html#GLib.MainLoop" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop</span></code></a> which is iterating a <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.
-Note that, users should ensure the <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>, since this method will notify
-<cite>callback</cite> from the thread which was associated with a thread default
-<a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> at calling <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>().
-For example, if a user wants non-default <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> to be associated
-with <cite>callback</cite>, <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>() must be called after <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext.push_thread_default</span></code></a> ()
-with custom <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.</p>
-<p>Request a new <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> asyncronously, <cite>callback</cite> will be called when the materail is
-ready to be used or if an error occured.</p>
-<p>Example of request of a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> async:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>// The request callback
+<p>Requests an asset with the given properties asynchronously (see
+<a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>()). When the asset has been initialized or fetched
+from the cache, the given callback function will be called. The
+asset can then be retrieved in the callback using the
+<a class="reference internal" href="#GES.Asset.request_finish" title="GES.Asset.request_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_finish</span></code></a>() method on the given <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
+<p>Note that the source object passed to the callback will be the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> corresponding to the request, but it may not have loaded
+correctly and therefore can not be used as is. Instead,
+<a class="reference internal" href="#GES.Asset.request_finish" title="GES.Asset.request_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_finish</span></code></a>() should be used to fetch a usable asset, or
+indicate that an error occurred in the asset’s creation.</p>
+<p>Note that the callback will be called in the <a class="reference external" href="../../GLib-2.0/classes/MainLoop.html#GLib.MainLoop" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop</span></code></a> running under
+the same <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> that <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>() was called in. So, if you wish
+the callback to be invoked outside the default <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>, you can
+call <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext.push_thread_default</span></code></a>() in a new thread before
+calling <a class="reference internal" href="../functions.html#GES.init" title="GES.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.init</span></code></a>().</p>
+<p>Example of an asynchronous asset request:
+``` c
+// The request callback
 static void
-asset_loaded_cb (GESAsset * source, GAsyncResult * res, gpointer user_data)
+asset_loaded_cb (<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> * source, <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> * res, <a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> user_data)
 {
-  GESAsset *asset;
-  GError *error = NULL;
-
-  asset = ges_asset_request_finish (res, &amp;error);
-  if (asset) {
-   g_print (&quot;The file: %s is usable as a FileSource&quot;,
-       ges_asset_get_id (asset));
-  } else {
-   g_print (&quot;The file: %s is *not* usable as a FileSource because: %s&quot;,
-       ges_asset_get_id (source), error-&gt;message);
-  }
-
-  gst_object_unref (mfs);
-}
-
-// The request:
-ges_asset_request_async (GES_TYPE_URI_CLIP, some_uri, NULL,
-   (GAsyncReadyCallback) asset_loaded_cb, user_data);
-</pre></div>
-</div>
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> *asset;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>asset = <a class="reference internal" href="#GES.Asset.request_finish" title="GES.Asset.request_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_finish</span></code></a> (res, &amp;error);
+if (asset) {
+g_print (“The file: %s is usable as a <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a>”,
+<a class="reference internal" href="#GES.Asset.get_id" title="GES.Asset.get_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.get_id</span></code></a> (asset));
+} else {
+g_print (“The file: %s is *not* usable as a <a class="reference internal" href="UriClip.html#GES.UriClip" title="GES.UriClip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClip</span></code></a> because: %s”,
+<a class="reference internal" href="#GES.Asset.get_id" title="GES.Asset.get_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.get_id</span></code></a> (source), error-&gt;message);
+}</p>
+<p><a class="reference external" href="../../Gst-1.0/classes/Object.html#Gst.Object.unref" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Object.unref</span></code></a> (asset);
+}</p>
+<p>// The request:
+<a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a> (GES_TYPE_URI_CLIP, some_uri, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
+(<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>) asset_loaded_cb, user_data);
+```</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="GES.Asset.request_finish">
-<em class="property">classmethod </em><code class="descname">request_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1323"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_finish" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">request_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1598"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.request_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – The <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> from which to get the newly created <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – The task result to fetch the asset from</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> previously requested</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The requested asset, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an error
+occurred.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Finalize the request of an async <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></p>
+<p>Fetches an asset requested by <a class="reference internal" href="#GES.Asset.request_async" title="GES.Asset.request_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request_async</span></code></a>(), which
+finalises the request.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.extract">
-<code class="descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1292"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.extract" title="Permalink to this definition">¶</a></dt>
+<code class="descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1565"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.extract" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A newly created <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A newly created object, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an
+error occurred.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Extracts a new <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> from <cite>asset</cite>. The type of the object is
-defined by the extractable-type of <cite>asset</cite>, you can check what
-type will be extracted from <cite>asset</cite> using
-<a class="reference internal" href="#GES.Asset.get_extractable_type" title="GES.Asset.get_extractable_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.get_extractable_type</span></code></a></p>
+<p>Extracts a new <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> object from the asset. The
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset may determine the properties and state of the
+newly created object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.get_error">
-<code class="descname">get_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1391"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_error" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1673"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_error" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> of the asset or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if
-the asset was loaded without issue</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The error set on <cite>asset</cite>, or
+<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no error occurred when <cite>asset</cite> was loaded.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Retrieve the error that was set on the asset when it was loaded.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.8.</span></p>
 </div>
@@ -734,122 +791,140 @@ the asset was loaded without issue</td>
 
 <dl class="method">
 <dt id="GES.Asset.get_extractable_type">
-<code class="descname">get_extractable_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L958"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_extractable_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_extractable_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1189"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_extractable_type" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the type of object that can be extracted from <cite>self</cite></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The extractable type of <cite>self</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Gets the type of object that can be extracted from <cite>self</cite></p>
+<p>Gets the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> of the asset.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.get_id">
-<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L1272"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1544"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_id" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The ID of <cite>self</cite></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The ID of <cite>self</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Gets the ID of a <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a></p>
+<p>Gets the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.get_proxy">
-<code class="descname">get_proxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L853"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_proxy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1077"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The proxy in use for <cite>self</cite></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The default proxy of <cite>self</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Gets the default <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a> of the asset.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.get_proxy_target">
-<code class="descname">get_proxy_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L871"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy_target" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_proxy_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.get_proxy_target" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> that is proxied by <cite>self</cite></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The asset that <cite>self</cite> is a proxy
+of.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
 </tr>
 </tbody>
 </table>
+<p>Gets the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy_target" title="GES.Asset.props.proxy_target"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy-target</span></code></a> of the asset.</p>
+<p>Note that the proxy target may have loaded with an error, so you should
+call <a class="reference internal" href="#GES.Asset.get_error" title="GES.Asset.get_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.get_error</span></code></a>() on the returned target.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.list_proxies">
-<code class="descname">list_proxies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L839"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.list_proxies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_proxies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1061"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.list_proxies" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of proxies <cite>self</cite> has. Note that the default asset to be
-used is always the first in that list.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The list of proxies
+that <cite>self</cite> has.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>]</td>
 </tr>
 </tbody>
 </table>
+<p>Get all the proxies that the asset has. The first item of the list will
+be the default <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a>. The second will be the proxy that is
+‘next in line’ to be default, and so on.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.set_proxy">
-<code class="descname">set_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L719"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.set_proxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L922"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.set_proxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proxy</strong> (<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> that should be used as default proxy for <cite>self</cite> or
-<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if you want to use the currently set proxy. Note that an asset can proxy one and only
-one other asset.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proxy</strong> (<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – A new default proxy for <cite>self</cite></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>proxy</cite> has been set on <cite>self</cite>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>proxy</cite> was successfully set as the default for
+<cite>self</cite>.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>A proxying asset is an asset that can substitue the real <cite>self</cite>. For example if you
-have a full HD <a class="reference internal" href="UriClipAsset.html#GES.UriClipAsset" title="GES.UriClipAsset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.UriClipAsset</span></code></a> you might want to set a lower resolution (HD version
-of the same file) as proxy. Note that when an asset is proxied, calling
-<a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a> will actually return the proxy asset.</p>
+<p>Sets the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a> for the asset.</p>
+<p>If <cite>proxy</cite> is among the existing proxies of the asset (see
+<a class="reference internal" href="#GES.Asset.list_proxies" title="GES.Asset.list_proxies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.list_proxies</span></code></a>()) it will be moved to become the default
+proxy. Otherwise, if <cite>proxy</cite> is not <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, it will be added to the list
+of proxies, as the new default. The previous default proxy will become
+‘next in line’ for if the new one is removed, and so on. As such, this
+will **not** actually remove the previous default proxy (use
+<a class="reference internal" href="#GES.Asset.unproxy" title="GES.Asset.unproxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.unproxy</span></code></a>() for that).</p>
+<p>Note that an asset can only act as a proxy for one other asset.</p>
+<p>As a special case, if <cite>proxy</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then this method will actually
+remove **all** proxies from the asset.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="GES.Asset.unproxy">
-<code class="descname">unproxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.16.2/ges/ges-asset.c#L811"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.unproxy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unproxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.18.0/ges/ges-asset.c#L1011"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GES.Asset.unproxy" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proxy</strong> (<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>) – The <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> to stop considering as a proxy for <cite>self</cite></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proxy</strong> (<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>) – An existing proxy of <cite>self</cite></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>proxy</cite> was a known proxy for <cite>self</cite>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>proxy</cite> was successfully removed from <cite>self</cite>’s proxy
+list.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Removes <cite>proxy</cite> from the list of known proxies for <cite>self</cite>.
-If <cite>proxy</cite> was the current proxy for <cite>self</cite>, stop using it.</p>
+<p>Removes the proxy from the available list of proxies for the asset. If
+the given proxy is the default proxy of the list, then the next proxy
+in the available list (see <a class="reference internal" href="#GES.Asset.list_proxies" title="GES.Asset.list_proxies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.list_proxies</span></code></a>()) will become the
+default. If there are no other proxies, then the asset will no longer
+have a default <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -859,16 +934,16 @@ If <cite>proxy</cite> was the current proxy for <cite>self</cite>, stop using it
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly created <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly created object, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if an
+error occurred.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>Extracts a new <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> from <cite>asset</cite>. The type of the object is
-defined by the extractable-type of <cite>asset</cite>, you can check what
-type will be extracted from <cite>asset</cite> using
-<a class="reference internal" href="#GES.Asset.get_extractable_type" title="GES.Asset.get_extractable_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.get_extractable_type</span></code></a></p>
+<p>Extracts a new <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a> object from the asset. The
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.id" title="GES.Asset.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a> of the asset may determine the properties and state of the
+newly created object.</p>
 </dd></dl>
 
 <dl class="method">
@@ -952,7 +1027,7 @@ type will be extracted from <cite>asset</cite> using
 </tr>
 </tbody>
 </table>
-<p>The type of the Object that can be extracted out of the asset</p>
+<p>The <a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> object type that can be extracted from the asset.</p>
 </dd></dl>
 
 <dl class="data">
@@ -972,7 +1047,15 @@ type will be extracted from <cite>asset</cite> using
 </tr>
 </tbody>
 </table>
-<p>The unic identifier of the asset</p>
+<p>The ID of the asset. This should be unique amongst all assets with
+the same <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a>. Depending on the associated
+<a class="reference internal" href="Extractable.html#GES.Extractable" title="GES.Extractable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Extractable</span></code></a> implementation, this id may convey some information
+about the <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> that should be extracted. Note that, as such, the
+ID will have an expected format, and you can not choose this value
+arbitrarily. By default, this will be set to the type name of the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.extractable_type" title="GES.Asset.props.extractable_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">:extractable-type</span></code></a>, but you should check the documentation
+of the extractable type to see whether they differ from the
+default behaviour.</p>
 </dd></dl>
 
 <dl class="data">
@@ -992,7 +1075,11 @@ type will be extracted from <cite>asset</cite> using
 </tr>
 </tbody>
 </table>
-<p>The asset default proxy.</p>
+<p>The default proxy for this asset, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if it has no proxy. A
+proxy will act as a substitute for the original asset when the
+original is requested (see <a class="reference internal" href="#GES.Asset.request" title="GES.Asset.request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.request</span></code></a>()).</p>
+<p>Setting this property will not usually remove the existing proxy, but
+will replace it as the default (see <a class="reference internal" href="#GES.Asset.set_proxy" title="GES.Asset.set_proxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.set_proxy</span></code></a>()).</p>
 </dd></dl>
 
 <dl class="data">
@@ -1008,11 +1095,20 @@ type will be extracted from <cite>asset</cite> using
 </tr>
 <tr class="field-odd field"><th class="field-name">Default Value:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Flags:</th><td class="field-body"><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></td>
 </tr>
 </tbody>
 </table>
-<p>The target of a proxy asset.</p>
+<p>The asset that this asset is a proxy for, or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if it is not a
+proxy for another asset.</p>
+<p>Note that even if this asset is acting as a proxy for another asset,
+but this asset is not the default <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a>, then <cite>proxy</cite>-target
+will *still* point to this other asset. So you should check the
+<a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a> property of <cite>target</cite>-proxy before assuming it is the
+current default proxy for the target.</p>
+<p>Note that the <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.signals.notify" title="(in GObject 2.0 v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">::notify</span></code></a> for this property is emitted after
+the <a class="reference internal" href="#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> <a class="reference internal" href="#GES.Asset.props.proxy" title="GES.Asset.props.proxy"><code class="xref py py-data docutils literal notranslate"><span class="pre">:proxy</span></code></a> <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.signals.notify" title="(in GObject 2.0 v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">::notify</span></code></a> for the corresponding (if any)
+asset it is now the proxy of/no longer the proxy of.</p>
 </dd></dl>
 
 </div>

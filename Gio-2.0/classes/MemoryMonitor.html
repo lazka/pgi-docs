@@ -312,10 +312,16 @@ It is implemented on Linux using the <a class="reference external" href="https:/
 <li>Run a garbage collection cycle</li>
 <li>Try and compress fragmented allocations</li>
 <li>Exit on idle if the process has no reason to stay around</li>
+<li>Call <a class="reference external" href="man:malloc_trim">malloc_trim(3)</a> to return cached heap pages to
+the kernel (if supported by your libc)</li>
 </ul>
+<p>Note that some actions may not always improve system performance, and so
+should be profiled for your application. <code class="docutils literal notranslate"><span class="pre">malloc_trim()</span></code>, for example, may
+make future heap allocations slower (due to releasing cached heap pages back
+to the kernel).</p>
 <p>See <a class="reference internal" href="../enums.html#Gio.MemoryMonitorWarningLevel" title="Gio.MemoryMonitorWarningLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MemoryMonitorWarningLevel</span></code></a> for details on the various warning levels.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">warning_cb</span> <span class="p">(</span><span class="n">GMemoryMonitor</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">GMemoryMonitorWarningLevel</span> <span class="n">level</span><span class="p">)</span>
+<span class="n">warning_cb</span> <span class="p">(</span><span class="n">GMemoryMonitor</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">GMemoryMonitorWarningLevel</span> <span class="n">level</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">g_debug</span> <span class="p">(</span><span class="s">&quot;Warning level: %d&quot;</span><span class="p">,</span> <span class="n">level</span><span class="p">);</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">warning_level</span> <span class="o">&gt;</span> <span class="n">G_MEMORY_MONITOR_WARNING_LEVEL_LOW</span><span class="p">)</span>
@@ -323,7 +329,7 @@ It is implemented on Linux using the <a class="reference external" href="https:/
 <span class="p">}</span>
 
 <span class="k">static</span> <span class="n">GMemoryMonitor</span> <span class="o">*</span>
-<span class="nf">monitor_low_memory</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="n">monitor_low_memory</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">GMemoryMonitor</span> <span class="o">*</span><span class="n">m</span><span class="p">;</span>
   <span class="n">m</span> <span class="o">=</span> <span class="n">g_memory_monitor_dup_default</span> <span class="p">();</span>
@@ -340,7 +346,7 @@ signal, and unref the <a class="reference internal" href="#Gio.MemoryMonitor" ti
 </div>
 <dl class="classmethod">
 <dt id="Gio.MemoryMonitor.dup_default">
-<em class="property">classmethod </em><code class="descname">dup_default</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gmemorymonitor.c#L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.MemoryMonitor.dup_default" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">dup_default</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/gio/gmemorymonitor.c#L126"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.MemoryMonitor.dup_default" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

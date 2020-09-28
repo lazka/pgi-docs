@@ -313,7 +313,7 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
 <span class="p">};</span>
 
 <span class="k">static</span> <span class="kt">void</span>
-<span class="nf">_foo_ready_cb</span> <span class="p">(</span><span class="n">Foo</span> <span class="o">*</span><span class="n">self</span><span class="p">)</span>
+<span class="n">_foo_ready_cb</span> <span class="p">(</span><span class="n">Foo</span> <span class="o">*</span><span class="n">self</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">GList</span> <span class="o">*</span><span class="n">l</span><span class="p">;</span>
 
@@ -326,7 +326,7 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
       <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">success</span><span class="p">)</span>
         <span class="n">g_task_return_boolean</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
       <span class="k">else</span>
-        <span class="n">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">...);</span>
+        <span class="nf">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">...);</span>
       <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
     <span class="p">}</span>
 
@@ -335,7 +335,7 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
 <span class="p">}</span>
 
 <span class="k">static</span> <span class="kt">void</span>
-<span class="nf">foo_init_async</span> <span class="p">(</span><span class="n">GAsyncInitable</span>       <span class="o">*</span><span class="n">initable</span><span class="p">,</span>
+<span class="n">foo_init_async</span> <span class="p">(</span><span class="n">GAsyncInitable</span>       <span class="o">*</span><span class="n">initable</span><span class="p">,</span>
                 <span class="kt">int</span>                   <span class="n">io_priority</span><span class="p">,</span>
                 <span class="n">GCancellable</span>         <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
                 <span class="n">GAsyncReadyCallback</span>   <span class="n">callback</span><span class="p">,</span>
@@ -345,6 +345,7 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
   <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
 
   <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">initable</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
+  <span class="n">g_task_set_name</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">G_STRFUNC</span><span class="p">);</span>
 
   <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">)</span>
     <span class="p">{</span>
@@ -362,24 +363,24 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">priv</span><span class="o">-&gt;</span><span class="n">success</span><span class="p">)</span>
           <span class="n">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">...);</span>
         <span class="k">else</span>
-          <span class="n">g_task_return_boolean</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+          <span class="nf">g_task_return_boolean</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
         <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
         <span class="k">break</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="k">static</span> <span class="n">gboolean</span>
-<span class="nf">foo_init_finish</span> <span class="p">(</span><span class="n">GAsyncInitable</span>       <span class="o">*</span><span class="n">initable</span><span class="p">,</span>
+<span class="n">foo_init_finish</span> <span class="p">(</span><span class="n">GAsyncInitable</span>       <span class="o">*</span><span class="n">initable</span><span class="p">,</span>
                  <span class="n">GAsyncResult</span>         <span class="o">*</span><span class="n">result</span><span class="p">,</span>
                  <span class="n">GError</span>              <span class="o">**</span><span class="n">error</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">g_task_is_valid</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">initable</span><span class="p">),</span> <span class="n">FALSE</span><span class="p">);</span>
 
-  <span class="k">return</span> <span class="n">g_task_propagate_boolean</span> <span class="p">(</span><span class="n">G_TASK</span> <span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">error</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nf">g_task_propagate_boolean</span> <span class="p">(</span><span class="n">G_TASK</span> <span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">error</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="k">static</span> <span class="kt">void</span>
-<span class="nf">foo_async_initable_iface_init</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">g_iface</span><span class="p">,</span>
+<span class="n">foo_async_initable_iface_init</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">g_iface</span><span class="p">,</span>
                                <span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">GAsyncInitableIface</span> <span class="o">*</span><span class="n">iface</span> <span class="o">=</span> <span class="n">g_iface</span><span class="p">;</span>
@@ -394,7 +395,7 @@ a set <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib
 </div>
 <dl class="classmethod">
 <dt id="Gio.AsyncInitable.newv_async">
-<em class="property">classmethod </em><code class="descname">newv_async</code><span class="sig-paren">(</span><em>object_type</em>, <em>n_parameters</em>, <em>parameters</em>, <em>io_priority</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gasyncinitable.c#L380"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.newv_async" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">newv_async</code><span class="sig-paren">(</span><em>object_type</em>, <em>n_parameters</em>, <em>parameters</em>, <em>io_priority</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/gio/gasyncinitable.c#L381"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.newv_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -428,7 +429,7 @@ for any errors.</p>
 
 <dl class="method">
 <dt id="Gio.AsyncInitable.init_async">
-<code class="descname">init_async</code><span class="sig-paren">(</span><em>io_priority</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gasyncinitable.c#L208"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.init_async" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_async</code><span class="sig-paren">(</span><em>io_priority</em>, <em>cancellable</em>, <em>callback</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/gio/gasyncinitable.c#L209"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.init_async" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -480,7 +481,7 @@ any interface methods.</p>
 
 <dl class="method">
 <dt id="Gio.AsyncInitable.init_finish">
-<code class="descname">init_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gasyncinitable.c#L237"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.init_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/gio/gasyncinitable.c#L238"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.init_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -505,7 +506,7 @@ See <a class="reference internal" href="#Gio.AsyncInitable.init_async" title="Gi
 
 <dl class="method">
 <dt id="Gio.AsyncInitable.new_finish">
-<code class="descname">new_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.64.1/gio/gasyncinitable.c#L457"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.new_finish" title="Permalink to this definition">¶</a></dt>
+<code class="descname">new_finish</code><span class="sig-paren">(</span><em>res</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.66.0/gio/gasyncinitable.c#L458"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Gio.AsyncInitable.new_finish" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

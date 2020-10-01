@@ -609,6 +609,46 @@
 </tr>
 </tbody>
 </table>
+<p><a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> is the object that controls client-side HTTP. A
+<a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> encapsulates all of the state that libsoup is keeping
+on behalf of your program; cached HTTP connections, authentication
+information, etc. It also keeps track of various global options
+and features that you are using.</p>
+<p>Most applications will only need a single <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a>; the primary
+reason you might need multiple sessions is if you need to have
+multiple independent authentication contexts. (Eg, you are
+connecting to a server and authenticating as two different users at
+different times; the easiest way to ensure that each <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>
+is sent with the authentication information you intended is to use
+one session for the first user, and a second session for the other
+user.)</p>
+<p>In the past, <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> was an abstract class, and users needed
+to choose between <a class="reference internal" href="SessionAsync.html#Soup.SessionAsync" title="Soup.SessionAsync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionAsync</span></code></a> (which always uses
+<a class="reference external" href="../../GLib-2.0/classes/MainLoop.html#GLib.MainLoop" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop</span></code></a> -based I/O), or <a class="reference internal" href="SessionSync.html#Soup.SessionSync" title="Soup.SessionSync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionSync</span></code></a> (which always uses
+blocking I/O and can be used from multiple threads simultaneously).
+This is no longer necessary; you can (and should) use a plain
+<a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a>, which supports both synchronous and asynchronous use.
+(When using a plain <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a>, <a class="reference internal" href="#Soup.Session.queue_message" title="Soup.Session.queue_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.queue_message</span></code></a>()
+behaves like it traditionally did on a <a class="reference internal" href="SessionAsync.html#Soup.SessionAsync" title="Soup.SessionAsync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionAsync</span></code></a>, and
+<a class="reference internal" href="#Soup.Session.send_message" title="Soup.Session.send_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.send_message</span></code></a>() behaves like it traditionally did on a
+<a class="reference internal" href="SessionSync.html#Soup.SessionSync" title="Soup.SessionSync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionSync</span></code></a>.)</p>
+<p>Additional <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> functionality is provided by
+<a class="reference internal" href="SessionFeature.html#Soup.SessionFeature" title="Soup.SessionFeature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionFeature</span></code></a> objects, which can be added to a session with
+<a class="reference internal" href="#Soup.Session.add_feature" title="Soup.Session.add_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature</span></code></a>() or <a class="reference internal" href="#Soup.Session.add_feature_by_type" title="Soup.Session.add_feature_by_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature_by_type</span></code></a>()
+(or at construct time with the <code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SESSION_ADD_FEATURE_BY_TYPE</span></code>
+pseudo-property). For example, <a class="reference internal" href="Logger.html#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a> provides support for
+logging HTTP traffic, <a class="reference internal" href="ContentDecoder.html#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> provides support for
+compressed response handling, and <a class="reference internal" href="ContentSniffer.html#Soup.ContentSniffer" title="Soup.ContentSniffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentSniffer</span></code></a> provides
+support for HTML5-style response body content sniffing.
+Additionally, subtypes of <a class="reference internal" href="Auth.html#Soup.Auth" title="Soup.Auth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Auth</span></code></a> and <a class="reference internal" href="Request.html#Soup.Request" title="Soup.Request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Request</span></code></a> can be added
+as features, to add support for additional authentication and URI
+types.</p>
+<p>All <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Sessions</span></code></a> are created with a <a class="reference internal" href="AuthManager.html#Soup.AuthManager" title="Soup.AuthManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.AuthManager</span></code></a>, and support
+for %SOUP_TYPE_AUTH_BASIC and %SOUP_TYPE_AUTH_DIGEST. For
+<a class="reference internal" href="Request.html#Soup.Request" title="Soup.Request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Request</span></code></a> types, <a class="reference internal" href="RequestHTTP.html#Soup.RequestHTTP" title="Soup.RequestHTTP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.RequestHTTP</span></code></a>, <a class="reference internal" href="RequestFile.html#Soup.RequestFile" title="Soup.RequestFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.RequestFile</span></code></a>, and
+<a class="reference internal" href="RequestData.html#Soup.RequestData" title="Soup.RequestData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.RequestData</span></code></a> are supported. Additionally, sessions using the
+plain <a class="reference internal" href="#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> class (rather than one of its deprecated
+subtypes) have a <a class="reference internal" href="ContentDecoder.html#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> by default.</p>
 <dl class="classmethod">
 <dt id="Soup.Session.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Soup.Session.new" title="Permalink to this definition">¶</a></dt>

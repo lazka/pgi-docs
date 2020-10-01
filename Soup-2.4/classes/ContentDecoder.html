@@ -346,6 +346,33 @@
 </tr>
 </tbody>
 </table>
+<p><a class="reference internal" href="#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> handles adding the “Accept-Encoding” header on
+outgoing messages, and processing the “Content-Encoding” header on
+incoming ones. Currently it supports the “gzip”, “deflate”, and “br”
+content codings.</p>
+<p>If you are using a plain <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> (ie, not <a class="reference internal" href="SessionAsync.html#Soup.SessionAsync" title="Soup.SessionAsync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionAsync</span></code></a> or
+<a class="reference internal" href="SessionSync.html#Soup.SessionSync" title="Soup.SessionSync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionSync</span></code></a>), then a <a class="reference internal" href="#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> will automatically be
+added to the session by default. (You can use
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SESSION_REMOVE_FEATURE_BY_TYPE</span></code> at construct time if you don’t
+want this.) If you are using one of the deprecated <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a>
+subclasses, you can add a <a class="reference internal" href="#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> to your session with
+<a class="reference internal" href="Session.html#Soup.Session.add_feature" title="Soup.Session.add_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature</span></code></a>() or <a class="reference internal" href="Session.html#Soup.Session.add_feature_by_type" title="Soup.Session.add_feature_by_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature_by_type</span></code></a>().</p>
+<p>If <a class="reference internal" href="#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> successfully decodes the Content-Encoding,
+it will set the <a class="reference internal" href="../flags.html#Soup.MessageFlags.CONTENT_DECODED" title="Soup.MessageFlags.CONTENT_DECODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageFlags.CONTENT_DECODED</span></code></a> flag on the message,
+and the message body and the chunks in the #SoupMessage::got_chunk
+signals will contain the decoded data; however, the message headers
+will be unchanged (and so “Content-Encoding” will still be present,
+“Content-Length” will describe the original encoded length, etc).</p>
+<p>If “Content-Encoding” contains any encoding types that
+<a class="reference internal" href="#Soup.ContentDecoder" title="Soup.ContentDecoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.ContentDecoder</span></code></a> doesn’t recognize, then none of the encodings
+will be decoded (and the <a class="reference internal" href="../flags.html#Soup.MessageFlags.CONTENT_DECODED" title="Soup.MessageFlags.CONTENT_DECODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageFlags.CONTENT_DECODED</span></code></a> flag will
+not be set).</p>
+<p>(Note that currently there is no way to (automatically) use
+Content-Encoding when sending a request body, or to pick specific
+encoding types to support.)</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.30.</span></p>
+</div>
 </dd></dl>
 
 </div>

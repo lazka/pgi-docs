@@ -432,6 +432,30 @@
 </tr>
 </tbody>
 </table>
+<p>This is the interface implemented by the rhythmbox playback backends.
+It allows the caller to control playback (open, play, pause, close),
+seek (set_time), control volume (get_volume, set_volume)
+and receive playback state information (get_time, various signals).</p>
+<p>The playback interface allows for multiple streams to be playing (or at
+least open) concurrently. The caller associates some data with each stream
+it opens (<a class="reference internal" href="#RB.Player.open" title="RB.Player.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Player.open</span></code></a>), which is included in the paramters with each
+signal emitted. The caller should not assume that the new stream is playing
+immediately upon returning from <a class="reference internal" href="#RB.Player.play" title="RB.Player.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Player.play</span></code></a>. Instead, it should use
+the ‘playing-stream’ signal to determine that.</p>
+<p>The player implementation should emit signals for metadata extracted from the
+stream using the ‘info’ signal</p>
+<p>While playing, the player implementation should emit ‘tick’ signals frequently
+enough to update an elapsed/remaining time display consistently.  The duration
+value included in tick signal emissions is used to prepare the next stream before
+the current stream reaches EOS, so it should be updated for each emission to account
+for variable bitrate streams that produce inaccurate duration estimates early on.</p>
+<p>When playing a stream from the network, the player can report buffering status
+using the ‘buffering’ signal.  The value included in the signal indicates the
+percentage of the buffer that has been filled.</p>
+<p>The ‘event’ signal can be used to communicate events from the player to the application.
+For GStreamer-based player implementations, events are triggered by elements in the
+pipeline posting application messages.  The name of the message becomes the name of the
+event.</p>
 <dl class="classmethod">
 <dt id="RB.Player.gst_find_element_with_property">
 <em class="property">classmethod </em><code class="descname">gst_find_element_with_property</code><span class="sig-paren">(</span><em>element</em>, <em>property</em><span class="sig-paren">)</span><a class="headerlink" href="#RB.Player.gst_find_element_with_property" title="Permalink to this definition">¶</a></dt>

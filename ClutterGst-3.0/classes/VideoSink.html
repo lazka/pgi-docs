@@ -534,8 +534,36 @@
 </tr>
 </tbody>
 </table>
-<p>The <a class="reference internal" href="#ClutterGst.VideoSink" title="ClutterGst.VideoSink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClutterGst.VideoSink</span></code></a> structure contains only private data and
-should be accessed using the provided API.</p>
+<p><a class="reference internal" href="#ClutterGst.VideoSink" title="ClutterGst.VideoSink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClutterGst.VideoSink</span></code></a> is a subclass of <a class="reference external" href="../../GstBase-1.0/classes/BaseSink.html#GstBase.BaseSink" title="(in GstBase 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.BaseSink</span></code></a> which can be used to
+create a #CoglPipeline for rendering the frames of the video.</p>
+<p>To create a basic video player, an application can create a
+<a class="reference external" href="../../Gst-1.0/classes/Pipeline.html#Gst.Pipeline" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Pipeline</span></code></a> as normal using <a class="reference external" href="../../Gst-1.0/classes/Pipeline.html#Gst.Pipeline.new" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Pipeline.new</span></code></a>() and set the
+sink on it to one created with <a class="reference internal" href="#ClutterGst.VideoSink.new" title="ClutterGst.VideoSink.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClutterGst.VideoSink.new</span></code></a>(). The
+application can then listen for the <a class="reference internal" href="#ClutterGst.VideoSink" title="ClutterGst.VideoSink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClutterGst.VideoSink</span></code></a> <a class="reference internal" href="#ClutterGst.VideoSink.signals.new_frame" title="ClutterGst.VideoSink.signals.new_frame"><code class="xref py py-func docutils literal notranslate"><span class="pre">::new-frame</span></code></a>
+signal which will be emitted whenever there are new textures ready
+for rendering. For simple rendering, the application can just call
+clutter_gst_video_sink_get_pipeline() in the signal handler and use
+the returned pipeline to paint the new frame.</p>
+<p>An application is also free to do more advanced rendering by
+customizing the pipeline. In that case it should listen for the
+<a class="reference internal" href="#ClutterGst.VideoSink" title="ClutterGst.VideoSink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClutterGst.VideoSink</span></code></a> <a class="reference internal" href="#ClutterGst.VideoSink.signals.pipeline_ready" title="ClutterGst.VideoSink.signals.pipeline_ready"><code class="xref py py-func docutils literal notranslate"><span class="pre">::pipeline-ready</span></code></a> signal which will be emitted as
+soon as the sink has determined enough information about the video
+to know how it should be rendered. In the handler for this signal,
+the application can either make modifications to a copy of the
+pipeline returned by clutter_gst_video_sink_get_pipeline() or it can
+create its own pipeline from scratch and ask the sink to configure
+it with clutter_gst_video_sink_setup_pipeline(). If a custom pipeline
+is created using one of these methods then the application should
+call clutter_gst_video_sink_attach_frame() on the pipeline before
+rendering in order to update the textures on the pipeline’s layers.</p>
+<p>If the %COGL_FEATURE_ID_GLSL feature is available then the pipeline
+used by the sink will have a shader snippet with a function in it
+called clutter_gst_sample_video0 which takes a single vec2 argument.
+This can be used by custom snippets set the by the application to
+sample from the video. The vec2 argument represents the normalised
+coordinates within the video. The function returns a vec4
+containing a pre-multiplied RGBA color of the pixel within the
+video.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 3.0.</span></p>
 </div>

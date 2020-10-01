@@ -563,6 +563,21 @@
 </tr>
 </tbody>
 </table>
+<p>The shell player (or player shell, depending on who you’re talking to)
+manages the <a class="reference internal" href="Player.html#RB.Player" title="RB.Player"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Player</span></code></a> instance, tracks the current playing <a class="reference internal" href="RhythmDBEntry.html#RB.RhythmDBEntry" title="RB.RhythmDBEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.RhythmDBEntry</span></code></a>,
+and manages the various <a class="reference internal" href="PlayOrder.html#RB.PlayOrder" title="RB.PlayOrder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.PlayOrder</span></code></a> instances.  It provides simple operations
+such as next, previous, play/pause, and seek.</p>
+<p>When playing internet radio streams, it first attempts to read the stream URL
+as a playlist.  If this succeeds, the URLs from the playlist are stored in a
+list and tried in turn in case of errors.  If the playlist parsing fails, the
+stream URL is played directly.</p>
+<p>The mapping from the separate shuffle and repeat settings to an <a class="reference internal" href="PlayOrder.html#RB.PlayOrder" title="RB.PlayOrder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.PlayOrder</span></code></a>
+instance occurs in here.  The play order logic can also support a number of
+additional play orders not accessible via the shuffle and repeat buttons.</p>
+<p>If the player backend supports multiple streams, the shell player crossfades
+between streams by watching the elapsed time of the current stream and simulating
+an end-of-stream event when it gets within the crossfade duration of the actual
+end.</p>
 <dl class="classmethod">
 <dt id="RB.ShellPlayer.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>db</em><span class="sig-paren">)</span><a class="headerlink" href="#RB.ShellPlayer.new" title="Permalink to this definition">¶</a></dt>

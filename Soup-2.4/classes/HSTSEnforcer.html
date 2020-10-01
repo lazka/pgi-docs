@@ -416,6 +416,23 @@
 </tr>
 </tbody>
 </table>
+<p>A <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> stores HSTS policies and enforces them when
+required. <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> implements <a class="reference internal" href="SessionFeature.html#Soup.SessionFeature" title="Soup.SessionFeature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionFeature</span></code></a>, so you
+can add an HSTS enforcer to a session with
+<a class="reference internal" href="Session.html#Soup.Session.add_feature" title="Soup.Session.add_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature</span></code></a>() or <a class="reference internal" href="Session.html#Soup.Session.add_feature_by_type" title="Soup.Session.add_feature_by_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature_by_type</span></code></a>().</p>
+<p><a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> keeps track of all the HTTPS destinations that,
+when connected to, return the Strict-Transport-Security header with
+valid values. <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> will forget those destinations
+upon expiry or when the server requests it.</p>
+<p>When the <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> the <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> is attached to queues
+or restarts a message, the <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> will rewrite the URI
+to HTTPS if the destination is a known HSTS host and is contacted
+over an insecure transport protocol (HTTP). Users of
+<a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> are advised to listen to changes in
+<a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> <a class="reference internal" href="Message.html#Soup.Message.props.uri" title="Soup.Message.props.uri"><code class="xref py py-data docutils literal notranslate"><span class="pre">:uri</span></code></a> in order to be aware of changes in the message URI.</p>
+<p>Note that <a class="reference internal" href="#Soup.HSTSEnforcer" title="Soup.HSTSEnforcer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.HSTSEnforcer</span></code></a> does not support any form of long-term
+HSTS policy persistence. See #SoupHSTSDBEnforcer for a persistent
+enforcer.</p>
 <dl class="classmethod">
 <dt id="Soup.HSTSEnforcer.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Soup.HSTSEnforcer.new" title="Permalink to this definition">¶</a></dt>

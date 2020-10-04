@@ -487,7 +487,150 @@
 </tr>
 </tbody>
 </table>
-<p>Lets you load SVG data and render it.</p>
+<p>This is the main entry point into the librsvg library.  An <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> is an
+object that represents SVG data in memory.  Your program creates an
+<a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> from an SVG file, or from a memory buffer that contains SVG data,
+or in the most general form, from a <a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> that will provide SVG data.</p>
+<p>Librsvg can load SVG images and render them to Cairo surfaces,
+using a mixture of SVG’s [static mode] and [secure static mode].
+Librsvg does not do animation nor scripting, and can load
+references to external data only in some situations; see below.</p>
+<p>Librsvg supports reading <a class="reference external" href="https://www.w3.org/TR/SVG11/">SVG&nbsp;1.1</a> data, and is
+gradually adding support for features in <a class="reference external" href="https://www.w3.org/TR/SVG2/">SVG&nbsp;2</a>.  Librsvg also supports
+SVGZ files, which are just an SVG stream compressed with the GZIP algorithm.</p>
+<dl class="docutils">
+<dt>The “base file” and resolving references to external files</dt>
+<dd></dd>
+</dl>
+<p>When you load an SVG, librsvg needs to know the location of the “base file”
+for it.  This is so that librsvg can determine the location of referenced
+entities.  For example, say you have an SVG in /foo/bar/foo.svg
+and that it has an image element like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;image</span> <span class="pre">href=&quot;resources/foo.png&quot;</span> <span class="pre">.../&gt;</span></code></p>
+<p>In this case, librsvg needs to know the location of the toplevel
+/foo/bar/foo.svg so that it can generate the appropriate
+reference to /foo/bar/resources/foo.png.</p>
+<dl class="docutils">
+<dt>Security and locations of referenced files</dt>
+<dd></dd>
+</dl>
+<p>When processing an SVG, librsvg will only load referenced files if they are
+in the same directory as the base file, or in a subdirectory of it.  That is,
+if the base file is /foo/bar/baz.svg, then librsvg will
+only try to load referenced files (from SVG’s
+<code class="docutils literal notranslate"><span class="pre">&lt;image&gt;</span></code> element, for example, or from content
+included through XML entities) if those files are in /foo/bar/
+* or in /foo/bar/ * /…/
+*.  This is so that malicious SVG files cannot include files
+that are in a directory above.</p>
+<p>The full set of rules for deciding which URLs may be loaded is as follows;
+they are applied in order.  A referenced URL will not be loaded as soon as
+one of these rules fails:</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">data:</span></code> URLs may be loaded.  These are sometimes used
+to include raster image data, encoded as base-64, directly in an SVG file.</p>
+<p>All other URL schemes in references require a base URL.  For
+example, this means that if you load an SVG with
+<a class="reference internal" href="#Rsvg.Handle.new_from_data" title="Rsvg.Handle.new_from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_from_data</span></code></a>() without calling <a class="reference internal" href="#Rsvg.Handle.set_base_uri" title="Rsvg.Handle.set_base_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.set_base_uri</span></code></a>(),
+then any referenced files will not be allowed (e.g. raster images to be
+loaded from other files will not work).</p>
+<p>If referenced URLs are absolute, rather than relative, then they must
+have the same scheme as the base URL.  For example, if the base URL has a
+“<code class="docutils literal notranslate"><span class="pre">file</span></code>” scheme, then all URL references inside the SVG must
+also have the “<code class="docutils literal notranslate"><span class="pre">file</span></code>” scheme, or be relative references which
+will be resolved against the base URL.</p>
+<p>If referenced URLs have a “<code class="docutils literal notranslate"><span class="pre">resource</span></code>” scheme, that is,
+if they are included into your binary program with GLib’s resource
+mechanism, they are allowed to be loaded (provided that the base URL is
+also a “<code class="docutils literal notranslate"><span class="pre">resource</span></code>”, per the previous rule).</p>
+<p>Otherwise, non-<code class="docutils literal notranslate"><span class="pre">file</span></code> schemes are not allowed.  For
+example, librsvg will not load <code class="docutils literal notranslate"><span class="pre">http</span></code> resources, to keep
+malicious SVG data from “phoning home”.</p>
+<p>A relative URL must resolve to the same directory as the base URL, or to
+one of its subdirectories.  Librsvg will canonicalize filenames, by
+removing “..” path components and resolving symbolic links, to decide whether
+files meet these conditions.</p>
+<dl class="docutils">
+<dt>Loading an SVG with GIO</dt>
+<dd></dd>
+</dl>
+<p>This is the easiest and most resource-efficient way of loading SVG data into
+an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a>.</p>
+<p>If you have a <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> that stands for an SVG file, you can simply call
+<a class="reference internal" href="#Rsvg.Handle.new_from_gfile_sync" title="Rsvg.Handle.new_from_gfile_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_from_gfile_sync</span></code></a>() to load an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> from it.</p>
+<p>Alternatively, if you have a <a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a>, you can use
+<a class="reference internal" href="#Rsvg.Handle.new_from_stream_sync" title="Rsvg.Handle.new_from_stream_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_from_stream_sync</span></code></a>().</p>
+<p>Both of those methods allow specifying a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, so the loading
+process can be cancelled from another thread.</p>
+<dl class="docutils">
+<dt>Loading an SVG from memory</dt>
+<dd></dd>
+</dl>
+<p>If you already have SVG data in a byte buffer in memory, you can create a
+memory input stream with <a class="reference external" href="../../Gio-2.0/classes/MemoryInputStream.html#Gio.MemoryInputStream.new_from_data" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MemoryInputStream.new_from_data</span></code></a>() and feed that
+to <a class="reference internal" href="#Rsvg.Handle.new_from_stream_sync" title="Rsvg.Handle.new_from_stream_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_from_stream_sync</span></code></a>().</p>
+<p>Note that in this case, it is important that you specify the base_file for
+the in-memory SVG data.  Librsvg uses the base_file to resolve links to
+external content, like raster images.</p>
+<dl class="docutils">
+<dt>Loading an SVG without GIO</dt>
+<dd></dd>
+</dl>
+<p>You can load an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> from a simple filename or URI with
+<a class="reference internal" href="#Rsvg.Handle.new_from_file" title="Rsvg.Handle.new_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_from_file</span></code></a>().  Note that this is a blocking operation; there
+is no way to cancel it if loading a remote URI takes a long time.  Also, note that
+this method does not let you specify <a class="reference internal" href="../flags.html#Rsvg.HandleFlags" title="Rsvg.HandleFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.HandleFlags</span></code></a>.</p>
+<p>Otherwise, loading an SVG without GIO is not recommended, since librsvg will
+need to buffer your entire data internally before actually being able to
+parse it.  The deprecated way of doing this is by creating a handle with
+<a class="reference internal" href="#Rsvg.Handle.new" title="Rsvg.Handle.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new</span></code></a>() or <a class="reference internal" href="#Rsvg.Handle.new_with_flags" title="Rsvg.Handle.new_with_flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new_with_flags</span></code></a>(), and then using
+<a class="reference internal" href="#Rsvg.Handle.write" title="Rsvg.Handle.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.write</span></code></a>() and <a class="reference internal" href="#Rsvg.Handle.close" title="Rsvg.Handle.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.close</span></code></a>() to feed the handle with SVG data.
+Still, please try to use the GIO stream functions instead.</p>
+<dl class="docutils">
+<dt>Resolution of the rendered image (dots per inch, or DPI)</dt>
+<dd></dd>
+</dl>
+<p>SVG images can contain dimensions like “<code class="docutils literal notranslate"><span class="pre">5&nbsp;cm</span></code>” or
+“<code class="docutils literal notranslate"><span class="pre">2&nbsp;pt</span></code>” that must be converted from physical units into
+device units.  To do this, librsvg needs to know the actual dots per inch
+(DPI) of your target device.  You can call <a class="reference internal" href="#Rsvg.Handle.set_dpi" title="Rsvg.Handle.set_dpi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.set_dpi</span></code></a>() or
+<a class="reference internal" href="#Rsvg.Handle.set_dpi_x_y" title="Rsvg.Handle.set_dpi_x_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.set_dpi_x_y</span></code></a>() on an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> to set the DPI before rendering
+it.</p>
+<dl class="docutils">
+<dt>Rendering</dt>
+<dd></dd>
+</dl>
+<p>The preferred way to render an already-loaded <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> is to use
+<a class="reference internal" href="#Rsvg.Handle.render_cairo" title="Rsvg.Handle.render_cairo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.render_cairo</span></code></a>().  Please see its documentation for details.</p>
+<p>Alternatively, you can use <a class="reference internal" href="#Rsvg.Handle.get_pixbuf" title="Rsvg.Handle.get_pixbuf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.get_pixbuf</span></code></a>() to directly obtain a
+<a class="reference external" href="../../GdkPixbuf-2.0/classes/Pixbuf.html#GdkPixbuf.Pixbuf" title="(in GdkPixbuf 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GdkPixbuf.Pixbuf</span></code></a> with the rendered image.  This is simple, but it does not let you
+control the size at which the SVG will be rendered.  It will just be rendered
+at the size which <a class="reference internal" href="#Rsvg.Handle.get_dimensions" title="Rsvg.Handle.get_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.get_dimensions</span></code></a>() would return, which depends on
+the dimensions that librsvg is able to compute from the SVG data.</p>
+<dl class="docutils">
+<dt>API ordering</dt>
+<dd></dd>
+</dl>
+<p>Due to the way the librsvg API evolved over time, an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> object is available
+for use as soon as it is constructed.  However, not all of its methods can be
+called at any time.  For example, an <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> just constructed with <a class="reference internal" href="#Rsvg.Handle.new" title="Rsvg.Handle.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.new</span></code></a>()
+is not loaded yet, and it does not make sense to call <a class="reference internal" href="#Rsvg.Handle.get_dimensions" title="Rsvg.Handle.get_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.get_dimensions</span></code></a>() on it
+just at that point.</p>
+<p>The documentation for the available methods in <a class="reference internal" href="#Rsvg.Handle" title="Rsvg.Handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle</span></code></a> may mention that a particular
+method is only callable on a “fully loaded handle”.  This means either:</p>
+<ul class="simple">
+<li>The handle was loaded with <a class="reference internal" href="#Rsvg.Handle.write" title="Rsvg.Handle.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.write</span></code></a>() and <a class="reference internal" href="#Rsvg.Handle.close" title="Rsvg.Handle.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.close</span></code></a>(), and
+those functions returned no errors.</li>
+<li>The handle was loaded with <a class="reference internal" href="#Rsvg.Handle.read_stream_sync" title="Rsvg.Handle.read_stream_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rsvg.Handle.read_stream_sync</span></code></a>() and that function
+returned no errors.</li>
+</ul>
+<p>Before librsvg 2.46, the library did not fully verify that a handle was in a
+fully loaded state for the methods that require it.  To preserve
+compatibility with old code which inadvertently called the API without
+checking for errors, or which called some methods outside of the expected
+order, librsvg will just emit a g_critical() message in those cases.</p>
+<p>New methods introduced in librsvg 2.46 and later will check for the correct
+ordering, and panic if they are called out of order.  This will abort
+the program as if it had a failed assertion.</p>
 <dl class="classmethod">
 <dt id="Rsvg.Handle.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Rsvg.Handle.new" title="Permalink to this definition">¶</a></dt>

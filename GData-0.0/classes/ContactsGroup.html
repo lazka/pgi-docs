@@ -416,7 +416,55 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.ContactsGroup" title="GData.ContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.ContactsGroup" title="GData.ContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup</span></code></a> is a subclass of <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> to represent a group from a Google address book.</p>
+<p>For more details of Google Contacts’ <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the
+&lt;ulink type=”http” url=”http://code.google.com/apis/contacts/docs/3.0/developers_guide_protocol.html#Groups”&gt;online documentation&lt;/ulink&gt;.</p>
+<p>The user-set name of the group is stored in the <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> <a class="reference internal" href="Entry.html#GData.Entry.props.title" title="GData.Entry.props.title"><code class="xref py py-data docutils literal notranslate"><span class="pre">:title</span></code></a> property, retrievable using <a class="reference internal" href="Entry.html#GData.Entry.get_title" title="GData.Entry.get_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.get_title</span></code></a>(). Note that for system groups
+(see <a class="reference internal" href="#GData.ContactsGroup" title="GData.ContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup</span></code></a> <a class="reference internal" href="#GData.ContactsGroup.props.system_group_id" title="GData.ContactsGroup.props.system_group_id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:system-group-id</span></code></a>), this group name is provided by Google, and is not localised. Clients should provide their own localised
+group names for the system groups.</p>
+<p>In addition to all the standard properties available for a group, <a class="reference internal" href="#GData.ContactsGroup" title="GData.ContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup</span></code></a> supports an additional kind of property: extended
+properties. Extended properties, set with <a class="reference internal" href="#GData.ContactsGroup.set_extended_property" title="GData.ContactsGroup.set_extended_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup.set_extended_property</span></code></a>() and retrieved with
+<a class="reference internal" href="#GData.ContactsGroup.get_extended_property" title="GData.ContactsGroup.get_extended_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup.get_extended_property</span></code></a>(), are provided as a method of storing client-specific data which shouldn’t be seen or be editable
+by the user, such as IDs and cache times.</p>
+<p>&lt;example&gt;
+&lt;title&gt;Adding a New Group&lt;/title&gt;
+&lt;programlisting&gt;
+<a class="reference internal" href="ContactsService.html#GData.ContactsService" title="GData.ContactsService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsService</span></code></a> *service;
+<a class="reference internal" href="#GData.ContactsGroup" title="GData.ContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup</span></code></a> *group, *updated_group;
+<a class="reference internal" href="ContactsContact.html#GData.ContactsContact" title="GData.ContactsContact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsContact</span></code></a> *contact, *updated_contact;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>/&lt;!– –&gt;* Create a service and return a contact to add to the new group. *&lt;!– –&gt;/
+service = create_contacts_service ();
+contact = query_user_for_contact (service);</p>
+<p>/&lt;!– –&gt;* Create the new group *&lt;!– –&gt;/
+group = <a class="reference internal" href="#GData.ContactsGroup.new" title="GData.ContactsGroup.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsGroup.new</span></code></a> (<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+<a class="reference internal" href="Entry.html#GData.Entry.set_title" title="GData.Entry.set_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.set_title</span></code></a> (GDATA_ENTRY (group), “Group Name”);</p>
+<p>/&lt;!– –&gt;* Insert the group on the server *&lt;!– –&gt;/
+updated_group = <a class="reference internal" href="ContactsService.html#GData.ContactsService.insert_group" title="GData.ContactsService.insert_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsService.insert_group</span></code></a> (service, group, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (group);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error adding a group: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (contact);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Add the contact to the new group. *&lt;!– –&gt;/
+<a class="reference internal" href="ContactsContact.html#GData.ContactsContact.add_group" title="GData.ContactsContact.add_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ContactsContact.add_group</span></code></a> (contact, <a class="reference internal" href="Entry.html#GData.Entry.get_id" title="GData.Entry.get_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.get_id</span></code></a> (GDATA_ENTRY (updated_group)));</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (updated_group);</p>
+<p>/&lt;!– –&gt;* Update the contact on the server *&lt;!– –&gt;/
+updated_contact = GDATA_CONTACTS_CONTACT (<a class="reference internal" href="Service.html#GData.Service.update_entry" title="GData.Service.update_entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service.update_entry</span></code></a> (GDATA_SERVICE (service), GDATA_ENTRY (contact), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error));</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (contact);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error updating contact: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Do something with the updated contact, such as update them in the UI, or store their ID for future use. *&lt;!– –&gt;/</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (updated_contact);
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.7.0.</span></p>
 </div>

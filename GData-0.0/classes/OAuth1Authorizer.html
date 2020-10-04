@@ -448,7 +448,95 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> structure are private and should never be accessed directly.</p>
+<p>OAuth 1.0 has been deprecated since 2012, and OAuth 2.0 (<a class="reference internal" href="OAuth2Authorizer.html#GData.OAuth2Authorizer" title="GData.OAuth2Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth2Authorizer</span></code></a>) should be used instead.</p>
+<p><a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> provides an implementation of the <a class="reference internal" href="Authorizer.html#GData.Authorizer" title="GData.Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Authorizer</span></code></a> interface for authentication and authorization using the
+&lt;ulink type=”http” url=”http://code.google.com/apis/accounts/docs/OAuthForInstalledApps.html”&gt;OAuth 1.0&lt;/ulink&gt; process,
+which was preferred by Google until OAuth 2.0 was released — it is now
+preferred to use <a class="reference internal" href="OAuth2Authorizer.html#GData.OAuth2Authorizer" title="GData.OAuth2Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth2Authorizer</span></code></a>.</p>
+<p>OAuth 1.0 replaces the deprecated ClientLogin process. One of the main reasons for this is to allow two-factor authentication to be supported, by
+moving the authentication interface to a web page under Google’s control.</p>
+<p>The OAuth 1.0 process as implemented by Google follows the &lt;ulink type=”http” url=”http://tools.ietf.org/html/rfc5849”&gt;OAuth 1.0 protocol as
+specified by IETF in RFC 5849&lt;/ulink&gt;, with a few additions to support scopes (implemented in libgdata by <a class="reference internal" href="AuthorizationDomain.html#GData.AuthorizationDomain" title="GData.AuthorizationDomain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AuthorizationDomains</span></code></a>),
+locales and custom domains. Briefly, the process is initiated by requesting an authenticated request token from the Google accounts service
+(using <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri" title="GData.OAuth1Authorizer.request_authentication_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri</span></code></a>()), going to the authentication URI for the request token, authenticating and authorizing
+access to the desired scopes, then providing the verifier returned by Google to the Google accounts service again (using
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization" title="GData.OAuth1Authorizer.request_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization</span></code></a>()) to authorize the token. This results in an access token which is attached to all future requests
+to the online service.</p>
+<p>While Google supports unregistered and registered modes for OAuth 1.0 authorization, it only supports unregistered mode for installed applications.
+Consequently, libgdata also only supports unregistered mode. For this purpose, the application name to be presented to the user on the
+authentication page at the URI returned by <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri" title="GData.OAuth1Authorizer.request_authentication_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri</span></code></a>() can be specified when constructing the
+<a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a>.</p>
+<p>As described, each authentication/authorization operation is in two parts: <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri" title="GData.OAuth1Authorizer.request_authentication_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri</span></code></a>() and
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization" title="GData.OAuth1Authorizer.request_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization</span></code></a>(). <a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> stores no state about ongoing authentication operations (i.e. ones which
+have successfully called <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri" title="GData.OAuth1Authorizer.request_authentication_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri</span></code></a>(), but are yet to successfully call
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization" title="GData.OAuth1Authorizer.request_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization</span></code></a>()). Consequently, operations can be abandoned before calling
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization" title="GData.OAuth1Authorizer.request_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization</span></code></a>() without problems. The only state necessary between the calls is the request token and request token
+secret, as returned by <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri" title="GData.OAuth1Authorizer.request_authentication_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri</span></code></a>() and taken as parameters to
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization" title="GData.OAuth1Authorizer.request_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization</span></code></a>().</p>
+<p><a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> natively supports authorization against multiple services in a single authorization request (unlike
+<a class="reference internal" href="ClientLoginAuthorizer.html#GData.ClientLoginAuthorizer" title="GData.ClientLoginAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ClientLoginAuthorizer</span></code></a>).</p>
+<p>Each access token is long lived, so reauthorization is rarely necessary with <a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a>. Consequently, refreshing authorization using
+<a class="reference internal" href="Authorizer.html#GData.Authorizer.refresh_authorization" title="GData.Authorizer.refresh_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Authorizer.refresh_authorization</span></code></a>() is not supported by <a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a>, and will immediately return <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> with no error set.</p>
+<p>&lt;example&gt;
+&lt;title&gt;Authenticating Asynchronously Using OAuth 1.0&lt;/title&gt;
+&lt;programlisting&gt;
+GDataSomeService *service;
+<a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> *authorizer;</p>
+<p>/&lt;!– –&gt;* Create an authorizer and authenticate and authorize the service we’re using, asynchronously. *&lt;!– –&gt;/
+authorizer = <a class="reference internal" href="#GData.OAuth1Authorizer.new" title="GData.OAuth1Authorizer.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.new</span></code></a> (_(“My libgdata application”), GDATA_TYPE_SOME_SERVICE);
+<a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri_async" title="GData.OAuth1Authorizer.request_authentication_uri_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri_async</span></code></a> (authorizer, cancellable,
+(<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>) request_authentication_uri_cb, user_data);</p>
+<p>/&lt;!– –&gt;* Create a service object and link it with the authorizer *&lt;!– –&gt;/
+service = gdata_some_service_new (GDATA_AUTHORIZER (authorizer));</p>
+<p>static void
+request_authentication_uri_cb (<a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> *authorizer, <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> *async_result, <a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> user_data)
+{
+<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *authentication_uri, *token, *token_secret, *verifier;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>authentication_uri = <a class="reference internal" href="#GData.OAuth1Authorizer.request_authentication_uri_finish" title="GData.OAuth1Authorizer.request_authentication_uri_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authentication_uri_finish</span></code></a> (authorizer, async_result, &amp;token, &amp;token_secret,
+&amp;error);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+/&lt;!– –&gt;* Notify the user of all errors except cancellation errors *&lt;!– –&gt;/
+if (!:obj:<cite>GLib.Error.matches</cite> (error, G_IO_ERROR, <a class="reference external" href="../../Gio-2.0/enums.html#Gio.IOErrorEnum.CANCELLED" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.CANCELLED</span></code></a>)) {
+g_error (“Requesting a token failed: %s”, error-&gt;message);
+}</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+goto finish;
+}</p>
+<p>/&lt;!– –&gt;* (Present the page at the authentication URI to the user, either in an embedded or stand-alone web browser, and
+* ask them to grant access to the application and return the verifier Google gives them.) *&lt;!– –&gt;/
+verifier = ask_user_for_verifier (authentication_uri);</p>
+<p><a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization_async" title="GData.OAuth1Authorizer.request_authorization_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization_async</span></code></a> (authorizer, token, token_secret, verifier, cancellable,
+(<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>) request_authorization_cb, user_data);</p>
+<p>finish:
+<a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (verifier);
+<a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (authentication_uri);
+<a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (token);</p>
+<p>/&lt;!– –&gt;* Zero out the secret before freeing. *&lt;!– –&gt;/
+if (token_secret != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+memset (token_secret, 0, strlen (token_secret));
+}</p>
+<p><a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (token_secret);
+}</p>
+<p>static void
+request_authorization_cb (<a class="reference internal" href="#GData.OAuth1Authorizer" title="GData.OAuth1Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer</span></code></a> *authorizer, <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> *async_result, <a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> user_data)
+{
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>if (<a class="reference internal" href="#GData.OAuth1Authorizer.request_authorization_finish" title="GData.OAuth1Authorizer.request_authorization_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.OAuth1Authorizer.request_authorization_finish</span></code></a> (authorizer, async_result, &amp;error) == <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>) {
+/&lt;!– –&gt;* Notify the user of all errors except cancellation errors *&lt;!– –&gt;/
+if (!:obj:<cite>GLib.Error.matches</cite> (error, G_IO_ERROR, <a class="reference external" href="../../Gio-2.0/enums.html#Gio.IOErrorEnum.CANCELLED" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.CANCELLED</span></code></a>)) {
+g_error (“Authorization failed: %s”, error-&gt;message);
+}</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+return;
+}</p>
+<p>/&lt;!– –&gt;* (The client is now authenticated and authorized against the service.
+* It can now proceed to execute queries on the service object which require the user to be authenticated.) *&lt;!– –&gt;/
+}</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (authorizer);
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.9.0.</span></p>
 </div>

@@ -383,7 +383,37 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.GoaAuthorizer" title="GData.GoaAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.GoaAuthorizer</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.GoaAuthorizer" title="GData.GoaAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.GoaAuthorizer</span></code></a> provides an implementation of the <a class="reference internal" href="Authorizer.html#GData.Authorizer" title="GData.Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Authorizer</span></code></a> interface for authentication and authorization using GNOME Online Accounts
+(GOA) over D-Bus. This allows a single login session (managed by the GOA daemon) to be used by multiple applications simultaneously, without each
+of those applications having to go through the authentication process themselves. Applications making use of <a class="reference internal" href="#GData.GoaAuthorizer" title="GData.GoaAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.GoaAuthorizer</span></code></a> don’t get access
+to the user’s password (it’s handled solely by the GOA daemon).</p>
+<p>Internally, GOA authenticates with the Google servers using the</p>
+<p><a class="reference external" href="http://code.google.com/apis/accounts/docs/OAuthForInstalledApps.html">OAuth 1.0</a> or
+<a class="reference external" href="https://developers.google.com/identity/protocols/OAuth2">OAuth 2.0</a> processes.
+<a class="reference internal" href="#GData.GoaAuthorizer" title="GData.GoaAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.GoaAuthorizer</span></code></a> natively supports authorization against multiple services (unlike <a class="reference internal" href="ClientLoginAuthorizer.html#GData.ClientLoginAuthorizer" title="GData.ClientLoginAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ClientLoginAuthorizer</span></code></a>), depending entirely on which
+services the user has enabled for their Google account in GOA. <a class="reference internal" href="#GData.GoaAuthorizer" title="GData.GoaAuthorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.GoaAuthorizer</span></code></a> cannot authenticate for more services than are enabled in GOA.</p>
+<dl class="docutils">
+<dt>Authenticating Using GOA</dt>
+<dd></dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GDataSomeService *service;
+GoaObject *goa_object;
+GDataGoaAuthorizer *authorizer;
+
+/* Create an authorizer and pass it an existing #GoaObject. */
+goa_object = get_goa_object ();
+authorizer = gdata_goa_authorizer_new (goa_object);
+
+/* Create a service object and link it with the authorizer */
+service = gdata_some_service_new (GDATA_AUTHORIZER (authorizer));
+
+/* Use the service! */
+
+g_object_unref (service);
+g_object_unref (authorizer);
+g_object_unref (goa_object);
+</pre></div>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.13.1.</span></p>
 </div>

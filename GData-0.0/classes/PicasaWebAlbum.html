@@ -524,7 +524,58 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.PicasaWebAlbum" title="GData.PicasaWebAlbum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebAlbum</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.PicasaWebAlbum" title="GData.PicasaWebAlbum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebAlbum</span></code></a> is a subclass of <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> to represent an album from Google PicasaWeb.</p>
+<p>For more details of Google PicasaWeb’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the <a class="reference external" href="http://code.google.com/apis/picasaweb/reference.html">online documentation</a>.</p>
+<dl class="docutils">
+<dt>Getting Basic Album Data</dt>
+<dd></dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GDataFeed *album_feed;
+GList *album_entries;
+
+/* Query for a feed of GDataPicasaWebAlbums owned by user &quot;libgdata.picasaweb&quot; */
+album_feed = gdata_picasaweb_service_query_all_albums (service, NULL, &quot;libgdata.picasaweb&quot;, NULL, NULL, NULL, NULL);
+
+/* Get a list of GDataPicasaWebAlbums from the query&#39;s feed */
+for (album_entries = gdata_feed_get_entries (album_feed); album_entries != NULL; album_entries = album_entries-&gt;next) {
+        GDataPicasaWebAlbum *album;
+        guint num_photos;
+        const gchar *owner_nickname, *title, *summary;
+        gint64 timestamp;
+        GList *thumbnails;
+
+        album = GDATA_PICASAWEB_ALBUM (album_entries-&gt;data);
+
+        /* Get various bits of information about the album */
+        num_photos = gdata_picasaweb_album_get_num_photos (album);
+        owner_nickname = gdata_picasaweb_album_get_nickname (album);
+        title = gdata_entry_get_title (GDATA_ENTRY (album));
+        summary = gdata_entry_get_summary (GDATA_ENTRY (album));
+        /* Get the day the album was shot on or, if not set, when it was uploaded. This is in milliseconds since the epoch. */
+        timestamp = gdata_picasaweb_album_get_timestamp (album);
+
+        for (thumbnails = gdata_picasaweb_album_get_thumbnails (album); thumbnails != NULL; thumbnails = thumbnails-&gt;next) {
+                GDataMediaThumbnail *thumbnail;
+                GDataDownloadStream *download_stream;
+                GdkPixbuf *pixbuf;
+
+                thumbnail = GDATA_MEDIA_THUMBNAIL (thumbnails-&gt;data);
+                /* Do something fun with the thumbnails, like download and display them. We could just as easily download them into
+                 * files using g_file_create() and g_output_stream_splice(), rather than create GdkPixbufs directly from them.
+                 * Note that this is a blocking operation. */
+                download_stream = gdata_media_thumbnail_download (thumbnail, GDATA_SERVICE (service), NULL, NULL);
+                pixbuf = gdk_pixbuf_new_from_stream (G_INPUT_STREAM (download_stream), NULL, NULL);
+                g_object_unref (download_stream);
+                /* ... */
+                g_object_unref (pixbuf);
+        }
+
+        /* Do something worthwhile with your album data */
+}
+
+g_object_unref (album_feed);
+</pre></div>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>

@@ -385,7 +385,84 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.PicasaWebService" title="GData.PicasaWebService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebService</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.PicasaWebService" title="GData.PicasaWebService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebService</span></code></a> is a subclass of <a class="reference internal" href="Service.html#GData.Service" title="GData.Service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service</span></code></a> for communicating with the <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API of Google PicasaWeb. It supports querying for files
+and albums, and uploading files.</p>
+<p>For more details of PicasaWeb’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the <a class="reference external" href="http://code.google.com/apis/picasaweb/developers_guide_protocol.html">online documentation</a>.</p>
+<dl class="docutils">
+<dt>Authenticating and Creating a New Album</dt>
+<dd></dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GDataClientLoginAuthorizer *authorizer;
+GDataPicasaWebService *service;
+GDataPicasaWebAlbum *album, *inserted_album;
+
+/* Create a service object and authorize against the PicasaWeb service */
+authorizer = gdata_client_login_authorizer_new (&quot;companyName-applicationName-versionID&quot;, GDATA_TYPE_PICASAWEB_SERVICE);
+gdata_client_login_authorizer_authenticate (authorizer, username, password, NULL, NULL);
+service = gdata_picasaweb_service_new (GDATA_AUTHORIZER (authorizer));
+
+/* Create a GDataPicasaWebAlbum entry for the new album, setting some information about it */
+album = gdata_picasaweb_album_new (NULL);
+gdata_entry_set_title (GDATA_ENTRY (album), &quot;Photos from the Rhine&quot;);
+gdata_entry_set_summary (GDATA_ENTRY (album), &quot;An album of our adventures on the great river.&quot;);
+gdata_picasaweb_album_set_location (album, &quot;The Rhine, Germany&quot;);
+
+/* Insert the new album on the server. Note that this is a blocking operation. */
+inserted_album = gdata_picasaweb_service_insert_album (service, album, NULL, NULL);
+
+g_object_unref (album);
+g_object_unref (inserted_album);
+g_object_unref (service);
+g_object_unref (authorizer);
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Uploading a Photo or Video</dt>
+<dd></dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GDataPicasaWebFile *file_entry, *uploaded_file_entry;
+GDataUploadStream *upload_stream;
+GFile *file_data;
+GFileInfo *file_info;
+GFileInputStream *file_stream;
+
+/* Specify the GFile image on disk to upload */
+file_data = g_file_new_for_path (path);
+
+/* Get the file information for the file being uploaded. If another data source was being used for the upload, it would have to
+ * provide an appropriate slug and content type. Note that this is a blocking operation. */
+file_info = g_file_query_info (file_data, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME &quot;,&quot; G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+                               G_FILE_QUERY_INFO_NONE, NULL, NULL);
+
+/* Create a GDataPicasaWebFile entry for the image, setting a title and caption/summary */
+file_entry = gdata_picasaweb_file_new (NULL);
+gdata_entry_set_title (GDATA_ENTRY (file_entry), &quot;Black Cat&quot;);
+gdata_entry_set_summary (GDATA_ENTRY (file_entry), &quot;Photo of the world&#39;s most beautiful cat.&quot;);
+
+/* Create an upload stream for the file. This is non-blocking. */
+upload_stream = gdata_picasaweb_service_upload_file (service, album, file_entry, g_file_info_get_display_name (file_info),
+                                                     g_file_info_get_content_type (file_info), NULL, NULL);
+g_object_unref (file_info);
+g_object_unref (file_entry);
+
+/* Prepare a file stream for the file to be uploaded. This is a blocking operation. */
+file_stream = g_file_read (file_data, NULL, NULL);
+g_object_unref (file_data);
+
+/* Upload the file to the server. Note that this is a blocking operation. */
+g_output_stream_splice (G_OUTPUT_STREAM (upload_stream), G_INPUT_STREAM (file_stream),
+                        G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE | G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET, NULL, NULL);
+
+/* Parse the resulting updated entry. This is a non-blocking operation. */
+uploaded_file_entry = gdata_picasaweb_service_finish_file_upload (service, upload_stream, NULL);
+g_object_unref (file_stream);
+g_object_unref (upload_stream);
+
+/* ... */
+
+g_object_unref (uploaded_file_entry);
+</pre></div>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>
@@ -762,7 +839,7 @@ authenticated to use this function.</p>
 <p>If <cite>file</cite> has already been inserted, a <a class="reference internal" href="../enums.html#GData.ServiceError.ENTRY_ALREADYSERTED" title="GData.ServiceError.ENTRY_ALREADYSERTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ServiceError.ENTRY_ALREADYSERTED</span></code></a> error will be returned.</p>
 <p>If no user is authenticated with the service, <a class="reference internal" href="../enums.html#GData.ServiceError.AUTHENTICATION_REQUIRED" title="GData.ServiceError.AUTHENTICATION_REQUIRED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ServiceError.AUTHENTICATION_REQUIRED</span></code></a> will be returned. It is recommended to retry the
 upload after refreshing the authorization tokens held by the associated <a class="reference internal" href="Authorizer.html#GData.Authorizer" title="GData.Authorizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Authorizer</span></code></a> using <a class="reference internal" href="Authorizer.html#GData.Authorizer.refresh_authorization" title="GData.Authorizer.refresh_authorization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Authorizer.refresh_authorization</span></code></a>().</p>
-<p>The stream returned by this function should be written to using the standard <a class="reference external" href="../../Gio-2.0/classes/OutputStream.html#Gio.OutputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> methods, asychronously or synchronously. Once the stream
+<p>The stream returned by this function should be written to using the standard <a class="reference external" href="../../Gio-2.0/classes/OutputStream.html#Gio.OutputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> methods, asynchronously or synchronously. Once the stream
 is closed (using <a class="reference external" href="../../Gio-2.0/classes/OutputStream.html#Gio.OutputStream.close" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.close</span></code></a>()), <a class="reference internal" href="#GData.PicasaWebService.finish_file_upload" title="GData.PicasaWebService.finish_file_upload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebService.finish_file_upload</span></code></a>() should be called on it to parse and return the updated
 <a class="reference internal" href="PicasaWebFile.html#GData.PicasaWebFile" title="GData.PicasaWebFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebFile</span></code></a> for the uploaded file. This must be done, as <cite>file_entry</cite> isn’t updated in-place.</p>
 <p>In order to cancel the upload, a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> passed in to <cite>cancellable</cite> must be cancelled using <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable.cancel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable.cancel</span></code></a>(). Cancelling the individual

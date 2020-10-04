@@ -370,7 +370,93 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.DocumentsUploadQuery" title="GData.DocumentsUploadQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.DocumentsUploadQuery" title="GData.DocumentsUploadQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery</span></code></a> is a collection of parameters for document uploads to Google Documents, allowing various options to be set when uploading
+a document for the first time. For example, the destination folder for the uploaded document may be specified; or whether to automatically convert
+the document to a common format.</p>
+<p><a class="reference internal" href="#GData.DocumentsUploadQuery" title="GData.DocumentsUploadQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery</span></code></a> is designed as an object (rather than a fixed struct or set of function arguments) to allow for easy additions of new
+Google Documents features in the future.</p>
+<p>&lt;example&gt;
+&lt;title&gt;Uploading an Arbitrary File from Disk&lt;/title&gt;
+&lt;programlisting&gt;
+<a class="reference internal" href="DocumentsService.html#GData.DocumentsService" title="GData.DocumentsService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService</span></code></a> *service;
+<a class="reference internal" href="DocumentsDocument.html#GData.DocumentsDocument" title="GData.DocumentsDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsDocument</span></code></a> *document, *uploaded_document;
+<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> *arbitrary_file;
+<a class="reference external" href="../../Gio-2.0/classes/FileInfo.html#Gio.FileInfo" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> *file_info;
+const <a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *slug, *content_type;
+goffset file_size;
+<a class="reference internal" href="#GData.DocumentsUploadQuery" title="GData.DocumentsUploadQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery</span></code></a> *upload_query;
+<a class="reference external" href="../../Gio-2.0/classes/FileInputStream.html#Gio.FileInputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInputStream</span></code></a> *file_stream;
+<a class="reference internal" href="UploadStream.html#GData.UploadStream" title="GData.UploadStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.UploadStream</span></code></a> *upload_stream;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>/&lt;!– –&gt;* Create a service. *&lt;!– –&gt;/
+service = create_documents_service ();</p>
+<p>/&lt;!– –&gt;* Get the file to upload. *&lt;!– –&gt;/
+arbitrary_file = <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File.new_for_path" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.new_for_path</span></code></a> (“arbitrary-file.bin”);</p>
+<p>/&lt;!– –&gt;* Get the file’s display name, content type and size. *&lt;!– –&gt;/
+file_info = <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File.query_info" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.query_info</span></code></a> (arbitrary_file, <a class="reference external" href="../../Gio-2.0/constants.html#Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME</span></code></a> “,” <a class="reference external" href="../../Gio-2.0/constants.html#Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE</span></code></a> “,”
+<a class="reference external" href="../../Gio-2.0/constants.html#Gio.FILE_ATTRIBUTE_STANDARD_SIZE" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_STANDARD_SIZE</span></code></a>, <a class="reference external" href="../../Gio-2.0/flags.html#Gio.FileQueryInfoFlags.NONE" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileQueryInfoFlags.NONE</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error getting arbitrary file information: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (arbitrary_file);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>slug = <a class="reference external" href="../../Gio-2.0/classes/FileInfo.html#Gio.FileInfo.get_display_name" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.get_display_name</span></code></a> (file_info);
+content_type = <a class="reference external" href="../../Gio-2.0/classes/FileInfo.html#Gio.FileInfo.get_content_type" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.get_content_type</span></code></a> (file_info);
+file_size = <a class="reference external" href="../../Gio-2.0/classes/FileInfo.html#Gio.FileInfo.get_size" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.get_size</span></code></a> (file_info);</p>
+<p>/&lt;!– –&gt;* Get an input stream for the file. *&lt;!– –&gt;/
+file_stream = <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File.read" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.read</span></code></a> (arbitrary_file, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (arbitrary_file);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error getting arbitrary file stream: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (file_info);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Create the file metadata to upload. *&lt;!– –&gt;/
+document = <a class="reference internal" href="DocumentsDocument.html#GData.DocumentsDocument.new" title="GData.DocumentsDocument.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsDocument.new</span></code></a> (<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+<a class="reference internal" href="Entry.html#GData.Entry.set_title" title="GData.Entry.set_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.set_title</span></code></a> (GDATA_ENTRY (document), “Title for My Arbitrary File”);</p>
+<p>/&lt;!– –&gt;* Build the upload query and set the upload to not be converted to a standard format. *&lt;!– –&gt;/
+upload_query = <a class="reference internal" href="#GData.DocumentsUploadQuery.new" title="GData.DocumentsUploadQuery.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery.new</span></code></a> ();
+<a class="reference internal" href="#GData.DocumentsUploadQuery.set_convert" title="GData.DocumentsUploadQuery.set_convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsUploadQuery.set_convert</span></code></a> (upload_query, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>);</p>
+<p>/&lt;!– –&gt;* Get an upload stream for the file. *&lt;!– –&gt;/
+upload_stream = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.upload_document_resumable" title="GData.DocumentsService.upload_document_resumable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.upload_document_resumable</span></code></a> (service, document, slug, content_type, file_size, upload_query, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (upload_query);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (document);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (file_info);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error getting upload stream: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (file_stream);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Upload the document. This is a blocking operation, and should normally be done asynchronously. *&lt;!– –&gt;/
+<a class="reference external" href="../../Gio-2.0/classes/OutputStream.html#Gio.OutputStream.splice" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.splice</span></code></a> (G_OUTPUT_STREAM (upload_stream), G_INPUT_STREAM (file_stream),
+<a class="reference external" href="../../Gio-2.0/flags.html#Gio.OutputStreamSpliceFlags.CLOSE_SOURCE" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStreamSpliceFlags.CLOSE_SOURCE</span></code></a> | <a class="reference external" href="../../Gio-2.0/flags.html#Gio.OutputStreamSpliceFlags.CLOSE_TARGET" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStreamSpliceFlags.CLOSE_TARGET</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (file_stream);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error splicing streams: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (upload_stream);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Finish off the upload by parsing the returned updated document metadata entry. *&lt;!– –&gt;/
+uploaded_document = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.finish_upload" title="GData.DocumentsService.finish_upload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.finish_upload</span></code></a> (service, upload_stream, &amp;error);</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (upload_stream);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error uploading file: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Do something with the uploaded document. *&lt;!– –&gt;/</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (uploaded_document);
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.13.0.</span></p>
 </div>

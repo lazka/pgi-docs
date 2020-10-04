@@ -426,7 +426,47 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> is a subclass of <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> to represent a generic access rule from an access control list (ACL).
+It is returned by the ACL methods implemented in the <a class="reference internal" href="AccessHandler.html#GData.AccessHandler" title="GData.AccessHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessHandler</span></code></a> interface.</p>
+<p>Access rules should be inserted to the <a class="reference internal" href="../constants.html#GData.LINK_ACCESS_CONTROL_LIST" title="GData.LINK_ACCESS_CONTROL_LIST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.LINK_ACCESS_CONTROL_LIST</span></code></a> URI of the feed or entry they should be applied to. This will return a
+<a class="reference internal" href="../enums.html#GData.ServiceError.CONFLICT" title="GData.ServiceError.CONFLICT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ServiceError.CONFLICT</span></code></a> error if a rule already exists on that feed or entry for that scope type and value.</p>
+<p>&lt;example&gt;
+&lt;title&gt;Adding a Rule to the Access Control List for an Entry&lt;/title&gt;
+&lt;programlisting&gt;
+<a class="reference internal" href="AuthorizationDomain.html#GData.AuthorizationDomain" title="GData.AuthorizationDomain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AuthorizationDomain</span></code></a> *domain;
+<a class="reference internal" href="Service.html#GData.Service" title="GData.Service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service</span></code></a> *service;
+<a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> *entry;
+<a class="reference internal" href="Feed.html#GData.Feed" title="GData.Feed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Feed</span></code></a> *acl_feed;
+<a class="reference internal" href="#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> *rule, *new_rule;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>domain = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.get_primary_authorization_domain" title="GData.DocumentsService.get_primary_authorization_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.get_primary_authorization_domain</span></code></a> ();</p>
+<p>/&lt;!– –&gt;* Retrieve a <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> which will have a new rule inserted into its ACL. *&lt;!– –&gt;/
+service = build_my_service ();
+entry = get_the_entry (service);</p>
+<p>/&lt;!– –&gt;* Create and insert a new access rule for example`gmail`.com which grants them _no_ permissions on the entry.</p>
+<ul class="simple">
+<li>In a real application, the <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> subclass would define its own access roles which are more useful. For example,</li>
+<li><a class="reference internal" href="DocumentsEntry.html#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> defines access roles for users who can read (but not write) a Google Document, and users who</li>
+<li>can also write to the document. *&lt;!– –&gt;/
+rule = <a class="reference internal" href="#GData.AccessRule.new" title="GData.AccessRule.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.new</span></code></a> (<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+<a class="reference internal" href="#GData.AccessRule.set_role" title="GData.AccessRule.set_role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.set_role</span></code></a> (rule, <a class="reference internal" href="../constants.html#GData.ACCESS_ROLE_NONE" title="GData.ACCESS_ROLE_NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ACCESS_ROLE_NONE</span></code></a>); /&lt;!– –&gt;* or, for example, <a class="reference internal" href="../constants.html#GData.DOCUMENTS_ACCESS_ROLE_READER" title="GData.DOCUMENTS_ACCESS_ROLE_READER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DOCUMENTS_ACCESS_ROLE_READER</span></code></a> *&lt;!– –&gt;/
+<a class="reference internal" href="#GData.AccessRule.set_scope" title="GData.AccessRule.set_scope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.set_scope</span></code></a> (rule, <a class="reference internal" href="../constants.html#GData.ACCESS_SCOPE_USER" title="GData.ACCESS_SCOPE_USER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ACCESS_SCOPE_USER</span></code></a>, “example`gmail`.com”); /&lt;!– –&gt;* e-mail address of the user the ACL applies to *&lt;!– –&gt;/</li>
+</ul>
+<p>acl_link = <a class="reference internal" href="Entry.html#GData.Entry.look_up_link" title="GData.Entry.look_up_link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.look_up_link</span></code></a> (entry, <a class="reference internal" href="../constants.html#GData.LINK_ACCESS_CONTROL_LIST" title="GData.LINK_ACCESS_CONTROL_LIST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.LINK_ACCESS_CONTROL_LIST</span></code></a>);
+new_rule = GDATA_ACCESS_RULE (<a class="reference internal" href="Service.html#GData.Service.insert_entry" title="GData.Service.insert_entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service.insert_entry</span></code></a> (GDATA_SERVICE (service), domain, <a class="reference internal" href="Link.html#GData.Link.get_uri" title="GData.Link.get_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Link.get_uri</span></code></a> (acl_link),
+GDATA_ENTRY (rule), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error));</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (rule);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (entry);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error inserting access rule: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Potentially do something with the new_rule here, such as store its ID for later use. *&lt;!– –&gt;/</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (new_rule);
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.3.0.</span></p>
 </div>

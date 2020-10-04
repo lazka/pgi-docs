@@ -412,7 +412,97 @@
 </tr>
 </tbody>
 </table>
-<p>All the fields in the <a class="reference internal" href="#GData.CalendarService" title="GData.CalendarService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CalendarService</span></code></a> structure are private and should never be accessed directly.</p>
+<p><a class="reference internal" href="#GData.CalendarService" title="GData.CalendarService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CalendarService</span></code></a> is a subclass of <a class="reference internal" href="Service.html#GData.Service" title="GData.Service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service</span></code></a> for communicating with the <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API of Google Calendar. It supports querying
+for, inserting, editing and deleting events from calendars, as well as operations on the calendars themselves.</p>
+<p>For more details of Google Calendar’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the
+&lt;ulink type=”http” url=”https://developers.google.com/google-apps/calendar/v3/reference/”&gt;
+online documentation&lt;/ulink&gt;.</p>
+<p>Each calendar accessible through the service has an access control list (ACL) which defines the level of access to the calendar to each user, and
+which users the calendar is shared with. For more information about ACLs for calendars, see the
+&lt;ulink type=”http” url=”https://developers.google.com/google-apps/calendar/v3/reference/acl”&gt;online documentation on
+sharing calendars&lt;/ulink&gt;.</p>
+<p>&lt;example&gt;
+&lt;title&gt;Retrieving the Access Control List for a Calendar&lt;/title&gt;
+&lt;programlisting&gt;
+<a class="reference internal" href="#GData.CalendarService" title="GData.CalendarService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CalendarService</span></code></a> *service;
+<a class="reference internal" href="CalendarCalendar.html#GData.CalendarCalendar" title="GData.CalendarCalendar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CalendarCalendar</span></code></a> *calendar;
+<a class="reference internal" href="Feed.html#GData.Feed" title="GData.Feed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Feed</span></code></a> *acl_feed;
+<a class="reference internal" href="AccessRule.html#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> *rule, *new_rule;
+<a class="reference internal" href="Link.html#GData.Link" title="GData.Link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Link</span></code></a> *acl_link;
+<a class="reference external" href="../../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.List</span></code></a> *i;
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>/&lt;!– –&gt;* Create a service and retrieve a calendar to work on *&lt;!– –&gt;/
+service = create_calendar_service ();
+calendar = get_calendar (service);</p>
+<p>/&lt;!– –&gt;* Query the service for the ACL for the given calendar *&lt;!– –&gt;/
+acl_feed = <a class="reference internal" href="AccessHandler.html#GData.AccessHandler.get_rules" title="GData.AccessHandler.get_rules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessHandler.get_rules</span></code></a> (GDATA_ACCESS_HANDLER (calendar), GDATA_SERVICE (service), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error getting ACL feed for calendar: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (calendar);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p>/&lt;!– –&gt;* Iterate through the ACL *&lt;!– –&gt;/
+for (i = <a class="reference internal" href="Feed.html#GData.Feed.get_entries" title="GData.Feed.get_entries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Feed.get_entries</span></code></a> (acl_feed); i != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>; i = i-&gt;next) {
+const <a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *scope_value;</p>
+<p>rule = GDATA_ACCESS_RULE (i-&gt;data);</p>
+<p>/&lt;!– –&gt;* Do something with the access rule here. As an example, we update the rule applying to test`gmail`.com and delete all
+* the other rules. We then insert another rule for example`gmail`.com below. *&lt;!– –&gt;/
+<a class="reference internal" href="AccessRule.html#GData.AccessRule.get_scope" title="GData.AccessRule.get_scope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.get_scope</span></code></a> (rule, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;scope_value);
+if (scope_value != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> &amp;&amp; strcmp (scope_value, “test`gmail`.com”) == 0) {
+<a class="reference internal" href="AccessRule.html#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> *updated_rule;</p>
+<p>/&lt;!– –&gt;* Update the rule to make test`gmail`.com an editor (full read/write access to the calendar, but they can’t change
+* the ACL). *&lt;!– –&gt;/
+<a class="reference internal" href="AccessRule.html#GData.AccessRule.set_role" title="GData.AccessRule.set_role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.set_role</span></code></a> (rule, <a class="reference internal" href="../constants.html#GData.CALENDAR_ACCESS_ROLE_EDITOR" title="GData.CALENDAR_ACCESS_ROLE_EDITOR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CALENDAR_ACCESS_ROLE_EDITOR</span></code></a>);
+updated_rule = GDATA_ACCESS_RULE (<a class="reference internal" href="Service.html#GData.Service.update_entry" title="GData.Service.update_entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service.update_entry</span></code></a> (GDATA_SERVICE (service), GDATA_ENTRY (rule), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error));</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error updating access rule for %s: %s”, scope_value, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (acl_feed);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (calendar);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (updated_rule);
+} else {
+/&lt;!– –&gt;* Delete any rule which doesn’t apply to test`gmail`.com *&lt;!– –&gt;/
+<a class="reference internal" href="Service.html#GData.Service.delete_entry" title="GData.Service.delete_entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service.delete_entry</span></code></a> (GDATA_SERVICE (service), GDATA_ENTRY (rule), <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error deleting access rule for %s: %s”, scope_value, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (acl_feed);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (calendar);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
+return;
+}
+}
+}</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (acl_feed);</p>
+<p>/&lt;!– –&gt;* Create and insert a new access rule for example`gmail`.com which allows them to view free/busy information for events in the</p>
+<ul class="simple">
+<li>calendar, but doesn’t allow them to view the full event details. *&lt;!– –&gt;/
+rule = <a class="reference internal" href="AccessRule.html#GData.AccessRule.new" title="GData.AccessRule.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.new</span></code></a> (<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+<a class="reference internal" href="AccessRule.html#GData.AccessRule.set_role" title="GData.AccessRule.set_role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.set_role</span></code></a> (rule, <a class="reference internal" href="../constants.html#GData.CALENDAR_ACCESS_ROLE_FREE_BUSY" title="GData.CALENDAR_ACCESS_ROLE_FREE_BUSY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.CALENDAR_ACCESS_ROLE_FREE_BUSY</span></code></a>);
+<a class="reference internal" href="AccessRule.html#GData.AccessRule.set_scope" title="GData.AccessRule.set_scope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule.set_scope</span></code></a> (rule, <a class="reference internal" href="../constants.html#GData.ACCESS_SCOPE_USER" title="GData.ACCESS_SCOPE_USER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ACCESS_SCOPE_USER</span></code></a>, “example`gmail`.com”);</li>
+</ul>
+<p>acl_link = <a class="reference internal" href="Entry.html#GData.Entry.look_up_link" title="GData.Entry.look_up_link"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry.look_up_link</span></code></a> (GDATA_ENTRY (calendar), <a class="reference internal" href="../constants.html#GData.LINK_ACCESS_CONTROL_LIST" title="GData.LINK_ACCESS_CONTROL_LIST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.LINK_ACCESS_CONTROL_LIST</span></code></a>);
+new_rule = GDATA_ACCESS_RULE (<a class="reference internal" href="Service.html#GData.Service.insert_entry" title="GData.Service.insert_entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Service.insert_entry</span></code></a> (GDATA_SERVICE (service), <a class="reference internal" href="Link.html#GData.Link.get_uri" title="GData.Link.get_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Link.get_uri</span></code></a> (acl_link), GDATA_ENTRY (rule),
+<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error));</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (rule);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (calendar);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
+<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
+g_error (“Error inserting access rule: %s”, error-&gt;message);
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
+return;
+}</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (acl_link);
+&lt;/programlisting&gt;
+&lt;/example&gt;</p>
+<p>Before version 0.17.2, the Calendar service could be manipulated using
+batch operations. That is no longer supported, and any batch operations
+created on the calendar will fail.</p>
 <dl class="classmethod">
 <dt id="GData.CalendarService.get_primary_authorization_domain">
 <em class="property">classmethod </em><code class="descname">get_primary_authorization_domain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GData.CalendarService.get_primary_authorization_domain" title="Permalink to this definition">¶</a></dt>

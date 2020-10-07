@@ -392,6 +392,99 @@
 </tr>
 </tbody>
 </table>
+<p>The library provides two hard coded themes, “Default”, and “Guppi”. Other themes
+are described in files, some of which might be distributed with the library.</p>
+<p>A file defining a theme is an xml file with a &lt;<a class="reference internal" href="#GOffice.GraphTheme" title="GOffice.GraphTheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTheme</span></code></a>&gt; root node.
+The root element needs to have an Id which should be unique. The uuid command
+provides such Ids.</p>
+<p>The contents must be: _name|name+, _description?|description*, <a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a>+.</p>
+<p>_name and name nodes:</p>
+<p>The _name node should be used for themes distributed with goffice, localized
+names will be in *.po files and only the default name for “C” locale needs to
+be there. Other files need at least one name node for the default name, and
+might have some translated names with an appropriate “xml:lang” attribute.</p>
+<p>_description and description nodes:</p>
+<p>These work just like name nodes. The difference is that no description node is
+mandatory. A theme can work perfectly without a description.</p>
+<p><a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a> nodes:</p>
+<p>These nodes actually define the theme. Attributes and contents are:
+node attributes: class, role.
+node contents: (line|outline)?, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code>?, marker?, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>?, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>?</p>
+<p>The attributes define the target for the style. You might have a class and
+a role attribute, or just one of them. If the role attribute is given, the class attribute,
+if given, represents the class of the parent object.
+A <a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a> node with no class or role will be used
+as default when another style is missing. If several such nodes exist, the
+last one will be used. If no default style exists, the “Default” theme is applied for
+missing nodes.
+The list of <a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a> nodes might be:</p>
+<p>classrolecontentscomments
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphGraph`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphGraph`Titleoutline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout`The</span> <span class="pre">graph</span> <span class="pre">title</span>
+<span class="pre">:obj:`GOffice.GraphChart`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphChart`Titleoutline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout`The</span> <span class="pre">chart</span> <span class="pre">title</span>
+<span class="pre">:obj:`GOffice.GraphLegend`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphAxis`line,</span> <span class="pre">:obj:`GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphAxisLine`line,</span> <span class="pre">:obj:`GOffice.font</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphGrid`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code> <a class="reference internal" href="GraphGrid.html#GOffice.GraphGrid" title="GOffice.GraphGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphGrid</span></code></a> is actually the back plane
+MajorGridline, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code>
+MinorGridline, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphLabel`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphSeries`line,</span> <span class="pre">:obj:`GOffice.fill</span></code>, markerOne is needed for each entry in the palette
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTrendLine`line</span>
+<span class="pre">:obj:`GOffice.GraphRegEqn`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphSeriesLabels`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphRegEqn`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+GogSeriesLabeloutline, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphDataLabel`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphEquation`outline,</span> <span class="pre">:obj:`GOffice.fill</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code></p>
+<p>The line and outline nodes are actually the same so using line in place of outline is
+not an issue. A color is specified either using the format RR:GG:py:func:<cite>::BB&lt;GOffice.GraphTheme.signals.BB&gt;</cite><code class="xref py py-data docutils literal notranslate"><span class="pre">:AA</span></code> or a string as defined
+in rgb.txt, so black can be specified as “black” or “00:00:00:py:data:<cite>:FF&lt;GOffice.GraphTheme.props.FF&gt;</cite>”.</p>
+<p>“line” or “outline” node:</p>
+<p>attribute:obj:<a href="#id1"><span class="problematic" id="id2">`</span></a>GOffice.value`comments
+dashone of “none”, “solid”, “s-dot”, “s-dash-dot”, “s-dash-dot-dot”, “dash-dot-dot-dot”, “dot”,
+“s-dash”, “dash”, “l-dash”, “dash-dot”, or “dash-dot-dot”
+colorany color as described above
+widthfloatnot always taken into account</p>
+<p>“<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code>” node</p>
+<p>contents: (pattern|gradient)?</p>
+<p>attribute:obj:<a href="#id3"><span class="problematic" id="id4">`</span></a>GOffice.value`comments
+typeone of “none”, “pattern”, or “gradient”</p>
+<p>“pattern” node</p>
+<p>Should be included in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code> node if type is pattern.</p>
+<p>attribute:obj:<cite>GOffice.value</cite>
+typeone of “solid”, “grey75”, “grey50”, “grey25”, “grey12.5”,
+“grey6.25”, “horiz”, “vert”, “rev-diag”, “diag”, “diag-cross”, “thick-diag-cross”,
+“thin-horiz”, “thin-vert”, “thin-rev-diag”, “thin-diag”, “thin-horiz-cross”,
+“thin-diag-cross”, “foreground-solid”, “small-circles”,”semi-circles”, “thatch”,
+“large-circles”, or “bricks”
+foreany color as described above
+backany color as described above</p>
+<p>“gradient” node</p>
+<p>Should be included in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.fill</span></code> node if type is gradient.</p>
+<p>attribute:obj:<a href="#id5"><span class="problematic" id="id6">`</span></a>GOffice.value`comments
+directionone of “n-s”, “s-n”, “n-s-mirrored”, “s-n-mirrored”,
+“w-e”, “e-w”, “w-e-mirrored”, “e-w-mirrored”, “nw-se”, “se-nw”, “nw-se-mirrored”,
+“se-nw-mirrored”, “ne-sw”, “sw-ne”, “sw-ne-mirrored”, or “ne-sw-mirrored”
+start_colorany color as described above
+brightnessfloatmeaningful only for monocolor gradients
+end_colorany color as described abovemeaningful only for bicolor gradients</p>
+<p>“marker” node</p>
+<p>attribute:obj:<cite>GOffice.value`comments
+shapeone of “none”, “square”, “diamond”, “triangle-down”,
+“triangle-up”, “triangle-right”, “triangle-left”, “circle”, “x”, “cross”,
+“asterisk”, “bar”, “half-bar”, “butterfly”, “hourglass”, or “lefthalf-bar”
+:obj:`GOffice.fill</cite>-colorany color as described above
+outline-colorany color as described above
+sizefloatnot always taken into account</p>
+<p>“<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font</span></code>” node</p>
+<p>attribute:obj:<cite>GOffice.value</cite>
+colorany color as described above
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.font`a</span> <span class="pre">string</span> <span class="pre">describing</span> <span class="pre">the</span> <span class="pre">:obj:`GOffice.font</span></code> such as “Sans 10”</p>
+<p>“<code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.text_layout</span></code>” node</p>
+<p>attribute:obj:<a href="#id7"><span class="problematic" id="id8">`</span></a>GOffice.value`comments
+anglefloatexpressed in degrees</p>
 <dl class="classmethod">
 <dt id="GOffice.GraphTheme.foreach">
 <em class="property">classmethod </em><code class="descname">foreach</code><span class="sig-paren">(</span><em>handler</em>, <em>*user_data</em><span class="sig-paren">)</span><a class="headerlink" href="#GOffice.GraphTheme.foreach" title="Permalink to this definition">¶</a></dt>
@@ -401,7 +494,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>handler</strong> (<a class="reference external" href="../../GLib-2.0/callbacks.html#GLib.Func" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Func</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/callbacks.html#GLib.Func" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Func</span></code></a> using a theme as first argument</li>
-<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data to pass to <cite>handler</cite></li>
+<li><strong>user_data</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data to pass to <cite>handler</cite></li>
 </ul>
 </td>
 </tr>
@@ -420,7 +513,7 @@ themes.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a newly allocated theme name list from theme registry.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</td>
 </tr>
 </tbody>
 </table>
@@ -433,7 +526,7 @@ themes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a theme name</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a theme name</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#GOffice.GraphTheme" title="GOffice.GraphTheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTheme</span></code></a> from theme registry.</td>
 </tr>
@@ -450,9 +543,9 @@ themes.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -483,9 +576,9 @@ database.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cc</strong> (<a class="reference internal" href="CmdContext.html#GOffice.CmdContext" title="GOffice.CmdContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.CmdContext</span></code></a>) – a <a class="reference internal" href="CmdContext.html#GOffice.CmdContext" title="GOffice.CmdContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.CmdContext</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cc</strong> (<a class="reference internal" href="CmdContext.html#GOffice.CmdContext" title="GOffice.CmdContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.CmdContext</span></code></a>) – a <a class="reference internal" href="CmdContext.html#GOffice.CmdContext" title="GOffice.CmdContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.CmdContext</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The edited theme or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the edition has
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The edited theme or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the edition has
 been cancelled.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#GOffice.GraphTheme" title="GOffice.GraphTheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTheme</span></code></a></td>
@@ -506,7 +599,7 @@ locally installed themes that are writeable.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>style</strong> (<a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a>) – <a class="reference internal" href="Style.html#GOffice.Style" title="GOffice.Style"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.Style</span></code></a> to initialize</li>
 <li><strong>obj</strong> (<a class="reference internal" href="GraphObject.html#GOffice.GraphObject" title="GOffice.GraphObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphObject</span></code></a>) – <a class="reference internal" href="GraphObject.html#GOffice.GraphObject" title="GOffice.GraphObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphObject</span></code></a> The object associated with <cite>style</cite></li>
-<li><strong>ind</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an optional index</li>
+<li><strong>ind</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an optional index</li>
 <li><strong>relevant_fields</strong> (<a class="reference internal" href="../flags.html#GOffice.StyleFlag" title="GOffice.StyleFlag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.StyleFlag</span></code></a>) – <a class="reference internal" href="../flags.html#GOffice.StyleFlag" title="GOffice.StyleFlag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.StyleFlag</span></code></a></li>
 </ul>
 </td>
@@ -525,7 +618,7 @@ fillin the entire style, not just the auto portions included in <cite>relevant_f
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>discrete</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether the map is for a discrete axis.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>discrete</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether the map is for a discrete axis.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the requested color map.</td>
 </tr>
@@ -544,7 +637,7 @@ continuous one.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -559,7 +652,7 @@ continuous one.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the <a class="reference internal" href="#GOffice.GraphTheme" title="GOffice.GraphTheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTheme</span></code></a> Id.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -575,7 +668,7 @@ continuous one.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the <a class="reference internal" href="#GOffice.GraphTheme" title="GOffice.GraphTheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOffice.GraphTheme</span></code></a> name.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>

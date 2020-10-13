@@ -409,6 +409,165 @@
 </tr>
 </tbody>
 </table>
+<p><a class="reference internal" href="#Amtk.Factory" title="Amtk.Factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory</span></code></a> contains functions to create various objects such as a menu
+item, a toolbar item or a <a class="reference external" href="../../Gtk-3.0/classes/ShortcutsShortcut.html#Gtk.ShortcutsShortcut" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.ShortcutsShortcut</span></code></a>, from the information
+provided by an <a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a>. A factory function accesses an
+<a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a> from the <a class="reference internal" href="ActionInfoCentralStore.html#Amtk.ActionInfoCentralStore" title="Amtk.ActionInfoCentralStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfoCentralStore</span></code></a>.</p>
+<p>A <a class="reference external" href="../../Gtk-3.0/classes/Application.html#Gtk.Application" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application</span></code></a> can be associated so that factory functions can call
+<a class="reference external" href="../../Gtk-3.0/classes/Application.html#Gtk.Application.set_accels_for_action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application.set_accels_for_action</span></code></a>() with the accelerators returned by
+<a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo.get_accels" title="Amtk.ActionInfo.get_accels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo.get_accels</span></code></a>(). Note that
+<a class="reference external" href="../../Gtk-3.0/classes/Application.html#Gtk.Application.set_accels_for_action" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application.set_accels_for_action</span></code></a>() is called by factory functions and
+not by <a class="reference internal" href="ActionInfoStore.html#Amtk.ActionInfoStore.add" title="Amtk.ActionInfoStore.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfoStore.add</span></code></a>(), so that libraries can provide their own
+store and the accelerators are set to the <a class="reference external" href="../../Gtk-3.0/classes/Application.html#Gtk.Application" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application</span></code></a> only if an
+<a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a> is actually used. For an application store,
+<a class="reference internal" href="ActionInfoStore.html#Amtk.ActionInfoStore.set_all_accels_to_app" title="Amtk.ActionInfoStore.set_all_accels_to_app"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfoStore.set_all_accels_to_app</span></code></a>() is an alternative.</p>
+<p><a class="reference internal" href="../flags.html#Amtk.FactoryFlags" title="Amtk.FactoryFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.FactoryFlags</span></code></a> permits to control how a factory function creates the
+object, to ignore some steps. Factory functions are declined in two variants:
+a simple form which takes the value of the <a class="reference internal" href="#Amtk.Factory" title="Amtk.Factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory</span></code></a> <a class="reference internal" href="#Amtk.Factory.props.default_flags" title="Amtk.Factory.props.default_flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">:default-flags</span></code></a>
+property, and the same function with the <code class="docutils literal notranslate"><span class="pre">_full</span></code> suffix which takes an
+<a class="reference internal" href="../flags.html#Amtk.FactoryFlags" title="Amtk.FactoryFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.FactoryFlags</span></code></a> argument and ignores the <a class="reference internal" href="#Amtk.Factory" title="Amtk.Factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory</span></code></a> <a class="reference internal" href="#Amtk.Factory.props.default_flags" title="Amtk.Factory.props.default_flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">:default-flags</span></code></a>. See
+for example <a class="reference internal" href="#Amtk.Factory.create_menu_item" title="Amtk.Factory.create_menu_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory.create_menu_item</span></code></a>() and
+<a class="reference internal" href="#Amtk.Factory.create_menu_item_full" title="Amtk.Factory.create_menu_item_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory.create_menu_item_full</span></code></a>().</p>
+<dl class="docutils">
+<dt>Static objects</dt>
+<dd></dd>
+</dl>
+<p>An important detail is that once a factory function has created an object,
+the object is not updated if the corresponding <a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a> is modified
+afterwards. <a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a> doesn’t have a notify signal, and it is anyway
+discouraged to modify an <a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo" title="Amtk.ActionInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo</span></code></a> after being added to an
+<a class="reference internal" href="ActionInfoStore.html#Amtk.ActionInfoStore" title="Amtk.ActionInfoStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfoStore</span></code></a>. An <a class="reference internal" href="ActionInfoStore.html#Amtk.ActionInfoStore" title="Amtk.ActionInfoStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfoStore</span></code></a> is meant to be something
+static, created on application startup. Updating automatically menu and
+toolbar items is out of scope for the Amtk library. If for example action
+accelerators can be modified at run-time, the menu needs to be re-generated.</p>
+<dl class="docutils">
+<dt>Menus</dt>
+<dd></dd>
+</dl>
+<p>Some general notes about the functions that create <a class="reference external" href="../../Gtk-3.0/classes/MenuItem.html#Gtk.MenuItem" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.MenuItem</span></code></a>’s:</p>
+<ul class="simple">
+<li>If not ignored by an <a class="reference internal" href="../flags.html#Amtk.FactoryFlags" title="Amtk.FactoryFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.FactoryFlags</span></code></a>, the first accelerator returned by
+<a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo.get_accels" title="Amtk.ActionInfo.get_accels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo.get_accels</span></code></a>() is set to the <a class="reference external" href="../../Gtk-3.0/classes/AccelLabel.html#Gtk.AccelLabel" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccelLabel</span></code></a> of the
+<a class="reference external" href="../../Gtk-3.0/classes/MenuItem.html#Gtk.MenuItem" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.MenuItem</span></code></a>.</li>
+<li>If not ignored by an <a class="reference internal" href="../flags.html#Amtk.FactoryFlags" title="Amtk.FactoryFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.FactoryFlags</span></code></a>, the tooltip is set with
+<a class="reference internal" href="../functions.html#Amtk.menu_item_set_long_description" title="Amtk.menu_item_set_long_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.menu_item_set_long_description</span></code></a>(), which permits to display it in a
+<a class="reference external" href="../../Gtk-3.0/classes/Statusbar.html#Gtk.Statusbar" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Statusbar</span></code></a> with <a class="reference internal" href="ApplicationWindow.html#Amtk.ApplicationWindow.connect_menu_to_statusbar" title="Amtk.ApplicationWindow.connect_menu_to_statusbar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ApplicationWindow.connect_menu_to_statusbar</span></code></a>().</li>
+</ul>
+<dl class="docutils">
+<dt>Code example to create a menu</dt>
+<dd></dd>
+</dl>
+<p>How to create a <a class="reference external" href="../../Gtk-3.0/classes/MenuBar.html#Gtk.MenuBar" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.MenuBar</span></code></a> with <a class="reference internal" href="#Amtk.Factory" title="Amtk.Factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory</span></code></a>. Each submenu is created by a
+separate function, to make the code clearer.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static GtkWidget *
+create_file_submenu (void)
+{
+  GtkMenuShell *file_submenu;
+  AmtkFactory *factory;
+
+  file_submenu = GTK_MENU_SHELL (gtk_menu_new ());
+
+  factory = amtk_factory_new_with_default_application ();
+  gtk_menu_shell_append (file_submenu, amtk_factory_create_menu_item (factory, &quot;win.open&quot;));
+  gtk_menu_shell_append (file_submenu, amtk_factory_create_menu_item (factory, &quot;win.save&quot;));
+  gtk_menu_shell_append (file_submenu, gtk_separator_menu_item_new ());
+  gtk_menu_shell_append (file_submenu, amtk_factory_create_menu_item (factory, &quot;app.quit&quot;));
+  g_object_unref (factory);
+
+  return GTK_WIDGET (file_submenu);
+}
+
+static GtkWidget *
+create_help_submenu (void)
+{
+  GtkMenuShell *help_submenu;
+  AmtkFactory *factory;
+
+  help_submenu = GTK_MENU_SHELL (gtk_menu_new ());
+
+  factory = amtk_factory_new_with_default_application ();
+  gtk_menu_shell_append (help_submenu, amtk_factory_create_menu_item (factory, &quot;app.about&quot;));
+  g_object_unref (factory);
+
+  return GTK_WIDGET (help_submenu);
+}
+
+static GtkWidget *
+create_menu_bar (void)
+{
+  GtkWidget *file_menu_item;
+  GtkWidget *help_menu_item;
+  GtkWidget *menu_bar;
+
+  file_menu_item = gtk_menu_item_new_with_mnemonic (&quot;_File&quot;);
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_menu_item),
+                             create_file_submenu ());
+
+  help_menu_item = gtk_menu_item_new_with_mnemonic (&quot;_Help&quot;);
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (help_menu_item),
+                             create_help_submenu ());
+
+  menu_bar = gtk_menu_bar_new ();
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), file_menu_item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), help_menu_item);
+
+  // Additionally, it is a good place to call
+  // amtk_action_info_store_check_all_used() here.
+
+  return menu_bar;
+}
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Toolbars</dt>
+<dd></dd>
+</dl>
+<p>Some general notes about the functions that create <a class="reference external" href="../../Gtk-3.0/classes/ToolItem.html#Gtk.ToolItem" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.ToolItem</span></code></a>’s:</p>
+<ul class="simple">
+<li>The accelerators returned by <a class="reference internal" href="ActionInfo.html#Amtk.ActionInfo.get_accels" title="Amtk.ActionInfo.get_accels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.ActionInfo.get_accels</span></code></a>() are not used for
+documentation purposes in a toolbar, so the
+<a class="reference internal" href="../flags.html#Amtk.FactoryFlags.IGNORE_ACCELS_FOR_DOC" title="Amtk.FactoryFlags.IGNORE_ACCELS_FOR_DOC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.FactoryFlags.IGNORE_ACCELS_FOR_DOC</span></code></a> flag has no impact. The accelerators
+are documented only in menu items.</li>
+</ul>
+<dl class="docutils">
+<dt>Code example to create a toolbar</dt>
+<dd></dd>
+</dl>
+<p>How to create a basic <a class="reference external" href="../../Gtk-3.0/classes/Toolbar.html#Gtk.Toolbar" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Toolbar</span></code></a> with <a class="reference internal" href="#Amtk.Factory" title="Amtk.Factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amtk.Factory</span></code></a>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static GtkWidget *
+create_toolbar (void)
+{
+  GtkToolbar *toolbar;
+  AmtkFactory *factory;
+
+  toolbar = GTK_TOOLBAR (gtk_toolbar_new ());
+
+  // Small performance improvement:
+  // Do not associate a GtkApplication, because the menu has already been
+  // generated, the menu contains all actions, so
+  // gtk_application_set_accels_for_action() has already been called for all
+  // actions. Another way is to set the AMTK_FACTORY_IGNORE_ACCELS_FOR_APP
+  // flag.
+  factory = amtk_factory_new (NULL);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.new-file&quot;), -1);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.open&quot;), -1);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.save&quot;), -1);
+  gtk_toolbar_insert (toolbar, gtk_separator_tool_item_new (), -1);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.cut&quot;), -1);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.copy&quot;), -1);
+  gtk_toolbar_insert (toolbar, amtk_factory_create_tool_button (factory, &quot;win.paste&quot;), -1);
+  g_object_unref (factory);
+
+  return GTK_WIDGET (toolbar);
+}
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Modern UI with a <a class="reference external" href="../../Gtk-3.0/classes/HeaderBar.html#Gtk.HeaderBar" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.HeaderBar</span></code></a></dt>
+<dd></dd>
+</dl>
+<p>To have an example code, see <code class="docutils literal notranslate"><span class="pre">tests/test-headerbar.c</span></code> in the git repository
+of Amtk.</p>
 <dl class="classmethod">
 <dt id="Amtk.Factory.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>application</em><span class="sig-paren">)</span><a class="headerlink" href="#Amtk.Factory.new" title="Permalink to this definition">¶</a></dt>

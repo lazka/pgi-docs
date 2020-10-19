@@ -544,7 +544,13 @@
 <td><a class="reference internal" href="#OSTree.Repo.static_delta_execute_offline" title="OSTree.Repo.static_delta_execute_offline"><code class="xref py py-func docutils literal notranslate"><span class="pre">static_delta_execute_offline</span></code></a> (dir_or_file, skip_validation, cancellable)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#OSTree.Repo.static_delta_execute_offline_with_signature" title="OSTree.Repo.static_delta_execute_offline_with_signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">static_delta_execute_offline_with_signature</span></code></a> (dir_or_file, sign, skip_validation, cancellable)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#OSTree.Repo.static_delta_generate" title="OSTree.Repo.static_delta_generate"><code class="xref py py-func docutils literal notranslate"><span class="pre">static_delta_generate</span></code></a> (opt, from_, to, metadata, params, cancellable)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#OSTree.Repo.static_delta_verify_signature" title="OSTree.Repo.static_delta_verify_signature"><code class="xref py py-func docutils literal notranslate"><span class="pre">static_delta_verify_signature</span></code></a> (delta_id, sign, out_success_message)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
 <td><a class="reference internal" href="#OSTree.Repo.transaction_set_collection_ref" title="OSTree.Repo.transaction_set_collection_ref"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction_set_collection_ref</span></code></a> (ref, checksum)</td>
@@ -3874,6 +3880,42 @@ must contain a file named “superblock”, along with at least one part.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="OSTree.Repo.static_delta_execute_offline_with_signature">
+<code class="descname">static_delta_execute_offline_with_signature</code><span class="sig-paren">(</span><em>dir_or_file</em>, <em>sign</em>, <em>skip_validation</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="headerlink" href="#OSTree.Repo.static_delta_execute_offline_with_signature" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dir_or_file</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – Path to a directory containing static delta data, or directly to the superblock</li>
+<li><strong>sign</strong> (<a class="reference internal" href="Sign.html#OSTree.Sign" title="OSTree.Sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.Sign</span></code></a>) – Signature engine used to check superblock</li>
+<li><strong>skip_validation</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – If <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, assume data integrity</li>
+<li><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Cancellable</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Given a directory representing an already-downloaded static delta
+on disk, apply it, generating a new commit.
+If sign is passed, the static delta signature is verified.
+If sign-verify-deltas configuration option is set and static delta is signed,
+signature verification will be mandatory before apply the static delta.
+The directory must be named with the form “FROM-TO”, where both are
+checksums, and it must contain a file named “superblock”, along with at least
+one part.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2020.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="OSTree.Repo.static_delta_generate">
 <code class="descname">static_delta_generate</code><span class="sig-paren">(</span><em>opt</em>, <em>from_</em>, <em>to</em>, <em>metadata</em>, <em>params</em>, <em>cancellable</em><span class="sig-paren">)</span><a class="headerlink" href="#OSTree.Repo.static_delta_generate" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -3915,7 +3957,41 @@ for input files</li>
 <li>verbose: b: Print diagnostic messages.  Default <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</li>
 <li>endianness: b: Deltas use host byte order by default; this option allows choosing (<a class="reference external" href="../../GLib-2.0/constants.html#GLib.BIG_ENDIAN" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.BIG_ENDIAN</span></code></a> or <a class="reference external" href="../../GLib-2.0/constants.html#GLib.LITTLE_ENDIAN" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LITTLE_ENDIAN</span></code></a>)</li>
 <li>filename: ay: Save delta superblock to this filename, and parts in the same directory.  Default saves to repository.</li>
+<li>sign-name: ay: Signature type to use.</li>
+<li>sign-key-ids: as: Array of keys used to sign delta superblock.</li>
 </ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="OSTree.Repo.static_delta_verify_signature">
+<code class="descname">static_delta_verify_signature</code><span class="sig-paren">(</span><em>delta_id</em>, <em>sign</em>, <em>out_success_message</em><span class="sig-paren">)</span><a class="headerlink" href="#OSTree.Repo.static_delta_verify_signature" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>delta_id</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – delta path</li>
+<li><strong>sign</strong> (<a class="reference internal" href="Sign.html#OSTree.Sign" title="OSTree.Sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSTree.Sign</span></code></a>) – Signature engine used to check superblock</li>
+<li><strong>out_success_message</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – success message</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the signature of static delta file is valid using the
+signature engine provided, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Verify static delta file signature.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2020.7.</span></p>
+</div>
 </dd></dl>
 
 <dl class="method">

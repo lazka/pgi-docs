@@ -555,36 +555,61 @@
 </table>
 <p>Manages a set of pads with the purpose of aggregating their buffers.
 Control is given to the subclass when all pads have data.</p>
-<ul class="simple">
-<li>Base class for mixers and muxers. Subclasses should at least implement
-the <a class="reference internal" href="#GstBase.Aggregator.do_aggregate" title="GstBase.Aggregator.do_aggregate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.do_aggregate</span></code></a>() virtual method.</li>
-<li>Installs a <a class="reference external" href="../../Gst-1.0/callbacks.html#Gst.PadChainFunction" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadChainFunction</span></code></a>, a <a class="reference external" href="../../Gst-1.0/callbacks.html#Gst.PadEventFullFunction" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadEventFullFunction</span></code></a> and a
+<ul>
+<li><p class="first">Base class for mixers and muxers. Subclasses should at least implement
+the <a class="reference internal" href="#GstBase.Aggregator.do_aggregate" title="GstBase.Aggregator.do_aggregate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.do_aggregate</span></code></a>() virtual method.</p>
+</li>
+<li><p class="first">Installs a <a class="reference external" href="../../Gst-1.0/callbacks.html#Gst.PadChainFunction" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadChainFunction</span></code></a>, a <a class="reference external" href="../../Gst-1.0/callbacks.html#Gst.PadEventFullFunction" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadEventFullFunction</span></code></a> and a
 <a class="reference external" href="../../Gst-1.0/callbacks.html#Gst.PadQueryFunction" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.PadQueryFunction</span></code></a> to queue all serialized data packets per sink pad.
 Subclasses should not overwrite those, but instead implement
 <a class="reference internal" href="#GstBase.Aggregator.do_sink_event" title="GstBase.Aggregator.do_sink_event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.do_sink_event</span></code></a>() and <a class="reference internal" href="#GstBase.Aggregator.do_sink_query" title="GstBase.Aggregator.do_sink_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.do_sink_query</span></code></a>() as
-needed.</li>
-<li>When data is queued on all pads, the aggregate vmethod is called.</li>
-<li>One can peek at the data on any given <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad</span></code></a> with the
+needed.</p>
+</li>
+<li><p class="first">When data is queued on all pads, the aggregate vmethod is called.</p>
+</li>
+<li><p class="first">One can peek at the data on any given <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad</span></code></a> with the
 <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.peek_buffer" title="GstBase.AggregatorPad.peek_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.peek_buffer</span></code></a>() method, and remove it from the pad
 with the <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.pop_buffer" title="GstBase.AggregatorPad.pop_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.pop_buffer</span></code></a> () method. When a buffer
 has been taken with pop_buffer (), a new buffer can be queued
-on that pad.</li>
-<li>If the subclass wishes to push a buffer downstream in its aggregate
+on that pad.</p>
+</li>
+<li><p class="first">When <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.peek_buffer" title="GstBase.AggregatorPad.peek_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.peek_buffer</span></code></a>() or <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.has_buffer" title="GstBase.AggregatorPad.has_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.has_buffer</span></code></a>()
+are called, a reference is taken to the returned buffer, which stays
+valid until either:</p>
+<ul class="simple">
+<li><a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.pop_buffer" title="GstBase.AggregatorPad.pop_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.pop_buffer</span></code></a>() is called, in which case the caller
+is guaranteed that the buffer they receive is the same as the peeked
+buffer.</li>
+<li><a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.drop_buffer" title="GstBase.AggregatorPad.drop_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.drop_buffer</span></code></a>() is called, in which case the caller
+is guaranteed that the dropped buffer is the one that was peeked.</li>
+<li>the subclass implementation of <a class="reference internal" href="AggregatorClass.html#gstbase-aggregatorclass-fields"><span class="std std-ref">GstBase.AggregatorClass.aggregate</span></a> returns.</li>
+</ul>
+<p>Subsequent calls to <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.peek_buffer" title="GstBase.AggregatorPad.peek_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.peek_buffer</span></code></a>() or
+<a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad.has_buffer" title="GstBase.AggregatorPad.has_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad.has_buffer</span></code></a>() return / check the same buffer that was
+returned / checked, until one of the conditions listed above is met.</p>
+<p>Subclasses are only allowed to call these methods from the aggregate
+thread.</p>
+</li>
+<li><p class="first">If the subclass wishes to push a buffer downstream in its aggregate
 implementation, it should do so through the
 <a class="reference internal" href="#GstBase.Aggregator.finish_buffer" title="GstBase.Aggregator.finish_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.finish_buffer</span></code></a>() method. This method will take care
 of sending and ordering mandatory events such as stream start, caps
 and segment. Buffer lists can also be pushed out with
-<a class="reference internal" href="#GstBase.Aggregator.finish_buffer_list" title="GstBase.Aggregator.finish_buffer_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.finish_buffer_list</span></code></a>().</li>
-<li>Same goes for EOS events, which should not be pushed directly by the
+<a class="reference internal" href="#GstBase.Aggregator.finish_buffer_list" title="GstBase.Aggregator.finish_buffer_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.finish_buffer_list</span></code></a>().</p>
+</li>
+<li><p class="first">Same goes for EOS events, which should not be pushed directly by the
 subclass, it should instead return <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowReturn.EOS" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.FlowReturn.EOS</span></code></a> in its aggregate
-implementation.</li>
-<li>Note that the aggregator logic regarding gap event handling is to turn
+implementation.</p>
+</li>
+<li><p class="first">Note that the aggregator logic regarding gap event handling is to turn
 these into gap buffers with matching PTS and duration. It will also
 flag these buffers with <a class="reference external" href="../../Gst-1.0/flags.html#Gst.BufferFlags.GAP" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.BufferFlags.GAP</span></code></a> and <a class="reference external" href="../../Gst-1.0/flags.html#Gst.BufferFlags.DROPPABLE" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.BufferFlags.DROPPABLE</span></code></a>
-to ease their identification and subsequent processing.</li>
-<li>Subclasses must use (a subclass of) <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad</span></code></a> for both their
+to ease their identification and subsequent processing.</p>
+</li>
+<li><p class="first">Subclasses must use (a subclass of) <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad</span></code></a> for both their
 sink and source pads.
-See <a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#Gst.ElementClass.add_static_pad_template_with_gtype" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.ElementClass.add_static_pad_template_with_gtype</span></code></a>().</li>
+See <a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#Gst.ElementClass.add_static_pad_template_with_gtype" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.ElementClass.add_static_pad_template_with_gtype</span></code></a>().</p>
+</li>
 </ul>
 <p>This class used to live in gst-plugins-bad and was moved to core.</p>
 <div class="versionadded">
@@ -592,7 +617,7 @@ See <a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#
 </div>
 <dl class="method">
 <dt id="GstBase.Aggregator.finish_buffer">
-<code class="descname">finish_buffer</code><span class="sig-paren">(</span><em>buffer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L668"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.finish_buffer" title="Permalink to this definition">¶</a></dt>
+<code class="descname">finish_buffer</code><span class="sig-paren">(</span><em>buffer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L687"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.finish_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -610,7 +635,7 @@ sent before pushing the buffer.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.finish_buffer_list">
-<code class="descname">finish_buffer_list</code><span class="sig-paren">(</span><em>bufferlist</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L710"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.finish_buffer_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">finish_buffer_list</code><span class="sig-paren">(</span><em>bufferlist</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L729"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.finish_buffer_list" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -631,7 +656,7 @@ sent before pushing the buffer.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.get_allocator">
-<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3541"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_allocator" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_allocator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3634"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_allocator" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -661,7 +686,7 @@ acquired by the base class and its <cite>params</cite>.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.get_buffer_pool">
-<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3511"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_buffer_pool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3604"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_buffer_pool" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -677,7 +702,7 @@ by <cite>trans</cite>; free it after use it</td>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.get_latency">
-<code class="descname">get_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L2094"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_latency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_latency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L2150"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.get_latency" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -696,7 +721,7 @@ will not wait for the clock.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.negotiate">
-<code class="descname">negotiate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L1258"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.negotiate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">negotiate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L1294"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.negotiate" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -717,7 +742,7 @@ if <a class="reference internal" href="#GstBase.Aggregator.do_negotiate" title="
 
 <dl class="method">
 <dt id="GstBase.Aggregator.peek_next_sample">
-<code class="descname">peek_next_sample</code><span class="sig-paren">(</span><em>pad</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L315"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.peek_next_sample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">peek_next_sample</code><span class="sig-paren">(</span><em>pad</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L334"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.peek_next_sample" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -744,7 +769,7 @@ control aggregating parameters for a given set of input samples.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.selected_samples">
-<code class="descname">selected_samples</code><span class="sig-paren">(</span><em>pts</em>, <em>dts</em>, <em>duration</em>, <em>info</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3644"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.selected_samples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">selected_samples</code><span class="sig-paren">(</span><em>pts</em>, <em>dts</em>, <em>duration</em>, <em>info</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3737"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.selected_samples" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -775,7 +800,7 @@ function.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.set_latency">
-<code class="descname">set_latency</code><span class="sig-paren">(</span><em>min_latency</em>, <em>max_latency</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3475"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.set_latency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_latency</code><span class="sig-paren">(</span><em>min_latency</em>, <em>max_latency</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3568"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.set_latency" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -795,7 +820,7 @@ can reconfigure its global latency.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.set_src_caps">
-<code class="descname">set_src_caps</code><span class="sig-paren">(</span><em>caps</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L631"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.set_src_caps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_src_caps</code><span class="sig-paren">(</span><em>caps</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L650"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.set_src_caps" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -809,7 +834,7 @@ can reconfigure its global latency.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.simple_get_next_time">
-<code class="descname">simple_get_next_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3569"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.simple_get_next_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">simple_get_next_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3662"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.simple_get_next_time" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -832,7 +857,7 @@ and you have a dead line based aggregator subclass.</p>
 
 <dl class="method">
 <dt id="GstBase.Aggregator.update_segment">
-<code class="descname">update_segment</code><span class="sig-paren">(</span><em>segment</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.0/libs/gst/base/gstaggregator.c#L3603"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.update_segment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_segment</code><span class="sig-paren">(</span><em>segment</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.18.1/libs/gst/base/gstaggregator.c#L3696"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstBase.Aggregator.update_segment" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

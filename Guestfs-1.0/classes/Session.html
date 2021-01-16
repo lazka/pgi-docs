@@ -596,6 +596,12 @@
 <td><a class="reference internal" href="#Guestfs.Session.cpio_out" title="Guestfs.Session.cpio_out"><code class="xref py py-func docutils literal notranslate"><span class="pre">cpio_out</span></code></a> (directory, cpiofile, optargs, cancellable)</td>
 </tr>
 <tr class="row-odd"><td>&#160;</td>
+<td><a class="reference internal" href="#Guestfs.Session.cryptsetup_close" title="Guestfs.Session.cryptsetup_close"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptsetup_close</span></code></a> (device)</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Guestfs.Session.cryptsetup_open" title="Guestfs.Session.cryptsetup_open"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptsetup_open</span></code></a> (device, key, mapname, optargs)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Guestfs.Session.dd" title="Guestfs.Session.dd"><code class="xref py py-func docutils literal notranslate"><span class="pre">dd</span></code></a> (src, dest)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
@@ -6212,6 +6218,93 @@ with the cpio-like format used by the Linux kernel for initramfs.</p>
 New (SVR4) portable format with a checksum.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.27.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Guestfs.Session.cryptsetup_close">
+<code class="descname">cryptsetup_close</code><span class="sig-paren">(</span><em>device</em><span class="sig-paren">)</span><a class="headerlink" href="#Guestfs.Session.cryptsetup_close" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>device</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">true on success, false on error</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>close an encrypted device</p>
+<p>This closes an encrypted device that was created earlier by
+<a class="reference internal" href="#Guestfs.Session.cryptsetup_open" title="Guestfs.Session.cryptsetup_open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.cryptsetup_open</span></code></a>(). The <cite>device</cite> parameter must be the
+name of the mapping device (ie. /dev/mapper/mapname) and *not* the name
+of the underlying block device.</p>
+<p>This function depends on the feature “luks”.
+See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.43.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Guestfs.Session.cryptsetup_open">
+<code class="descname">cryptsetup_open</code><span class="sig-paren">(</span><em>device</em>, <em>key</em>, <em>mapname</em>, <em>optargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Guestfs.Session.cryptsetup_open" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>device</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </li>
+<li><strong>key</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </li>
+<li><strong>mapname</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </li>
+<li><strong>optargs</strong> (<a class="reference internal" href="CryptsetupOpen.html#Guestfs.CryptsetupOpen" title="Guestfs.CryptsetupOpen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.CryptsetupOpen</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference internal" href="CryptsetupOpen.html#Guestfs.CryptsetupOpen" title="Guestfs.CryptsetupOpen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.CryptsetupOpen</span></code></a> containing optional arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">true on success, false on error</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>open an encrypted block device</p>
+<p>This command opens a block device which has been encrypted according to
+the Linux Unified Key Setup (LUKS) standard, Windows BitLocker, or some
+other types.</p>
+<p><cite>device</cite> is the encrypted block device or partition.</p>
+<p>The caller must supply one of the keys associated with the encrypted
+block device, in the <cite>key</cite> parameter.</p>
+<p>This creates a new block device called /dev/mapper/mapname. Reads and
+writes to this block device are decrypted from and encrypted to the
+underlying <cite>device</cite> respectively.</p>
+<p><cite>mapname</cite> cannot be “control” because that name is reserved by
+device-mapper.</p>
+<p>If the optional <cite>crypttype</cite> parameter is not present then libguestfs
+tries to guess the correct type (for example LUKS or BitLocker). However
+you can override this by specifying one of the following types:</p>
+<p><cite>luks</cite>
+A Linux LUKS device.</p>
+<p><cite>bitlk</cite>
+A Windows BitLocker device.</p>
+<p>The optional <cite>readonly</cite> flag, if set to true, creates a read-only
+mapping.</p>
+<p>If this block device contains LVM volume groups, then calling
+<a class="reference internal" href="#Guestfs.Session.lvm_scan" title="Guestfs.Session.lvm_scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.lvm_scan</span></code></a>() with the <cite>activate</cite> parameter <cite>true</cite> will make
+them visible.</p>
+<p>Use <a class="reference internal" href="#Guestfs.Session.list_dm_devices" title="Guestfs.Session.list_dm_devices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.list_dm_devices</span></code></a>() to list all device mapper devices.</p>
+<p>This function depends on the feature “luks”.
+See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.43.2.</span></p>
 </div>
 </dd></dl>
 
@@ -13727,6 +13820,9 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.5.1.</span></p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version ???: </span>In new code, use <a class="reference internal" href="#Guestfs.Session.cryptsetup_close" title="Guestfs.Session.cryptsetup_close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.cryptsetup_close</span></code></a>() instead</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -13879,6 +13975,9 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.5.1.</span></p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version ???: </span>In new code, use <a class="reference internal" href="#Guestfs.Session.cryptsetup_open" title="Guestfs.Session.cryptsetup_open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.cryptsetup_open</span></code></a>() instead</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -13913,6 +14012,9 @@ mapping is created.</p>
 See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 1.5.1.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version ???: </span>In new code, use <a class="reference internal" href="#Guestfs.Session.cryptsetup_open" title="Guestfs.Session.cryptsetup_open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.cryptsetup_open</span></code></a>() instead</p>
 </div>
 </dd></dl>
 
@@ -14036,7 +14138,7 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 the canonical name. For example, /dev/mapper/VG-LV is converted to
 /dev/VG/LV.</p>
 <p>This command returns an error if the <cite>lvname</cite> parameter does not refer to
-a logical volume.</p>
+a logical volume. In this case errno will be set to EINVAL.</p>
 <p>See also <a class="reference internal" href="#Guestfs.Session.is_lv" title="Guestfs.Session.is_lv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.is_lv</span></code></a>(),
 <a class="reference internal" href="#Guestfs.Session.canonical_device_name" title="Guestfs.Session.canonical_device_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.canonical_device_name</span></code></a>().</p>
 <div class="versionadded">

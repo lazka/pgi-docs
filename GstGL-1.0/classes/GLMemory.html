@@ -310,9 +310,14 @@ OpenGL textures.</p>
 <p><a class="reference internal" href="#GstGL.GLMemory" title="GstGL.GLMemory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLMemory</span></code></a> is created or wrapped through <a class="reference internal" href="GLBaseMemory.html#GstGL.GLBaseMemory.alloc" title="GstGL.GLBaseMemory.alloc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLBaseMemory.alloc</span></code></a>()
 with <a class="reference internal" href="GLVideoAllocationParams.html#GstGL.GLVideoAllocationParams" title="GstGL.GLVideoAllocationParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLVideoAllocationParams</span></code></a>.</p>
 <p>Data is uploaded or downloaded from the GPU as is necessary.</p>
+<p>The <a class="reference external" href="../../Gst-1.0/classes/Caps.html#Gst.Caps" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Caps</span></code></a> that is used for <a class="reference internal" href="#GstGL.GLMemory" title="GstGL.GLMemory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLMemory</span></code></a> based buffers should contain
+the <a class="reference internal" href="../constants.html#GstGL.CAPS_FEATURE_MEMORY_GL_MEMORY" title="GstGL.CAPS_FEATURE_MEMORY_GL_MEMORY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.CAPS_FEATURE_MEMORY_GL_MEMORY</span></code></a> as a <a class="reference external" href="../../Gst-1.0/classes/CapsFeatures.html#Gst.CapsFeatures" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.CapsFeatures</span></code></a> and should
+contain a ‘texture-target’ field with one of the <a class="reference internal" href="../enums.html#GstGL.GLTextureTarget" title="GstGL.GLTextureTarget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLTextureTarget</span></code></a> values
+as a string, i.e. some combination of ‘texture-target=(string){2D,
+rectangle, external-oes}’.</p>
 <dl class="classmethod">
 <dt id="GstGL.GLMemory.init_once">
-<em class="property">classmethod </em><code class="descname">init_once</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1102"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.init_once" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">init_once</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1108"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.init_once" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the GL Base Texture allocator. It is safe to call this function
 multiple times.  This must be called before any other <a class="reference internal" href="#GstGL.GLMemory" title="GstGL.GLMemory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGL.GLMemory</span></code></a> operation.</p>
 <div class="versionadded">
@@ -322,7 +327,7 @@ multiple times.  This must be called before any other <a class="reference intern
 
 <dl class="method">
 <dt id="GstGL.GLMemory.copy_into">
-<code class="descname">copy_into</code><span class="sig-paren">(</span><em>tex_id</em>, <em>target</em>, <em>tex_format</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L996"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.copy_into" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_into</code><span class="sig-paren">(</span><em>tex_id</em>, <em>target</em>, <em>tex_format</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1002"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.copy_into" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -353,7 +358,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.copy_teximage">
-<code class="descname">copy_teximage</code><span class="sig-paren">(</span><em>tex_id</em>, <em>out_target</em>, <em>out_tex_format</em>, <em>out_width</em>, <em>out_height</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L651"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.copy_teximage" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_teximage</code><span class="sig-paren">(</span><em>tex_id</em>, <em>out_target</em>, <em>out_tex_format</em>, <em>out_width</em>, <em>out_height</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L657"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.copy_teximage" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -384,7 +389,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.get_texture_format">
-<code class="descname">get_texture_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1054"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_format" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_texture_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1060"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_format" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -402,7 +407,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.get_texture_height">
-<code class="descname">get_texture_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1038"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_height" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_texture_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1044"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_height" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -420,7 +425,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.get_texture_id">
-<code class="descname">get_texture_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1086"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_texture_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1092"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_id" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -438,7 +443,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.get_texture_target">
-<code class="descname">get_texture_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1070"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_target" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_texture_target</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1076"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_target" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -456,7 +461,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.get_texture_width">
-<code class="descname">get_texture_width</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L1022"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_width" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_texture_width</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L1028"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.get_texture_width" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -474,7 +479,7 @@ is specified by <cite>tex_format</cite>, <cite>width</cite> and <cite>height</ci
 
 <dl class="method">
 <dt id="GstGL.GLMemory.init">
-<code class="descname">init</code><span class="sig-paren">(</span><em>allocator</em>, <em>parent</em>, <em>context</em>, <em>target</em>, <em>tex_format</em>, <em>params</em>, <em>info</em>, <em>plane</em>, <em>valign</em>, <em>user_data</em>, <em>notify</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L313"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.init" title="Permalink to this definition">¶</a></dt>
+<code class="descname">init</code><span class="sig-paren">(</span><em>allocator</em>, <em>parent</em>, <em>context</em>, <em>target</em>, <em>tex_format</em>, <em>params</em>, <em>info</em>, <em>plane</em>, <em>valign</em>, <em>user_data</em>, <em>notify</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L319"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.init" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -505,7 +510,7 @@ already have been modified with <a class="reference external" href="../../GstVid
 
 <dl class="method">
 <dt id="GstGL.GLMemory.read_pixels">
-<code class="descname">read_pixels</code><span class="sig-paren">(</span><em>write_pointer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L376"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.read_pixels" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_pixels</code><span class="sig-paren">(</span><em>write_pointer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L382"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.read_pixels" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -530,7 +535,7 @@ details.</p>
 
 <dl class="method">
 <dt id="GstGL.GLMemory.texsubimage">
-<code class="descname">texsubimage</code><span class="sig-paren">(</span><em>read_pointer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.2/gl/gstglmemory.c#L528"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.texsubimage" title="Permalink to this definition">¶</a></dt>
+<code class="descname">texsubimage</code><span class="sig-paren">(</span><em>read_pointer</em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.18.3/gl/gstglmemory.c#L534"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GstGL.GLMemory.texsubimage" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

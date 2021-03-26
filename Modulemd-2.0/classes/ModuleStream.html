@@ -305,6 +305,9 @@
 <td><a class="reference internal" href="#Modulemd.ModuleStream.upgrade" title="Modulemd.ModuleStream.upgrade"><code class="xref py py-func docutils literal notranslate"><span class="pre">upgrade</span></code></a> (mdversion)</td>
 </tr>
 <tr class="row-even"><td>&#160;</td>
+<td><a class="reference internal" href="#Modulemd.ModuleStream.upgrade_ext" title="Modulemd.ModuleStream.upgrade_ext"><code class="xref py py-func docutils literal notranslate"><span class="pre">upgrade_ext</span></code></a> (mdversion)</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
 <td><a class="reference internal" href="#Modulemd.ModuleStream.validate" title="Modulemd.ModuleStream.validate"><code class="xref py py-func docutils literal notranslate"><span class="pre">validate</span></code></a> ()</td>
 </tr>
 </tbody>
@@ -513,7 +516,7 @@ auto-detected from git.</li>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A newly-allocated <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> object if
 the YAML file was valid and contained exactly one <code class="docutils literal notranslate"><span class="pre">document:</span> <span class="pre">modulemd</span></code>
 subdocument. <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the document fails validation or multiple documents are
-encountered and sets <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> appropriately. See <a class="reference internal" href="ModuleIndex.html#Modulemd.ModuleIndex" title="Modulemd.ModuleIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleIndex</span></code></a> for
+encountered and sets <cite>error</cite> appropriately. See <a class="reference internal" href="ModuleIndex.html#Modulemd.ModuleIndex" title="Modulemd.ModuleIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleIndex</span></code></a> for
 functions to read in multiple-subdocument YAML.</p>
 </td>
 </tr>
@@ -523,8 +526,17 @@ functions to read in multiple-subdocument YAML.</p>
 </tbody>
 </table>
 <p>Create a <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> object from a YAML file.</p>
+<p>Note: This function also reads modulemd-packager v2 and v3 documents, which
+are transparently returned as <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> (V2) objects. However,
+if a modulemd-packager v3 document (<a class="reference internal" href="PackagerV3.html#Modulemd.PackagerV3" title="Modulemd.PackagerV3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.PackagerV3</span></code></a>) is encountered and
+it uses buildopts (<a class="reference internal" href="Buildopts.html#Modulemd.Buildopts" title="Modulemd.Buildopts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.Buildopts</span></code></a>) in one or more build configurations,
+only the buildopts present in the first listed configuration (if any) will be
+applied to the returned <a class="reference internal" href="ModuleStreamV2.html#Modulemd.ModuleStreamV2" title="Modulemd.ModuleStreamV2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStreamV2</span></code></a> object.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.0.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.11: </span>Use <a class="reference internal" href="../functions.html#Modulemd.read_packager_file" title="Modulemd.read_packager_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.read_packager_file</span></code></a>() instead.</p>
 </div>
 </dd></dl>
 
@@ -555,7 +567,7 @@ auto-detected from git.</li>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A newly-allocated <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> object if
 the YAML string was valid and contained exactly one <code class="docutils literal notranslate"><span class="pre">document:</span> <span class="pre">modulemd</span></code>
 subdocument. <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the document fails validation or multiple documents are
-encountered and sets <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> appropriately. See <a class="reference internal" href="ModuleIndex.html#Modulemd.ModuleIndex" title="Modulemd.ModuleIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleIndex</span></code></a> for
+encountered and sets <cite>error</cite> appropriately. See <a class="reference internal" href="ModuleIndex.html#Modulemd.ModuleIndex" title="Modulemd.ModuleIndex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleIndex</span></code></a> for
 functions to read in multiple-subdocument YAML.</p>
 </td>
 </tr>
@@ -565,8 +577,17 @@ functions to read in multiple-subdocument YAML.</p>
 </tbody>
 </table>
 <p>Create a <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> object from a YAML string.</p>
+<p>Note: This function also reads modulemd-packager v2 and v3 documents, which
+are transparently returned as <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> (V2) objects. However,
+if a modulemd-packager v3 document (<a class="reference internal" href="PackagerV3.html#Modulemd.PackagerV3" title="Modulemd.PackagerV3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.PackagerV3</span></code></a>) is encountered and
+it uses buildopts (<a class="reference internal" href="Buildopts.html#Modulemd.Buildopts" title="Modulemd.Buildopts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.Buildopts</span></code></a>) in one or more build configurations,
+only the buildopts present in the first listed configuration (if any) will be
+applied to the returned <a class="reference internal" href="ModuleStreamV2.html#Modulemd.ModuleStreamV2" title="Modulemd.ModuleStreamV2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStreamV2</span></code></a> object.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.0.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.11: </span>Use <a class="reference internal" href="../functions.html#Modulemd.read_packager_string" title="Modulemd.read_packager_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.read_packager_string</span></code></a>() instead.</p>
 </div>
 </dd></dl>
 
@@ -908,6 +929,36 @@ appropriately if the upgrade could not be completed automatically.</td>
 <p>Return an upgraded copy of this object. Does not modify the original.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 2.0.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.10: </span>Use <a class="reference internal" href="#Modulemd.ModuleStream.upgrade_ext" title="Modulemd.ModuleStream.upgrade_ext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream.upgrade_ext</span></code></a>() instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Modulemd.ModuleStream.upgrade_ext">
+<code class="descname">upgrade_ext</code><span class="sig-paren">(</span><em>mdversion</em><span class="sig-paren">)</span><a class="headerlink" href="#Modulemd.ModuleStream.upgrade_ext" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mdversion</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The metadata version to upgrade to. If zero, upgrades to
+the highest-supported version.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A newly-allocated <a class="reference internal" href="Module.html#Modulemd.Module" title="Modulemd.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.Module</span></code></a> containing a copy
+of this object upgraded to the requested version, possibly with multiple
+streams. Returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and sets <cite>error</cite> appropriately if the upgrade could not
+be completed automatically.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="Module.html#Modulemd.Module" title="Modulemd.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.Module</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Does not modify the original <a class="reference internal" href="#Modulemd.ModuleStream" title="Modulemd.ModuleStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulemd.ModuleStream</span></code></a> object, <cite>from</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.10.</span></p>
 </div>
 </dd></dl>
 

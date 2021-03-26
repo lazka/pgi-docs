@@ -427,53 +427,7 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#GData.DocumentsSpreadsheet" title="GData.DocumentsSpreadsheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsSpreadsheet</span></code></a> is a subclass of <a class="reference internal" href="DocumentsDocument.html#GData.DocumentsDocument" title="GData.DocumentsDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsDocument</span></code></a> to represent a spreadsheet from Google Documents.</p>
-<p>For more details of Google Drive’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the
-&lt;ulink type=”http” url=”https://developers.google.com/drive/v2/web/about-sdk”&gt;online documentation&lt;/ulink&gt;.</p>
-<p>&lt;example&gt;
-&lt;title&gt;Downloading a Specific Sheet of a Spreadsheet&lt;/title&gt;
-&lt;programlisting&gt;
-<a class="reference internal" href="DocumentsService.html#GData.DocumentsService" title="GData.DocumentsService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService</span></code></a> *service;
-<a class="reference internal" href="#GData.DocumentsSpreadsheet" title="GData.DocumentsSpreadsheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsSpreadsheet</span></code></a> *spreadsheet;
-<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> *destination_file;
-<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a> gid;
-<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *download_uri;
-<a class="reference internal" href="DownloadStream.html#GData.DownloadStream" title="GData.DownloadStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DownloadStream</span></code></a> *download_stream;
-<a class="reference external" href="../../Gio-2.0/classes/FileOutputStream.html#Gio.FileOutputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileOutputStream</span></code></a> *output_stream;
-<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
-<p>/&lt;!– –&gt;* Create a service and retrieve the spreadsheet and sheet index (GID) to download and the file to save the download in *&lt;!– –&gt;/
-service = create_youtube_service ();
-spreadsheet = get_document_to_download (service);
-destination_file = query_user_for_destination_file (spreadsheet);
-gid = query_user_for_gid (spreadsheet);</p>
-<p>/&lt;!– –&gt;* Create the download stream *&lt;!– –&gt;/
-download_uri = <a class="reference internal" href="#GData.DocumentsSpreadsheet.get_download_uri" title="GData.DocumentsSpreadsheet.get_download_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsSpreadsheet.get_download_uri</span></code></a> (spreadsheet, <a class="reference internal" href="../constants.html#GData.DOCUMENTS_SPREADSHEET_CSV" title="GData.DOCUMENTS_SPREADSHEET_CSV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DOCUMENTS_SPREADSHEET_CSV</span></code></a>, gid);
-download_stream = GDATA_DOWNLOAD_STREAM (<a class="reference internal" href="DownloadStream.html#GData.DownloadStream.new" title="GData.DownloadStream.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DownloadStream.new</span></code></a> (service, <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.get_spreadsheet_authorization_domain" title="GData.DocumentsService.get_spreadsheet_authorization_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.get_spreadsheet_authorization_domain</span></code></a> (),
-download_uri, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>));
-<a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (download_uri);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (spreadsheet);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
-<p>/&lt;!– –&gt;* Create the file output stream *&lt;!– –&gt;/
-output_stream = <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File.replace" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.replace</span></code></a> (destination_file, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, <a class="reference external" href="../../Gio-2.0/flags.html#Gio.FileCreateFlags.REPLACE_DESTINATION" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileCreateFlags.REPLACE_DESTINATION</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (destination_file);</p>
-<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
-g_error (“Error creating destination file: %s”, error-&gt;message);
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (download_stream);
-return;
-}</p>
-<p>/&lt;!– –&gt;* Download the document. This should almost always be done asynchronously. *&lt;!– –&gt;/
-<a class="reference external" href="../../Gio-2.0/classes/OutputStream.html#Gio.OutputStream.splice" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.splice</span></code></a> (G_OUTPUT_STREAM (output_stream), G_INPUT_STREAM (download_stream),
-<a class="reference external" href="../../Gio-2.0/flags.html#Gio.OutputStreamSpliceFlags.CLOSE_SOURCE" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStreamSpliceFlags.CLOSE_SOURCE</span></code></a> | <a class="reference external" href="../../Gio-2.0/flags.html#Gio.OutputStreamSpliceFlags.CLOSE_TARGET" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStreamSpliceFlags.CLOSE_TARGET</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (output_stream);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (download_stream);</p>
-<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
-g_error (“Error downloading spreadsheet: %s”, error-&gt;message);
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
-return;
-}
-&lt;/programlisting&gt;
-&lt;/example&gt;</p>
+<p>All the fields in the <a class="reference internal" href="#GData.DocumentsSpreadsheet" title="GData.DocumentsSpreadsheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsSpreadsheet</span></code></a> structure are private and should never be accessed directly.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>

@@ -435,48 +435,7 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#GData.DocumentsQuery" title="GData.DocumentsQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery</span></code></a> represents a collection of query parameters specific to the Google Documents service, which go above and beyond
-those catered for by <a class="reference internal" href="Query.html#GData.Query" title="GData.Query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Query</span></code></a>.</p>
-<p>For more information on the custom <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> query parameters supported by <a class="reference internal" href="#GData.DocumentsQuery" title="GData.DocumentsQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery</span></code></a>, see the &lt;ulink type=”http”
-url=”https://developers.google.com/google-apps/documents-list/#searching_for_documents_and_files”&gt;online documentation&lt;/ulink&gt;.</p>
-<p>&lt;example&gt;
-&lt;title&gt;Querying for Documents&lt;/title&gt;
-&lt;programlisting&gt;
-<a class="reference internal" href="DocumentsService.html#GData.DocumentsService" title="GData.DocumentsService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService</span></code></a> *service;
-<a class="reference internal" href="#GData.DocumentsQuery" title="GData.DocumentsQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery</span></code></a> *query;
-<a class="reference internal" href="Feed.html#GData.Feed" title="GData.Feed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Feed</span></code></a> *feed;
-<a class="reference external" href="../../GLib-2.0/classes/TimeVal.html#GLib.TimeVal" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a> current_time;
-<a class="reference external" href="../../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.List</span></code></a> *i;
-<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
-<p>/&lt;!– –&gt;* Create a service *&lt;!– –&gt;/
-service = create_documents_service ();</p>
-<p>/&lt;!– –&gt;* Create the query to use. We’re going to query for the last 10 documents modified by example`gmail`.com in the past week, including</p>
-<ul class="simple">
-<li>deleted documents. *&lt;!– –&gt;/
-query = <a class="reference internal" href="#GData.DocumentsQuery.new_with_limits" title="GData.DocumentsQuery.new_with_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery.new_with_limits</span></code></a> (<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, 0, 10);</li>
-</ul>
-<p><a class="reference internal" href="#GData.DocumentsQuery.add_collaborator" title="GData.DocumentsQuery.add_collaborator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery.add_collaborator</span></code></a> (query, “example`gmail`.com”);
-<a class="reference internal" href="#GData.DocumentsQuery.set_show_deleted" title="GData.DocumentsQuery.set_show_deleted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery.set_show_deleted</span></code></a> (query, <a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>);</p>
-<p><a class="reference external" href="../../GLib-2.0/functions.html#GLib.get_current_time" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_current_time</span></code></a> (&amp;current_time);
-<a class="reference internal" href="Query.html#GData.Query.set_updated_min" title="GData.Query.set_updated_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Query.set_updated_min</span></code></a> (GDATA_QUERY (query), current_time.tv_sec - 7 * 24 * 60 * 60);
-<a class="reference internal" href="Query.html#GData.Query.set_updated_max" title="GData.Query.set_updated_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Query.set_updated_max</span></code></a> (GDATA_QUERY (query), current_time.tv_sec);</p>
-<p>/&lt;!– –&gt;* Execute the query *&lt;!– –&gt;/
-feed = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.query_documents" title="GData.DocumentsService.query_documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.query_documents</span></code></a> (service, query, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (query);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
-<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
-g_error (“Error querying for documents: %s”, error-&gt;message);
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
-return;
-}</p>
-<p>/&lt;!– –&gt;* Iterate through the returned documents and do something with them *&lt;!– –&gt;/
-for (i = <a class="reference internal" href="Feed.html#GData.Feed.get_entries" title="GData.Feed.get_entries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Feed.get_entries</span></code></a> (feed); i != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>; i = i-&gt;next) {
-<a class="reference internal" href="DocumentsDocument.html#GData.DocumentsDocument" title="GData.DocumentsDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsDocument</span></code></a> *document = GDATA_DOCUMENTS_DOCUMENT (i-&gt;data);</p>
-<p>/&lt;!– –&gt;* Do something with the document here, such as insert it into a UI *&lt;!– –&gt;/
-}</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (feed);
-&lt;/programlisting&gt;
-&lt;/example&gt;</p>
+<p>All the fields in the <a class="reference internal" href="#GData.DocumentsQuery" title="GData.DocumentsQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsQuery</span></code></a> structure are private and should never be accessed directly.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>

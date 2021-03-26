@@ -656,68 +656,7 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#GData.PicasaWebFile" title="GData.PicasaWebFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebFile</span></code></a> is a subclass of <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> to represent a file (photo or video) in an album on Google PicasaWeb.</p>
-<p><a class="reference internal" href="#GData.PicasaWebFile" title="GData.PicasaWebFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebFile</span></code></a> implements <a class="reference internal" href="Commentable.html#GData.Commentable" title="GData.Commentable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Commentable</span></code></a>, allowing comments on files to be queried using <a class="reference internal" href="Commentable.html#GData.Commentable.query_comments" title="GData.Commentable.query_comments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Commentable.query_comments</span></code></a>(), new
-comments to be added to files using <a class="reference internal" href="Commentable.html#GData.Commentable.insert_comment" title="GData.Commentable.insert_comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Commentable.insert_comment</span></code></a>() and existing comments to be deleted from files using
-<a class="reference internal" href="Commentable.html#GData.Commentable.delete_comment" title="GData.Commentable.delete_comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Commentable.delete_comment</span></code></a>().</p>
-<p>For more details of Google PicasaWeb’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the</p>
-<p><a class="reference external" href="http://code.google.com/apis/picasaweb/developers_guide_protocol.html">online documentation</a>.</p>
-<dl class="docutils">
-<dt>Getting Basic Photo Data</dt>
-<dd></dd>
-</dl>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GDataFeed *photo_feed;
-GList *photo_entries;
-
-/* Query for a feed of GDataPicasaWebFiles belonging to the given GDataPicasaWebAlbum album */
-photo_feed = gdata_picasaweb_service_query_files (service, album, NULL, NULL, NULL, NULL, NULL);
-
-/* Get a list of GDataPicasaWebFiles from the query&#39;s feed */
-for (photo_entries = gdata_feed_get_entries (photo_feed); photo_entries != NULL; photo_entries = photo_entries-&gt;next) {
-        GDataPicasaWebFile *photo;
-        guint height, width;
-        gsize file_size;
-        gint64 timestamp;
-        const gchar *title, *summary;
-        GList *contents;
-
-        photo = GDATA_PICASAWEB_FILE (photo_entries-&gt;data);
-
-        /* Get various bits of information about the photo */
-        height = gdata_picasaweb_file_get_height (photo);
-        width = gdata_picasaweb_file_get_width (photo);
-        file_size = gdata_picasaweb_file_get_size (photo);
-        timestamp = gdata_picasaweb_file_get_timestamp (photo);
-        title = gdata_entry_get_title (GDATA_ENTRY (photo));
-        summary = gdata_entry_get_summary (GDATA_ENTRY (photo));
-
-        /* Obtain the image data at various sizes */
-        for (contents = gdata_picasaweb_file_get_contents (photo); contents != NULL; contents = contents-&gt;next) {
-                GDataMediaContent *content;
-                GDataDownloadStream *download_stream;
-                GFileOutputStream *file_stream;
-                GFile *new_file;
-
-                content = GDATA_MEDIA_CONTENT (contents-&gt;data);
-                /* Do something fun with the actual images, like download them to a file.
-                 * Note that this is a blocking operation. */
-                download_stream = gdata_media_content_download (content, GDATA_SERVICE (service), NULL, NULL);
-                new_file = g_file_new_for_path (file_path);
-                file_stream = g_file_create (new_file, G_FILE_CREATE_NONE, NULL, NULL);
-                g_output_stream_splice (G_OUTPUT_STREAM (file_stream), G_INPUT_STREAM (download_stream),
-                                        G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE | G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET, NULL, NULL);
-                g_object_unref (file_stream);
-                g_object_unref (download_stream);
-                /* ... */
-                g_object_unref (new_file);
-        }
-
-        /* Do something worthwhile with your image data */
-}
-
-g_object_unref (photo_feed);
-</pre></div>
-</div>
+<p>All the fields in the <a class="reference internal" href="#GData.PicasaWebFile" title="GData.PicasaWebFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.PicasaWebFile</span></code></a> structure are private and should never be accessed directly.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>

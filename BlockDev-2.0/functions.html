@@ -72,7 +72,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="BlockDev 2.0 Python API Docs" href="index.html"/>
         <link rel="next" title="Callbacks" href="callbacks.html"/>
-        <link rel="prev" title="BlockDev 2.0 (2.24)" href="index.html"/> 
+        <link rel="prev" title="BlockDev 2.0 (2.25)" href="index.html"/> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -5997,15 +5997,14 @@ using given <cite>pe_size</cite>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>size</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – size of the thin pool</li>
 <li><strong>chunk_size</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – chunk size of the thin pool or 0 to use the default (<a class="reference internal" href="constants.html#BlockDev.LVM_DEFAULT_CHUNK_SIZE" title="BlockDev.LVM_DEFAULT_CHUNK_SIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockDev.LVM_DEFAULT_CHUNK_SIZE</span></code></a>)</li>
-<li><strong>n_snapshots</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of snapshots that will be created in the pool</li>
+<li><strong>n_snapshots</strong> (<a class="reference external" href="http://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – ignored</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>recommended size of the metadata space for the specified pool or 0
-in case of error</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>recommended size of the metadata space for the specified pool</p>
 <p>Tech category: <a class="reference internal" href="enums.html#BlockDev.LVMTech.THIN_CALCS" title="BlockDev.LVMTech.THIN_CALCS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockDev.LVMTech.THIN_CALCS</span></code></a> no mode (it is ignored)</p>
 </p>
 </td>
@@ -6015,6 +6014,8 @@ in case of error</p>
 </tr>
 </tbody>
 </table>
+<p>Note: This function will be changed in 3.0: the <cite>n_snapshots</cite> parameter
+is currently not used and will be removed.</p>
 </dd></dl>
 
 <dl class="function">
@@ -9613,6 +9614,8 @@ or not.</p>
 </tr>
 </tbody>
 </table>
+<p>Note that any <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> bytes read from standard output and standard error
+output will be discarded.</p>
 </dd></dl>
 
 <dl class="function">
@@ -9677,7 +9680,7 @@ or not.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>argv</strong> ([<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – the argv array for the call</li>
 <li><strong>extra</strong> ([<a class="reference internal" href="classes/ExtraArg.html#BlockDev.ExtraArg" title="BlockDev.ExtraArg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockDev.ExtraArg</span></code></a>] or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – extra arguments</li>
-<li><strong>prog_extract</strong> (<a class="reference internal" href="callbacks.html#BlockDev.UtilsProgExtract" title="BlockDev.UtilsProgExtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockDev.UtilsProgExtract</span></code></a>) – function for extracting progress information</li>
+<li><strong>prog_extract</strong> (<a class="reference internal" href="callbacks.html#BlockDev.UtilsProgExtract" title="BlockDev.UtilsProgExtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockDev.UtilsProgExtract</span></code></a> or <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – function for extracting progress information</li>
 </ul>
 </td>
 </tr>
@@ -9701,6 +9704,9 @@ or not.</p>
 </tr>
 </tbody>
 </table>
+<p>Note that any <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> bytes read from standard output and standard error
+output are treated as separators similar to newlines and <cite>prog_extract</cite>
+will be called with the respective chunk.</p>
 </dd></dl>
 
 <dl class="function">

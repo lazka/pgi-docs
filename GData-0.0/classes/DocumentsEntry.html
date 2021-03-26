@@ -497,60 +497,7 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> is a subclass of <a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> to represent a Google Drive entry, which is then further subclassed
-to give specific document types.</p>
-<p><a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> implements <a class="reference internal" href="AccessHandler.html#GData.AccessHandler" title="GData.AccessHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessHandler</span></code></a>, meaning the access rules to it can be modified using that interface. As well as the
-access roles defined for the base <a class="reference internal" href="AccessRule.html#GData.AccessRule" title="GData.AccessRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.AccessRule</span></code></a> (e.g. <a class="reference internal" href="../constants.html#GData.ACCESS_ROLE_NONE" title="GData.ACCESS_ROLE_NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.ACCESS_ROLE_NONE</span></code></a>), <a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> has its own, such as
-<a class="reference internal" href="../constants.html#GData.DOCUMENTS_ACCESS_ROLE_OWNER" title="GData.DOCUMENTS_ACCESS_ROLE_OWNER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DOCUMENTS_ACCESS_ROLE_OWNER</span></code></a> and <a class="reference internal" href="../constants.html#GData.DOCUMENTS_ACCESS_ROLE_READER" title="GData.DOCUMENTS_ACCESS_ROLE_READER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DOCUMENTS_ACCESS_ROLE_READER</span></code></a>.</p>
-<p>Documents can (confusingly) be referenced by three different types of IDs: their entry ID, their resource ID and their document ID (untyped resource
-ID). Each is a substring of the previous ones (i.e. the entry ID contains the resource ID, which in turn contains the document ID). The resource ID
-and document ID should almost always be considered as internal, and thus entry IDs (<a class="reference internal" href="Entry.html#GData.Entry" title="GData.Entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.Entry</span></code></a> <a class="reference internal" href="Entry.html#GData.Entry.props.id" title="GData.Entry.props.id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:id</span></code></a>) should normally be used to uniquely identify
-documents. For more information, see <a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> <a class="reference internal" href="#GData.DocumentsEntry.props.resource_id" title="GData.DocumentsEntry.props.resource_id"><code class="xref py py-data docutils literal notranslate"><span class="pre">:resource-id</span></code></a>.</p>
-<p>For more details of Google Drive’s <a class="reference external" href="../../GLib-2.0/classes/Data.html#GLib.Data" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Data</span></code></a> API, see the
-&lt;ulink type=”http” url=”https://developers.google.com/drive/v2/web/about-sdk”&gt;online documentation&lt;/ulink&gt;.</p>
-<p>&lt;example&gt;
-&lt;title&gt;Moving an Entry Between Folders&lt;/title&gt;
-&lt;programlisting&gt;
-<a class="reference internal" href="DocumentsService.html#GData.DocumentsService" title="GData.DocumentsService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService</span></code></a> *service;
-<a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> *entry, *intermediate_entry, *updated_entry;
-<a class="reference internal" href="DocumentsFolder.html#GData.DocumentsFolder" title="GData.DocumentsFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsFolder</span></code></a> *old_folder, *new_folder;
-<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
-<p>/&lt;!– –&gt;* Create a service *&lt;!– –&gt;/
-service = create_documents_service ();</p>
-<p>/&lt;!– –&gt;* Get the entry, the folder it’s being moved out of, and the folder it’s being moved into. The entry can either be a document or</p>
-<ul class="simple">
-<li>another folder, allowing hierarchies of folders to be constructed. *&lt;!– –&gt;/
-entry = query_user_for_entry (service);
-old_folder = query_user_for_old_folder (service);
-new_folder = query_user_for_new_folder (service);</li>
-</ul>
-<p>/&lt;!– –&gt;* Add the entry to the new folder *&lt;!– –&gt;/
-intermediate_entry = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.add_entry_to_folder" title="GData.DocumentsService.add_entry_to_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.add_entry_to_folder</span></code></a> (service, entry, new_folder, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (entry);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (new_folder);</p>
-<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
-g_error (“Error adding entry to new folder: %s”, error-&gt;message);
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (old_folder);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);
-return;
-}</p>
-<p>/&lt;!– –&gt;* Remove the entry from the old folder *&lt;!– –&gt;/
-updated_entry = <a class="reference internal" href="DocumentsService.html#GData.DocumentsService.remove_entry_from_folder" title="GData.DocumentsService.remove_entry_from_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsService.remove_entry_from_folder</span></code></a> (service, intermediate_entry, old_folder, <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, &amp;error);</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (intermediate_entry);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (old_folder);
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (service);</p>
-<p>if (error != <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) {
-/&lt;!– –&gt;* Note that you might want to attempt to remove the intermediate_entry from the new_folder in this error case, so that
-* the operation is aborted cleanly. *&lt;!– –&gt;/
-g_error (“Error removing entry from previous folder: %s”, error-&gt;message);
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error.free</span></code> (error);
-return;
-}</p>
-<p>/&lt;!– –&gt;* Do something with the updated entry *&lt;!– –&gt;/</p>
-<p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (updated_entry);
-&lt;/programlisting&gt;
-&lt;/example&gt;</p>
+<p>All the fields in the <a class="reference internal" href="#GData.DocumentsEntry" title="GData.DocumentsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GData.DocumentsEntry</span></code></a> structure are private and should never be accessed directly.</p>
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>

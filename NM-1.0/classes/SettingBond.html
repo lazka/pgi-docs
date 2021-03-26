@@ -425,8 +425,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the option to validate</li>
-<li><strong>value</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the value of the option to validate</li>
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the option to validate
+<cite>value</cite> (allow-none): the value of the option to validate.</li>
+<li><strong>value</strong> (<a class="reference external" href="http://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -456,8 +457,15 @@ the <cite>name</cite>. If <cite>value</cite> is <a class="reference external" hr
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="http://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the option was valid and was added to the internal option
-list, <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if it was not.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>returns <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if either <cite>name</cite> or <cite>value</cite> is <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, in that case
+the option is not set. Otherwise, the function does not fail and does not validate
+the arguments. All validation happens via <a class="reference internal" href="Connection.html#NM.Connection.verify" title="NM.Connection.verify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.Connection.verify</span></code></a>() or do basic validation
+yourself with <a class="reference internal" href="#NM.SettingBond.validate_option" title="NM.SettingBond.validate_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingBond.validate_option</span></code></a>().</p>
+<p>Note: Before 1.30, libnm would perform basic validation of the name and the value
+via <a class="reference internal" href="#NM.SettingBond.validate_option" title="NM.SettingBond.validate_option"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NM.SettingBond.validate_option</span></code></a>() and reject the request by returning <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.
+Since 1.30, libnm no longer rejects any values as the setter is not supposed
+to perform validation.</p>
+</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -465,12 +473,8 @@ list, <a class="reference external" href="http://docs.python.org/3/library/const
 </tr>
 </tbody>
 </table>
-<p>Add an option to the table.  The option is compared to an internal list
-of allowed options.  Option names may contain only alphanumeric characters
-(ie [a-zA-Z0-9]).  Adding a new name replaces any existing name/value pair
+<p>Add an option to the table. Adding a new name replaces any existing name/value pair
 that may already exist.</p>
-<p>The order of how to set several options is relevant because there are options
-that conflict with each other.</p>
 </dd></dl>
 
 <dl class="method">

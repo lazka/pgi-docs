@@ -2182,10 +2182,10 @@ the size returned by this function may not match the size set using
 implemented as an asynchronous operation, GTK+ cannot guarantee in any
 way that this code:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// width and height are set elsewhere</span>
-<span class="n">gtk_window_resize</span> <span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+<span class="n">gtk_window_resize</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">);</span><span class="w"></span>
 
-<span class="kt">int</span> <span class="n">new_width</span><span class="p">,</span> <span class="n">new_height</span><span class="p">;</span>
-<span class="n">gtk_window_get_size</span> <span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_width</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_height</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">new_width</span><span class="p">,</span><span class="w"> </span><span class="n">new_height</span><span class="p">;</span><span class="w"></span>
+<span class="n">gtk_window_get_size</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_width</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_height</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>will result in <code class="docutils literal notranslate"><span class="pre">new_width</span></code> and <code class="docutils literal notranslate"><span class="pre">new_height</span></code> matching <code class="docutils literal notranslate"><span class="pre">width</span></code> and
@@ -2203,15 +2203,15 @@ restore them when before showing the window.</p>
 function in response to a size change notification, for instance
 inside a handler for the <a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a> <a class="reference internal" href="Widget.html#Gtk.Widget.signals.size_allocate" title="Gtk.Widget.signals.size_allocate"><code class="xref py py-func docutils literal notranslate"><span class="pre">::size-allocate</span></code></a> signal, or
 inside a handler for the <a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a> <a class="reference internal" href="Widget.html#Gtk.Widget.signals.configure_event" title="Gtk.Widget.signals.configure_event"><code class="xref py py-func docutils literal notranslate"><span class="pre">::configure-event</span></code></a> signal:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">on_size_allocate</span> <span class="p">(</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">widget</span><span class="p">,</span> <span class="n">GtkAllocation</span> <span class="o">*</span><span class="n">allocation</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="kt">int</span> <span class="n">new_width</span><span class="p">,</span> <span class="n">new_height</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">on_size_allocate</span><span class="w"> </span><span class="p">(</span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">widget</span><span class="p">,</span><span class="w"> </span><span class="n">GtkAllocation</span><span class="w"> </span><span class="o">*</span><span class="n">allocation</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">new_width</span><span class="p">,</span><span class="w"> </span><span class="n">new_height</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">gtk_window_get_size</span> <span class="p">(</span><span class="n">GTK_WINDOW</span> <span class="p">(</span><span class="n">widget</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">new_width</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">new_height</span><span class="p">);</span>
+<span class="w">  </span><span class="n">gtk_window_get_size</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_width</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">new_height</span><span class="p">);</span><span class="w"></span>
 
-  <span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Note that, if you connect to the <a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a> <a class="reference internal" href="Widget.html#Gtk.Widget.signals.size_allocate" title="Gtk.Widget.signals.size_allocate"><code class="xref py py-func docutils literal notranslate"><span class="pre">::size-allocate</span></code></a> signal,
@@ -2605,55 +2605,55 @@ managers to honor the geometry.</p>
 to be called when the window has its “final” size, i.e. after calling
 <a class="reference internal" href="Widget.html#Gtk.Widget.show_all" title="Gtk.Widget.show_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget.show_all</span></code></a>() on the contents and <a class="reference internal" href="#Gtk.Window.set_geometry_hints" title="Gtk.Window.set_geometry_hints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window.set_geometry_hints</span></code></a>()
 on the window.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;gtk/gtk.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;gtk/gtk.h&gt;</span><span class="cp"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">fill_with_content</span> <span class="p">(</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">vbox</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="c1">// fill with content...</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">fill_with_content</span><span class="w"> </span><span class="p">(</span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">vbox</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// fill with content...</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">int</span>
-<span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-  <span class="n">GtkWidget</span> <span class="o">*</span><span class="n">window</span><span class="p">,</span> <span class="o">*</span><span class="n">vbox</span><span class="p">;</span>
-  <span class="n">GdkGeometry</span> <span class="n">size_hints</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="mi">10</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">GDK_GRAVITY_NORTH_WEST</span>
-  <span class="p">};</span>
+<span class="kt">int</span><span class="w"></span>
+<span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">vbox</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GdkGeometry</span><span class="w"> </span><span class="n">size_hints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">GDK_GRAVITY_NORTH_WEST</span><span class="w"></span>
+<span class="w">  </span><span class="p">};</span><span class="w"></span>
 
-  <span class="n">gtk_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+<span class="w">  </span><span class="n">gtk_init</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">window</span> <span class="o">=</span> <span class="n">gtk_window_new</span> <span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span>
-  <span class="n">vbox</span> <span class="o">=</span> <span class="n">gtk_box_new</span> <span class="p">(</span><span class="n">GTK_ORIENTATION_VERTICAL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_window_new</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_WINDOW_TOPLEVEL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">vbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_box_new</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_ORIENTATION_VERTICAL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">gtk_container_add</span> <span class="p">(</span><span class="n">GTK_CONTAINER</span> <span class="p">(</span><span class="n">window</span><span class="p">),</span> <span class="n">vbox</span><span class="p">);</span>
-  <span class="n">fill_with_content</span> <span class="p">(</span><span class="n">vbox</span><span class="p">);</span>
-  <span class="n">gtk_widget_show_all</span> <span class="p">(</span><span class="n">vbox</span><span class="p">);</span>
+<span class="w">  </span><span class="n">gtk_container_add</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_CONTAINER</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">),</span><span class="w"> </span><span class="n">vbox</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">fill_with_content</span><span class="w"> </span><span class="p">(</span><span class="n">vbox</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_widget_show_all</span><span class="w"> </span><span class="p">(</span><span class="n">vbox</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">gtk_window_set_geometry_hints</span> <span class="p">(</span><span class="n">GTK_WINDOW</span> <span class="p">(</span><span class="n">window</span><span class="p">),</span>
-                                <span class="nb">NULL</span><span class="p">,</span>
-                                <span class="o">&amp;</span><span class="n">size_hints</span><span class="p">,</span>
-                                <span class="n">GDK_HINT_MIN_SIZE</span> <span class="o">|</span>
-                                <span class="n">GDK_HINT_BASE_SIZE</span> <span class="o">|</span>
-                                <span class="n">GDK_HINT_RESIZE_INC</span><span class="p">);</span>
+<span class="w">  </span><span class="n">gtk_window_set_geometry_hints</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="o">&amp;</span><span class="n">size_hints</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">GDK_HINT_MIN_SIZE</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="w">                                </span><span class="n">GDK_HINT_BASE_SIZE</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="w">                                </span><span class="n">GDK_HINT_RESIZE_INC</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">gboolean</span> <span class="n">res</span><span class="p">;</span>
-      <span class="n">res</span> <span class="o">=</span> <span class="n">gtk_window_parse_geometry</span> <span class="p">(</span><span class="n">GTK_WINDOW</span> <span class="p">(</span><span class="n">window</span><span class="p">),</span>
-                                       <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">res</span><span class="p">)</span>
-        <span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span>
-                 <span class="s">&quot;Failed to parse “%s”</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
-                 <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">gboolean</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_window_parse_geometry</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="w"> </span><span class="n">res</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">fprintf</span><span class="w"> </span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&quot;Failed to parse “%s”</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">gtk_widget_show_all</span> <span class="p">(</span><span class="n">window</span><span class="p">);</span>
-  <span class="n">gtk_main</span> <span class="p">();</span>
+<span class="w">  </span><span class="n">gtk_widget_show_all</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_main</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="deprecated">

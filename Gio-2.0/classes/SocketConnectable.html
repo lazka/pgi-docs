@@ -300,55 +300,55 @@ implement <a class="reference internal" href="#Gio.SocketConnectable" title="Gio
 <a class="reference internal" href="#Gio.SocketConnectable.enumerate" title="Gio.SocketConnectable.enumerate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketConnectable.enumerate</span></code></a>() to get a <a class="reference internal" href="SocketAddressEnumerator.html#Gio.SocketAddressEnumerator" title="Gio.SocketAddressEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketAddressEnumerator</span></code></a>
 to try out each socket address in turn until one succeeds, as shown
 in the sample code below.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">MyConnectionType</span> <span class="o">*</span>
-<span class="nf">connect_to_host</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span>    <span class="o">*</span><span class="n">hostname</span><span class="p">,</span>
-                 <span class="n">guint16</span>        <span class="n">port</span><span class="p">,</span>
-                 <span class="n">GCancellable</span>  <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                 <span class="n">GError</span>       <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">MyConnection</span> <span class="o">*</span><span class="n">conn</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-  <span class="n">GSocketConnectable</span> <span class="o">*</span><span class="n">addr</span><span class="p">;</span>
-  <span class="n">GSocketAddressEnumerator</span> <span class="o">*</span><span class="n">enumerator</span><span class="p">;</span>
-  <span class="n">GSocketAddress</span> <span class="o">*</span><span class="n">sockaddr</span><span class="p">;</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">conn_error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">MyConnectionType</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">connect_to_host</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">    </span><span class="o">*</span><span class="n">hostname</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">guint16</span><span class="w">        </span><span class="n">port</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">GCancellable</span><span class="w">  </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyConnection</span><span class="w"> </span><span class="o">*</span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSocketConnectable</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSocketAddressEnumerator</span><span class="w"> </span><span class="o">*</span><span class="n">enumerator</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSocketAddress</span><span class="w"> </span><span class="o">*</span><span class="n">sockaddr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">conn_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">addr</span> <span class="o">=</span> <span class="n">g_network_address_new</span> <span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
-  <span class="n">enumerator</span> <span class="o">=</span> <span class="n">g_socket_connectable_enumerate</span> <span class="p">(</span><span class="n">addr</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+<span class="w">  </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_network_address_new</span><span class="w"> </span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="n">port</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">enumerator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_socket_connectable_enumerate</span><span class="w"> </span><span class="p">(</span><span class="n">addr</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">addr</span><span class="p">);</span><span class="w"></span>
 
-  <span class="c1">// Try each sockaddr until we succeed. Record the first connection error,</span>
-  <span class="c1">// but not any further ones (since they&#39;ll probably be basically the same</span>
-  <span class="c1">// as the first).</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">conn</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">sockaddr</span> <span class="o">=</span> <span class="n">g_socket_address_enumerator_next</span> <span class="p">(</span><span class="n">enumerator</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">conn</span> <span class="o">=</span> <span class="n">connect_to_sockaddr</span> <span class="p">(</span><span class="n">sockaddr</span><span class="p">,</span> <span class="n">conn_error</span> <span class="o">?</span> <span class="nb">NULL</span> <span class="o">:</span> <span class="o">&amp;</span><span class="n">conn_error</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">sockaddr</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">enumerator</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// Try each sockaddr until we succeed. Record the first connection error,</span>
+<span class="w">  </span><span class="c1">// but not any further ones (since they&#39;ll probably be basically the same</span>
+<span class="w">  </span><span class="c1">// as the first).</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">conn</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">sockaddr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_socket_address_enumerator_next</span><span class="w"> </span><span class="p">(</span><span class="n">enumerator</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connect_to_sockaddr</span><span class="w"> </span><span class="p">(</span><span class="n">sockaddr</span><span class="p">,</span><span class="w"> </span><span class="n">conn_error</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">conn_error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">sockaddr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">enumerator</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">conn_error</span><span class="p">)</span>
-        <span class="p">{</span>
-          <span class="c1">// We couldn&#39;t connect to the first address, but we succeeded</span>
-          <span class="c1">// in connecting to a later address.</span>
-          <span class="n">g_error_free</span> <span class="p">(</span><span class="n">conn_error</span><span class="p">);</span>
-        <span class="p">}</span>
-      <span class="k">return</span> <span class="n">conn</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="c1">/// Either initial lookup failed, or else the caller cancelled us.</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">conn_error</span><span class="p">)</span>
-        <span class="n">g_error_free</span> <span class="p">(</span><span class="n">conn_error</span><span class="p">);</span>
-      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="k">else</span>
-    <span class="p">{</span>
-      <span class="n">g_error_propagate</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">conn_error</span><span class="p">);</span>
-      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">conn_error</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="c1">// We couldn&#39;t connect to the first address, but we succeeded</span>
+<span class="w">          </span><span class="c1">// in connecting to a later address.</span>
+<span class="w">          </span><span class="n">g_error_free</span><span class="w"> </span><span class="p">(</span><span class="n">conn_error</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">conn</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">/// Either initial lookup failed, or else the caller cancelled us.</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">conn_error</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">g_error_free</span><span class="w"> </span><span class="p">(</span><span class="n">conn_error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_error_propagate</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">conn_error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="method">

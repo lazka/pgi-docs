@@ -739,26 +739,26 @@ are two helper functions: <a class="reference internal" href="#Gio.Cancellable.c
 like this.</p>
 <p>An example of how to us this:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Make sure we don&#39;t do unnecessary work if already cancelled</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">g_cancellable_set_error_if_cancelled</span> <span class="p">(</span><span class="n">cancellable</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
-  <span class="k">return</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_cancellable_set_error_if_cancelled</span><span class="w"> </span><span class="p">(</span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">// Set up all the data needed to be able to handle cancellation</span>
 <span class="c1">// of the operation</span>
-<span class="n">my_data</span> <span class="o">=</span> <span class="n">my_data_new</span> <span class="p">(...);</span>
+<span class="n">my_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_data_new</span><span class="w"> </span><span class="p">(...);</span><span class="w"></span>
 
-<span class="n">id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">cancellable</span><span class="p">)</span>
-  <span class="n">id</span> <span class="o">=</span> <span class="n">g_cancellable_connect</span> <span class="p">(</span><span class="n">cancellable</span><span class="p">,</span>
-                              <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">cancelled_handler</span><span class="p">)</span>
-                              <span class="n">data</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cancellable</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_cancellable_connect</span><span class="w"> </span><span class="p">(</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">cancelled_handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">                              </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// cancellable operation here...</span>
 
-<span class="n">g_cancellable_disconnect</span> <span class="p">(</span><span class="n">cancellable</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+<span class="n">g_cancellable_disconnect</span><span class="w"> </span><span class="p">(</span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// cancelled_handler is never called after this, it is now safe</span>
 <span class="c1">// to free the data</span>
-<span class="n">my_data_free</span> <span class="p">(</span><span class="n">my_data</span><span class="p">);</span>
+<span class="n">my_data_free</span><span class="w"> </span><span class="p">(</span><span class="n">my_data</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Note that the cancelled signal is emitted in the thread that

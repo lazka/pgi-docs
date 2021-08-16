@@ -381,27 +381,27 @@ can convert all entry into a widget into uppercase.</p>
 <dt>Forcing entry to uppercase.</dt>
 <dd></dd>
 </dl>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="c1">;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ctype.h&gt;</span><span class="c1">;</span><span class="cp"></span>
 
-<span class="kt">void</span>
-<span class="nf">insert_text_handler</span> <span class="p">(</span><span class="n">GtkEditable</span> <span class="o">*</span><span class="n">editable</span><span class="p">,</span>
-                     <span class="k">const</span> <span class="n">gchar</span> <span class="o">*</span><span class="n">text</span><span class="p">,</span>
-                     <span class="n">gint</span>         <span class="n">length</span><span class="p">,</span>
-                     <span class="n">gint</span>        <span class="o">*</span><span class="n">position</span><span class="p">,</span>
-                     <span class="n">gpointer</span>     <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gchar</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">g_utf8_strup</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">length</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">insert_text_handler</span><span class="w"> </span><span class="p">(</span><span class="n">GtkEditable</span><span class="w"> </span><span class="o">*</span><span class="n">editable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">text</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">gint</span><span class="w">         </span><span class="n">length</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">gint</span><span class="w">        </span><span class="o">*</span><span class="n">position</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">gpointer</span><span class="w">     </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_utf8_strup</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_signal_handlers_block_by_func</span> <span class="p">(</span><span class="n">editable</span><span class="p">,</span>
-                               <span class="p">(</span><span class="n">gpointer</span><span class="p">)</span> <span class="n">insert_text_handler</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
-  <span class="n">gtk_editable_insert_text</span> <span class="p">(</span><span class="n">editable</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">position</span><span class="p">);</span>
-  <span class="n">g_signal_handlers_unblock_by_func</span> <span class="p">(</span><span class="n">editable</span><span class="p">,</span>
-                                     <span class="p">(</span><span class="n">gpointer</span><span class="p">)</span> <span class="n">insert_text_handler</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_signal_handlers_block_by_func</span><span class="w"> </span><span class="p">(</span><span class="n">editable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="p">(</span><span class="n">gpointer</span><span class="p">)</span><span class="w"> </span><span class="n">insert_text_handler</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_editable_insert_text</span><span class="w"> </span><span class="p">(</span><span class="n">editable</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_signal_handlers_unblock_by_func</span><span class="w"> </span><span class="p">(</span><span class="n">editable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="p">(</span><span class="n">gpointer</span><span class="p">)</span><span class="w"> </span><span class="n">insert_text_handler</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_signal_stop_emission_by_name</span> <span class="p">(</span><span class="n">editable</span><span class="p">,</span> <span class="s">&quot;insert_text&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_signal_stop_emission_by_name</span><span class="w"> </span><span class="p">(</span><span class="n">editable</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;insert_text&quot;</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_free</span> <span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="method">

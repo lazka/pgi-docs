@@ -5728,11 +5728,11 @@ For example, you might think you could use <a class="reference internal" href="f
 to know whether it is safe to write to a file without being
 tricked into writing into a different location. It doesn’t work!</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// DON&#39;T DO THIS</span>
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">g_file_test</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">G_FILE_TEST_IS_SYMLINK</span><span class="p">))</span>
-  <span class="p">{</span>
-    <span class="n">fd</span> <span class="o">=</span> <span class="n">g_open</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">O_WRONLY</span><span class="p">);</span>
-    <span class="c1">// write to fd</span>
-  <span class="p">}</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_file_test</span><span class="w"> </span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">G_FILE_TEST_IS_SYMLINK</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_open</span><span class="w"> </span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">O_WRONLY</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// write to fd</span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Another thing to note is that <a class="reference internal" href="flags.html#GLib.FileTest.EXISTS" title="GLib.FileTest.EXISTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileTest.EXISTS</span></code></a> and
@@ -8655,33 +8655,33 @@ a callback to a recursive call to <a class="reference internal" href="classes/Ma
 it returns 2. And so forth.</p>
 <p>This function is useful in a situation like the following:
 Imagine an extremely simple “garbage collected” system.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">GList</span> <span class="o">*</span><span class="n">free_list</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">free_list</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">gpointer</span>
-<span class="nf">allocate_memory</span> <span class="p">(</span><span class="n">gsize</span> <span class="n">size</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gpointer</span> <span class="n">result</span> <span class="o">=</span> <span class="n">g_malloc</span> <span class="p">(</span><span class="n">size</span><span class="p">);</span>
-  <span class="n">free_list</span> <span class="o">=</span> <span class="n">g_list_prepend</span> <span class="p">(</span><span class="n">free_list</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="n">gpointer</span><span class="w"></span>
+<span class="nf">allocate_memory</span><span class="w"> </span><span class="p">(</span><span class="n">gsize</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpointer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_malloc</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">free_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_list_prepend</span><span class="w"> </span><span class="p">(</span><span class="n">free_list</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">free_allocated_memory</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GList</span> <span class="o">*</span><span class="n">l</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">l</span> <span class="o">=</span> <span class="n">free_list</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
-    <span class="n">g_free</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
-  <span class="n">g_list_free</span> <span class="p">(</span><span class="n">free_list</span><span class="p">);</span>
-  <span class="n">free_list</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
- <span class="p">}</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">free_allocated_memory</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_list</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_list_free</span><span class="w"> </span><span class="p">(</span><span class="n">free_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">free_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-<span class="p">[...]</span>
+<span class="p">[...]</span><span class="w"></span>
 
-<span class="k">while</span> <span class="p">(</span><span class="n">TRUE</span><span class="p">);</span>
- <span class="p">{</span>
-   <span class="n">g_main_context_iteration</span> <span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
-   <span class="n">free_allocated_memory</span><span class="p">();</span>
-  <span class="p">}</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">g_main_context_iteration</span><span class="w"> </span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">free_allocated_memory</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>This works from an application, however, if you want to do the same
@@ -8690,36 +8690,36 @@ control the main loop. You might think you can simply use an idle
 function to make the call to free_allocated_memory(), but that
 doesn’t work, since the idle function could be called from a
 recursive callback. This can be fixed by using <a class="reference internal" href="#GLib.main_depth" title="GLib.main_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.main_depth</span></code></a>()</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span>
-<span class="nf">allocate_memory</span> <span class="p">(</span><span class="n">gsize</span> <span class="n">size</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">FreeListBlock</span> <span class="o">*</span><span class="n">block</span> <span class="o">=</span> <span class="n">g_new</span> <span class="p">(</span><span class="n">FreeListBlock</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span> <span class="o">=</span> <span class="n">g_malloc</span> <span class="p">(</span><span class="n">size</span><span class="p">);</span>
-  <span class="n">block</span><span class="o">-&gt;</span><span class="n">depth</span> <span class="o">=</span> <span class="n">g_main_depth</span> <span class="p">();</span>
-  <span class="n">free_list</span> <span class="o">=</span> <span class="n">g_list_prepend</span> <span class="p">(</span><span class="n">free_list</span><span class="p">,</span> <span class="n">block</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span><span class="w"></span>
+<span class="nf">allocate_memory</span><span class="w"> </span><span class="p">(</span><span class="n">gsize</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">FreeListBlock</span><span class="w"> </span><span class="o">*</span><span class="n">block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_new</span><span class="w"> </span><span class="p">(</span><span class="n">FreeListBlock</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_malloc</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">block</span><span class="o">-&gt;</span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_main_depth</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">free_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_list_prepend</span><span class="w"> </span><span class="p">(</span><span class="n">free_list</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">free_allocated_memory</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GList</span> <span class="o">*</span><span class="n">l</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">free_allocated_memory</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">l</span><span class="p">;</span><span class="w"></span>
 
-  <span class="kt">int</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">g_main_depth</span> <span class="p">();</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">l</span> <span class="o">=</span> <span class="n">free_list</span><span class="p">;</span> <span class="n">l</span><span class="p">;</span> <span class="p">);</span>
-    <span class="p">{</span>
-      <span class="n">GList</span> <span class="o">*</span><span class="n">next</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-      <span class="n">FreeListBlock</span> <span class="o">*</span><span class="n">block</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">block</span><span class="o">-&gt;</span><span class="n">depth</span> <span class="o">&gt;</span> <span class="n">depth</span><span class="p">)</span>
-        <span class="p">{</span>
-          <span class="n">g_free</span> <span class="p">(</span><span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span><span class="p">);</span>
-          <span class="n">g_free</span> <span class="p">(</span><span class="n">block</span><span class="p">);</span>
-          <span class="n">free_list</span> <span class="o">=</span> <span class="n">g_list_delete_link</span> <span class="p">(</span><span class="n">free_list</span><span class="p">,</span> <span class="n">l</span><span class="p">);</span>
-        <span class="p">}</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_main_depth</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_list</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="p">;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">FreeListBlock</span><span class="w"> </span><span class="o">*</span><span class="n">block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">block</span><span class="o">-&gt;</span><span class="n">depth</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">depth</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">block</span><span class="o">-&gt;</span><span class="n">mem</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">block</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="n">free_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_list_delete_link</span><span class="w"> </span><span class="p">(</span><span class="n">free_list</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-      <span class="n">l</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="w">      </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>There is a temptation to use <a class="reference internal" href="#GLib.main_depth" title="GLib.main_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.main_depth</span></code></a>() to solve
@@ -9039,29 +9039,29 @@ gtk_init() has been called)</td>
 This function is intended to be used for debugging use only.
 The following example shows how it can be used together with
 the g_log() functions.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;glib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;glib.h&gt;</span><span class="cp"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">log_handler</span> <span class="p">(</span><span class="k">const</span> <span class="n">gchar</span>   <span class="o">*</span><span class="n">log_domain</span><span class="p">,</span>
-             <span class="n">GLogLevelFlags</span> <span class="n">log_level</span><span class="p">,</span>
-             <span class="k">const</span> <span class="n">gchar</span>   <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-             <span class="n">gpointer</span>       <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_log_default_handler</span> <span class="p">(</span><span class="n">log_domain</span><span class="p">,</span> <span class="n">log_level</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">log_handler</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w">   </span><span class="o">*</span><span class="n">log_domain</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="n">GLogLevelFlags</span><span class="w"> </span><span class="n">log_level</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w">   </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="n">gpointer</span><span class="w">       </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_log_default_handler</span><span class="w"> </span><span class="p">(</span><span class="n">log_domain</span><span class="p">,</span><span class="w"> </span><span class="n">log_level</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_on_error_query</span> <span class="p">(</span><span class="n">MY_PROGRAM_NAME</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_on_error_query</span><span class="w"> </span><span class="p">(</span><span class="n">MY_PROGRAM_NAME</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">int</span>
-<span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-  <span class="n">g_log_set_handler</span> <span class="p">(</span><span class="n">MY_LOG_DOMAIN</span><span class="p">,</span>
-                     <span class="n">G_LOG_LEVEL_WARNING</span> <span class="o">|</span>
-                     <span class="n">G_LOG_LEVEL_ERROR</span> <span class="o">|</span>
-                     <span class="n">G_LOG_LEVEL_CRITICAL</span><span class="p">,</span>
-                     <span class="n">log_handler</span><span class="p">,</span>
-                     <span class="nb">NULL</span><span class="p">);</span>
-  <span class="p">...</span>
+<span class="kt">int</span><span class="w"></span>
+<span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_log_set_handler</span><span class="w"> </span><span class="p">(</span><span class="n">MY_LOG_DOMAIN</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">G_LOG_LEVEL_WARNING</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="w">                     </span><span class="n">G_LOG_LEVEL_ERROR</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="w">                     </span><span class="n">G_LOG_LEVEL_CRITICAL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">log_handler</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 </pre></div>
 </div>
 <p>If “[E]xit” is selected, the application terminates with a call
@@ -9127,14 +9127,14 @@ be ensured that an initialization section will be executed only once
 during a program’s life time, and that concurrent threads are
 blocked until initialization completed. To be used in constructs
 like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gsize</span> <span class="n">initialization_value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gsize</span><span class="w"> </span><span class="n">initialization_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">g_once_init_enter</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">initialization_value</span><span class="p">))</span>
-  <span class="p">{</span>
-    <span class="n">gsize</span> <span class="n">setup_value</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span> <span class="c1">// initialization code here</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_once_init_enter</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">initialization_value</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">gsize</span><span class="w"> </span><span class="n">setup_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w"> </span><span class="c1">// initialization code here</span>
 
-    <span class="n">g_once_init_leave</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">initialization_value</span><span class="p">,</span> <span class="n">setup_value</span><span class="p">);</span>
-  <span class="p">}</span>
+<span class="w">    </span><span class="n">g_once_init_leave</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">initialization_value</span><span class="p">,</span><span class="w"> </span><span class="n">setup_value</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 
 <span class="c1">// use initialization_value here</span>
 </pre></div>
@@ -12088,9 +12088,9 @@ and return <cite>string</cite> itself, not a copy. The return value is to allow
 nesting such as</p>
 <p><code class="docutils literal notranslate"><span class="pre">g_ascii_strup</span> <span class="pre">(g_strcanon</span> <span class="pre">(str,</span> <span class="pre">&quot;abc&quot;,</span> <span class="pre">'?'))</span></code></p>
 <p>In order to modify a copy, you may use <code class="docutils literal notranslate"><span class="pre">g_strdup()</span></code> :</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">reformatted</span> <span class="o">=</span> <span class="n">g_strcanon</span> <span class="p">(</span><span class="n">g_strdup</span> <span class="p">(</span><span class="n">const_str</span><span class="p">),</span> <span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="sc">&#39;?&#39;</span><span class="p">);</span>
-<span class="p">...</span>
-<span class="n">g_free</span> <span class="p">(</span><span class="n">reformatted</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">reformatted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strcanon</span><span class="w"> </span><span class="p">(</span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">const_str</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;abc&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;?&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">reformatted</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 </dd></dl>
@@ -12250,9 +12250,9 @@ and returns <cite>string</cite> itself, not a copy. The return value is to
 allow nesting such as</p>
 <p><code class="docutils literal notranslate"><span class="pre">g_ascii_strup</span> <span class="pre">(g_strdelimit</span> <span class="pre">(str,</span> <span class="pre">&quot;abc&quot;,</span> <span class="pre">'?'))</span></code></p>
 <p>In order to modify a copy, you may use <code class="docutils literal notranslate"><span class="pre">g_strdup()</span></code> :</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">reformatted</span> <span class="o">=</span> <span class="n">g_strdelimit</span> <span class="p">(</span><span class="n">g_strdup</span> <span class="p">(</span><span class="n">const_str</span><span class="p">),</span> <span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="sc">&#39;?&#39;</span><span class="p">);</span>
-<span class="p">...</span>
-<span class="n">g_free</span> <span class="p">(</span><span class="n">reformatted</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">reformatted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdelimit</span><span class="w"> </span><span class="p">(</span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">const_str</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;abc&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;?&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">reformatted</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 </dd></dl>
@@ -13135,11 +13135,11 @@ the same order as the calls to <a class="reference internal" href="#GLib.test_ex
 <p>For example:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// g_main_context_push_thread_default() should fail if the</span>
 <span class="c1">// context is already owned by another thread.</span>
-<span class="n">g_test_expect_message</span> <span class="p">(</span><span class="n">G_LOG_DOMAIN</span><span class="p">,</span>
-                       <span class="n">G_LOG_LEVEL_CRITICAL</span><span class="p">,</span>
-                       <span class="s">&quot;assertion*acquired_context*failed&quot;</span><span class="p">);</span>
-<span class="n">g_main_context_push_thread_default</span> <span class="p">(</span><span class="n">bad_context</span><span class="p">);</span>
-<span class="n">g_test_assert_expected_messages</span> <span class="p">();</span>
+<span class="n">g_test_expect_message</span><span class="w"> </span><span class="p">(</span><span class="n">G_LOG_DOMAIN</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">G_LOG_LEVEL_CRITICAL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="s">&quot;assertion*acquired_context*failed&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_main_context_push_thread_default</span><span class="w"> </span><span class="p">(</span><span class="n">bad_context</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_test_assert_expected_messages</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Note that you cannot use this to test g_error() messages, since
@@ -13673,19 +13673,19 @@ considered failing if its run time exceeds it.</p>
 process produces some sample output and exits successfully.
 The forking parent process then asserts successful child program
 termination and validates child program outputs.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">test_fork_patterns</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">g_test_trap_fork</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">G_TEST_TRAP_SILENCE_STDOUT</span> <span class="o">|</span> <span class="n">G_TEST_TRAP_SILENCE_STDERR</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">g_print</span> <span class="p">(</span><span class="s">&quot;some stdout text: somagic17</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-      <span class="n">g_printerr</span> <span class="p">(</span><span class="s">&quot;some stderr text: semagic43</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-      <span class="n">exit</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// successful test run</span>
-    <span class="p">}</span>
-  <span class="n">g_test_trap_assert_passed</span> <span class="p">();</span>
-  <span class="n">g_test_trap_assert_stdout</span> <span class="p">(</span><span class="s">&quot;*somagic17*&quot;</span><span class="p">);</span>
-  <span class="n">g_test_trap_assert_stderr</span> <span class="p">(</span><span class="s">&quot;*semagic43*&quot;</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">test_fork_patterns</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_test_trap_fork</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_TEST_TRAP_SILENCE_STDOUT</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">G_TEST_TRAP_SILENCE_STDERR</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_print</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;some stdout text: somagic17</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_printerr</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;some stderr text: semagic43</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">exit</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// successful test run</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_trap_assert_passed</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_trap_assert_stdout</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;*somagic17*&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_trap_assert_stderr</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;*semagic43*&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">
@@ -13777,30 +13777,30 @@ g_test_init()) to see whether you are in a subprocess.</p>
 <p>The following example tests that calling
 <code class="docutils literal notranslate"><span class="pre">my_object_new(1000000)</span></code> will abort with an error
 message.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">test_create_large_object</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">g_test_subprocess</span> <span class="p">())</span>
-    <span class="p">{</span>
-      <span class="n">my_object_new</span> <span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">test_create_large_object</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_test_subprocess</span><span class="w"> </span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">my_object_new</span><span class="w"> </span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// Reruns this same test in a subprocess</span>
-  <span class="n">g_test_trap_subprocess</span> <span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">g_test_trap_assert_failed</span> <span class="p">();</span>
-  <span class="n">g_test_trap_assert_stderr</span> <span class="p">(</span><span class="s">&quot;*ERROR*too large*&quot;</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// Reruns this same test in a subprocess</span>
+<span class="w">  </span><span class="n">g_test_trap_subprocess</span><span class="w"> </span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_trap_assert_failed</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_trap_assert_stderr</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;*ERROR*too large*&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">int</span>
-<span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_test_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"></span>
+<span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_test_init</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_test_add_func</span> <span class="p">(</span><span class="s">&quot;/myobject/create_large_object&quot;</span><span class="p">,</span>
-                   <span class="n">test_create_large_object</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">g_test_run</span> <span class="p">();</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_test_add_func</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;/myobject/create_large_object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                   </span><span class="n">test_create_large_object</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_test_run</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">

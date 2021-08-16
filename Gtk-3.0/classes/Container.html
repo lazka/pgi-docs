@@ -682,56 +682,56 @@ every widget request at least enough space to display all of its content at all 
 <p>When <a class="reference internal" href="Widget.html#Gtk.Widget.get_preferred_height" title="Gtk.Widget.get_preferred_height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget.get_preferred_height</span></code></a>() is called on a container that is height-for-width,
 the container must return the height for its minimum width. This is easily achieved by
 simply calling the reverse apis implemented for itself as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">foo_container_get_preferred_height</span> <span class="p">(</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">widget</span><span class="p">,</span>
-                                    <span class="n">gint</span> <span class="o">*</span><span class="n">min_height</span><span class="p">,</span>
-                                    <span class="n">gint</span> <span class="o">*</span><span class="n">nat_height</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="k">if</span> <span class="p">(</span><span class="n">i_am_in_height_for_width_mode</span><span class="p">)</span>
-     <span class="p">{</span>
-       <span class="n">gint</span> <span class="n">min_width</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">foo_container_get_preferred_height</span><span class="w"> </span><span class="p">(</span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">widget</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">gint</span><span class="w"> </span><span class="o">*</span><span class="n">min_height</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">gint</span><span class="w"> </span><span class="o">*</span><span class="n">nat_height</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i_am_in_height_for_width_mode</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">       </span><span class="n">gint</span><span class="w"> </span><span class="n">min_width</span><span class="p">;</span><span class="w"></span>
 
-       <span class="n">GTK_WIDGET_GET_CLASS</span> <span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_width</span> <span class="p">(</span><span class="n">widget</span><span class="p">,</span>
-                                                           <span class="o">&amp;</span><span class="n">min_width</span><span class="p">,</span>
-                                                           <span class="nb">NULL</span><span class="p">);</span>
-       <span class="n">GTK_WIDGET_GET_CLASS</span> <span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_height_for_width</span>
-                                                          <span class="p">(</span><span class="n">widget</span><span class="p">,</span>
-                                                           <span class="n">min_width</span><span class="p">,</span>
-                                                           <span class="n">min_height</span><span class="p">,</span>
-                                                           <span class="n">nat_height</span><span class="p">);</span>
-     <span class="p">}</span>
-   <span class="k">else</span>
-     <span class="p">{</span>
-       <span class="p">...</span> <span class="n">many</span> <span class="n">containers</span> <span class="n">support</span> <span class="n">both</span> <span class="n">request</span> <span class="n">modes</span><span class="p">,</span> <span class="n">execute</span> <span class="n">the</span>
-       <span class="n">real</span> <span class="n">width</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">height</span> <span class="n">request</span> <span class="n">here</span> <span class="n">by</span> <span class="n">returning</span> <span class="n">the</span>
-       <span class="n">collective</span> <span class="n">heights</span> <span class="n">of</span> <span class="n">all</span> <span class="n">widgets</span> <span class="n">that</span> <span class="n">are</span> <span class="n">stacked</span>
-       <span class="n">vertically</span> <span class="p">(</span><span class="n">or</span> <span class="n">whatever</span> <span class="n">is</span> <span class="n">appropriate</span> <span class="k">for</span> <span class="n">this</span> <span class="n">container</span><span class="p">)</span>
-       <span class="p">...</span>
-     <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">       </span><span class="n">GTK_WIDGET_GET_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_width</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="o">&amp;</span><span class="n">min_width</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="n">GTK_WIDGET_GET_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_height_for_width</span><span class="w"></span>
+<span class="w">                                                          </span><span class="p">(</span><span class="n">widget</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">min_width</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">min_height</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">nat_height</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="k">else</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">       </span><span class="p">...</span><span class="w"> </span><span class="n">many</span><span class="w"> </span><span class="n">containers</span><span class="w"> </span><span class="n">support</span><span class="w"> </span><span class="n">both</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">modes</span><span class="p">,</span><span class="w"> </span><span class="n">execute</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">       </span><span class="n">real</span><span class="w"> </span><span class="n">width</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">height</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">returning</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">       </span><span class="n">collective</span><span class="w"> </span><span class="n">heights</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">widgets</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">stacked</span><span class="w"></span>
+<span class="w">       </span><span class="n">vertically</span><span class="w"> </span><span class="p">(</span><span class="n">or</span><span class="w"> </span><span class="n">whatever</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">appropriate</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">container</span><span class="p">)</span><span class="w"></span>
+<span class="w">       </span><span class="p">...</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Similarly, when <a class="reference internal" href="Widget.html#Gtk.Widget.get_preferred_width_for_height" title="Gtk.Widget.get_preferred_width_for_height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget.get_preferred_width_for_height</span></code></a>() is called for a container or widget
 that is height-for-width, it then only needs to return the base minimum width like so:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">foo_container_get_preferred_width_for_height</span> <span class="p">(</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">widget</span><span class="p">,</span>
-                                              <span class="n">gint</span> <span class="n">for_height</span><span class="p">,</span>
-                                              <span class="n">gint</span> <span class="o">*</span><span class="n">min_width</span><span class="p">,</span>
-                                              <span class="n">gint</span> <span class="o">*</span><span class="n">nat_width</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="k">if</span> <span class="p">(</span><span class="n">i_am_in_height_for_width_mode</span><span class="p">)</span>
-     <span class="p">{</span>
-       <span class="n">GTK_WIDGET_GET_CLASS</span> <span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_width</span> <span class="p">(</span><span class="n">widget</span><span class="p">,</span>
-                                                           <span class="n">min_width</span><span class="p">,</span>
-                                                           <span class="n">nat_width</span><span class="p">);</span>
-     <span class="p">}</span>
-   <span class="k">else</span>
-     <span class="p">{</span>
-       <span class="p">...</span> <span class="n">execute</span> <span class="n">the</span> <span class="n">real</span> <span class="n">width</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">height</span> <span class="n">request</span> <span class="n">here</span> <span class="n">based</span> <span class="n">on</span>
-       <span class="n">the</span> <span class="n">required</span> <span class="n">width</span> <span class="n">of</span> <span class="n">the</span> <span class="n">children</span> <span class="n">collectively</span> <span class="k">if</span> <span class="n">the</span>
-       <span class="n">container</span> <span class="n">were</span> <span class="n">to</span> <span class="n">be</span> <span class="n">allocated</span> <span class="n">the</span> <span class="n">said</span> <span class="n">height</span> <span class="p">...</span>
-     <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">foo_container_get_preferred_width_for_height</span><span class="w"> </span><span class="p">(</span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">widget</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                              </span><span class="n">gint</span><span class="w"> </span><span class="n">for_height</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                              </span><span class="n">gint</span><span class="w"> </span><span class="o">*</span><span class="n">min_width</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                              </span><span class="n">gint</span><span class="w"> </span><span class="o">*</span><span class="n">nat_width</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i_am_in_height_for_width_mode</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">       </span><span class="n">GTK_WIDGET_GET_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">get_preferred_width</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">min_width</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">nat_width</span><span class="p">);</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="k">else</span><span class="w"></span>
+<span class="w">     </span><span class="p">{</span><span class="w"></span>
+<span class="w">       </span><span class="p">...</span><span class="w"> </span><span class="n">execute</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">width</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">height</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="n">on</span><span class="w"></span>
+<span class="w">       </span><span class="n">the</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">children</span><span class="w"> </span><span class="n">collectively</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">the</span><span class="w"></span>
+<span class="w">       </span><span class="n">container</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">allocated</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">said</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Height for width requests are generally implemented in terms of a virtual allocation

@@ -660,34 +660,34 @@ and render the page on the provided <a class="reference internal" href="PrintCon
 <dt>The high-level printing API</dt>
 <dd></dd>
 </dl>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">GtkPrintSettings</span> <span class="o">*</span><span class="n">settings</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">GtkPrintSettings</span><span class="w"> </span><span class="o">*</span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">do_print</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GtkPrintOperation</span> <span class="o">*</span><span class="n">print</span><span class="p">;</span>
-  <span class="n">GtkPrintOperationResult</span> <span class="n">res</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">do_print</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkPrintOperation</span><span class="w"> </span><span class="o">*</span><span class="n">print</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkPrintOperationResult</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">print</span> <span class="o">=</span> <span class="n">gtk_print_operation_new</span> <span class="p">();</span>
+<span class="w">  </span><span class="n">print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_operation_new</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">settings</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="n">gtk_print_operation_set_print_settings</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="n">settings</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">gtk_print_operation_set_print_settings</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="s">&quot;begin_print&quot;</span><span class="p">,</span> <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">begin_print</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-  <span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="s">&quot;draw_page&quot;</span><span class="p">,</span> <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">draw_page</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;begin_print&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">begin_print</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;draw_page&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">draw_page</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">res</span> <span class="o">=</span> <span class="n">gtk_print_operation_run</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="n">GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG</span><span class="p">,</span>
-                                 <span class="n">GTK_WINDOW</span> <span class="p">(</span><span class="n">main_window</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">  </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_operation_run</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="n">GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                 </span><span class="n">GTK_WINDOW</span><span class="w"> </span><span class="p">(</span><span class="n">main_window</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">GTK_PRINT_OPERATION_RESULT_APPLY</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">settings</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-        <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">settings</span><span class="p">);</span>
-      <span class="n">settings</span> <span class="o">=</span> <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">gtk_print_operation_get_print_settings</span> <span class="p">(</span><span class="n">print</span><span class="p">));</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">res</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GTK_PRINT_OPERATION_RESULT_APPLY</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">gtk_print_operation_get_print_settings</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">print</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>By default <a class="reference internal" href="#Gtk.PrintOperation" title="Gtk.PrintOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintOperation</span></code></a> uses an external application to do
@@ -1000,41 +1000,41 @@ asynchronously if this is supported on the platform. The
 <a class="reference internal" href="#Gtk.PrintOperation" title="Gtk.PrintOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintOperation</span></code></a> <a class="reference internal" href="#Gtk.PrintOperation.signals.done" title="Gtk.PrintOperation.signals.done"><code class="xref py py-func docutils literal notranslate"><span class="pre">::done</span></code></a> signal will be emitted with the result of the
 operation when the it is done (i.e. when the dialog is canceled, or when
 the print succeeds or fails).</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">settings</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-  <span class="n">gtk_print_operation_set_print_settings</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="n">settings</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_print_operation_set_print_settings</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">page_setup</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-  <span class="n">gtk_print_operation_set_default_page_setup</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="n">page_setup</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">page_setup</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_print_operation_set_default_page_setup</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="n">page_setup</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="s">&quot;begin-print&quot;</span><span class="p">,</span>
-                  <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">begin_print</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">);</span>
-<span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span> <span class="s">&quot;draw-page&quot;</span><span class="p">,</span>
-                  <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">draw_page</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">);</span>
+<span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;begin-print&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">begin_print</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;draw-page&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">draw_page</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">gtk_print_operation_run</span> <span class="p">(</span><span class="n">print</span><span class="p">,</span>
-                               <span class="n">GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG</span><span class="p">,</span>
-                               <span class="n">parent</span><span class="p">,</span>
-                               <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
+<span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_operation_run</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="n">GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="n">parent</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">GTK_PRINT_OPERATION_RESULT_ERROR</span><span class="p">)</span>
- <span class="p">{</span>
-   <span class="n">error_dialog</span> <span class="o">=</span> <span class="n">gtk_message_dialog_new</span> <span class="p">(</span><span class="n">GTK_WINDOW</span> <span class="p">(</span><span class="n">parent</span><span class="p">),</span>
-                                         <span class="n">GTK_DIALOG_DESTROY_WITH_PARENT</span><span class="p">,</span>
-                                         <span class="n">GTK_MESSAGE_ERROR</span><span class="p">,</span>
-                                         <span class="n">GTK_BUTTONS_CLOSE</span><span class="p">,</span>
-                                         <span class="s">&quot;Error printing file:</span><span class="se">\n</span><span class="s">%s&quot;</span><span class="p">,</span>
-                                         <span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-   <span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">error_dialog</span><span class="p">,</span> <span class="s">&quot;response&quot;</span><span class="p">,</span>
-                     <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">gtk_widget_destroy</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-   <span class="n">gtk_widget_show</span> <span class="p">(</span><span class="n">error_dialog</span><span class="p">);</span>
-   <span class="n">g_error_free</span> <span class="p">(</span><span class="n">error</span><span class="p">);</span>
- <span class="p">}</span>
-<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="n">GTK_PRINT_OPERATION_RESULT_APPLY</span><span class="p">)</span>
- <span class="p">{</span>
-   <span class="k">if</span> <span class="p">(</span><span class="n">settings</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-<span class="n">g_object_unref</span> <span class="p">(</span><span class="n">settings</span><span class="p">);</span>
-   <span class="n">settings</span> <span class="o">=</span> <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">gtk_print_operation_get_print_settings</span> <span class="p">(</span><span class="n">print</span><span class="p">));</span>
- <span class="p">}</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">res</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GTK_PRINT_OPERATION_RESULT_ERROR</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">error_dialog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_message_dialog_new</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_WINDOW</span><span class="w"> </span><span class="p">(</span><span class="n">parent</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">GTK_DIALOG_DESTROY_WITH_PARENT</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">GTK_MESSAGE_ERROR</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">GTK_BUTTONS_CLOSE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                         </span><span class="s">&quot;Error printing file:</span><span class="se">\n</span><span class="s">%s&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                         </span><span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">error_dialog</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;response&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">gtk_widget_destroy</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">gtk_widget_show</span><span class="w"> </span><span class="p">(</span><span class="n">error_dialog</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">g_error_free</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">res</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GTK_PRINT_OPERATION_RESULT_APPLY</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
+<span class="w">   </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">gtk_print_operation_get_print_settings</span><span class="w"> </span><span class="p">(</span><span class="n">print</span><span class="p">));</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Note that <a class="reference internal" href="#Gtk.PrintOperation.run" title="Gtk.PrintOperation.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintOperation.run</span></code></a>() can only be called once on a
@@ -1661,44 +1661,44 @@ after <a class="reference internal" href="#Gtk.PrintOperation" title="Gtk.PrintO
 <p>Emitted for every page that is printed. The signal handler
 must render the <cite>page_nr</cite>’s page onto the cairo context obtained
 from <cite>context</cite> using <a class="reference internal" href="PrintContext.html#Gtk.PrintContext.get_cairo_context" title="Gtk.PrintContext.get_cairo_context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintContext.get_cairo_context</span></code></a>().</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">draw_page</span> <span class="p">(</span><span class="n">GtkPrintOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span>
-           <span class="n">GtkPrintContext</span>   <span class="o">*</span><span class="n">context</span><span class="p">,</span>
-           <span class="n">gint</span>               <span class="n">page_nr</span><span class="p">,</span>
-           <span class="n">gpointer</span>           <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">cairo_t</span> <span class="o">*</span><span class="n">cr</span><span class="p">;</span>
-  <span class="n">PangoLayout</span> <span class="o">*</span><span class="n">layout</span><span class="p">;</span>
-  <span class="n">gdouble</span> <span class="n">width</span><span class="p">,</span> <span class="n">text_height</span><span class="p">;</span>
-  <span class="n">gint</span> <span class="n">layout_height</span><span class="p">;</span>
-  <span class="n">PangoFontDescription</span> <span class="o">*</span><span class="n">desc</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">draw_page</span><span class="w"> </span><span class="p">(</span><span class="n">GtkPrintOperation</span><span class="w"> </span><span class="o">*</span><span class="n">operation</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">GtkPrintContext</span><span class="w">   </span><span class="o">*</span><span class="n">context</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">gint</span><span class="w">               </span><span class="n">page_nr</span><span class="p">,</span><span class="w"></span>
+<span class="w">           </span><span class="n">gpointer</span><span class="w">           </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">cairo_t</span><span class="w"> </span><span class="o">*</span><span class="n">cr</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">PangoLayout</span><span class="w"> </span><span class="o">*</span><span class="n">layout</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gdouble</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">text_height</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gint</span><span class="w"> </span><span class="n">layout_height</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">PangoFontDescription</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cr</span> <span class="o">=</span> <span class="n">gtk_print_context_get_cairo_context</span> <span class="p">(</span><span class="n">context</span><span class="p">);</span>
-  <span class="n">width</span> <span class="o">=</span> <span class="n">gtk_print_context_get_width</span> <span class="p">(</span><span class="n">context</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_context_get_cairo_context</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_context_get_width</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">cairo_rectangle</span> <span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">HEADER_HEIGHT</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cairo_rectangle</span><span class="w"> </span><span class="p">(</span><span class="n">cr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">HEADER_HEIGHT</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">cairo_set_source_rgb</span> <span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">);</span>
-  <span class="n">cairo_fill</span> <span class="p">(</span><span class="n">cr</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cairo_set_source_rgb</span><span class="w"> </span><span class="p">(</span><span class="n">cr</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">cairo_fill</span><span class="w"> </span><span class="p">(</span><span class="n">cr</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">layout</span> <span class="o">=</span> <span class="n">gtk_print_context_create_pango_layout</span> <span class="p">(</span><span class="n">context</span><span class="p">);</span>
+<span class="w">  </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_print_context_create_pango_layout</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">desc</span> <span class="o">=</span> <span class="n">pango_font_description_from_string</span> <span class="p">(</span><span class="s">&quot;sans 14&quot;</span><span class="p">);</span>
-  <span class="n">pango_layout_set_font_description</span> <span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">desc</span><span class="p">);</span>
-  <span class="n">pango_font_description_free</span> <span class="p">(</span><span class="n">desc</span><span class="p">);</span>
+<span class="w">  </span><span class="n">desc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pango_font_description_from_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;sans 14&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pango_layout_set_font_description</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pango_font_description_free</span><span class="w"> </span><span class="p">(</span><span class="n">desc</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">pango_layout_set_text</span> <span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="s">&quot;some text&quot;</span><span class="p">,</span> <span class="mi">-1</span><span class="p">);</span>
-  <span class="n">pango_layout_set_width</span> <span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">width</span> <span class="o">*</span> <span class="n">PANGO_SCALE</span><span class="p">);</span>
-  <span class="n">pango_layout_set_alignment</span> <span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">PANGO_ALIGN_CENTER</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pango_layout_set_text</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;some text&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pango_layout_set_width</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">PANGO_SCALE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pango_layout_set_alignment</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="n">PANGO_ALIGN_CENTER</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">pango_layout_get_size</span> <span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">layout_height</span><span class="p">);</span>
-  <span class="n">text_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">gdouble</span><span class="p">)</span><span class="n">layout_height</span> <span class="o">/</span> <span class="n">PANGO_SCALE</span><span class="p">;</span>
+<span class="w">  </span><span class="n">pango_layout_get_size</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">layout_height</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">text_height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">gdouble</span><span class="p">)</span><span class="n">layout_height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">PANGO_SCALE</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cairo_move_to</span> <span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>  <span class="p">(</span><span class="n">HEADER_HEIGHT</span> <span class="o">-</span> <span class="n">text_height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-  <span class="n">pango_cairo_show_layout</span> <span class="p">(</span><span class="n">cr</span><span class="p">,</span> <span class="n">layout</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cairo_move_to</span><span class="w"> </span><span class="p">(</span><span class="n">cr</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">  </span><span class="p">(</span><span class="n">HEADER_HEIGHT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">text_height</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">pango_cairo_show_layout</span><span class="w"> </span><span class="p">(</span><span class="n">cr</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">layout</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">layout</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Use <a class="reference internal" href="#Gtk.PrintOperation.set_use_full_page" title="Gtk.PrintOperation.set_use_full_page"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintOperation.set_use_full_page</span></code></a>() and

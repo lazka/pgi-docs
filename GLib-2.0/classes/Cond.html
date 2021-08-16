@@ -256,33 +256,33 @@ another thread publishes the data, it can signal one of the waiting
 threads to wake up to collect the data.</p>
 <p>Here is an example for using <a class="reference internal" href="#GLib.Cond" title="GLib.Cond"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Cond</span></code></a> to block a thread until a condition
 is satisfied:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span> <span class="n">current_data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="n">GMutex</span> <span class="n">data_mutex</span><span class="p">;</span>
-<span class="n">GCond</span> <span class="n">data_cond</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span><span class="w"> </span><span class="n">current_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="n">GMutex</span><span class="w"> </span><span class="n">data_mutex</span><span class="p">;</span><span class="w"></span>
+<span class="n">GCond</span><span class="w"> </span><span class="n">data_cond</span><span class="p">;</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">push_data</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
-  <span class="n">current_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
-  <span class="n">g_cond_signal</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">);</span>
-  <span class="n">g_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">push_data</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_mutex_lock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">current_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_cond_signal</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_mutex_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">gpointer</span>
-<span class="nf">pop_data</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gpointer</span> <span class="n">data</span><span class="p">;</span>
+<span class="n">gpointer</span><span class="w"></span>
+<span class="nf">pop_data</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">current_data</span><span class="p">)</span>
-    <span class="n">g_cond_wait</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">current_data</span><span class="p">;</span>
-  <span class="n">current_data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-  <span class="n">g_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_mutex_lock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">current_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_cond_wait</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">current_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_mutex_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Whenever a thread calls pop_data() now, it will wait until
@@ -407,31 +407,31 @@ passed.</p>
 <p>The following code shows how to correctly perform a timed wait on a
 condition variable (extending the example presented in the
 documentation for <a class="reference internal" href="#GLib.Cond" title="GLib.Cond"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Cond</span></code></a>):</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span>
-<span class="nf">pop_data_timed</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gint64</span> <span class="n">end_time</span><span class="p">;</span>
-  <span class="n">gpointer</span> <span class="n">data</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gpointer</span><span class="w"></span>
+<span class="nf">pop_data_timed</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gint64</span><span class="w"> </span><span class="n">end_time</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_mutex_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_mutex_lock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">end_time</span> <span class="o">=</span> <span class="n">g_get_monotonic_time</span> <span class="p">()</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">G_TIME_SPAN_SECOND</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">current_data</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">g_cond_wait_until</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">,</span> <span class="n">end_time</span><span class="p">))</span>
-      <span class="p">{</span>
-        <span class="c1">// timeout has passed.</span>
-        <span class="n">g_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-      <span class="p">}</span>
+<span class="w">  </span><span class="n">end_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_get_monotonic_time</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">G_TIME_SPAN_SECOND</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">current_data</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_cond_wait_until</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_cond</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">,</span><span class="w"> </span><span class="n">end_time</span><span class="p">))</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// timeout has passed.</span>
+<span class="w">        </span><span class="n">g_mutex_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// there is data for us</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">current_data</span><span class="p">;</span>
-  <span class="n">current_data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// there is data for us</span>
+<span class="w">  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">current_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_mutex_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_mutex_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_mutex</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Notice that the end time is calculated once, before entering the

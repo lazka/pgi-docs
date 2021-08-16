@@ -375,45 +375,45 @@ the section ‘“Writing typefind functions” [gstreamer-Writing-typefind-func
 <p>The following example shows how to write a very simple typefinder that
 identifies the given data. You can get quite a bit more complicated than
 that though.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-  <span class="n">guint8</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
-  <span class="n">guint</span> <span class="n">size</span><span class="p">;</span>
-  <span class="n">guint</span> <span class="n">probability</span><span class="p">;</span>
-  <span class="n">GstCaps</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">MyTypeFind</span><span class="p">;</span>
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_peek</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">,</span> <span class="n">gint64</span> <span class="n">offset</span><span class="p">,</span> <span class="n">guint</span> <span class="n">size</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">MyTypeFind</span> <span class="o">*</span><span class="n">find</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyTypeFind</span> <span class="o">*</span><span class="p">)</span> <span class="n">data</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">offset</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="n">find</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">find</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">+</span> <span class="n">offset</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_suggest</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">,</span> <span class="n">guint</span> <span class="n">probability</span><span class="p">,</span> <span class="n">GstCaps</span> <span class="o">*</span><span class="n">caps</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">MyTypeFind</span> <span class="o">*</span><span class="n">find</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyTypeFind</span> <span class="o">*</span><span class="p">)</span> <span class="n">data</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">probability</span> <span class="o">&gt;</span> <span class="n">find</span><span class="o">-&gt;</span><span class="n">probability</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">find</span><span class="o">-&gt;</span><span class="n">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="p">;</span>
-    <span class="n">gst_caps_replace</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">find</span><span class="o">-&gt;</span><span class="n">caps</span><span class="p">,</span> <span class="n">caps</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="k">static</span> <span class="n">GstCaps</span> <span class="o">*</span>
-<span class="nf">find_type</span> <span class="p">(</span><span class="n">guint8</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="n">guint</span> <span class="n">size</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GList</span> <span class="o">*</span><span class="n">walk</span><span class="p">,</span> <span class="o">*</span><span class="n">type_list</span><span class="p">;</span>
-  <span class="n">MyTypeFind</span> <span class="n">find</span> <span class="o">=</span> <span class="p">{</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">};</span>
-  <span class="n">GstTypeFind</span> <span class="n">gst_find</span> <span class="o">=</span> <span class="p">{</span><span class="n">my_peek</span><span class="p">,</span> <span class="n">my_suggest</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">find</span><span class="p">,</span> <span class="p">};</span>
-  <span class="n">walk</span> <span class="o">=</span> <span class="n">type_list</span> <span class="o">=</span> <span class="n">gst_type_find_factory_get_list</span> <span class="p">();</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">walk</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">GstTypeFindFactory</span> <span class="o">*</span><span class="n">factory</span> <span class="o">=</span> <span class="n">GST_TYPE_FIND_FACTORY</span> <span class="p">(</span><span class="n">walk</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
-    <span class="n">walk</span> <span class="o">=</span> <span class="n">g_list_next</span> <span class="p">(</span><span class="n">walk</span><span class="p">)</span>
-    <span class="n">gst_type_find_factory_call_function</span> <span class="p">(</span><span class="n">factory</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">gst_find</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">g_list_free</span> <span class="p">(</span><span class="n">type_list</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">find</span><span class="p">.</span><span class="n">caps</span><span class="p">;</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">guint8</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">guint</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">guint</span><span class="w"> </span><span class="n">probability</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GstCaps</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">MyTypeFind</span><span class="p">;</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_peek</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">gint64</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">guint</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyTypeFind</span><span class="w"> </span><span class="o">*</span><span class="n">find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MyTypeFind</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">find</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">find</span><span class="o">-&gt;</span><span class="n">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_suggest</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">guint</span><span class="w"> </span><span class="n">probability</span><span class="p">,</span><span class="w"> </span><span class="n">GstCaps</span><span class="w"> </span><span class="o">*</span><span class="n">caps</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyTypeFind</span><span class="w"> </span><span class="o">*</span><span class="n">find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MyTypeFind</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">probability</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">find</span><span class="o">-&gt;</span><span class="n">probability</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">find</span><span class="o">-&gt;</span><span class="n">probability</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">probability</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">gst_caps_replace</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">find</span><span class="o">-&gt;</span><span class="n">caps</span><span class="p">,</span><span class="w"> </span><span class="n">caps</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="n">GstCaps</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">find_type</span><span class="w"> </span><span class="p">(</span><span class="n">guint8</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">guint</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">walk</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">type_list</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyTypeFind</span><span class="w"> </span><span class="n">find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">GstTypeFind</span><span class="w"> </span><span class="n">gst_find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">my_peek</span><span class="p">,</span><span class="w"> </span><span class="n">my_suggest</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">find</span><span class="p">,</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">walk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gst_type_find_factory_get_list</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">walk</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">GstTypeFindFactory</span><span class="w"> </span><span class="o">*</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GST_TYPE_FIND_FACTORY</span><span class="w"> </span><span class="p">(</span><span class="n">walk</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">walk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_list_next</span><span class="w"> </span><span class="p">(</span><span class="n">walk</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">gst_type_find_factory_call_function</span><span class="w"> </span><span class="p">(</span><span class="n">factory</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">gst_find</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_list_free</span><span class="w"> </span><span class="p">(</span><span class="n">type_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">find</span><span class="p">.</span><span class="n">caps</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="classmethod">

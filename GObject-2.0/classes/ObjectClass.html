@@ -294,27 +294,27 @@
 <em class="property">class </em><code class="descclassname">GObject.</code><code class="descname">ObjectClass</code><a class="headerlink" href="#GObject.ObjectClass" title="Permalink to this definition">¶</a></dt>
 <dd><p>The class structure for the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> type.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example of implementing a singleton using a constructor.</span>
-<span class="k">static</span> <span class="n">MySingleton</span> <span class="o">*</span><span class="n">the_singleton</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">MySingleton</span><span class="w"> </span><span class="o">*</span><span class="n">the_singleton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">GObject</span><span class="o">*</span>
-<span class="nf">my_singleton_constructor</span> <span class="p">(</span><span class="n">GType</span>                  <span class="n">type</span><span class="p">,</span>
-                          <span class="n">guint</span>                  <span class="n">n_construct_params</span><span class="p">,</span>
-                          <span class="n">GObjectConstructParam</span> <span class="o">*</span><span class="n">construct_params</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GObject</span> <span class="o">*</span><span class="n">object</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">GObject</span><span class="o">*</span><span class="w"></span>
+<span class="nf">my_singleton_constructor</span><span class="w"> </span><span class="p">(</span><span class="n">GType</span><span class="w">                  </span><span class="n">type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">guint</span><span class="w">                  </span><span class="n">n_construct_params</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">GObjectConstructParam</span><span class="w"> </span><span class="o">*</span><span class="n">construct_params</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GObject</span><span class="w"> </span><span class="o">*</span><span class="n">object</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">the_singleton</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">object</span> <span class="o">=</span> <span class="n">G_OBJECT_CLASS</span> <span class="p">(</span><span class="n">parent_class</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">constructor</span> <span class="p">(</span><span class="n">type</span><span class="p">,</span>
-                                                           <span class="n">n_construct_params</span><span class="p">,</span>
-                                                           <span class="n">construct_params</span><span class="p">);</span>
-      <span class="n">the_singleton</span> <span class="o">=</span> <span class="n">MY_SINGLETON</span> <span class="p">(</span><span class="n">object</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="k">else</span>
-    <span class="n">object</span> <span class="o">=</span> <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">the_singleton</span><span class="p">));</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">the_singleton</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_OBJECT_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">parent_class</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">constructor</span><span class="w"> </span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">n_construct_params</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                           </span><span class="n">construct_params</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">the_singleton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MY_SINGLETON</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">the_singleton</span><span class="p">));</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">object</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">object</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="method">
@@ -360,46 +360,46 @@ be used to store a <a class="reference internal" href="ParamSpec.html#GObject.Pa
 <p>This function should be used if you plan to use a static array of
 <a class="reference internal" href="ParamSpec.html#GObject.ParamSpec" title="GObject.ParamSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpecs</span></code></a> and <a class="reference internal" href="Object.html#GObject.Object.notify_by_pspec" title="GObject.Object.notify_by_pspec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.notify_by_pspec</span></code></a>(). For instance, this
 class initialization:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="p">{</span>
-  <span class="n">PROP_0</span><span class="p">,</span> <span class="n">PROP_FOO</span><span class="p">,</span> <span class="n">PROP_BAR</span><span class="p">,</span> <span class="n">N_PROPERTIES</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">PROP_0</span><span class="p">,</span><span class="w"> </span><span class="n">PROP_FOO</span><span class="p">,</span><span class="w"> </span><span class="n">PROP_BAR</span><span class="p">,</span><span class="w"> </span><span class="n">N_PROPERTIES</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">GParamSpec</span> <span class="o">*</span><span class="n">obj_properties</span><span class="p">[</span><span class="n">N_PROPERTIES</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">NULL</span><span class="p">,</span> <span class="p">};</span>
+<span class="k">static</span><span class="w"> </span><span class="n">GParamSpec</span><span class="w"> </span><span class="o">*</span><span class="n">obj_properties</span><span class="p">[</span><span class="n">N_PROPERTIES</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_object_class_init</span> <span class="p">(</span><span class="n">MyObjectClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GObjectClass</span> <span class="o">*</span><span class="n">gobject_class</span> <span class="o">=</span> <span class="n">G_OBJECT_CLASS</span> <span class="p">(</span><span class="n">klass</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_object_class_init</span><span class="w"> </span><span class="p">(</span><span class="n">MyObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">klass</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">gobject_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_OBJECT_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">klass</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span> <span class="o">=</span>
-    <span class="n">g_param_spec_int</span> <span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Foo&quot;</span><span class="p">,</span>
-                      <span class="mi">-1</span><span class="p">,</span> <span class="n">G_MAXINT</span><span class="p">,</span>
-                      <span class="mi">0</span><span class="p">,</span>
-                      <span class="n">G_PARAM_READWRITE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">G_MAXINT</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">G_PARAM_READWRITE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_BAR</span><span class="p">]</span> <span class="o">=</span>
-    <span class="n">g_param_spec_string</span> <span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span>
-                         <span class="nb">NULL</span><span class="p">,</span>
-                         <span class="n">G_PARAM_READWRITE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_BAR</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_param_spec_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                         </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                         </span><span class="n">G_PARAM_READWRITE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">set_property</span> <span class="o">=</span> <span class="n">my_object_set_property</span><span class="p">;</span>
-  <span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">get_property</span> <span class="o">=</span> <span class="n">my_object_get_property</span><span class="p">;</span>
-  <span class="n">g_object_class_install_properties</span> <span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span>
-                                     <span class="n">N_PROPERTIES</span><span class="p">,</span>
-                                     <span class="n">obj_properties</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">set_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_object_set_property</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">get_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_object_get_property</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_class_install_properties</span><span class="w"> </span><span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">N_PROPERTIES</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">obj_properties</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>allows calling <a class="reference internal" href="Object.html#GObject.Object.notify_by_pspec" title="GObject.Object.notify_by_pspec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.notify_by_pspec</span></code></a>() to notify of property changes:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span>
-<span class="nf">my_object_set_foo</span> <span class="p">(</span><span class="n">MyObject</span> <span class="o">*</span><span class="n">self</span><span class="p">,</span> <span class="n">gint</span> <span class="n">foo</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span> <span class="o">!=</span> <span class="n">foo</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span><span class="p">;</span>
-      <span class="n">g_object_notify_by_pspec</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">self</span><span class="p">),</span> <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span>
-    <span class="p">}</span>
- <span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_object_set_foo</span><span class="w"> </span><span class="p">(</span><span class="n">MyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">gint</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_notify_by_pspec</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">

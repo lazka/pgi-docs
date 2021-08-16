@@ -239,50 +239,50 @@ be acquired.  This schema source can then become part of the metadata
 associated with the plugin and queried whenever the plugin requires
 access to some settings.</p>
 <p>Consider the following example:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
-<span class="p">{</span>
-   <span class="p">...</span>
-   <span class="n">GSettingsSchemaSource</span> <span class="o">*</span><span class="n">schema_source</span><span class="p">;</span>
-   <span class="p">...</span>
-<span class="p">}</span> <span class="n">Plugin</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="p">...</span><span class="w"></span>
+<span class="w">   </span><span class="n">GSettingsSchemaSource</span><span class="w"> </span><span class="o">*</span><span class="n">schema_source</span><span class="p">;</span><span class="w"></span>
+<span class="w">   </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">Plugin</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">Plugin</span> <span class="o">*</span>
-<span class="nf">initialise_plugin</span> <span class="p">(</span><span class="k">const</span> <span class="n">gchar</span> <span class="o">*</span><span class="n">dir</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">Plugin</span> <span class="o">*</span><span class="n">plugin</span><span class="p">;</span>
+<span class="n">Plugin</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">initialise_plugin</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">dir</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Plugin</span><span class="w"> </span><span class="o">*</span><span class="n">plugin</span><span class="p">;</span><span class="w"></span>
 
-  <span class="p">...</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 
-  <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">schema_source</span> <span class="o">=</span>
-    <span class="n">g_settings_schema_source_new_from_directory</span> <span class="p">(</span><span class="n">dir</span><span class="p">,</span>
-      <span class="n">g_settings_schema_source_get_default</span> <span class="p">(),</span> <span class="n">FALSE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">  </span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">schema_source</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_settings_schema_source_new_from_directory</span><span class="w"> </span><span class="p">(</span><span class="n">dir</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_settings_schema_source_get_default</span><span class="w"> </span><span class="p">(),</span><span class="w"> </span><span class="n">FALSE</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="p">...</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">plugin</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">plugin</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="p">...</span>
+<span class="p">...</span><span class="w"></span>
 
-<span class="n">GSettings</span> <span class="o">*</span>
-<span class="n">plugin_get_settings</span> <span class="p">(</span><span class="n">Plugin</span>      <span class="o">*</span><span class="n">plugin</span><span class="p">,</span>
-                     <span class="k">const</span> <span class="n">gchar</span> <span class="o">*</span><span class="n">schema_id</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GSettingsSchema</span> <span class="o">*</span><span class="n">schema</span><span class="p">;</span>
+<span class="n">GSettings</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="n">plugin_get_settings</span><span class="w"> </span><span class="p">(</span><span class="n">Plugin</span><span class="w">      </span><span class="o">*</span><span class="n">plugin</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">schema_id</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSettingsSchema</span><span class="w"> </span><span class="o">*</span><span class="n">schema</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">schema_id</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="n">schema_id</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">identifier</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">schema_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">schema_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">identifier</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">schema</span> <span class="o">=</span> <span class="n">g_settings_schema_source_lookup</span> <span class="p">(</span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">schema_source</span><span class="p">,</span>
-                                            <span class="n">schema_id</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_settings_schema_source_lookup</span><span class="w"> </span><span class="p">(</span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">schema_source</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                            </span><span class="n">schema_id</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">schema</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="p">...</span> <span class="n">disable</span> <span class="n">the</span> <span class="n">plugin</span> <span class="n">or</span> <span class="n">abort</span><span class="p">,</span> <span class="n">etc</span> <span class="p">...</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">schema</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="p">...</span><span class="w"> </span><span class="n">disable</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">abort</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">g_settings_new_full</span> <span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_settings_new_full</span><span class="w"> </span><span class="p">(</span><span class="n">schema</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The code above shows how hooks should be added to the code that
@@ -293,14 +293,14 @@ ships.</p>
 <p>From the standpoint of the plugin, it would need to ensure that it
 ships a gschemas.compiled file as part of itself, and then simply do
 the following:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="n">GSettings</span> <span class="o">*</span><span class="n">settings</span><span class="p">;</span>
-  <span class="n">gint</span> <span class="n">some_value</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSettings</span><span class="w"> </span><span class="o">*</span><span class="n">settings</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gint</span><span class="w"> </span><span class="n">some_value</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">settings</span> <span class="o">=</span> <span class="n">plugin_get_settings</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-  <span class="n">some_value</span> <span class="o">=</span> <span class="n">g_settings_get_int</span> <span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s">&quot;some-value&quot;</span><span class="p">);</span>
-  <span class="p">...</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plugin_get_settings</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">some_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_settings_get_int</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;some-value&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>It’s also possible that the plugin system expects the schema source

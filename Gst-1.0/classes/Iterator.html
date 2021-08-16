@@ -299,30 +299,30 @@ a refcounted object (with, say, <a class="reference external" href="../../GObjec
 object will not be increased. Your code is responsible for taking a reference
 if it wants to continue using it later.</p>
 <p>The basic use pattern of an iterator is as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GstIterator</span> <span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="n">_get_iterator</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
-<span class="n">GValue</span> <span class="n">item</span> <span class="o">=</span> <span class="n">G_VALUE_INIT</span><span class="p">;</span>
-<span class="n">done</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
-<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">done</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="n">gst_iterator_next</span> <span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item</span><span class="p">))</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nl">GST_ITERATOR_OK</span><span class="p">:</span>
-      <span class="p">...</span><span class="n">get</span><span class="o">/</span><span class="n">use</span><span class="o">/</span><span class="n">change</span> <span class="n">item</span> <span class="n">here</span><span class="p">...</span>
-      <span class="n">g_value_reset</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">item</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">GST_ITERATOR_RESYNC</span><span class="p">:</span>
-      <span class="p">...</span><span class="n">rollback</span> <span class="n">changes</span> <span class="n">to</span> <span class="n">items</span><span class="p">...</span>
-      <span class="n">gst_iterator_resync</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">GST_ITERATOR_ERROR</span><span class="p">:</span>
-      <span class="p">...</span><span class="n">wrong</span> <span class="n">parameters</span> <span class="n">were</span> <span class="n">given</span><span class="p">...</span>
-      <span class="n">done</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
-      <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nl">GST_ITERATOR_DONE</span><span class="p">:</span>
-      <span class="n">done</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
-      <span class="k">break</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="n">g_value_unset</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">item</span><span class="p">);</span>
-<span class="n">gst_iterator_free</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GstIterator</span><span class="w"> </span><span class="o">*</span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_get_iterator</span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w"></span>
+<span class="n">GValue</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_VALUE_INIT</span><span class="p">;</span><span class="w"></span>
+<span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">gst_iterator_next</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">item</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">GST_ITERATOR_OK</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p">...</span><span class="n">get</span><span class="o">/</span><span class="n">use</span><span class="o">/</span><span class="n">change</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="n">here</span><span class="p">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_value_reset</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">item</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">GST_ITERATOR_RESYNC</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p">...</span><span class="n">rollback</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">items</span><span class="p">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">gst_iterator_resync</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">GST_ITERATOR_ERROR</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p">...</span><span class="n">wrong</span><span class="w"> </span><span class="n">parameters</span><span class="w"> </span><span class="n">were</span><span class="w"> </span><span class="n">given</span><span class="p">...</span><span class="w"></span>
+<span class="w">      </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nl">GST_ITERATOR_DONE</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="n">g_value_unset</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">item</span><span class="p">);</span><span class="w"></span>
+<span class="n">gst_iterator_free</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="classmethod">

@@ -453,33 +453,33 @@ then pull them out to examine them with <a class="reference internal" href="#Gst
 <dt>A simple buffer-in buffer-out example</dt>
 <dd></dd>
 </dl>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;gst/gst.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;gst/check/gstharness.h&gt;</span><span class="cp"></span>
-<span class="n">GstHarness</span> <span class="o">*</span><span class="n">h</span><span class="p">;</span>
-<span class="n">GstBuffer</span> <span class="o">*</span><span class="n">in_buf</span><span class="p">;</span>
-<span class="n">GstBuffer</span> <span class="o">*</span><span class="n">out_buf</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;gst/gst.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;gst/check/gstharness.h&gt;</span><span class="cp"></span>
+<span class="n">GstHarness</span><span class="w"> </span><span class="o">*</span><span class="n">h</span><span class="p">;</span><span class="w"></span>
+<span class="n">GstBuffer</span><span class="w"> </span><span class="o">*</span><span class="n">in_buf</span><span class="p">;</span><span class="w"></span>
+<span class="n">GstBuffer</span><span class="w"> </span><span class="o">*</span><span class="n">out_buf</span><span class="p">;</span><span class="w"></span>
 
 <span class="c1">// attach the harness to the src and sink pad of GstQueue</span>
-<span class="n">h</span> <span class="o">=</span> <span class="n">gst_harness_new</span> <span class="p">(</span><span class="s">&quot;queue&quot;</span><span class="p">);</span>
+<span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gst_harness_new</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;queue&quot;</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// we must specify a caps before pushing buffers</span>
-<span class="n">gst_harness_set_src_caps_str</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s">&quot;mycaps&quot;</span><span class="p">);</span>
+<span class="n">gst_harness_set_src_caps_str</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mycaps&quot;</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// create a buffer of size 42</span>
-<span class="n">in_buf</span> <span class="o">=</span> <span class="n">gst_harness_create_buffer</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
+<span class="n">in_buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gst_harness_create_buffer</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// push the buffer into the queue</span>
-<span class="n">gst_harness_push</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">in_buf</span><span class="p">);</span>
+<span class="n">gst_harness_push</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">in_buf</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// pull the buffer from the queue</span>
-<span class="n">out_buf</span> <span class="o">=</span> <span class="n">gst_harness_pull</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">out_buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gst_harness_pull</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// validate the buffer in is the same as buffer out</span>
-<span class="n">fail_unless</span> <span class="p">(</span><span class="n">in_buf</span> <span class="o">==</span> <span class="n">out_buf</span><span class="p">);</span>
+<span class="n">fail_unless</span><span class="w"> </span><span class="p">(</span><span class="n">in_buf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">out_buf</span><span class="p">);</span><span class="w"></span>
 
 <span class="c1">// cleanup</span>
-<span class="n">gst_buffer_unref</span> <span class="p">(</span><span class="n">out_buf</span><span class="p">);</span>
-<span class="n">gst_harness_teardown</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">gst_buffer_unref</span><span class="w"> </span><span class="p">(</span><span class="n">out_buf</span><span class="p">);</span><span class="w"></span>
+<span class="n">gst_harness_teardown</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Another main feature of the <a class="reference internal" href="#GstCheck.Harness" title="GstCheck.Harness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstCheck.Harness</span></code></a> is its integration with the
@@ -496,8 +496,8 @@ or using the much more convenient <a class="reference internal" href="#GstCheck.
 (like vp8dec) it can be very useful to add a src-harness with both a
 src-element (videotestsrc) and an encoder (vp8enc) to feed the decoder data
 with different configurations, by simply doing:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GstHarness</span> <span class="o">*</span> <span class="n">h</span> <span class="o">=</span> <span class="n">gst_harness_new</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s">&quot;vp8dec&quot;</span><span class="p">);</span>
-<span class="n">gst_harness_add_src_parse</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s">&quot;videotestsrc is-live=1 ! vp8enc&quot;</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GstHarness</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gst_harness_new</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;vp8dec&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">gst_harness_add_src_parse</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;videotestsrc is-live=1 ! vp8enc&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>and then feeding it data with:</p>

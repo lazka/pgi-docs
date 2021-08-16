@@ -547,13 +547,13 @@ request further motion notifies, because it also works for extension
 events where motion notifies are provided for devices other than the
 core pointer. Coordinate extraction, processing and requesting more
 motion events from a <a class="reference internal" href="../enums.html#Gdk.EventType.MOTION_NOTIFY" title="Gdk.EventType.MOTION_NOTIFY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.EventType.MOTION_NOTIFY</span></code></a> event usually works like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="c1">// motion_event handler</span>
-  <span class="n">x</span> <span class="o">=</span> <span class="n">motion_event</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
-  <span class="n">y</span> <span class="o">=</span> <span class="n">motion_event</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span>
-  <span class="c1">// handle (x,y) motion</span>
-  <span class="n">gdk_event_request_motions</span> <span class="p">(</span><span class="n">motion_event</span><span class="p">);</span> <span class="c1">// handles is_hint events</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// motion_event handler</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">motion_event</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">motion_event</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// handle (x,y) motion</span>
+<span class="w">  </span><span class="n">gdk_event_request_motions</span><span class="w"> </span><span class="p">(</span><span class="n">motion_event</span><span class="p">);</span><span class="w"> </span><span class="c1">// handles is_hint events</span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">
@@ -988,33 +988,33 @@ are undefined.</p>
 <p>If you wish to handle both discrete and smooth scrolling, you
 should check the return value of this function, or of
 <a class="reference internal" href="#Gdk.Event.get_scroll_deltas" title="Gdk.Event.get_scroll_deltas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.Event.get_scroll_deltas</span></code></a>(); for instance:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GdkScrollDirection</span> <span class="n">direction</span><span class="p">;</span>
-<span class="kt">double</span> <span class="n">vscroll_factor</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="kt">double</span> <span class="n">x_scroll</span><span class="p">,</span> <span class="n">y_scroll</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GdkScrollDirection</span><span class="w"> </span><span class="n">direction</span><span class="p">;</span><span class="w"></span>
+<span class="kt">double</span><span class="w"> </span><span class="n">vscroll_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
+<span class="kt">double</span><span class="w"> </span><span class="n">x_scroll</span><span class="p">,</span><span class="w"> </span><span class="n">y_scroll</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">gdk_event_get_scroll_direction</span> <span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">direction</span><span class="p">))</span>
-  <span class="p">{</span>
-    <span class="c1">// Handle discrete scrolling with a known constant delta;</span>
-    <span class="k">const</span> <span class="kt">double</span> <span class="n">delta</span> <span class="o">=</span> <span class="mf">12.0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">gdk_event_get_scroll_direction</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">direction</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Handle discrete scrolling with a known constant delta;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">12.0</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">switch</span> <span class="p">(</span><span class="n">direction</span><span class="p">)</span>
-      <span class="p">{</span>
-      <span class="k">case</span> <span class="nl">GDK_SCROLL_UP</span><span class="p">:</span>
-        <span class="n">vscroll_factor</span> <span class="o">=</span> <span class="o">-</span><span class="n">delta</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="k">case</span> <span class="nl">GDK_SCROLL_DOWN</span><span class="p">:</span>
-        <span class="n">vscroll_factor</span> <span class="o">=</span> <span class="n">delta</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="k">default</span><span class="o">:</span>
-        <span class="c1">// no scrolling</span>
-        <span class="k">break</span><span class="p">;</span>
-      <span class="p">}</span>
-  <span class="p">}</span>
-<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">gdk_event_get_scroll_deltas</span> <span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x_scroll</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y_scroll</span><span class="p">))</span>
-  <span class="p">{</span>
-    <span class="c1">// Handle smooth scrolling directly</span>
-    <span class="n">vscroll_factor</span> <span class="o">=</span> <span class="n">y_scroll</span><span class="p">;</span>
-  <span class="p">}</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">direction</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">GDK_SCROLL_UP</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">vscroll_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">delta</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="nl">GDK_SCROLL_DOWN</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">vscroll_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// no scrolling</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">gdk_event_get_scroll_deltas</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x_scroll</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y_scroll</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// Handle smooth scrolling directly</span>
+<span class="w">    </span><span class="n">vscroll_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_scroll</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">

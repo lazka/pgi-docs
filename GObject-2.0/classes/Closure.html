@@ -396,36 +396,36 @@ when implementing new types of closures.</p>
 <p>Allocates a struct of the given size and initializes the initial
 part as a <a class="reference internal" href="#GObject.Closure" title="GObject.Closure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure</span></code></a>. This function is mainly useful when
 implementing new types of closures.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_MyClosure</span> <span class="n">MyClosure</span><span class="p">;</span>
-<span class="k">struct</span> <span class="nc">_MyClosure</span>
-<span class="p">{</span>
-  <span class="n">GClosure</span> <span class="n">closure</span><span class="p">;</span>
-  <span class="c1">// extra data goes here</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="nc">_MyClosure</span><span class="w"> </span><span class="n">MyClosure</span><span class="p">;</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">_MyClosure</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GClosure</span><span class="w"> </span><span class="n">closure</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// extra data goes here</span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_closure_finalize</span> <span class="p">(</span><span class="n">gpointer</span>  <span class="n">notify_data</span><span class="p">,</span>
-                     <span class="n">GClosure</span> <span class="o">*</span><span class="n">closure</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">MyClosure</span> <span class="o">*</span><span class="n">my_closure</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyClosure</span> <span class="o">*</span><span class="p">)</span><span class="n">closure</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_closure_finalize</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w">  </span><span class="n">notify_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                     </span><span class="n">GClosure</span><span class="w"> </span><span class="o">*</span><span class="n">closure</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyClosure</span><span class="w"> </span><span class="o">*</span><span class="n">my_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MyClosure</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">closure</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c1">// free extra data here</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// free extra data here</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">MyClosure</span> <span class="o">*</span><span class="nf">my_closure_new</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GClosure</span> <span class="o">*</span><span class="n">closure</span><span class="p">;</span>
-  <span class="n">MyClosure</span> <span class="o">*</span><span class="n">my_closure</span><span class="p">;</span>
+<span class="n">MyClosure</span><span class="w"> </span><span class="o">*</span><span class="nf">my_closure_new</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GClosure</span><span class="w"> </span><span class="o">*</span><span class="n">closure</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">MyClosure</span><span class="w"> </span><span class="o">*</span><span class="n">my_closure</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">closure</span> <span class="o">=</span> <span class="n">g_closure_new_simple</span> <span class="p">(</span><span class="k">sizeof</span> <span class="p">(</span><span class="n">MyClosure</span><span class="p">),</span> <span class="n">data</span><span class="p">);</span>
-  <span class="n">my_closure</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyClosure</span> <span class="o">*</span><span class="p">)</span> <span class="n">closure</span><span class="p">;</span>
+<span class="w">  </span><span class="n">closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_closure_new_simple</span><span class="w"> </span><span class="p">(</span><span class="k">sizeof</span><span class="w"> </span><span class="p">(</span><span class="n">MyClosure</span><span class="p">),</span><span class="w"> </span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">my_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MyClosure</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">closure</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c1">// initialize extra data here</span>
+<span class="w">  </span><span class="c1">// initialize extra data here</span>
 
-  <span class="n">g_closure_add_finalize_notifier</span> <span class="p">(</span><span class="n">closure</span><span class="p">,</span> <span class="n">notify_data</span><span class="p">,</span>
-                                   <span class="n">my_closure_finalize</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">my_closure</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_closure_add_finalize_notifier</span><span class="w"> </span><span class="p">(</span><span class="n">closure</span><span class="p">,</span><span class="w"> </span><span class="n">notify_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">my_closure_finalize</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">my_closure</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </dd></dl>
@@ -503,9 +503,9 @@ floating state and decreases the reference count. If the closure
 is not floating, <a class="reference internal" href="#GObject.Closure.sink" title="GObject.Closure.sink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure.sink</span></code></a>() does nothing. The reason for the
 existence of the floating state is to prevent cumbersome code
 sequences like:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">closure</span> <span class="o">=</span> <span class="n">g_cclosure_new</span> <span class="p">(</span><span class="n">cb_func</span><span class="p">,</span> <span class="n">cb_data</span><span class="p">);</span>
-<span class="n">g_source_set_closure</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">closure</span><span class="p">);</span>
-<span class="n">g_closure_unref</span> <span class="p">(</span><span class="n">closure</span><span class="p">);</span> <span class="c1">// GObject doesn&#39;t really need this</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_cclosure_new</span><span class="w"> </span><span class="p">(</span><span class="n">cb_func</span><span class="p">,</span><span class="w"> </span><span class="n">cb_data</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_source_set_closure</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">closure</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_closure_unref</span><span class="w"> </span><span class="p">(</span><span class="n">closure</span><span class="p">);</span><span class="w"> </span><span class="c1">// GObject doesn&#39;t really need this</span>
 </pre></div>
 </div>
 <p>Because <a class="reference internal" href="../functions.html#GObject.source_set_closure" title="GObject.source_set_closure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.source_set_closure</span></code></a>() (and similar functions) take ownership of the
@@ -513,19 +513,19 @@ initial reference count, if it is unowned, we instead can write:</p>
 <p><code class="docutils literal notranslate"><span class="pre">g_source_set_closure</span> <span class="pre">(source,</span> <span class="pre">g_cclosure_new</span> <span class="pre">(cb_func,</span> <span class="pre">cb_data));</span></code></p>
 <p>Generally, this function is used together with <a class="reference internal" href="#GObject.Closure.ref" title="GObject.Closure.ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure.ref</span></code></a>(). An example
 of storing a closure for later notification looks like:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">GClosure</span> <span class="o">*</span><span class="n">notify_closure</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="kt">void</span>
-<span class="nf">foo_notify_set_closure</span> <span class="p">(</span><span class="n">GClosure</span> <span class="o">*</span><span class="n">closure</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">notify_closure</span><span class="p">)</span>
-    <span class="n">g_closure_unref</span> <span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span>
-  <span class="n">notify_closure</span> <span class="o">=</span> <span class="n">closure</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">notify_closure</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_closure_ref</span> <span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span>
-      <span class="n">g_closure_sink</span> <span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">GClosure</span><span class="w"> </span><span class="o">*</span><span class="n">notify_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">foo_notify_set_closure</span><span class="w"> </span><span class="p">(</span><span class="n">GClosure</span><span class="w"> </span><span class="o">*</span><span class="n">closure</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">notify_closure</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_closure_unref</span><span class="w"> </span><span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">notify_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">closure</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">notify_closure</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_closure_ref</span><span class="w"> </span><span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_closure_sink</span><span class="w"> </span><span class="p">(</span><span class="n">notify_closure</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Because <a class="reference internal" href="#GObject.Closure.sink" title="GObject.Closure.sink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure.sink</span></code></a>() may decrement the reference count of a closure

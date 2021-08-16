@@ -772,12 +772,12 @@ the <code class="docutils literal notranslate"><span class="pre">plus</span></co
 <code class="docutils literal notranslate"><span class="pre">&lt;Control&gt;plus</span></code> accelerator <code class="docutils literal notranslate"><span class="pre">&lt;Shift&gt;</span></code> should be masked out.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// We want to ignore irrelevant modifiers like ScrollLock</span>
 <span class="cp">#define ALL_ACCELS_MASK (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)</span>
-<span class="n">gdk_keymap_translate_keyboard_state</span> <span class="p">(</span><span class="n">keymap</span><span class="p">,</span> <span class="n">event</span><span class="o">-&gt;</span><span class="n">hardware_keycode</span><span class="p">,</span>
-                                     <span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">,</span> <span class="n">event</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">,</span>
-                                     <span class="o">&amp;</span><span class="n">keyval</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">consumed</span><span class="p">);</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">keyval</span> <span class="o">==</span> <span class="n">GDK_PLUS</span> <span class="o">&amp;&amp;</span>
-    <span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">consumed</span> <span class="o">&amp;</span> <span class="n">ALL_ACCELS_MASK</span><span class="p">)</span> <span class="o">==</span> <span class="n">GDK_CONTROL_MASK</span><span class="p">)</span>
-  <span class="c1">// Control was pressed</span>
+<span class="n">gdk_keymap_translate_keyboard_state</span><span class="w"> </span><span class="p">(</span><span class="n">keymap</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="o">-&gt;</span><span class="n">hardware_keycode</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="o">&amp;</span><span class="n">keyval</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">consumed</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">keyval</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GDK_PLUS</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">consumed</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ALL_ACCELS_MASK</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GDK_CONTROL_MASK</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Control was pressed</span>
 </pre></div>
 </div>
 <p>An older interpretation <cite>consumed_modifiers</cite> was that it contained
@@ -785,9 +785,9 @@ all modifiers that might affect the translation of the key;
 this allowed accelerators to be stored with irrelevant consumed
 modifiers, by doing:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// XXX Don’t do this XXX</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">keyval</span> <span class="o">==</span> <span class="n">accel_keyval</span> <span class="o">&amp;&amp;</span>
-    <span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">consumed</span> <span class="o">&amp;</span> <span class="n">ALL_ACCELS_MASK</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">accel_mods</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">consumed</span><span class="p">))</span>
-  <span class="c1">// Accelerator was pressed</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">keyval</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">accel_keyval</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">consumed</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ALL_ACCELS_MASK</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="n">accel_mods</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">consumed</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Accelerator was pressed</span>
 </pre></div>
 </div>
 <p>However, this did not work if multi-modifier combinations were

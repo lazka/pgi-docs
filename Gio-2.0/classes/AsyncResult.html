@@ -325,44 +325,44 @@ action at all after the operation completes. Applications may also
 take a reference to the <a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> and call “_finish()” later;
 however, the “_finish()” function may be called at most once.</p>
 <p>Example of a typical asynchronous operation flow:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">_theoretical_frobnitz_async</span> <span class="p">(</span><span class="n">Theoretical</span>         <span class="o">*</span><span class="n">t</span><span class="p">,</span>
-                                  <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">c</span><span class="p">,</span>
-                                  <span class="n">GAsyncReadyCallback</span>  <span class="n">cb</span><span class="p">,</span>
-                                  <span class="n">gpointer</span>             <span class="n">u</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">_theoretical_frobnitz_async</span><span class="w"> </span><span class="p">(</span><span class="n">Theoretical</span><span class="w">         </span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">c</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">cb</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                  </span><span class="n">gpointer</span><span class="w">             </span><span class="n">u</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">gboolean</span> <span class="nf">_theoretical_frobnitz_finish</span> <span class="p">(</span><span class="n">Theoretical</span>   <span class="o">*</span><span class="n">t</span><span class="p">,</span>
-                                       <span class="n">GAsyncResult</span>  <span class="o">*</span><span class="n">res</span><span class="p">,</span>
-                                       <span class="n">GError</span>       <span class="o">**</span><span class="n">e</span><span class="p">);</span>
+<span class="n">gboolean</span><span class="w"> </span><span class="nf">_theoretical_frobnitz_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Theoretical</span><span class="w">   </span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">GAsyncResult</span><span class="w">  </span><span class="o">*</span><span class="n">res</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">e</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">frobnitz_result_func</span> <span class="p">(</span><span class="n">GObject</span>      <span class="o">*</span><span class="n">source_object</span><span class="p">,</span>
-                 <span class="n">GAsyncResult</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
-                 <span class="n">gpointer</span>      <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gboolean</span> <span class="n">success</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">frobnitz_result_func</span><span class="w"> </span><span class="p">(</span><span class="n">GObject</span><span class="w">      </span><span class="o">*</span><span class="n">source_object</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">GAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">res</span><span class="p">,</span><span class="w"></span>
+<span class="w">                 </span><span class="n">gpointer</span><span class="w">      </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gboolean</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">success</span> <span class="o">=</span> <span class="n">_theoretical_frobnitz_finish</span> <span class="p">(</span><span class="n">source_object</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">  </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_theoretical_frobnitz_finish</span><span class="w"> </span><span class="p">(</span><span class="n">source_object</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span>
-    <span class="n">g_printf</span> <span class="p">(</span><span class="s">&quot;Hurray!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="n">g_printf</span> <span class="p">(</span><span class="s">&quot;Uh oh!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Hurray!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Uh oh!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
 
-  <span class="p">...</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-   <span class="p">...</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="p">...</span><span class="w"></span>
 
-   <span class="n">_theoretical_frobnitz_async</span> <span class="p">(</span><span class="n">theoretical_data</span><span class="p">,</span>
-                                <span class="nb">NULL</span><span class="p">,</span>
-                                <span class="n">frobnitz_result_func</span><span class="p">,</span>
-                                <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">   </span><span class="n">_theoretical_frobnitz_async</span><span class="w"> </span><span class="p">(</span><span class="n">theoretical_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">frobnitz_result_func</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-   <span class="p">...</span>
-<span class="p">}</span>
+<span class="w">   </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The callback for an asynchronous operation is called only once, and is

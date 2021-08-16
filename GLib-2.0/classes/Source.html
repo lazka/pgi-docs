@@ -820,35 +820,35 @@ other reasonable alternative otherwise.  See <a class="reference internal" href=
 <p>This is important when you operate upon your objects
 from within idle handlers, but may have freed the object
 before the dispatch of your idle handler.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gboolean</span>
-<span class="nf">idle_callback</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">SomeWidget</span> <span class="o">*</span><span class="n">self</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"></span>
+<span class="nf">idle_callback</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">SomeWidget</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">GDK_THREADS_ENTER</span> <span class="p">();</span>
-  <span class="c1">// do stuff with self</span>
-  <span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">GDK_THREADS_LEAVE</span> <span class="p">();</span>
+<span class="w">  </span><span class="n">GDK_THREADS_ENTER</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// do stuff with self</span>
+<span class="w">  </span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GDK_THREADS_LEAVE</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">G_SOURCE_REMOVE</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">G_SOURCE_REMOVE</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">some_widget_do_stuff_later</span> <span class="p">(</span><span class="n">SomeWidget</span> <span class="o">*</span><span class="n">self</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span> <span class="o">=</span> <span class="n">g_idle_add</span> <span class="p">(</span><span class="n">idle_callback</span><span class="p">,</span> <span class="n">self</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">some_widget_do_stuff_later</span><span class="w"> </span><span class="p">(</span><span class="n">SomeWidget</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_idle_add</span><span class="w"> </span><span class="p">(</span><span class="n">idle_callback</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">some_widget_finalize</span> <span class="p">(</span><span class="n">GObject</span> <span class="o">*</span><span class="n">object</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">SomeWidget</span> <span class="o">*</span><span class="n">self</span> <span class="o">=</span> <span class="n">SOME_WIDGET</span> <span class="p">(</span><span class="n">object</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">some_widget_finalize</span><span class="w"> </span><span class="p">(</span><span class="n">GObject</span><span class="w"> </span><span class="o">*</span><span class="n">object</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">SomeWidget</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SOME_WIDGET</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="p">)</span>
-    <span class="n">g_source_remove</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_source_remove</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">idle_id</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">G_OBJECT_CLASS</span> <span class="p">(</span><span class="n">parent_class</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">finalize</span> <span class="p">(</span><span class="n">object</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">G_OBJECT_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">parent_class</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">finalize</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>This will fail in a multi-threaded application if the
@@ -856,20 +856,20 @@ widget is destroyed before the idle handler fires due
 to the use after free in the callback. A solution, to
 this particular problem, is to check to if the source
 has already been destroy within the callback.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gboolean</span>
-<span class="nf">idle_callback</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">SomeWidget</span> <span class="o">*</span><span class="n">self</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"></span>
+<span class="nf">idle_callback</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">SomeWidget</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">GDK_THREADS_ENTER</span> <span class="p">();</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">g_source_is_destroyed</span> <span class="p">(</span><span class="n">g_main_current_source</span> <span class="p">()))</span>
-    <span class="p">{</span>
-      <span class="c1">// do stuff with self</span>
-    <span class="p">}</span>
-  <span class="n">GDK_THREADS_LEAVE</span> <span class="p">();</span>
+<span class="w">  </span><span class="n">GDK_THREADS_ENTER</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_source_is_destroyed</span><span class="w"> </span><span class="p">(</span><span class="n">g_main_current_source</span><span class="w"> </span><span class="p">()))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// do stuff with self</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">GDK_THREADS_LEAVE</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Calls to this function from a thread other than the one acquired by the

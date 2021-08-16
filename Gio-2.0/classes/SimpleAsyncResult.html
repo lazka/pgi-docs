@@ -431,98 +431,98 @@ gssize, respectively.</p>
 <p>For the details of the requirements implementations must respect, see
 <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.  A typical implementation of an asynchronous operation
 using <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> looks something like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">baked_cb</span> <span class="p">(</span><span class="n">Cake</span>    <span class="o">*</span><span class="n">cake</span><span class="p">,</span>
-          <span class="n">gpointer</span> <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="c1">// In this example, this callback is not given a reference to the cake,</span>
-  <span class="c1">// so the GSimpleAsyncResult has to take a reference to it.</span>
-  <span class="n">GSimpleAsyncResult</span> <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">baked_cb</span><span class="w"> </span><span class="p">(</span><span class="n">Cake</span><span class="w">    </span><span class="o">*</span><span class="n">cake</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="n">gpointer</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// In this example, this callback is not given a reference to the cake,</span>
+<span class="w">  </span><span class="c1">// so the GSimpleAsyncResult has to take a reference to it.</span>
+<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="n">g_simple_async_result_set_error</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span>
-                                     <span class="n">BAKER_ERRORS</span><span class="p">,</span>
-                                     <span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span>
-                                     <span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="n">g_simple_async_result_set_op_res_gpointer</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span>
-                                               <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">cake</span><span class="p">),</span>
-                                               <span class="n">g_object_unref</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_simple_async_result_set_error</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">BAKER_ERRORS</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_simple_async_result_set_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                               </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                               </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
 
 
-  <span class="c1">// In this example, we assume that baked_cb is called as a callback from</span>
-  <span class="c1">// the mainloop, so it&#39;s safe to complete the operation synchronously here.</span>
-  <span class="c1">// If, however, _baker_prepare_cake () might call its callback without</span>
-  <span class="c1">// first returning to the mainloop — inadvisable, but some APIs do so —</span>
-  <span class="c1">// we would need to use g_simple_async_result_complete_in_idle().</span>
-  <span class="n">g_simple_async_result_complete</span> <span class="p">(</span><span class="n">result</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// In this example, we assume that baked_cb is called as a callback from</span>
+<span class="w">  </span><span class="c1">// the mainloop, so it&#39;s safe to complete the operation synchronously here.</span>
+<span class="w">  </span><span class="c1">// If, however, _baker_prepare_cake () might call its callback without</span>
+<span class="w">  </span><span class="c1">// first returning to the mainloop — inadvisable, but some APIs do so —</span>
+<span class="w">  </span><span class="c1">// we would need to use g_simple_async_result_complete_in_idle().</span>
+<span class="w">  </span><span class="n">g_simple_async_result_complete</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span> <span class="p">(</span><span class="n">Baker</span>              <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                       <span class="n">guint</span>               <span class="n">radius</span><span class="p">,</span>
-                       <span class="n">GAsyncReadyCallback</span> <span class="n">callback</span><span class="p">,</span>
-                       <span class="n">gpointer</span>            <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GSimpleAsyncResult</span> <span class="o">*</span><span class="n">simple</span><span class="p">;</span>
-  <span class="n">Cake</span>               <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">              </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">guint</span><span class="w">               </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gpointer</span><span class="w">            </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">simple</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w">               </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">radius</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_simple_async_report_error_in_idle</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">self</span><span class="p">),</span>
-                                           <span class="n">callback</span><span class="p">,</span>
-                                           <span class="n">user_data</span><span class="p">,</span>
-                                           <span class="n">BAKER_ERRORS</span><span class="p">,</span>
-                                           <span class="n">BAKER_ERROR_TOO_SMALL</span><span class="p">,</span>
-                                           <span class="s">&quot;%ucm radius cakes are silly&quot;</span><span class="p">,</span>
-                                           <span class="n">radius</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_simple_async_report_error_in_idle</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">user_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">BAKER_ERRORS</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">BAKER_ERROR_TOO_SMALL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="s">&quot;%ucm radius cakes are silly&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">radius</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">simple</span> <span class="o">=</span> <span class="n">g_simple_async_result_new</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">self</span><span class="p">),</span>
-                                      <span class="n">callback</span><span class="p">,</span>
-                                      <span class="n">user_data</span><span class="p">,</span>
-                                      <span class="n">baker_bake_cake_async</span><span class="p">);</span>
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">_baker_get_cached_cake</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">);</span>
+<span class="w">  </span><span class="n">simple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_simple_async_result_new</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">user_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                      </span><span class="n">baker_bake_cake_async</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_baker_get_cached_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_simple_async_result_set_op_res_gpointer</span> <span class="p">(</span><span class="n">simple</span><span class="p">,</span>
-                                                 <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">cake</span><span class="p">),</span>
-                                                 <span class="n">g_object_unref</span><span class="p">);</span>
-      <span class="n">g_simple_async_result_complete_in_idle</span> <span class="p">(</span><span class="n">simple</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">simple</span><span class="p">);</span>
-      <span class="c1">// Drop the reference returned by _baker_get_cached_cake();</span>
-      <span class="c1">// the GSimpleAsyncResult has taken its own reference.</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_simple_async_result_set_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                 </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                                 </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_simple_async_result_complete_in_idle</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// Drop the reference returned by _baker_get_cached_cake();</span>
+<span class="w">      </span><span class="c1">// the GSimpleAsyncResult has taken its own reference.</span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">_baker_prepare_cake</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">baked_cb</span><span class="p">,</span> <span class="n">simple</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">_baker_prepare_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">baked_cb</span><span class="p">,</span><span class="w"> </span><span class="n">simple</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">Cake</span> <span class="o">*</span>
-<span class="nf">baker_bake_cake_finish</span> <span class="p">(</span><span class="n">Baker</span>        <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                        <span class="n">GAsyncResult</span> <span class="o">*</span><span class="n">result</span><span class="p">,</span>
-                        <span class="n">GError</span>      <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GSimpleAsyncResult</span> <span class="o">*</span><span class="n">simple</span><span class="p">;</span>
-  <span class="n">Cake</span>               <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
+<span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">baker_bake_cake_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">        </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GError</span><span class="w">      </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">simple</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w">               </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">g_simple_async_result_is_valid</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span>
-                                                        <span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">self</span><span class="p">),</span>
-                                                        <span class="n">baker_bake_cake_async</span><span class="p">),</span>
-                        <span class="nb">NULL</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_is_valid</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                        </span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"></span>
+<span class="w">                                                        </span><span class="n">baker_bake_cake_async</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">simple</span> <span class="o">=</span> <span class="p">(</span><span class="n">GSimpleAsyncResult</span> <span class="o">*</span><span class="p">)</span> <span class="n">result</span><span class="p">;</span>
+<span class="w">  </span><span class="n">simple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">g_simple_async_result_propagate_error</span> <span class="p">(</span><span class="n">simple</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
-    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_propagate_error</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">CAKE</span> <span class="p">(</span><span class="n">g_simple_async_result_get_op_res_gpointer</span> <span class="p">(</span><span class="n">simple</span><span class="p">));</span>
-  <span class="k">return</span> <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CAKE</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_get_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="classmethod">

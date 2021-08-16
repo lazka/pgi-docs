@@ -264,39 +264,39 @@ simultaneous read-only access (by holding the ‘reader’ lock via
 lock when a reader already holds the lock and a writer is queued to acquire
 it.</p>
 <p>Here is an example for an array with access functions:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRWLock</span> <span class="n">lock</span><span class="p">;</span>
-<span class="n">GPtrArray</span> <span class="o">*</span><span class="n">array</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GRWLock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span><span class="w"></span>
+<span class="n">GPtrArray</span><span class="w"> </span><span class="o">*</span><span class="n">array</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">gpointer</span>
-<span class="nf">my_array_get</span> <span class="p">(</span><span class="n">guint</span> <span class="n">index</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">gpointer</span> <span class="n">retval</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">gpointer</span><span class="w"></span>
+<span class="nf">my_array_get</span><span class="w"> </span><span class="p">(</span><span class="n">guint</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">gpointer</span><span class="w"> </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">array</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">array</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_rw_lock_reader_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span>
-    <span class="n">retval</span> <span class="o">=</span> <span class="n">g_ptr_array_index</span> <span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
-  <span class="n">g_rw_lock_reader_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_rw_lock_reader_lock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">array</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_ptr_array_index</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_rw_lock_reader_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">retval</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">my_array_set</span> <span class="p">(</span><span class="n">guint</span> <span class="n">index</span><span class="p">,</span> <span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_rw_lock_writer_lock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">my_array_set</span><span class="w"> </span><span class="p">(</span><span class="n">guint</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_rw_lock_writer_lock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">array</span><span class="p">)</span>
-    <span class="n">array</span> <span class="o">=</span> <span class="n">g_ptr_array_new</span> <span class="p">();</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">array</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_ptr_array_new</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">array</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span>
-    <span class="n">g_ptr_array_set_size</span> <span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">g_ptr_array_index</span> <span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">array</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_ptr_array_set_size</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_ptr_array_index</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_rw_lock_writer_unlock</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_rw_lock_writer_unlock</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>This example shows an array which can be accessed by many readers
@@ -331,15 +331,15 @@ leads to undefined behaviour.</p>
 allocated on the stack, or as part of a larger structure.  It is not
 necessary to initialise a reader-writer lock that has been statically
 allocated.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">GRWLock</span> <span class="n">l</span><span class="p">;</span>
-    <span class="p">...</span>
-  <span class="p">}</span> <span class="n">Blob</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">GRWLock</span><span class="w"> </span><span class="n">l</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="n">Blob</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">Blob</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>
+<span class="n">Blob</span><span class="w"> </span><span class="o">*</span><span class="n">b</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">b</span> <span class="o">=</span> <span class="n">g_new</span> <span class="p">(</span><span class="n">Blob</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-<span class="n">g_rw_lock_init</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">);</span>
+<span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_new</span><span class="w"> </span><span class="p">(</span><span class="n">Blob</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="n">g_rw_lock_init</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>To undo the effect of <a class="reference internal" href="#GLib.RWLock.init" title="GLib.RWLock.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RWLock.init</span></code></a>() when a lock is no longer

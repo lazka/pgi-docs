@@ -424,32 +424,32 @@ registered it.</p>
 used files. You can create new <a class="reference internal" href="#Gtk.RecentManager" title="Gtk.RecentManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.RecentManager</span></code></a> objects, but
 it is more efficient to use the default manager created by GTK+.</p>
 <p>Adding a new recently used file is as simple as:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GtkRecentManager</span> <span class="o">*</span><span class="n">manager</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GtkRecentManager</span><span class="w"> </span><span class="o">*</span><span class="n">manager</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">manager</span> <span class="o">=</span> <span class="n">gtk_recent_manager_get_default</span> <span class="p">();</span>
-<span class="n">gtk_recent_manager_add_item</span> <span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">file_uri</span><span class="p">);</span>
+<span class="n">manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_recent_manager_get_default</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="n">gtk_recent_manager_add_item</span><span class="w"> </span><span class="p">(</span><span class="n">manager</span><span class="p">,</span><span class="w"> </span><span class="n">file_uri</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The <a class="reference internal" href="#Gtk.RecentManager" title="Gtk.RecentManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.RecentManager</span></code></a> will try to gather all the needed information
 from the file itself through GIO.</p>
 <p>Looking up the meta-data associated with a recently used file
 given its URI requires calling <a class="reference internal" href="#Gtk.RecentManager.lookup_item" title="Gtk.RecentManager.lookup_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.RecentManager.lookup_item</span></code></a>():</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GtkRecentManager</span> <span class="o">*</span><span class="n">manager</span><span class="p">;</span>
-<span class="n">GtkRecentInfo</span> <span class="o">*</span><span class="n">info</span><span class="p">;</span>
-<span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GtkRecentManager</span><span class="w"> </span><span class="o">*</span><span class="n">manager</span><span class="p">;</span><span class="w"></span>
+<span class="n">GtkRecentInfo</span><span class="w"> </span><span class="o">*</span><span class="n">info</span><span class="p">;</span><span class="w"></span>
+<span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">manager</span> <span class="o">=</span> <span class="n">gtk_recent_manager_get_default</span> <span class="p">();</span>
-<span class="n">info</span> <span class="o">=</span> <span class="n">gtk_recent_manager_lookup_item</span> <span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">file_uri</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="n">g_warning</span> <span class="p">(</span><span class="s">&quot;Could not find the file: %s&quot;</span><span class="p">,</span> <span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-    <span class="n">g_error_free</span> <span class="p">(</span><span class="n">error</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="k">else</span>
- <span class="p">{</span>
-   <span class="c1">// Use the info object</span>
-   <span class="n">gtk_recent_info_unref</span> <span class="p">(</span><span class="n">info</span><span class="p">);</span>
- <span class="p">}</span>
+<span class="n">manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_recent_manager_get_default</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_recent_manager_lookup_item</span><span class="w"> </span><span class="p">(</span><span class="n">manager</span><span class="p">,</span><span class="w"> </span><span class="n">file_uri</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_warning</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Could not find the file: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_error_free</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="k">else</span><span class="w"></span>
+<span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="c1">// Use the info object</span>
+<span class="w">   </span><span class="n">gtk_recent_info_unref</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">);</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In order to retrieve the list of recently used files, you can use

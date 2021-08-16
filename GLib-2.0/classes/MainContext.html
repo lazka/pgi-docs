@@ -823,18 +823,18 @@ example, integrating it with main loop implementations such as
 <p>Another related use for this function is when implementing a main
 loop with a termination condition, computed from multiple threads:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define NUM_TASKS 10</span>
-<span class="k">static</span> <span class="k">volatile</span> <span class="n">gint</span> <span class="n">tasks_remaining</span> <span class="o">=</span> <span class="n">NUM_TASKS</span><span class="p">;</span>
-<span class="p">...</span>
+<span class="k">static</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="n">gint</span><span class="w"> </span><span class="n">tasks_remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NUM_TASKS</span><span class="p">;</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
 
-<span class="k">while</span> <span class="p">(</span><span class="n">g_atomic_int_get</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">tasks_remaining</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="n">g_main_context_iteration</span> <span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">g_atomic_int_get</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">tasks_remaining</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_main_context_iteration</span><span class="w"> </span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Then in a thread:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">perform_work</span><span class="p">();</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">perform_work</span><span class="p">();</span><span class="w"></span>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">g_atomic_int_dec_and_test</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">tasks_remaining</span><span class="p">))</span>
-  <span class="n">g_main_context_wakeup</span> <span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_atomic_int_dec_and_test</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">tasks_remaining</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_main_context_wakeup</span><span class="w"> </span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 </dd></dl>

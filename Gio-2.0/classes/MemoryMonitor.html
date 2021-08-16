@@ -320,23 +320,23 @@ should be profiled for your application. <code class="docutils literal notransla
 make future heap allocations slower (due to releasing cached heap pages back
 to the kernel).</p>
 <p>See <a class="reference internal" href="../enums.html#Gio.MemoryMonitorWarningLevel" title="Gio.MemoryMonitorWarningLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MemoryMonitorWarningLevel</span></code></a> for details on the various warning levels.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">warning_cb</span> <span class="p">(</span><span class="n">GMemoryMonitor</span> <span class="o">*</span><span class="n">m</span><span class="p">,</span> <span class="n">GMemoryMonitorWarningLevel</span> <span class="n">level</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_debug</span> <span class="p">(</span><span class="s">&quot;Warning level: %d&quot;</span><span class="p">,</span> <span class="n">level</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">warning_level</span> <span class="o">&gt;</span> <span class="n">G_MEMORY_MONITOR_WARNING_LEVEL_LOW</span><span class="p">)</span>
-    <span class="n">drop_caches</span> <span class="p">();</span>
-<span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">warning_cb</span><span class="w"> </span><span class="p">(</span><span class="n">GMemoryMonitor</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">GMemoryMonitorWarningLevel</span><span class="w"> </span><span class="n">level</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_debug</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Warning level: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">warning_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">G_MEMORY_MONITOR_WARNING_LEVEL_LOW</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">drop_caches</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">GMemoryMonitor</span> <span class="o">*</span>
-<span class="nf">monitor_low_memory</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GMemoryMonitor</span> <span class="o">*</span><span class="n">m</span><span class="p">;</span>
-  <span class="n">m</span> <span class="o">=</span> <span class="n">g_memory_monitor_dup_default</span> <span class="p">();</span>
-  <span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="s">&quot;low-memory-warning&quot;</span><span class="p">,</span>
-                    <span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">warning_cb</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">m</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="n">GMemoryMonitor</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">monitor_low_memory</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GMemoryMonitor</span><span class="w"> </span><span class="o">*</span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_memory_monitor_dup_default</span><span class="w"> </span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;low-memory-warning&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">warning_cb</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Don’t forget to disconnect the <a class="reference internal" href="#Gio.MemoryMonitor" title="Gio.MemoryMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MemoryMonitor</span></code></a> <a class="reference internal" href="#Gio.MemoryMonitor.signals.low_memory_warning" title="Gio.MemoryMonitor.signals.low_memory_warning"><code class="xref py py-func docutils literal notranslate"><span class="pre">::low-memory-warning</span></code></a>

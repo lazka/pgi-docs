@@ -514,46 +514,46 @@ be used to store a <a class="reference internal" href="ParamSpec.html#GObject.Pa
 <p>This function should be used if you plan to use a static array of
 <a class="reference internal" href="ParamSpec.html#GObject.ParamSpec" title="GObject.ParamSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpecs</span></code></a> and <a class="reference internal" href="#GObject.Object.notify_by_pspec" title="GObject.Object.notify_by_pspec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.notify_by_pspec</span></code></a>(). For instance, this
 class initialization:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="p">{</span>
-  <span class="n">PROP_0</span><span class="p">,</span> <span class="n">PROP_FOO</span><span class="p">,</span> <span class="n">PROP_BAR</span><span class="p">,</span> <span class="n">N_PROPERTIES</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">PROP_0</span><span class="p">,</span><span class="w"> </span><span class="n">PROP_FOO</span><span class="p">,</span><span class="w"> </span><span class="n">PROP_BAR</span><span class="p">,</span><span class="w"> </span><span class="n">N_PROPERTIES</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">GParamSpec</span> <span class="o">*</span><span class="n">obj_properties</span><span class="p">[</span><span class="n">N_PROPERTIES</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">NULL</span><span class="p">,</span> <span class="p">};</span>
+<span class="k">static</span><span class="w"> </span><span class="n">GParamSpec</span><span class="w"> </span><span class="o">*</span><span class="n">obj_properties</span><span class="p">[</span><span class="n">N_PROPERTIES</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_object_class_init</span> <span class="p">(</span><span class="n">MyObjectClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GObjectClass</span> <span class="o">*</span><span class="n">gobject_class</span> <span class="o">=</span> <span class="n">G_OBJECT_CLASS</span> <span class="p">(</span><span class="n">klass</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_object_class_init</span><span class="w"> </span><span class="p">(</span><span class="n">MyObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">klass</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">gobject_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_OBJECT_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">klass</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span> <span class="o">=</span>
-    <span class="n">g_param_spec_int</span> <span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;Foo&quot;</span><span class="p">,</span>
-                      <span class="mi">-1</span><span class="p">,</span> <span class="n">G_MAXINT</span><span class="p">,</span>
-                      <span class="mi">0</span><span class="p">,</span>
-                      <span class="n">G_PARAM_READWRITE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">G_MAXINT</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">G_PARAM_READWRITE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_BAR</span><span class="p">]</span> <span class="o">=</span>
-    <span class="n">g_param_spec_string</span> <span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="s">&quot;Bar&quot;</span><span class="p">,</span>
-                         <span class="nb">NULL</span><span class="p">,</span>
-                         <span class="n">G_PARAM_READWRITE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_BAR</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_param_spec_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                         </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                         </span><span class="n">G_PARAM_READWRITE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">set_property</span> <span class="o">=</span> <span class="n">my_object_set_property</span><span class="p">;</span>
-  <span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">get_property</span> <span class="o">=</span> <span class="n">my_object_get_property</span><span class="p">;</span>
-  <span class="n">g_object_class_install_properties</span> <span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span>
-                                     <span class="n">N_PROPERTIES</span><span class="p">,</span>
-                                     <span class="n">obj_properties</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">set_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_object_set_property</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gobject_class</span><span class="o">-&gt;</span><span class="n">get_property</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_object_get_property</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_class_install_properties</span><span class="w"> </span><span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">N_PROPERTIES</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">obj_properties</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>allows calling <a class="reference internal" href="#GObject.Object.notify_by_pspec" title="GObject.Object.notify_by_pspec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.notify_by_pspec</span></code></a>() to notify of property changes:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span>
-<span class="nf">my_object_set_foo</span> <span class="p">(</span><span class="n">MyObject</span> <span class="o">*</span><span class="n">self</span><span class="p">,</span> <span class="n">gint</span> <span class="n">foo</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span> <span class="o">!=</span> <span class="n">foo</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span> <span class="o">=</span> <span class="n">foo</span><span class="p">;</span>
-      <span class="n">g_object_notify_by_pspec</span> <span class="p">(</span><span class="n">G_OBJECT</span> <span class="p">(</span><span class="n">self</span><span class="p">),</span> <span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span>
-    <span class="p">}</span>
- <span class="p">}</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_object_set_foo</span><span class="w"> </span><span class="p">(</span><span class="n">MyObject</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">gint</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">self</span><span class="o">-&gt;</span><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_notify_by_pspec</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">
@@ -1096,26 +1096,26 @@ called.</p>
 class that registered the properties, and using <a class="reference internal" href="#GObject.Object.notify_by_pspec" title="GObject.Object.notify_by_pspec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.notify_by_pspec</span></code></a>()
 instead, is to store the <a class="reference internal" href="ParamSpec.html#GObject.ParamSpec" title="GObject.ParamSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpec</span></code></a> used with
 <a class="reference internal" href="ObjectClass.html#GObject.ObjectClass.install_property" title="GObject.ObjectClass.install_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ObjectClass.install_property</span></code></a>() inside a static array, e.g.:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span>
-<span class="p">{</span>
-  <span class="n">PROP_0</span><span class="p">,</span>
-  <span class="n">PROP_FOO</span><span class="p">,</span>
-  <span class="n">PROP_LAST</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">PROP_0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">PROP_FOO</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">PROP_LAST</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">GParamSpec</span> <span class="o">*</span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_LAST</span><span class="p">];</span>
+<span class="k">static</span><span class="w"> </span><span class="n">GParamSpec</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_LAST</span><span class="p">];</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">my_object_class_init</span> <span class="p">(</span><span class="n">MyObjectClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span> <span class="o">=</span> <span class="n">g_param_spec_int</span> <span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;Foo&quot;</span><span class="p">,</span> <span class="s">&quot;The foo&quot;</span><span class="p">,</span>
-                                           <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
-                                           <span class="mi">50</span><span class="p">,</span>
-                                           <span class="n">G_PARAM_READWRITE</span><span class="p">);</span>
-  <span class="n">g_object_class_install_property</span> <span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span>
-                                   <span class="n">PROP_FOO</span><span class="p">,</span>
-                                   <span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">my_object_class_init</span><span class="w"> </span><span class="p">(</span><span class="n">MyObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">klass</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The foo&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                           </span><span class="n">G_PARAM_READWRITE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_class_install_property</span><span class="w"> </span><span class="p">(</span><span class="n">gobject_class</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">PROP_FOO</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>and then notify a change on the “foo” property with:</p>
@@ -1252,29 +1252,29 @@ without invoking its destroy() function (if any was
 set).
 Usually, calling this function is only required to update
 user data pointers with a destroy notifier, for example:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span>
-<span class="nf">object_add_to_user_list</span> <span class="p">(</span><span class="n">GObject</span>     <span class="o">*</span><span class="n">object</span><span class="p">,</span>
-                         <span class="k">const</span> <span class="n">gchar</span> <span class="o">*</span><span class="n">new_string</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="c1">// the quark, naming the object data</span>
-  <span class="n">GQuark</span> <span class="n">quark_string_list</span> <span class="o">=</span> <span class="n">g_quark_from_static_string</span> <span class="p">(</span><span class="s">&quot;my-string-list&quot;</span><span class="p">);</span>
-  <span class="c1">// retrieve the old string list</span>
-  <span class="n">GList</span> <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">g_object_steal_qdata</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">quark_string_list</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"></span>
+<span class="nf">object_add_to_user_list</span><span class="w"> </span><span class="p">(</span><span class="n">GObject</span><span class="w">     </span><span class="o">*</span><span class="n">object</span><span class="p">,</span><span class="w"></span>
+<span class="w">                         </span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">new_string</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// the quark, naming the object data</span>
+<span class="w">  </span><span class="n">GQuark</span><span class="w"> </span><span class="n">quark_string_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_quark_from_static_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;my-string-list&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// retrieve the old string list</span>
+<span class="w">  </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_steal_qdata</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">quark_string_list</span><span class="p">);</span><span class="w"></span>
 
-  <span class="c1">// prepend new string</span>
-  <span class="n">list</span> <span class="o">=</span> <span class="n">g_list_prepend</span> <span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">g_strdup</span> <span class="p">(</span><span class="n">new_string</span><span class="p">));</span>
-  <span class="c1">// this changed &#39;list&#39;, so we need to set it again</span>
-  <span class="n">g_object_set_qdata_full</span> <span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">quark_string_list</span><span class="p">,</span> <span class="n">list</span><span class="p">,</span> <span class="n">free_string_list</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">free_string_list</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GList</span> <span class="o">*</span><span class="n">node</span><span class="p">,</span> <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">data</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// prepend new string</span>
+<span class="w">  </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_list_prepend</span><span class="w"> </span><span class="p">(</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">new_string</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// this changed &#39;list&#39;, so we need to set it again</span>
+<span class="w">  </span><span class="n">g_object_set_qdata_full</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">quark_string_list</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="n">free_string_list</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">free_string_list</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GList</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">for</span> <span class="p">(</span><span class="n">node</span> <span class="o">=</span> <span class="n">list</span><span class="p">;</span> <span class="n">node</span><span class="p">;</span> <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
-    <span class="n">g_free</span> <span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
-  <span class="n">g_list_free</span> <span class="p">(</span><span class="n">list</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">;</span><span class="w"> </span><span class="n">node</span><span class="p">;</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_list_free</span><span class="w"> </span><span class="p">(</span><span class="n">list</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Using <a class="reference internal" href="#GObject.Object.get_qdata" title="GObject.Object.get_qdata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.get_qdata</span></code></a>() in the above example, instead of
@@ -1453,9 +1453,9 @@ and common practice is to do that only when the value has actually changed.</p>
 <p>This signal is typically used to obtain change notification for a
 single property, by specifying the property name as a detail in the
 g_signal_connect() call, like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_signal_connect</span> <span class="p">(</span><span class="n">text_view</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">,</span> <span class="s">&quot;notify::paste-target-list&quot;</span><span class="p">,</span>
-<span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">gtk_text_view_target_list_notify</span><span class="p">),</span>
-<span class="n">text_view</span><span class="p">)</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_signal_connect</span><span class="w"> </span><span class="p">(</span><span class="n">text_view</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;notify::paste-target-list&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">gtk_text_view_target_list_notify</span><span class="p">),</span><span class="w"></span>
+<span class="n">text_view</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>It is important to note that you must use

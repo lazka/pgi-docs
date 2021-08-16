@@ -473,97 +473,97 @@ the operation’s finish function (as a <a class="reference internal" href="Asyn
 use <a class="reference internal" href="#Gio.Task.propagate_pointer" title="Gio.Task.propagate_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task.propagate_pointer</span></code></a>() or the like to extract the
 return value.</p>
 <p>Here is an example for using <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> as a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-  <span class="n">CakeFrostingType</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">message</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">DecorationData</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeFrostingType</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">message</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">DecorationData</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">decoration_data_free</span> <span class="p">(</span><span class="n">DecorationData</span> <span class="o">*</span><span class="n">decoration</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_free</span> <span class="p">(</span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">g_slice_free</span> <span class="p">(</span><span class="n">DecorationData</span><span class="p">,</span> <span class="n">decoration</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">decoration_data_free</span><span class="w"> </span><span class="p">(</span><span class="n">DecorationData</span><span class="w"> </span><span class="o">*</span><span class="n">decoration</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_slice_free</span><span class="w"> </span><span class="p">(</span><span class="n">DecorationData</span><span class="p">,</span><span class="w"> </span><span class="n">decoration</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">baked_cb</span> <span class="p">(</span><span class="n">Cake</span>     <span class="o">*</span><span class="n">cake</span><span class="p">,</span>
-          <span class="n">gpointer</span>  <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">;</span>
-  <span class="n">DecorationData</span> <span class="o">*</span><span class="n">decoration</span> <span class="o">=</span> <span class="n">g_task_get_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">baked_cb</span><span class="w"> </span><span class="p">(</span><span class="n">Cake</span><span class="w">     </span><span class="o">*</span><span class="n">cake</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="n">gpointer</span><span class="w">  </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">DecorationData</span><span class="w"> </span><span class="o">*</span><span class="n">decoration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_get_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">BAKER_ERROR</span><span class="p">,</span> <span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span>
-                               <span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_new_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cake_decorate</span> <span class="p">(</span><span class="n">cake</span><span class="p">,</span> <span class="n">decoration</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span> <span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-      <span class="c1">// g_task_return_error() takes ownership of error</span>
-      <span class="n">g_task_return_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cake_decorate</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span><span class="w"> </span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// g_task_return_error() takes ownership of error</span>
+<span class="w">      </span><span class="n">g_task_return_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">g_task_return_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">g_object_unref</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">g_task_return_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span> <span class="p">(</span><span class="n">Baker</span>               <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                       <span class="n">guint</span>                <span class="n">radius</span><span class="p">,</span>
-                       <span class="n">CakeFlavor</span>           <span class="n">flavor</span><span class="p">,</span>
-                       <span class="n">CakeFrostingType</span>     <span class="n">frosting</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="kt">char</span>          <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-                       <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                       <span class="n">GAsyncReadyCallback</span>  <span class="n">callback</span><span class="p">,</span>
-                       <span class="n">gpointer</span>             <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
-  <span class="n">DecorationData</span> <span class="o">*</span><span class="n">decoration</span><span class="p">;</span>
-  <span class="n">Cake</span>  <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">               </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">guint</span><span class="w">                </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFlavor</span><span class="w">           </span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFrostingType</span><span class="w">     </span><span class="n">frosting</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gpointer</span><span class="w">             </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">DecorationData</span><span class="w"> </span><span class="o">*</span><span class="n">decoration</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w">  </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">radius</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">BAKER_ERROR</span><span class="p">,</span> <span class="n">BAKER_ERROR_TOO_SMALL</span><span class="p">,</span>
-                               <span class="s">&quot;%ucm radius cakes are silly&quot;</span><span class="p">,</span>
-                               <span class="n">radius</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_new</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_new_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR_TOO_SMALL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="s">&quot;%ucm radius cakes are silly&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="n">radius</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">_baker_get_cached_cake</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">frosting</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="c1">// _baker_get_cached_cake() returns a reffed cake</span>
-      <span class="n">g_task_return_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">g_object_unref</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_baker_get_cached_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">flavor</span><span class="p">,</span><span class="w"> </span><span class="n">frosting</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// _baker_get_cached_cake() returns a reffed cake</span>
+<span class="w">      </span><span class="n">g_task_return_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">decoration</span> <span class="o">=</span> <span class="n">g_slice_new</span> <span class="p">(</span><span class="n">DecorationData</span><span class="p">);</span>
-  <span class="n">decoration</span><span class="o">-&gt;</span><span class="n">frosting</span> <span class="o">=</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span> <span class="o">=</span> <span class="n">g_strdup</span> <span class="p">(</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">g_task_set_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">decoration</span><span class="p">,</span> <span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span> <span class="n">decoration_data_free</span><span class="p">);</span>
+<span class="w">  </span><span class="n">decoration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_slice_new</span><span class="w"> </span><span class="p">(</span><span class="n">DecorationData</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">decoration</span><span class="o">-&gt;</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">decoration</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span><span class="w"> </span><span class="n">decoration_data_free</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">_baker_begin_cake</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">baked_cb</span><span class="p">,</span> <span class="n">task</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">_baker_begin_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">flavor</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">baked_cb</span><span class="p">,</span><span class="w"> </span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">Cake</span> <span class="o">*</span>
-<span class="nf">baker_bake_cake_finish</span> <span class="p">(</span><span class="n">Baker</span>         <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                        <span class="n">GAsyncResult</span>  <span class="o">*</span><span class="n">result</span><span class="p">,</span>
-                        <span class="n">GError</span>       <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">g_task_is_valid</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">self</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">baker_bake_cake_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">         </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GAsyncResult</span><span class="w">  </span><span class="o">*</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">g_task_is_valid</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">g_task_propagate_pointer</span> <span class="p">(</span><span class="n">G_TASK</span> <span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">error</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_task_propagate_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">G_TASK</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -580,129 +580,129 @@ of them yourself. g_task_attach_source() simplifies the case
 of waiting for a source to fire (automatically using the correct
 <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> and priority).</p>
 <p>Here is an example for chained asynchronous operations:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-  <span class="n">Cake</span> <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
-  <span class="n">CakeFrostingType</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">message</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">BakingData</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeFrostingType</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">message</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">BakingData</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">decoration_data_free</span> <span class="p">(</span><span class="n">BakingData</span> <span class="o">*</span><span class="n">bd</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">)</span>
-    <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">);</span>
-  <span class="n">g_free</span> <span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">g_slice_free</span> <span class="p">(</span><span class="n">BakingData</span><span class="p">,</span> <span class="n">bd</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">decoration_data_free</span><span class="w"> </span><span class="p">(</span><span class="n">BakingData</span><span class="w"> </span><span class="o">*</span><span class="n">bd</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_slice_free</span><span class="w"> </span><span class="p">(</span><span class="n">BakingData</span><span class="p">,</span><span class="w"> </span><span class="n">bd</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">decorated_cb</span> <span class="p">(</span><span class="n">Cake</span>         <span class="o">*</span><span class="n">cake</span><span class="p">,</span>
-              <span class="n">GAsyncResult</span> <span class="o">*</span><span class="n">result</span><span class="p">,</span>
-              <span class="n">gpointer</span>      <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">;</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">decorated_cb</span><span class="w"> </span><span class="p">(</span><span class="n">Cake</span><span class="w">         </span><span class="o">*</span><span class="n">cake</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="n">GAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="n">gpointer</span><span class="w">      </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cake_decorate_finish</span> <span class="p">(</span><span class="n">cake</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-      <span class="n">g_task_return_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cake_decorate_finish</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// baking_data_free() will drop its ref on the cake, so we have to</span>
-  <span class="c1">// take another here to give to the caller.</span>
-  <span class="n">g_task_return_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">g_object_ref</span> <span class="p">(</span><span class="n">cake</span><span class="p">),</span> <span class="n">g_object_unref</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// baking_data_free() will drop its ref on the cake, so we have to</span>
+<span class="w">  </span><span class="c1">// take another here to give to the caller.</span>
+<span class="w">  </span><span class="n">g_task_return_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">),</span><span class="w"> </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="n">gboolean</span>
-<span class="nf">decorator_ready</span> <span class="p">(</span><span class="n">gpointer</span> <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">;</span>
-  <span class="n">BakingData</span> <span class="o">*</span><span class="n">bd</span> <span class="o">=</span> <span class="n">g_task_get_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"></span>
+<span class="nf">decorator_ready</span><span class="w"> </span><span class="p">(</span><span class="n">gpointer</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">BakingData</span><span class="w"> </span><span class="o">*</span><span class="n">bd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_get_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">cake_decorate_async</span> <span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">,</span> <span class="n">bd</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span> <span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span>
-                       <span class="n">g_task_get_cancellable</span> <span class="p">(</span><span class="n">task</span><span class="p">),</span>
-                       <span class="n">decorated_cb</span><span class="p">,</span> <span class="n">task</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cake_decorate_async</span><span class="w"> </span><span class="p">(</span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span><span class="w"> </span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">g_task_get_cancellable</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">),</span><span class="w"></span>
+<span class="w">                       </span><span class="n">decorated_cb</span><span class="p">,</span><span class="w"> </span><span class="n">task</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">G_SOURCE_REMOVE</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">G_SOURCE_REMOVE</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">baked_cb</span> <span class="p">(</span><span class="n">Cake</span>     <span class="o">*</span><span class="n">cake</span><span class="p">,</span>
-          <span class="n">gpointer</span>  <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">;</span>
-  <span class="n">BakingData</span> <span class="o">*</span><span class="n">bd</span> <span class="o">=</span> <span class="n">g_task_get_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">baked_cb</span><span class="w"> </span><span class="p">(</span><span class="n">Cake</span><span class="w">     </span><span class="o">*</span><span class="n">cake</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="n">gpointer</span><span class="w">  </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">BakingData</span><span class="w"> </span><span class="o">*</span><span class="n">bd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_get_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_task_return_new_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">BAKER_ERROR</span><span class="p">,</span> <span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span>
-                               <span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_new_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span><span class="w"></span>
+<span class="w">                               </span><span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span> <span class="o">=</span> <span class="n">cake</span><span class="p">;</span>
+<span class="w">  </span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
 
-  <span class="c1">// Bail out now if the user has already cancelled</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">g_task_return_error_if_cancelled</span> <span class="p">(</span><span class="n">task</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="c1">// Bail out now if the user has already cancelled</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_task_return_error_if_cancelled</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake_decorator_available</span> <span class="p">(</span><span class="n">cake</span><span class="p">))</span>
-    <span class="n">decorator_ready</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="p">{</span>
-      <span class="n">GSource</span> <span class="o">*</span><span class="n">source</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake_decorator_available</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">decorator_ready</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">GSource</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="p">;</span><span class="w"></span>
 
-      <span class="n">source</span> <span class="o">=</span> <span class="n">cake_decorator_wait_source_new</span> <span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-      <span class="c1">// Attach @source to @task&#39;s GMainContext and have it call</span>
-      <span class="c1">// decorator_ready() when it is ready.</span>
-      <span class="n">g_task_attach_source</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">decorator_ready</span><span class="p">);</span>
-      <span class="n">g_source_unref</span> <span class="p">(</span><span class="n">source</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">      </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cake_decorator_wait_source_new</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// Attach @source to @task&#39;s GMainContext and have it call</span>
+<span class="w">      </span><span class="c1">// decorator_ready() when it is ready.</span>
+<span class="w">      </span><span class="n">g_task_attach_source</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">decorator_ready</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_source_unref</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span> <span class="p">(</span><span class="n">Baker</span>               <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                       <span class="n">guint</span>                <span class="n">radius</span><span class="p">,</span>
-                       <span class="n">CakeFlavor</span>           <span class="n">flavor</span><span class="p">,</span>
-                       <span class="n">CakeFrostingType</span>     <span class="n">frosting</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="kt">char</span>          <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-                       <span class="n">gint</span>                 <span class="n">priority</span><span class="p">,</span>
-                       <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                       <span class="n">GAsyncReadyCallback</span>  <span class="n">callback</span><span class="p">,</span>
-                       <span class="n">gpointer</span>             <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
-  <span class="n">BakingData</span> <span class="o">*</span><span class="n">bd</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">               </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">guint</span><span class="w">                </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFlavor</span><span class="w">           </span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFrostingType</span><span class="w">     </span><span class="n">frosting</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gint</span><span class="w">                 </span><span class="n">priority</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gpointer</span><span class="w">             </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">BakingData</span><span class="w"> </span><span class="o">*</span><span class="n">bd</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
-  <span class="n">g_task_set_priority</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">priority</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_new</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_priority</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">priority</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">bd</span> <span class="o">=</span> <span class="n">g_slice_new0</span> <span class="p">(</span><span class="n">BakingData</span><span class="p">);</span>
-  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">frosting</span> <span class="o">=</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span> <span class="o">=</span> <span class="n">g_strdup</span> <span class="p">(</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">g_task_set_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">bd</span><span class="p">,</span> <span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span> <span class="n">baking_data_free</span><span class="p">);</span>
+<span class="w">  </span><span class="n">bd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_slice_new0</span><span class="w"> </span><span class="p">(</span><span class="n">BakingData</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">bd</span><span class="o">-&gt;</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">bd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span><span class="w"> </span><span class="n">baking_data_free</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">_baker_begin_cake</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">flavor</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">baked_cb</span><span class="p">,</span> <span class="n">task</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">_baker_begin_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">flavor</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">baked_cb</span><span class="p">,</span><span class="w"> </span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">Cake</span> <span class="o">*</span>
-<span class="nf">baker_bake_cake_finish</span> <span class="p">(</span><span class="n">Baker</span>         <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                        <span class="n">GAsyncResult</span>  <span class="o">*</span><span class="n">result</span><span class="p">,</span>
-                        <span class="n">GError</span>       <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">g_task_is_valid</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">self</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">baker_bake_cake_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">         </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GAsyncResult</span><span class="w">  </span><span class="o">*</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">g_task_is_valid</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">g_task_propagate_pointer</span> <span class="p">(</span><span class="n">G_TASK</span> <span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">error</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_task_propagate_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">G_TASK</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -715,73 +715,73 @@ When it completes, the result will be dispatched to the
 <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thread-default</span> <span class="pre">main</span> <span class="pre">context</span></code></a>
 where the <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> was created.</p>
 <p>Running a task in a thread:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-  <span class="n">guint</span> <span class="n">radius</span><span class="p">;</span>
-  <span class="n">CakeFlavor</span> <span class="n">flavor</span><span class="p">;</span>
-  <span class="n">CakeFrostingType</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">message</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">CakeData</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span> <span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">guint</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeFlavor</span><span class="w"> </span><span class="n">flavor</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeFrostingType</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">message</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">CakeData</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">cake_data_free</span> <span class="p">(</span><span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_free</span> <span class="p">(</span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">g_slice_free</span> <span class="p">(</span><span class="n">CakeData</span><span class="p">,</span> <span class="n">cake_data</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">cake_data_free</span><span class="w"> </span><span class="p">(</span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_slice_free</span><span class="w"> </span><span class="p">(</span><span class="n">CakeData</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="k">static</span> <span class="kt">void</span>
-<span class="nf">bake_cake_thread</span> <span class="p">(</span><span class="n">GTask</span>         <span class="o">*</span><span class="n">task</span><span class="p">,</span>
-                  <span class="n">gpointer</span>       <span class="n">source_object</span><span class="p">,</span>
-                  <span class="n">gpointer</span>       <span class="n">task_data</span><span class="p">,</span>
-                  <span class="n">GCancellable</span>  <span class="o">*</span><span class="n">cancellable</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">Baker</span> <span class="o">*</span><span class="n">self</span> <span class="o">=</span> <span class="n">source_object</span><span class="p">;</span>
-  <span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span> <span class="o">=</span> <span class="n">task_data</span><span class="p">;</span>
-  <span class="n">Cake</span> <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">bake_cake_thread</span><span class="w"> </span><span class="p">(</span><span class="n">GTask</span><span class="w">         </span><span class="o">*</span><span class="n">task</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">gpointer</span><span class="w">       </span><span class="n">source_object</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">gpointer</span><span class="w">       </span><span class="n">task_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">GCancellable</span><span class="w">  </span><span class="o">*</span><span class="n">cancellable</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Baker</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_object</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">bake_cake</span> <span class="p">(</span><span class="n">baker</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span><span class="p">,</span>
-                    <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span>
-                    <span class="n">cancellable</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">cake</span><span class="p">)</span>
-    <span class="n">g_task_return_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">g_object_unref</span><span class="p">);</span>
-  <span class="k">else</span>
-    <span class="n">g_task_return_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bake_cake</span><span class="w"> </span><span class="p">(</span><span class="n">baker</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_task_return_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">g_task_return_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span> <span class="p">(</span><span class="n">Baker</span>               <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                       <span class="n">guint</span>                <span class="n">radius</span><span class="p">,</span>
-                       <span class="n">CakeFlavor</span>           <span class="n">flavor</span><span class="p">,</span>
-                       <span class="n">CakeFrostingType</span>     <span class="n">frosting</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="kt">char</span>          <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-                       <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                       <span class="n">GAsyncReadyCallback</span>  <span class="n">callback</span><span class="p">,</span>
-                       <span class="n">gpointer</span>             <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span><span class="p">;</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">               </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">guint</span><span class="w">                </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFlavor</span><span class="w">           </span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFrostingType</span><span class="w">     </span><span class="n">frosting</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gpointer</span><span class="w">             </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake_data</span> <span class="o">=</span> <span class="n">g_slice_new</span> <span class="p">(</span><span class="n">CakeData</span><span class="p">);</span>
-  <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="p">;</span>
-  <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span> <span class="o">=</span> <span class="n">flavor</span><span class="p">;</span>
-  <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span> <span class="o">=</span> <span class="n">frosting</span><span class="p">;</span>
-  <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span> <span class="o">=</span> <span class="n">g_strdup</span> <span class="p">(</span><span class="n">message</span><span class="p">);</span>
-  <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
-  <span class="n">g_task_set_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake_data</span><span class="p">,</span> <span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span> <span class="n">cake_data_free</span><span class="p">);</span>
-  <span class="n">g_task_run_in_thread</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">bake_cake_thread</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">cake_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_slice_new</span><span class="w"> </span><span class="p">(</span><span class="n">CakeData</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flavor</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_new</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span><span class="w"> </span><span class="n">cake_data_free</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_run_in_thread</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">bake_cake_thread</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">Cake</span> <span class="o">*</span>
-<span class="nf">baker_bake_cake_finish</span> <span class="p">(</span><span class="n">Baker</span>         <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                        <span class="n">GAsyncResult</span>  <span class="o">*</span><span class="n">result</span><span class="p">,</span>
-                        <span class="n">GError</span>       <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">g_task_is_valid</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">self</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">baker_bake_cake_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">         </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GAsyncResult</span><span class="w">  </span><span class="o">*</span><span class="n">result</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">g_task_is_valid</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">self</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">g_task_propagate_pointer</span> <span class="p">(</span><span class="n">G_TASK</span> <span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">error</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_task_propagate_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">G_TASK</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -800,94 +800,94 @@ locks and other externally-visible resources, this allows you
 to make “GLib-friendly” asynchronous and cancellable
 synchronous variants of blocking APIs.</p>
 <p>Cancelling a task:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span>
-<span class="nf">bake_cake_thread</span> <span class="p">(</span><span class="n">GTask</span>         <span class="o">*</span><span class="n">task</span><span class="p">,</span>
-                  <span class="n">gpointer</span>       <span class="n">source_object</span><span class="p">,</span>
-                  <span class="n">gpointer</span>       <span class="n">task_data</span><span class="p">,</span>
-                  <span class="n">GCancellable</span>  <span class="o">*</span><span class="n">cancellable</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">Baker</span> <span class="o">*</span><span class="n">self</span> <span class="o">=</span> <span class="n">source_object</span><span class="p">;</span>
-  <span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span> <span class="o">=</span> <span class="n">task_data</span><span class="p">;</span>
-  <span class="n">Cake</span> <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
-  <span class="n">GError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="nf">bake_cake_thread</span><span class="w"> </span><span class="p">(</span><span class="n">GTask</span><span class="w">         </span><span class="o">*</span><span class="n">task</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">gpointer</span><span class="w">       </span><span class="n">source_object</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">gpointer</span><span class="w">       </span><span class="n">task_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                  </span><span class="n">GCancellable</span><span class="w">  </span><span class="o">*</span><span class="n">cancellable</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Baker</span><span class="w"> </span><span class="o">*</span><span class="n">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_object</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">bake_cake</span> <span class="p">(</span><span class="n">baker</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span><span class="p">,</span>
-                    <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span> <span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span>
-                    <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">g_task_return_error</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-      <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bake_cake</span><span class="w"> </span><span class="p">(</span><span class="n">baker</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">frosting</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                    </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_error</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// If the task has already been cancelled, then we don&#39;t want to add</span>
-  <span class="c1">// the cake to the cake cache. Likewise, we don&#39;t  want to have the</span>
-  <span class="c1">// task get cancelled in the middle of updating the cache.</span>
-  <span class="c1">// g_task_set_return_on_cancel() will return %TRUE here if it managed</span>
-  <span class="c1">// to disable return-on-cancel, or %FALSE if the task was cancelled</span>
-  <span class="c1">// before it could.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">g_task_set_return_on_cancel</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="c1">// If the caller cancels at this point, their</span>
-      <span class="c1">// GAsyncReadyCallback won&#39;t be invoked until we return,</span>
-      <span class="c1">// so we don&#39;t have to worry that this code will run at</span>
-      <span class="c1">// the same time as that code does. But if there were</span>
-      <span class="c1">// other functions that might look at the cake cache,</span>
-      <span class="c1">// then we&#39;d probably need a GMutex here as well.</span>
-      <span class="n">baker_add_cake_to_cache</span> <span class="p">(</span><span class="n">baker</span><span class="p">,</span> <span class="n">cake</span><span class="p">);</span>
-      <span class="n">g_task_return_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">g_object_unref</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// If the task has already been cancelled, then we don&#39;t want to add</span>
+<span class="w">  </span><span class="c1">// the cake to the cake cache. Likewise, we don&#39;t  want to have the</span>
+<span class="w">  </span><span class="c1">// task get cancelled in the middle of updating the cache.</span>
+<span class="w">  </span><span class="c1">// g_task_set_return_on_cancel() will return %TRUE here if it managed</span>
+<span class="w">  </span><span class="c1">// to disable return-on-cancel, or %FALSE if the task was cancelled</span>
+<span class="w">  </span><span class="c1">// before it could.</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_task_set_return_on_cancel</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// If the caller cancels at this point, their</span>
+<span class="w">      </span><span class="c1">// GAsyncReadyCallback won&#39;t be invoked until we return,</span>
+<span class="w">      </span><span class="c1">// so we don&#39;t have to worry that this code will run at</span>
+<span class="w">      </span><span class="c1">// the same time as that code does. But if there were</span>
+<span class="w">      </span><span class="c1">// other functions that might look at the cake cache,</span>
+<span class="w">      </span><span class="c1">// then we&#39;d probably need a GMutex here as well.</span>
+<span class="w">      </span><span class="n">baker_add_cake_to_cache</span><span class="w"> </span><span class="p">(</span><span class="n">baker</span><span class="p">,</span><span class="w"> </span><span class="n">cake</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">g_task_return_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake</span><span class="p">,</span><span class="w"> </span><span class="n">g_object_unref</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span> <span class="p">(</span><span class="n">Baker</span>               <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                       <span class="n">guint</span>                <span class="n">radius</span><span class="p">,</span>
-                       <span class="n">CakeFlavor</span>           <span class="n">flavor</span><span class="p">,</span>
-                       <span class="n">CakeFrostingType</span>     <span class="n">frosting</span><span class="p">,</span>
-                       <span class="k">const</span> <span class="kt">char</span>          <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-                       <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                       <span class="n">GAsyncReadyCallback</span>  <span class="n">callback</span><span class="p">,</span>
-                       <span class="n">gpointer</span>             <span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span><span class="p">;</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"></span>
+<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">               </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">guint</span><span class="w">                </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFlavor</span><span class="w">           </span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">CakeFrostingType</span><span class="w">     </span><span class="n">frosting</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">callback</span><span class="p">,</span><span class="w"></span>
+<span class="w">                       </span><span class="n">gpointer</span><span class="w">             </span><span class="n">user_data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake_data</span> <span class="o">=</span> <span class="n">g_slice_new</span> <span class="p">(</span><span class="n">CakeData</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cake_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_slice_new</span><span class="w"> </span><span class="p">(</span><span class="n">CakeData</span><span class="p">);</span><span class="w"></span>
 
-  <span class="p">...</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 
-  <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">user_data</span><span class="p">);</span>
-  <span class="n">g_task_set_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake_data</span><span class="p">,</span> <span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span> <span class="n">cake_data_free</span><span class="p">);</span>
-  <span class="n">g_task_set_return_on_cancel</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
-  <span class="n">g_task_run_in_thread</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">bake_cake_thread</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_new</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="n">user_data</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span><span class="w"> </span><span class="n">cake_data_free</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_return_on_cancel</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_run_in_thread</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">bake_cake_thread</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="n">Cake</span> <span class="o">*</span>
-<span class="nf">baker_bake_cake_sync</span> <span class="p">(</span><span class="n">Baker</span>               <span class="o">*</span><span class="n">self</span><span class="p">,</span>
-                      <span class="n">guint</span>                <span class="n">radius</span><span class="p">,</span>
-                      <span class="n">CakeFlavor</span>           <span class="n">flavor</span><span class="p">,</span>
-                      <span class="n">CakeFrostingType</span>     <span class="n">frosting</span><span class="p">,</span>
-                      <span class="k">const</span> <span class="kt">char</span>          <span class="o">*</span><span class="n">message</span><span class="p">,</span>
-                      <span class="n">GCancellable</span>        <span class="o">*</span><span class="n">cancellable</span><span class="p">,</span>
-                      <span class="n">GError</span>             <span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">CakeData</span> <span class="o">*</span><span class="n">cake_data</span><span class="p">;</span>
-  <span class="n">GTask</span> <span class="o">*</span><span class="n">task</span><span class="p">;</span>
-  <span class="n">Cake</span> <span class="o">*</span><span class="n">cake</span><span class="p">;</span>
+<span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="nf">baker_bake_cake_sync</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">               </span><span class="o">*</span><span class="n">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">guint</span><span class="w">                </span><span class="n">radius</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">CakeFlavor</span><span class="w">           </span><span class="n">flavor</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">CakeFrostingType</span><span class="w">     </span><span class="n">frosting</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">message</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">cancellable</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">GError</span><span class="w">             </span><span class="o">**</span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">CakeData</span><span class="w"> </span><span class="o">*</span><span class="n">cake_data</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GTask</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">Cake</span><span class="w"> </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">cake_data</span> <span class="o">=</span> <span class="n">g_slice_new</span> <span class="p">(</span><span class="n">CakeData</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cake_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_slice_new</span><span class="w"> </span><span class="p">(</span><span class="n">CakeData</span><span class="p">);</span><span class="w"></span>
 
-  <span class="p">...</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
 
-  <span class="n">task</span> <span class="o">=</span> <span class="n">g_task_new</span> <span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cancellable</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-  <span class="n">g_task_set_task_data</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cake_data</span><span class="p">,</span> <span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span> <span class="n">cake_data_free</span><span class="p">);</span>
-  <span class="n">g_task_set_return_on_cancel</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
-  <span class="n">g_task_run_in_thread_sync</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">bake_cake_thread</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_new</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">cancellable</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_task_data</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">cake_data</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">GDestroyNotify</span><span class="p">)</span><span class="w"> </span><span class="n">cake_data_free</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_set_return_on_cancel</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_task_run_in_thread_sync</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">bake_cake_thread</span><span class="p">);</span><span class="w"></span>
 
-  <span class="n">cake</span> <span class="o">=</span> <span class="n">g_task_propagate_pointer</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-  <span class="n">g_object_unref</span> <span class="p">(</span><span class="n">task</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">cake</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_task_propagate_pointer</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">cake</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">

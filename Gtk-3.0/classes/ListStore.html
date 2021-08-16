@@ -506,53 +506,53 @@ application writer to call <a class="reference internal" href="TreeModel.html#Gt
 #GtkTreeModel::row_changed signal.  This most commonly affects lists with
 <a class="reference external" href="../../GdkPixbuf-2.0/classes/Pixbuf.html#GdkPixbuf.Pixbuf" title="(in GdkPixbuf 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GdkPixbuf.Pixbufs</span></code></a> stored.</p>
 <p>An example for creating a simple list store:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span> <span class="p">{</span>
-  <span class="n">COLUMN_STRING</span><span class="p">,</span>
-  <span class="n">COLUMN_INT</span><span class="p">,</span>
-  <span class="n">COLUMN_BOOLEAN</span><span class="p">,</span>
-  <span class="n">N_COLUMNS</span>
-<span class="p">};</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">COLUMN_STRING</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">COLUMN_INT</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">COLUMN_BOOLEAN</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">N_COLUMNS</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="p">{</span>
-  <span class="n">GtkListStore</span> <span class="o">*</span><span class="n">list_store</span><span class="p">;</span>
-  <span class="n">GtkTreePath</span> <span class="o">*</span><span class="n">path</span><span class="p">;</span>
-  <span class="n">GtkTreeIter</span> <span class="n">iter</span><span class="p">;</span>
-  <span class="n">gint</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkListStore</span><span class="w"> </span><span class="o">*</span><span class="n">list_store</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkTreePath</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkTreeIter</span><span class="w"> </span><span class="n">iter</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gint</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">list_store</span> <span class="o">=</span> <span class="n">gtk_list_store_new</span> <span class="p">(</span><span class="n">N_COLUMNS</span><span class="p">,</span>
-                                   <span class="n">G_TYPE_STRING</span><span class="p">,</span>
-                                   <span class="n">G_TYPE_INT</span><span class="p">,</span>
-                                   <span class="n">G_TYPE_BOOLEAN</span><span class="p">);</span>
+<span class="w">  </span><span class="n">list_store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_list_store_new</span><span class="w"> </span><span class="p">(</span><span class="n">N_COLUMNS</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">G_TYPE_STRING</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">G_TYPE_INT</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                   </span><span class="n">G_TYPE_BOOLEAN</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">gchar</span> <span class="o">*</span><span class="n">some_data</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">some_data</span><span class="p">;</span><span class="w"></span>
 
-      <span class="n">some_data</span> <span class="o">=</span> <span class="n">get_some_data</span> <span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="n">some_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_some_data</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
 
-      <span class="c1">// Add a new row to the model</span>
-      <span class="n">gtk_list_store_append</span> <span class="p">(</span><span class="n">list_store</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iter</span><span class="p">);</span>
-      <span class="n">gtk_list_store_set</span> <span class="p">(</span><span class="n">list_store</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span>
-                          <span class="n">COLUMN_STRING</span><span class="p">,</span> <span class="n">some_data</span><span class="p">,</span>
-                          <span class="n">COLUMN_INT</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
-                          <span class="n">COLUMN_BOOLEAN</span><span class="p">,</span>  <span class="n">FALSE</span><span class="p">,</span>
-                          <span class="mi">-1</span><span class="p">);</span>
+<span class="w">      </span><span class="c1">// Add a new row to the model</span>
+<span class="w">      </span><span class="n">gtk_list_store_append</span><span class="w"> </span><span class="p">(</span><span class="n">list_store</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iter</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="n">gtk_list_store_set</span><span class="w"> </span><span class="p">(</span><span class="n">list_store</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">COLUMN_STRING</span><span class="p">,</span><span class="w"> </span><span class="n">some_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">COLUMN_INT</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">COLUMN_BOOLEAN</span><span class="p">,</span><span class="w">  </span><span class="n">FALSE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="mi">-1</span><span class="p">);</span><span class="w"></span>
 
-      <span class="c1">// As the store will keep a copy of the string internally,</span>
-      <span class="c1">// we free some_data.</span>
-      <span class="n">g_free</span> <span class="p">(</span><span class="n">some_data</span><span class="p">);</span>
-    <span class="p">}</span>
+<span class="w">      </span><span class="c1">// As the store will keep a copy of the string internally,</span>
+<span class="w">      </span><span class="c1">// we free some_data.</span>
+<span class="w">      </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">some_data</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="c1">// Modify a particular row</span>
-  <span class="n">path</span> <span class="o">=</span> <span class="n">gtk_tree_path_new_from_string</span> <span class="p">(</span><span class="s">&quot;4&quot;</span><span class="p">);</span>
-  <span class="n">gtk_tree_model_get_iter</span> <span class="p">(</span><span class="n">GTK_TREE_MODEL</span> <span class="p">(</span><span class="n">list_store</span><span class="p">),</span>
-                           <span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span>
-                           <span class="n">path</span><span class="p">);</span>
-  <span class="n">gtk_tree_path_free</span> <span class="p">(</span><span class="n">path</span><span class="p">);</span>
-  <span class="n">gtk_list_store_set</span> <span class="p">(</span><span class="n">list_store</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span>
-                      <span class="n">COLUMN_BOOLEAN</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span>
-                      <span class="mi">-1</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="c1">// Modify a particular row</span>
+<span class="w">  </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gtk_tree_path_new_from_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;4&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_tree_model_get_iter</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_TREE_MODEL</span><span class="w"> </span><span class="p">(</span><span class="n">list_store</span><span class="p">),</span><span class="w"></span>
+<span class="w">                           </span><span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span><span class="w"></span>
+<span class="w">                           </span><span class="n">path</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_tree_path_free</span><span class="w"> </span><span class="p">(</span><span class="n">path</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gtk_list_store_set</span><span class="w"> </span><span class="p">(</span><span class="n">list_store</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iter</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">COLUMN_BOOLEAN</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="mi">-1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">
@@ -601,25 +601,25 @@ and one might consider it a layering violation to specify the content of
 a list store in a UI definition, data, not presentation, and common wisdom
 is to separate the two, as far as possible.</p>
 <p>An example of a UI Definition fragment for a list store:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">object</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;GtkListStore&quot;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">columns</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">column</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;gchararray&quot;</span><span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">column</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;gchararray&quot;</span><span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="n">column</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;gint&quot;</span><span class="o">/&gt;</span>
-  <span class="o">&lt;/</span><span class="n">columns</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">data</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">row</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;0&quot;</span><span class="o">&gt;</span><span class="n">John</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;1&quot;</span><span class="o">&gt;</span><span class="n">Doe</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="o">&gt;</span><span class="mi">25</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">row</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">row</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;0&quot;</span><span class="o">&gt;</span><span class="n">Johan</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;1&quot;</span><span class="o">&gt;</span><span class="n">Dahlin</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="n">col</span> <span class="n">id</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="o">&gt;</span><span class="mi">50</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">row</span><span class="o">&gt;</span>
-  <span class="o">&lt;/</span><span class="n">data</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">object</span><span class="o">&gt;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">object</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s">&quot;GtkListStore&quot;</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;</span><span class="n">columns</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">column</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;gchararray&quot;</span><span class="o">/&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">column</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;gchararray&quot;</span><span class="o">/&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">column</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;gint&quot;</span><span class="o">/&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;/</span><span class="n">columns</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;</span><span class="n">data</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">row</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;0&quot;</span><span class="o">&gt;</span><span class="n">John</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;1&quot;</span><span class="o">&gt;</span><span class="n">Doe</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="o">&gt;</span><span class="mi">25</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;/</span><span class="n">row</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">row</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;0&quot;</span><span class="o">&gt;</span><span class="n">Johan</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;1&quot;</span><span class="o">&gt;</span><span class="n">Dahlin</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="o">&lt;</span><span class="n">col</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="o">&gt;</span><span class="mi">50</span><span class="o">&lt;/</span><span class="n">col</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;/</span><span class="n">row</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;/</span><span class="n">data</span><span class="o">&gt;</span><span class="w"></span>
+<span class="o">&lt;/</span><span class="n">object</span><span class="o">&gt;</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="classmethod">

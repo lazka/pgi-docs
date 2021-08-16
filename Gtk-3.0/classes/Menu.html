@@ -774,41 +774,41 @@ can pop up a menu when the 3rd mouse button is pressed.</p>
 <dd></dd>
 </dl>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// connect our handler which will popup the menu</span>
-  <span class="n">g_signal_connect_swapped</span> <span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="s">&quot;button_press_event&quot;</span><span class="p">,</span>
-<span class="n">G_CALLBACK</span> <span class="p">(</span><span class="n">my_popup_handler</span><span class="p">),</span> <span class="n">menu</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_signal_connect_swapped</span><span class="w"> </span><span class="p">(</span><span class="n">window</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;button_press_event&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="n">G_CALLBACK</span><span class="w"> </span><span class="p">(</span><span class="n">my_popup_handler</span><span class="p">),</span><span class="w"> </span><span class="n">menu</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">
 <dt>Signal handler which displays a popup menu.</dt>
 <dd></dd>
 </dl>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gint</span>
-<span class="nf">my_popup_handler</span> <span class="p">(</span><span class="n">GtkWidget</span> <span class="o">*</span><span class="n">widget</span><span class="p">,</span> <span class="n">GdkEvent</span> <span class="o">*</span><span class="n">event</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">GtkMenu</span> <span class="o">*</span><span class="n">menu</span><span class="p">;</span>
-  <span class="n">GdkEventButton</span> <span class="o">*</span><span class="n">event_button</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gint</span><span class="w"></span>
+<span class="nf">my_popup_handler</span><span class="w"> </span><span class="p">(</span><span class="n">GtkWidget</span><span class="w"> </span><span class="o">*</span><span class="n">widget</span><span class="p">,</span><span class="w"> </span><span class="n">GdkEvent</span><span class="w"> </span><span class="o">*</span><span class="n">event</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">GtkMenu</span><span class="w"> </span><span class="o">*</span><span class="n">menu</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">GdkEventButton</span><span class="w"> </span><span class="o">*</span><span class="n">event_button</span><span class="p">;</span><span class="w"></span>
 
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">widget</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">GTK_IS_MENU</span> <span class="p">(</span><span class="n">widget</span><span class="p">),</span> <span class="n">FALSE</span><span class="p">);</span>
-  <span class="n">g_return_val_if_fail</span> <span class="p">(</span><span class="n">event</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">GTK_IS_MENU</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">),</span><span class="w"> </span><span class="n">FALSE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">);</span><span class="w"></span>
 
-  <span class="c1">// The &quot;widget&quot; is the menu that was supplied when</span>
-  <span class="c1">// g_signal_connect_swapped() was called.</span>
-  <span class="n">menu</span> <span class="o">=</span> <span class="n">GTK_MENU</span> <span class="p">(</span><span class="n">widget</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// The &quot;widget&quot; is the menu that was supplied when</span>
+<span class="w">  </span><span class="c1">// g_signal_connect_swapped() was called.</span>
+<span class="w">  </span><span class="n">menu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GTK_MENU</span><span class="w"> </span><span class="p">(</span><span class="n">widget</span><span class="p">);</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">==</span> <span class="n">GDK_BUTTON_PRESS</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">event_button</span> <span class="o">=</span> <span class="p">(</span><span class="n">GdkEventButton</span> <span class="o">*</span><span class="p">)</span> <span class="n">event</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">event_button</span><span class="o">-&gt;</span><span class="n">button</span> <span class="o">==</span> <span class="n">GDK_BUTTON_SECONDARY</span><span class="p">)</span>
-        <span class="p">{</span>
-          <span class="n">gtk_menu_popup</span> <span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
-                          <span class="n">event_button</span><span class="o">-&gt;</span><span class="n">button</span><span class="p">,</span> <span class="n">event_button</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">);</span>
-          <span class="k">return</span> <span class="n">TRUE</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="o">-&gt;</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GDK_BUTTON_PRESS</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">event_button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">GdkEventButton</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">event</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event_button</span><span class="o">-&gt;</span><span class="n">button</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GDK_BUTTON_SECONDARY</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="n">gtk_menu_popup</span><span class="w"> </span><span class="p">(</span><span class="n">menu</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"></span>
+<span class="w">                          </span><span class="n">event_button</span><span class="o">-&gt;</span><span class="n">button</span><span class="p">,</span><span class="w"> </span><span class="n">event_button</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">);</span><span class="w"></span>
+<span class="w">          </span><span class="k">return</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-  <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <dl class="docutils">

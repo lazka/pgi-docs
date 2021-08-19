@@ -693,26 +693,41 @@
 </tr>
 </tbody>
 </table>
-<p>A <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> represents an HTTP message that is being sent or
-received.</p>
-<p>For client-side usage, if you are using the traditional
-<a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> APIs (<a class="reference internal" href="Session.html#Soup.Session.queue_message" title="Soup.Session.queue_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.queue_message</span></code></a>() and
-<a class="reference internal" href="Session.html#Soup.Session.send_message" title="Soup.Session.send_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.send_message</span></code></a>()), you would create a <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> with
-<a class="reference internal" href="#Soup.Message.new" title="Soup.Message.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message.new</span></code></a>() or <a class="reference internal" href="#Soup.Message.new_from_uri" title="Soup.Message.new_from_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message.new_from_uri</span></code></a>(), set up its
-fields appropriately, and send it. If you are using the newer
-<a class="reference internal" href="Request.html#Soup.Request" title="Soup.Request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Request</span></code></a> API, you would create a request with
-<a class="reference internal" href="Session.html#Soup.Session.request_http" title="Soup.Session.request_http"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.request_http</span></code></a>() or <a class="reference internal" href="Session.html#Soup.Session.request_http_uri" title="Soup.Session.request_http_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.request_http_uri</span></code></a>(), and
-the returned <a class="reference internal" href="RequestHTTP.html#Soup.RequestHTTP" title="Soup.RequestHTTP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.RequestHTTP</span></code></a> will already have an associated
-<a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> that you can retrieve via
-<a class="reference internal" href="RequestHTTP.html#Soup.RequestHTTP.get_message" title="Soup.RequestHTTP.get_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.RequestHTTP.get_message</span></code></a>().</p>
-<p>For server-side usage, <a class="reference internal" href="Server.html#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will create <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>
-s automatically for incoming requests, which your application
-will receive via handlers.</p>
-<p>Note that libsoup’s terminology here does not quite match the HTTP
-specification: in RFC 2616, an “HTTP-message” is
-either a Request, or a
-Response. In libsoup, a <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> combines both the request and
-the response.</p>
+<p>Represents an HTTP message being sent or received.</p>
+<p><cite>status_code</cite> will normally be a <a class="reference internal" href="../enums.html#Soup.Status" title="Soup.Status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status</span></code></a> value, eg,
+<a class="reference internal" href="../enums.html#Soup.Status.OK" title="Soup.Status.OK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.OK</span></code></a>, though of course it might actually be an unknown
+status code. <cite>reason_phrase</cite> is the actual text returned from the
+server, which may or may not correspond to the “standard”
+description of <cite>status_code</cite>. At any rate, it is almost certainly
+not localized, and not very descriptive even if it is in the user’s
+language; you should not use <cite>reason_phrase</cite> in user-visible
+messages. Rather, you should look at <cite>status_code</cite>, and determine an
+end-user-appropriate message based on that and on what you were
+trying to do.</p>
+<p>As described in the <a class="reference internal" href="MessageBody.html#Soup.MessageBody" title="Soup.MessageBody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody</span></code></a> documentation, the
+<cite>request_body</cite> and <cite>response_body</cite> <code class="docutils literal notranslate"><span class="pre">data</span></code> fields
+will not necessarily be filled in at all times. When the body
+fields are filled in, they will be terminated with a ‘\0’ byte
+(which is not included in the <code class="docutils literal notranslate"><span class="pre">length</span></code>), so you
+can use them as ordinary C strings (assuming that you know that the
+body doesn’t have any other ‘\0’ bytes).</p>
+<p>For a client-side <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>, <cite>request_body</cite>’s
+<code class="docutils literal notranslate"><span class="pre">data</span></code> is usually filled in right before libsoup
+writes the request to the network, but you should not count on
+this; use <a class="reference internal" href="MessageBody.html#Soup.MessageBody.flatten" title="Soup.MessageBody.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody.flatten</span></code></a>() if you want to ensure that
+<code class="docutils literal notranslate"><span class="pre">data</span></code> is filled in. If you are not using
+<a class="reference internal" href="Request.html#Soup.Request" title="Soup.Request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Request</span></code></a> to read the response, then <cite>response_body</cite>’s
+<code class="docutils literal notranslate"><span class="pre">data</span></code> will be filled in before
+<a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> <a class="reference internal" href="#Soup.Message.signals.finished" title="Soup.Message.signals.finished"><code class="xref py py-func docutils literal notranslate"><span class="pre">::finished</span></code></a> is emitted. (If you are using <a class="reference internal" href="Request.html#Soup.Request" title="Soup.Request"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Request</span></code></a>,
+then the message body is not accumulated by default, so
+<cite>response_body</cite>’s <code class="docutils literal notranslate"><span class="pre">data</span></code> will always be <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.)</p>
+<p>For a server-side <a class="reference internal" href="#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>, <cite>request_body</cite>’s %data will be
+filled in before #SoupMessage::got_body is emitted.</p>
+<p>To prevent the %data field from being filled in at all (eg, if you
+are handling the data from a #SoupMessage::got_chunk, and so don’t
+need to see it all at the end), call
+<a class="reference internal" href="MessageBody.html#Soup.MessageBody.set_accumulate" title="Soup.MessageBody.set_accumulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody.set_accumulate</span></code></a>() on <cite>response_body</cite> or
+<cite>request_body</cite> as appropriate, passing <a class="reference external" href="http://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 <dl class="classmethod">
 <dt id="Soup.Message.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>method</em>, <em>uri_string</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.Message.new" title="Permalink to this definition">¶</a></dt>

@@ -263,13 +263,17 @@
 <dl class="class">
 <dt id="Soup.MessageBody">
 <em class="property">class </em><code class="descclassname">Soup.</code><code class="descname">MessageBody</code><a class="headerlink" href="#Soup.MessageBody" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#Soup.MessageBody" title="Soup.MessageBody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody</span></code></a> represents the request or response body of a
-<a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>.</p>
-<p>In addition to <a class="reference internal" href="#Soup.MessageBody" title="Soup.MessageBody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody</span></code></a>, libsoup also defines a “smaller”
-data buffer type, <a class="reference internal" href="Buffer.html#Soup.Buffer" title="Soup.Buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Buffer</span></code></a>, which is primarily used as a
-component of <a class="reference internal" href="#Soup.MessageBody" title="Soup.MessageBody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody</span></code></a>. In particular, when using chunked
-encoding to transmit or receive a message, each chunk is
-represented as a <a class="reference internal" href="Buffer.html#Soup.Buffer" title="Soup.Buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Buffer</span></code></a>.</p>
+<dd><p>A <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> request or response body.</p>
+<p>Note that while <cite>length</cite> always reflects the full length of the
+message body, <cite>data</cite> is normally <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, and will only be filled in
+after <a class="reference internal" href="#Soup.MessageBody.flatten" title="Soup.MessageBody.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageBody.flatten</span></code></a>() is called. For client-side
+messages, this automatically happens for the response body after it
+has been fully read, unless you set the
+<a class="reference internal" href="../flags.html#Soup.MessageFlags.OVERWRITE_CHUNKS" title="Soup.MessageFlags.OVERWRITE_CHUNKS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.MessageFlags.OVERWRITE_CHUNKS</span></code></a> flags. Likewise, for server-side
+messages, the request body is automatically filled in after being
+read.</p>
+<p>As an added bonus, when <cite>data</cite> is filled in, it is always terminated
+with a ‘\0’ byte (which is not reflected in <cite>length</cite>).</p>
 <dl class="classmethod">
 <dt id="Soup.MessageBody.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Soup.MessageBody.new" title="Permalink to this definition">¶</a></dt>

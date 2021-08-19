@@ -400,57 +400,6 @@
 </tr>
 </tbody>
 </table>
-<p><a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a> watches a <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> and logs the HTTP traffic that
-it generates, for debugging purposes. Many applications use an
-environment variable to determine whether or not to use
-<a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>, and to determine the amount of debugging output.</p>
-<p>To use <a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>, first create a logger with <a class="reference internal" href="#Soup.Logger.new" title="Soup.Logger.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger.new</span></code></a>(),
-optionally configure it with <a class="reference internal" href="#Soup.Logger.set_request_filter" title="Soup.Logger.set_request_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger.set_request_filter</span></code></a>(),
-<a class="reference internal" href="#Soup.Logger.set_response_filter" title="Soup.Logger.set_response_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger.set_response_filter</span></code></a>(), and <a class="reference internal" href="#Soup.Logger.set_printer" title="Soup.Logger.set_printer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger.set_printer</span></code></a>(),
-and then attach it to a session (or multiple sessions) with
-<a class="reference internal" href="Session.html#Soup.Session.add_feature" title="Soup.Session.add_feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session.add_feature</span></code></a>().</p>
-<p>By default, the debugging output is sent to
-<code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and looks something like:</p>
-<p>POST /unauth HTTP/1.1
-Soup-Debug-Timestamp: 1200171744
-Soup-Debug: <a class="reference internal" href="SessionAsync.html#Soup.SessionAsync" title="Soup.SessionAsync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.SessionAsync</span></code></a> 1 (0x612190), <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> 1 (0x617000), <a class="reference internal" href="Socket.html#Soup.Socket" title="Soup.Socket"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Socket</span></code></a> 1 (0x612220)
-Host: localhost
-Content-Type: text/plain
-Connection: close</p>
-<p>This is a test.</p>
-<p>HTTP/1.1 201 Created
-Soup-Debug-Timestamp: 1200171744
-Soup-Debug: <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> 1 (0x617000)
-Date: Sun, 12 Jan 2008 21:02:24 GMT
-Content-Length: 0</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Soup-Debug-Timestamp</span></code> line gives the time (as
-a <code class="docutils literal notranslate"><span class="pre">time_t</span></code>) when the request was sent, or the response fully
-received.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Soup-Debug</span></code> line gives further debugging
-information about the <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a>, <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a>, and <a class="reference internal" href="Socket.html#Soup.Socket" title="Soup.Socket"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Socket</span></code></a>
-involved; the hex numbers are the addresses of the objects in
-question (which may be useful if you are running in a debugger).
-The decimal IDs are simply counters that uniquely identify objects
-across the lifetime of the <a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>. In particular, this can be
-used to identify when multiple messages are sent across the same
-connection.</p>
-<p>Currently, the request half of the message is logged just before
-the first byte of the request gets written to the network (from the
-<a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> <a class="reference internal" href="Message.html#Soup.Message.signals.starting" title="Soup.Message.signals.starting"><code class="xref py py-func docutils literal notranslate"><span class="pre">::starting</span></code></a> signal), which means that if you have
-not made the complete request body available at that point, it will
-not be logged.</p>
-<p>The response is logged just after the last byte of the response
-body is read from the network (from the #SoupMessage::got_body or
-#SoupMessage::got_informational signal), which means that the
-#SoupMessage::got_headers signal, and anything triggered off it
-(such as <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> <a class="reference internal" href="Session.html#Soup.Session.signals.authenticate" title="Soup.Session.signals.authenticate"><code class="xref py py-func docutils literal notranslate"><span class="pre">::authenticate</span></code></a>) will be emitted
-before the response headers are actually
-logged.</p>
-<p>If the response doesn’t happen to trigger the
-#SoupMessage::got_body nor #SoupMessage::got_informational signals
-due to, for example, a cancellation before receiving the last byte
-of the response body, the response will still be logged on the
-event of the <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> <a class="reference internal" href="Message.html#Soup.Message.signals.finished" title="Soup.Message.signals.finished"><code class="xref py py-func docutils literal notranslate"><span class="pre">::finished</span></code></a> signal.</p>
 <dl class="classmethod">
 <dt id="Soup.Logger.new">
 <em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>level</em>, <em>max_body_size</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.Logger.new" title="Permalink to this definition">¶</a></dt>

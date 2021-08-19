@@ -347,11 +347,41 @@
 <dl class="class">
 <dt id="Soup.URI">
 <em class="property">class </em><code class="descclassname">Soup.</code><code class="descname">URI</code><a class="headerlink" href="#Soup.URI" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> represents a (parsed) URI.</p>
-<p>Many applications will not need to use <a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> directly at all; on
-the client side, <a class="reference internal" href="Message.html#Soup.Message.new" title="Soup.Message.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message.new</span></code></a>() takes a stringified URI, and on
-the server side, the path and query components are provided for you
-in the server callback.</p>
+<dd><p>A <a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> represents a (parsed) URI. <a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> supports RFC 3986
+(URI Generic Syntax), and can parse any valid URI. However, libsoup
+only uses “http” and “https” URIs internally; You can use
+SOUP_URI_VALID_FOR_HTTP() to test if a <a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> is a valid HTTP
+URI.</p>
+<p><cite>scheme</cite> will always be set in any URI. It is an interned string and
+is always all lowercase. (If you parse a URI with a non-lowercase
+scheme, it will be converted to lowercase.) The macros
+%SOUP_URI_SCHEME_HTTP and %SOUP_URI_SCHEME_HTTPS provide the
+interned values for “http” and “https” and can be compared against
+URI <cite>scheme</cite> values.</p>
+<p><cite>user</cite> and <cite>password</cite> are parsed as defined in the older URI specs
+(ie, separated by a colon; RFC 3986 only talks about a single
+“userinfo” field). Note that <cite>password</cite> is not included in the
+output of <a class="reference internal" href="#Soup.URI.to_string" title="Soup.URI.to_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI.to_string</span></code></a>(). libsoup does not normally use these
+fields; authentication is handled via <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> signals.</p>
+<p><cite>host</cite> contains the hostname, and <cite>port</cite> the port specified in the
+URI. If the URI doesn’t contain a hostname, <cite>host</cite> will be <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
+and if it doesn’t specify a port, <cite>port</cite> may be 0. However, for
+“http” and “https” URIs, <cite>host</cite> is guaranteed to be non-<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+(trying to parse an http URI with no <cite>host</cite> will return <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>), and
+<cite>port</cite> will always be non-0 (because libsoup knows the default value
+to use when it is not specified in the URI).</p>
+<p><cite>path</cite> is always non-<a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. For http/https URIs, <cite>path</cite> will never be
+an empty string either; if the input URI has no path, the parsed
+<a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> will have a <cite>path</cite> of “/”.</p>
+<p><cite>query</cite> and <cite>fragment</cite> are optional for all URI types.
+<a class="reference internal" href="../functions.html#Soup.form_decode" title="Soup.form_decode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.form_decode</span></code></a>() may be useful for parsing <cite>query</cite>.</p>
+<p>Note that <cite>path</cite>, <cite>query</cite>, and <cite>fragment</cite> may contain
+% -encoded characters. <a class="reference internal" href="#Soup.URI.new" title="Soup.URI.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI.new</span></code></a>() calls
+<a class="reference internal" href="#Soup.URI.normalize" title="Soup.URI.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI.normalize</span></code></a>() on them, but not <a class="reference internal" href="#Soup.URI.decode" title="Soup.URI.decode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI.decode</span></code></a>(). This is
+necessary to ensure that <a class="reference internal" href="#Soup.URI.to_string" title="Soup.URI.to_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI.to_string</span></code></a>() will generate a URI
+that has exactly the same meaning as the original. (In theory,
+<a class="reference internal" href="#Soup.URI" title="Soup.URI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.URI</span></code></a> should leave <cite>user</cite>, <cite>password</cite>, and <cite>host</cite> partially-encoded
+as well, but this would be more annoying than useful.)</p>
 <dl class="classmethod">
 <dt id="Soup.URI.decode">
 <em class="property">classmethod </em><code class="descname">decode</code><span class="sig-paren">(</span><em>part</em><span class="sig-paren">)</span><a class="headerlink" href="#Soup.URI.decode" title="Permalink to this definition">¶</a></dt>

@@ -33,6 +33,10 @@
   
 
   
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
   
 
@@ -179,26 +183,26 @@
         <div class="rst-content">
           <div role="main">
             
-  <div class="section" id="gobject-weakref">
+  <section id="gobject-weakref">
 <h1>GObject.WeakRef<a class="headerlink" href="#gobject-weakref" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="fields">
+<section id="fields">
 <span id="gobject-weakref-fields"></span><h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
 <p>None</p>
-</div>
-<div class="section" id="methods">
+</section>
+<section id="methods">
 <span id="gobject-weakref-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <p>None</p>
-</div>
-<div class="section" id="details">
+</section>
+<section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="GObject.WeakRef">
-<em class="property">class </em><code class="descclassname">GObject.</code><code class="descname">WeakRef</code><a class="headerlink" href="#GObject.WeakRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>A structure containing a weak reference to a <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>.  It can either
-be empty (i.e. point to <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>), or point to an object for as long as
-at least one “strong” reference to that object exists. Before the
-object’s <a class="reference internal" href="ObjectClass.html#gobject-objectclass-fields"><span class="std std-ref">GObject.ObjectClass.dispose</span></a> method is called, every <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRef</span></code></a>
-associated with becomes empty (i.e. points to <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="GObject.WeakRef">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">WeakRef</span></span><a class="headerlink" href="#GObject.WeakRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>A structure containing a weak reference to a <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">GWeakRef</span></code> can either be empty (i.e. point to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>), or point to an
+object for as long as at least one “strong” reference to that object
+exists. Before the object’s <a class="reference internal" href="ObjectClass.html#gobject-objectclass-fields"><span class="std std-ref">GObject.ObjectClass.dispose</span></a> method is called,
+every <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRef</span></code></a> associated with becomes empty (i.e. points to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>).</p>
 <p>Like <a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>, <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRef</span></code></a> can be statically allocated, stack- or
 heap-allocated, or embedded in larger structures.</p>
 <p>Unlike g_object_weak_ref() and g_object_add_weak_pointer(), this weak
@@ -206,15 +210,17 @@ reference is thread-safe: converting a weak pointer to a reference is
 atomic with respect to invalidation of weak pointers to destroyed
 objects.</p>
 <p>If the object’s <a class="reference internal" href="ObjectClass.html#gobject-objectclass-fields"><span class="std std-ref">GObject.ObjectClass.dispose</span></a> method results in additional
-references to the object being held, any <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRefs</span></code></a> taken
-before it was disposed will continue to point to <a class="reference external" href="http://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.  If
-<a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRefs</span></code></a> are taken after the object is disposed and
-re-referenced, they will continue to point to it until its refcount
+references to the object being held (‘re-referencing’), any <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRefs</span></code></a> taken
+before it was disposed will continue to point to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.  Any <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRefs</span></code></a> taken
+during disposal and after re-referencing, or after disposal has returned due
+to the re-referencing, will continue to point to the object until its refcount
 goes back to zero, at which point they too will be invalidated.</p>
+<p>It is invalid to take a <a class="reference internal" href="#GObject.WeakRef" title="GObject.WeakRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.WeakRef</span></code></a> on an object during <a class="reference internal" href="ObjectClass.html#gobject-objectclass-fields"><span class="std std-ref">GObject.ObjectClass.dispose</span></a>
+without first having or creating a strong reference to the object.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
           </div>

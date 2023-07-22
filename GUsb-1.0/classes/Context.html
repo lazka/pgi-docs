@@ -74,7 +74,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GUsb.Device" href="Device.html" />
-    <link rel="prev" title="Classes" href="../classes.html" /> 
+    <link rel="prev" title="GUsb.BosDescriptor" href="BosDescriptor.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,7 +100,7 @@
 
 
 
-<td><a accesskey="p" href="../classes.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="BosDescriptor.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -149,7 +149,7 @@
 
 
 
-<td><a accesskey="p" href="../classes.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="BosDescriptor.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -307,6 +307,18 @@
 <td><p><a class="reference internal" href="#GUsb.Context.get_source" title="GUsb.Context.get_source"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_source</span></code></a> (main_ctx)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GUsb.Context.load" title="GUsb.Context.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load</span></code></a> (json_object)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#GUsb.Context.load_with_tag" title="GUsb.Context.load_with_tag"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_with_tag</span></code></a> (json_object, tag)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GUsb.Context.save" title="GUsb.Context.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save</span></code></a> (json_builder)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#GUsb.Context.save_with_tag" title="GUsb.Context.save_with_tag"><code class="xref py py-func docutils literal notranslate"><span class="pre">save_with_tag</span></code></a> (json_builder, tag)</p></td>
+</tr>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#GUsb.Context.set_debug" title="GUsb.Context.set_debug"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_debug</span></code></a> (flags)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
@@ -341,6 +353,9 @@
 <td><p><a class="reference internal" href="#GUsb.Context.do_device_added" title="GUsb.Context.do_device_added"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_device_added</span></code></a> (device)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GUsb.Context.do_device_changed" title="GUsb.Context.do_device_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_device_changed</span></code></a> (device)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#GUsb.Context.do_device_removed" title="GUsb.Context.do_device_removed"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_device_removed</span></code></a> (device)</p></td>
 </tr>
 </tbody>
@@ -397,7 +412,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#GUsb.Context.signals.device_added" title="GUsb.Context.signals.device_added"><code class="xref py py-func docutils literal notranslate"><span class="pre">device-added</span></code></a></p></td>
 <td><p>This signal is emitted when a USB device is added.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#GUsb.Context.signals.device_removed" title="GUsb.Context.signals.device_removed"><code class="xref py py-func docutils literal notranslate"><span class="pre">device-removed</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#GUsb.Context.signals.device_changed" title="GUsb.Context.signals.device_changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">device-changed</span></code></a></p></td>
+<td><p>This signal is emitted when a USB device is changed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#GUsb.Context.signals.device_removed" title="GUsb.Context.signals.device_removed"><code class="xref py py-func docutils literal notranslate"><span class="pre">device-removed</span></code></a></p></td>
 <td><p>This signal is emitted when a USB device is removed.</p></td>
 </tr>
 </tbody>
@@ -425,13 +443,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>parent</p></td>
+<tr class="row-even"><td><p>parent_instance</p></td>
 <td><p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p></td>
-<td><p>r</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>priv</p></td>
-<td><p><a class="reference internal" href="ContextPrivate.html#GUsb.ContextPrivate" title="GUsb.ContextPrivate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GUsb.ContextPrivate</span></code></a></p></td>
 <td><p>r</p></td>
 <td></td>
 </tr>
@@ -614,7 +627,7 @@ are silently ignored.</p>
 <span class="sig-name descname"><span class="pre">get_hotplug_poll_interval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.get_hotplug_poll_interval" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the interval in ms</p>
+<dd class="field-odd"><p>interval in ms</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -661,6 +674,104 @@ By default the value is set to the value of <a class="reference external" href="
 <p>This function does nothing.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GUsb.Context.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.load" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>json_object</strong> (<a class="reference external" href="../../Json-1.0/classes/Object.html#Json.Object" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Object</span></code></a>) – a <a class="reference external" href="../../Json-1.0/classes/Object.html#Json.Object" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Object</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Loads the context from a JSON object.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GUsb.Context.load_with_tag">
+<span class="sig-name descname"><span class="pre">load_with_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.load_with_tag" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_object</strong> (<a class="reference external" href="../../Json-1.0/classes/Object.html#Json.Object" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Object</span></code></a>) – a <a class="reference external" href="../../Json-1.0/classes/Object.html#Json.Object" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Object</span></code></a></p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string tag, e.g. <code class="docutils literal notranslate"><span class="pre">runtime-reload</span></code>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Loads any devices with a specified tag into the context from a JSON object.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GUsb.Context.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.save" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>json_builder</strong> (<a class="reference external" href="../../Json-1.0/classes/Builder.html#Json.Builder" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Builder</span></code></a>) – a <a class="reference external" href="../../Json-1.0/classes/Builder.html#Json.Builder" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Builder</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Saves the context to an existing JSON builder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GUsb.Context.save_with_tag">
+<span class="sig-name descname"><span class="pre">save_with_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.save_with_tag" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_builder</strong> (<a class="reference external" href="../../Json-1.0/classes/Builder.html#Json.Builder" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Builder</span></code></a>) – a <a class="reference external" href="../../Json-1.0/classes/Builder.html#Json.Builder" title="(in Json 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Builder</span></code></a></p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string tag, e.g. <code class="docutils literal notranslate"><span class="pre">runtime-reload</span></code>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Saves any devices with a specified tag into an existing JSON builder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.1.</span></p>
 </div>
 </dd></dl>
 
@@ -765,6 +876,16 @@ back or the timeout triggers.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="GUsb.Context.do_device_changed">
+<span class="sig-name descname"><span class="pre">do_device_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GUsb.Context.do_device_changed" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> (<a class="reference internal" href="Device.html#GUsb.Device" title="GUsb.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GUsb.Device</span></code></a>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="GUsb.Context.do_device_removed">
 <span class="sig-name descname"><span class="pre">do_device_removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GUsb.Context.do_device_removed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -797,6 +918,26 @@ back or the timeout triggers.</p>
 </dd>
 </dl>
 <p>This signal is emitted when a USB device is added.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GUsb.Context.signals.device_changed">
+<span class="sig-prename descclassname"><span class="pre">GUsb.Context.signals.</span></span><span class="sig-name descname"><span class="pre">device_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUsb.Context.signals.device_changed" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Signal Name</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">device-changed</span></code></p>
+</dd>
+<dt class="field-even">Flags</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.RUN_LAST" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUN_LAST</span></code></a></p>
+</dd>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<a class="reference internal" href="#GUsb.Context" title="GUsb.Context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GUsb.Context</span></code></a>) – The object which received the signal</p></li>
+<li><p><strong>device</strong> (<a class="reference internal" href="Device.html#GUsb.Device" title="GUsb.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GUsb.Device</span></code></a>) – A <a class="reference internal" href="Device.html#GUsb.Device" title="GUsb.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GUsb.Device</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<p>This signal is emitted when a USB device is changed.</p>
 </dd></dl>
 
 <dl class="py function">

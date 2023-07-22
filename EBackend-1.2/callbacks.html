@@ -180,9 +180,12 @@
 <td><p><a class="reference internal" href="#EBackend.CacheForeachFunc" title="EBackend.CacheForeachFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">CacheForeachFunc</span></code></a> (cache, uid, revision, object, offline_state, column_names, column_values, *user_data)</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#EBackend.CacheSelectFunc" title="EBackend.CacheSelectFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">CacheSelectFunc</span></code></a> (cache, column_names, column_values, *user_data)</p></td>
+<td><p><a class="reference internal" href="#EBackend.CacheKeysForeachFunc" title="EBackend.CacheKeysForeachFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">CacheKeysForeachFunc</span></code></a> (self, key, value, ref_count, *user_data)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#EBackend.CacheSelectFunc" title="EBackend.CacheSelectFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">CacheSelectFunc</span></code></a> (cache, column_names, column_values, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#EBackend.CacheUpdateFunc" title="EBackend.CacheUpdateFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">CacheUpdateFunc</span></code></a> (cache, uid, revision, object, offline_state, column_names, column_values, *user_data)</p></td>
 </tr>
 </tbody>
@@ -215,6 +218,33 @@
 <p>A callback called for each object row when using <a class="reference internal" href="classes/Cache.html#EBackend.Cache.foreach" title="EBackend.Cache.foreach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Cache.foreach</span></code></a>() function.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.26.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EBackend.CacheKeysForeachFunc">
+<span class="sig-prename descclassname"><span class="pre">EBackend.</span></span><span class="sig-name descname"><span class="pre">CacheKeysForeachFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_count</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#EBackend.CacheKeysForeachFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="classes/CacheKeys.html#EBackend.CacheKeys" title="EBackend.CacheKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.CacheKeys</span></code></a>) – an <a class="reference internal" href="classes/CacheKeys.html#EBackend.CacheKeys" title="EBackend.CacheKeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.CacheKeys</span></code></a></p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the key</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the value</p></li>
+<li><p><strong>ref_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the reference count for the <cite>key</cite></p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data, as used in <a class="reference internal" href="classes/CacheKeys.html#EBackend.CacheKeys.foreach_sync" title="EBackend.CacheKeys.foreach_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.CacheKeys.foreach_sync</span></code></a>()</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to continue, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> to stop walk through.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>A callback called for each row of the <cite>self</cite> table when
+using <a class="reference internal" href="classes/CacheKeys.html#EBackend.CacheKeys.foreach_sync" title="EBackend.CacheKeys.foreach_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.CacheKeys.foreach_sync</span></code></a>() function.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.48.</span></p>
 </div>
 </dd></dl>
 

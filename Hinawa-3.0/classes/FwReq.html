@@ -247,13 +247,19 @@
 <td><p><a class="reference internal" href="#Hinawa.FwReq.new" title="Hinawa.FwReq.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new</span></code></a> ()</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#Hinawa.FwReq.transaction" title="Hinawa.FwReq.transaction"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction</span></code></a> (node, tcode, addr, length, frame)</p></td>
+<td><p><a class="reference internal" href="#Hinawa.FwReq.request" title="Hinawa.FwReq.request"><code class="xref py py-func docutils literal notranslate"><span class="pre">request</span></code></a> (node, tcode, addr, length, frame)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Hinawa.FwReq.transaction_async" title="Hinawa.FwReq.transaction_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction_async</span></code></a> (node, tcode, addr, length, frame)</p></td>
+<td><p><a class="reference internal" href="#Hinawa.FwReq.transaction" title="Hinawa.FwReq.transaction"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction</span></code></a> (node, tcode, addr, length, frame)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Hinawa.FwReq.transaction_async" title="Hinawa.FwReq.transaction_async"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction_async</span></code></a> (node, tcode, addr, length, frame)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Hinawa.FwReq.transaction_sync" title="Hinawa.FwReq.transaction_sync"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction_sync</span></code></a> (node, tcode, addr, length, frame, timeout_ms)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Hinawa.FwReq.transaction_with_tstamp" title="Hinawa.FwReq.transaction_with_tstamp"><code class="xref py py-func docutils literal notranslate"><span class="pre">transaction_with_tstamp</span></code></a> (node, tcode, addr, length, frame, timeout_ms)</p></td>
 </tr>
 </tbody>
 </table>
@@ -273,6 +279,9 @@
 <tbody>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Hinawa.FwReq.do_responded" title="Hinawa.FwReq.do_responded"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_responded</span></code></a> (rcode, frame)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Hinawa.FwReq.do_responded2" title="Hinawa.FwReq.do_responded2"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_responded2</span></code></a> (rcode, request_tstamp, response_tstamp, frame)</p></td>
 </tr>
 </tbody>
 </table>
@@ -321,6 +330,9 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="#Hinawa.FwReq.signals.responded" title="Hinawa.FwReq.signals.responded"><code class="xref py py-func docutils literal notranslate"><span class="pre">responded</span></code></a></p></td>
+<td><p>Emitted when the unit transfers asynchronous packet as response subaction for the transaction and the process successfully reads the content of packet from Linux firewire subsystem, except for the case that [signal`FwReq`:py:func:<cite>::responded2&lt;Hinawa.FwReq.signals.responded2&gt;</cite>] signal handler is already assigned. <code class="docutils literal notranslate"><span class="pre">deprecated</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Hinawa.FwReq.signals.responded2" title="Hinawa.FwReq.signals.responded2"><code class="xref py py-func docutils literal notranslate"><span class="pre">responded2</span></code></a></p></td>
 <td><p>Emitted when the unit transfers asynchronous packet as response subaction for the transaction and the process successfully reads the content of packet from Linux firewire subsystem.</p></td>
 </tr>
 </tbody>
@@ -395,6 +407,50 @@ with subsystem specific request commands.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Hinawa.FwReq.request">
+<span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Hinawa.FwReq.request" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference internal" href="FwNode.html#Hinawa.FwNode" title="Hinawa.FwNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwNode</span></code></a>) – A [class`FwNode`].</p></li>
+<li><p><strong>tcode</strong> (<a class="reference internal" href="../enums.html#Hinawa.FwTcode" title="Hinawa.FwTcode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwTcode</span></code></a>) – A transaction code of [enum`FwTcode`].</p></li>
+<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A destination address of target device</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The range of address in byte unit.</p></li>
+<li><p><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – An array with elements for byte data. Callers should
+give it for buffer with enough space against the request since this library performs no
+reallocation. Due to the reason, the value of this argument should point to the pointer
+to the array and immutable. The content of array is mutable for read and lock
+transaction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="field-list simple">
+<dt class="field-odd">frame</dt>
+<dd class="field-odd"><p>An array with elements for byte data. Callers should
+give it for buffer with enough space against the request since this library performs no
+reallocation. Due to the reason, the value of this argument should point to the pointer
+to the array and immutable. The content of array is mutable for read and lock
+transaction.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>frame</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>)</p>
+</dd>
+</dl>
+<p>Execute request subaction of transactions to the given node according to given code. When the
+response subaction arrives and running event dispatcher reads the contents,
+[signal`FwReq`:py:func:<cite>::responded2&lt;Hinawa.FwReq.signals.responded2&gt;</cite>] signal handler is called.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6..</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Hinawa.FwReq.transaction">
 <span class="sig-name descname"><span class="pre">transaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Hinawa.FwReq.transaction" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -431,7 +487,7 @@ for response subaction within the value of timeout argument.</p>
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 2.1: </span>Use [method`FwReq`.transaction_sync] instead.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 2.1: </span>Use [method`FwReq`.transaction_with_tstamp()] instead.</p>
 </div>
 </dd></dl>
 
@@ -467,10 +523,13 @@ transaction.</p>
 </dd>
 </dl>
 <p>Execute request subaction of transactions to the given node according to given code. When the
-response subaction arrives and read the contents, [signal`FwReq`:py:func:<cite>::responded&lt;Hinawa.FwReq.signals.responded&gt;</cite>] signal handler is called
+response subaction arrives and read the contents, [signal`FwReq`:py:func:<cite>::responded2&lt;Hinawa.FwReq.signals.responded2&gt;</cite>] signal handler is called
 as long as event dispatcher runs.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1..</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6: </span>Use [method`FwReq`.request] instead.</p>
 </div>
 </dd></dl>
 
@@ -513,6 +572,65 @@ instance is ignored.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1..</span></p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6.: </span>Use [method`FwReq`.transaction_with_tstamp] instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Hinawa.FwReq.transaction_with_tstamp">
+<span class="sig-name descname"><span class="pre">transaction_with_tstamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout_ms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Hinawa.FwReq.transaction_with_tstamp" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference internal" href="FwNode.html#Hinawa.FwNode" title="Hinawa.FwNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwNode</span></code></a>) – A [class`FwNode`].</p></li>
+<li><p><strong>tcode</strong> (<a class="reference internal" href="../enums.html#Hinawa.FwTcode" title="Hinawa.FwTcode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwTcode</span></code></a>) – A transaction code of [enum`FwTcode`].</p></li>
+<li><p><strong>addr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A destination address of target device</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The range of address in byte unit.</p></li>
+<li><p><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – An array with elements for byte data. Callers should
+give it for buffer with enough space against the request since this library performs no
+reallocation. Due to the reason, the value of this argument should point to the pointer
+to the array and immutable. The content of array is mutable for read and lock
+transaction.</p></li>
+<li><p><strong>timeout_ms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The timeout to wait for response subaction of the transaction since request
+subaction is initiated, in milliseconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the overall operation finishes successfully, otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">frame</dt>
+<dd class="field-odd"><p>An array with elements for byte data. Callers should
+give it for buffer with enough space against the request since this library performs no
+reallocation. Due to the reason, the value of this argument should point to the pointer
+to the array and immutable. The content of array is mutable for read and lock
+transaction.</p>
+</dd>
+<dt class="field-even">tstamp</dt>
+<dd class="field-even"><p>The array with two elements for time stamps.
+The first element is for the isochronous cycle at which the request was sent. The second
+element is for the isochronous cycle at which the response arrived.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>frame</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>, <strong>tstamp</strong>: [<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>])</p>
+</dd>
+</dl>
+<p>Execute request subaction of transaction to the given node according to given code, then wait
+for response subaction within the given timeout. The [property`FwReq`:py:data:<cite>:timeout&lt;Hinawa.FwReq.props.timeout&gt;</cite>] property of
+instance is ignored.</p>
+<p>Each value of <cite>tstamp</cite> is unsigned 16 bit integer including higher 3 bits for three low order bits
+of second field and the rest 13 bits for cycle field in the format of IEEE 1394 CYCLE_TIMER register.</p>
+<p>If the version of kernel ABI for Linux FireWire subsystem is less than 6, each element of <cite>tstamp</cite>
+has invalid value (=:obj:<cite>GObject.G_MAXUINT</cite>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -530,6 +648,29 @@ byte data of response subaction for transaction.</p></li>
 <p>Class closure for the [signal`FwReq`:py:func:<cite>::responded&lt;Hinawa.FwReq.signals.responded&gt;</cite>] signal.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6: </span>Use [vfunc`FwReq`.responded2], instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Hinawa.FwReq.do_responded2">
+<span class="sig-name descname"><span class="pre">do_responded2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_tstamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_tstamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Hinawa.FwReq.do_responded2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rcode</strong> (<a class="reference internal" href="../enums.html#Hinawa.FwRcode" title="Hinawa.FwRcode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwRcode</span></code></a>) – One of [enum`FwRcode`].</p></li>
+<li><p><strong>request_tstamp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The isochronous cycle at which the request was sent.</p></li>
+<li><p><strong>response_tstamp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The isochronous cycle at which the response arrived.</p></li>
+<li><p><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – The array with elements for
+byte data of response subaction for transaction.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Class closure for the [signal`FwReq`:py:func:<cite>::responded2&lt;Hinawa.FwReq.signals.responded2&gt;</cite>] signal.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
 </dd></dl>
 
@@ -559,9 +700,47 @@ byte data of response subaction for transaction.</p></li>
 </dl>
 <p>Emitted when the unit transfers asynchronous packet as response subaction for the
 transaction and the process successfully reads the content of packet from Linux firewire
-subsystem.</p>
+subsystem, except for the case that [signal`FwReq`:py:func:<cite>::responded2&lt;Hinawa.FwReq.signals.responded2&gt;</cite>] signal handler is already
+assigned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.1.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.6: </span>Use [signal`FwReq`::responded2], instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Hinawa.FwReq.signals.responded2">
+<span class="sig-prename descclassname"><span class="pre">Hinawa.FwReq.signals.</span></span><span class="sig-name descname"><span class="pre">responded2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fw_req</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rcode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request_tstamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_tstamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Hinawa.FwReq.signals.responded2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Signal Name</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">responded2</span></code></p>
+</dd>
+<dt class="field-even">Flags</dt>
+<dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.SignalFlags.RUN_LAST" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUN_LAST</span></code></a></p>
+</dd>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fw_req</strong> (<a class="reference internal" href="#Hinawa.FwReq" title="Hinawa.FwReq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwReq</span></code></a>) – The object which received the signal</p></li>
+<li><p><strong>rcode</strong> (<a class="reference internal" href="../enums.html#Hinawa.FwRcode" title="Hinawa.FwRcode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Hinawa.FwRcode</span></code></a>) – One of [enum`FwRcode`].</p></li>
+<li><p><strong>request_tstamp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The isochronous cycle at which the request was sent.</p></li>
+<li><p><strong>response_tstamp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The isochronous cycle at which the response arrived.</p></li>
+<li><p><strong>frame</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – The array with elements for
+byte data of response subaction for transaction.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Emitted when the unit transfers asynchronous packet as response subaction for the
+transaction and the process successfully reads the content of packet from Linux firewire
+subsystem.</p>
+<p>The values of <cite>request_tstamp</cite> and <cite>response_tstamp</cite> are unsigned 16 bit integer including
+higher 3 bits for three low order bits of second field and the rest 13 bits for cycle
+field in the format of IEEE 1394 CYCLE_TIMER register.</p>
+<p>If the version of kernel ABI for Linux FireWire subsystem is less than 6, the
+<cite>request_tstamp</cite> and <cite>response_tstamp</cite> argument has invalid value (=:obj:<cite>GObject.G_MAXUINT</cite>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
 </dd></dl>
 
@@ -590,7 +769,7 @@ subsystem.</p>
 <p><span class="versionmodified added">New in version 1.4.</span></p>
 </div>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 2.1: </span>Use timeout_ms parameter of [method`FwReq`.transaction_sync].</p>
+<p><span class="versionmodified deprecated">Deprecated since version 2.1: </span>Use timeout_ms parameter of [method`FwReq`.transaction_with_tstamp].</p>
 </div>
 </dd></dl>
 

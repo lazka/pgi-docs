@@ -177,6 +177,7 @@
 <li><p><a class="reference internal" href="#GLib.CSET_A_2_Z" title="GLib.CSET_A_2_Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.CSET_A_2_Z</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.CSET_DIGITS" title="GLib.CSET_DIGITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.CSET_DIGITS</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.CSET_a_2_z" title="GLib.CSET_a_2_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.CSET_a_2_z</span></code></a></p></li>
+<li><p><a class="reference internal" href="#GLib.C_STD_VERSION" title="GLib.C_STD_VERSION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.C_STD_VERSION</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.DATALIST_FLAGS_MASK" title="GLib.DATALIST_FLAGS_MASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DATALIST_FLAGS_MASK</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.DATE_BAD_DAY" title="GLib.DATE_BAD_DAY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DATE_BAD_DAY</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.DATE_BAD_JULIAN" title="GLib.DATE_BAD_JULIAN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DATE_BAD_JULIAN</span></code></a></p></li>
@@ -417,6 +418,21 @@ in <a class="reference internal" href="classes/ScannerConfig.html#GLib.ScannerCo
 </dd></dl>
 
 <dl class="py data">
+<dt class="sig sig-object py" id="GLib.C_STD_VERSION">
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">C_STD_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">199000</span></em><a class="headerlink" href="#GLib.C_STD_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The C standard version the code is compiling against, it’s normally
+defined with the same value of <code class="docutils literal notranslate"><span class="pre">__STDC_VERSION__</span></code> for C standard
+compatible compilers, while it uses the lowest standard version
+in pure MSVC, given that in such compiler the definition depends on
+a compilation flag.</p>
+<p>This is granted to be undefined when compiling with a C++ compiler.</p>
+<p>See also: %G_C_STD_CHECK_VERSION and %G_CXX_STD_VERSION</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.76.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py data">
 <dt class="sig sig-object py" id="GLib.DATALIST_FLAGS_MASK">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">DATALIST_FLAGS_MASK</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#GLib.DATALIST_FLAGS_MASK" title="Permalink to this definition">¶</a></dt>
 <dd><p>A bitmask that restricts the possible flags passed to
@@ -469,11 +485,15 @@ This is “/” on UNIX machines and “\” under Windows.</p>
 printing values of type #gint16. It is a string literal, but doesn’t
 include the percent-sign, such that you can add precision and length
 modifiers between percent-sign and conversion specifier.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gint16</span><span class="w"> </span><span class="n">in</span><span class="p">;</span>
-<span class="n">gint32</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
-<span class="n">sscanf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;42&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="w"> </span><span class="n">G_GINT16_FORMAT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">in</span><span class="p">)</span>
-<span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
-<span class="n">g_print</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%&quot;</span><span class="w"> </span><span class="n">G_GINT32_FORMAT</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>gint16 in;
+gint32 out;
+sscanf (&quot;42&quot;, &quot;%&quot; G_GINT16_FORMAT, &amp;in)
+out = in * 1000;
+g_print (&quot;%&quot; G_GINT32_FORMAT, out);
+
+This is not necessarily the correct format for printing and scanning
+`int16_t` values, even though the in-memory representation is the same.
+Standard C macros like `PRId16` and `SCNd16` should be used for `int16_t`.
 </pre></div>
 </div>
 </dd></dl>
@@ -491,6 +511,9 @@ and conversion specifier and append a conversion specifier.</p>
 <span class="n">g_print</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;%#&quot;</span><span class="w"> </span><span class="n">G_GINT16_MODIFIER</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">int16_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRId16</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNd16</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">int16_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -501,6 +524,9 @@ and conversion specifier and append a conversion specifier.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GINT32_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'i'</span></em><a class="headerlink" href="#GLib.GINT32_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #gint32. See also <a class="reference internal" href="#GLib.GINT16_FORMAT" title="GLib.GINT16_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_FORMAT</span></code></a>.</p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">int32_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRId32</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNd32</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">int32_t</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -509,6 +535,9 @@ and printing values of type #gint32. See also <a class="reference internal" href
 <dd><p>The platform dependent length modifier for conversion specifiers
 for scanning and printing values of type #gint32 or #guint32. It
 is a string literal. See also <a class="reference internal" href="#GLib.GINT16_MODIFIER" title="GLib.GINT16_MODIFIER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_MODIFIER</span></code></a>.</p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">int32_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRId32</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNd32</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">int32_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -525,6 +554,9 @@ is not defined. Note that scanf() may not support 64-bit integers, even
 if <a class="reference internal" href="#GLib.GINT64_FORMAT" title="GLib.GINT64_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT64_FORMAT</span></code></a> is defined. Due to its weak error handling, scanf()
 is not recommended for parsing anyway; consider using <a class="reference internal" href="functions.html#GLib.ascii_strtoull" title="GLib.ascii_strtoull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ascii_strtoull</span></code></a>()
 instead.</p>
+<p>This is not necessarily the correct format for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">int64_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRId64</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNd64</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">int64_t</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -536,6 +568,9 @@ It is a string literal.</p>
 <p>Some platforms do not support printing 64-bit integers, even
 though the types are supported. On such platforms <a class="reference internal" href="#GLib.GINT64_MODIFIER" title="GLib.GINT64_MODIFIER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT64_MODIFIER</span></code></a>
 is not defined.</p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">int64_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRId64</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNd64</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">int64_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -546,6 +581,11 @@ is not defined.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GINTPTR_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'li'</span></em><a class="headerlink" href="#GLib.GINTPTR_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #gintptr.</p>
+<p>Note that this is not necessarily the correct format to scan or
+print an <code class="docutils literal notranslate"><span class="pre">intptr_t</span></code>, even though the in-memory representation is the
+same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIdPTR</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNdPTR</span></code> should be used for
+<code class="docutils literal notranslate"><span class="pre">intptr_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.22.</span></p>
 </div>
@@ -557,6 +597,11 @@ and printing values of type #gintptr.</p>
 <dd><p>The platform dependent length modifier for conversion specifiers
 for scanning and printing values of type #gintptr or #guintptr.
 It is a string literal.</p>
+<p>Note that this is not necessarily the correct modifier to scan or
+print an <code class="docutils literal notranslate"><span class="pre">intptr_t</span></code>, even though the in-memory representation is the
+same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIdPTR</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNdPTR</span></code> should be used for
+<code class="docutils literal notranslate"><span class="pre">intptr_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.22.</span></p>
 </div>
@@ -587,6 +632,10 @@ on gcc version 2.x. Don’t use it.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GSIZE_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'lu'</span></em><a class="headerlink" href="#GLib.GSIZE_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #gsize. See also <a class="reference internal" href="#GLib.GINT16_FORMAT" title="GLib.GINT16_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_FORMAT</span></code></a>.</p>
+<p>Note that this is not necessarily the correct format to scan or
+print a <code class="docutils literal notranslate"><span class="pre">size_t</span></code>, even though the in-memory representation is the
+same. The standard C <code class="docutils literal notranslate"><span class="pre">&quot;zu&quot;</span></code> format should be used for <code class="docutils literal notranslate"><span class="pre">size_t</span></code>,
+assuming a C99-compliant <code class="docutils literal notranslate"><span class="pre">printf</span></code> implementation is available.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -598,6 +647,10 @@ and printing values of type #gsize. See also <a class="reference internal" href=
 <dd><p>The platform dependent length modifier for conversion specifiers
 for scanning and printing values of type #gsize. It
 is a string literal.</p>
+<p>Note that this is not necessarily the correct modifier to scan or
+print a <code class="docutils literal notranslate"><span class="pre">size_t</span></code>, even though the in-memory representation is the
+same. The Standard C <code class="docutils literal notranslate"><span class="pre">&quot;z&quot;</span></code> modifier should be used for <code class="docutils literal notranslate"><span class="pre">size_t</span></code>,
+assuming a C99-compliant <code class="docutils literal notranslate"><span class="pre">printf</span></code> implementation is available.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -608,6 +661,10 @@ is a string literal.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GSSIZE_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'li'</span></em><a class="headerlink" href="#GLib.GSSIZE_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #gssize. See also <a class="reference internal" href="#GLib.GINT16_FORMAT" title="GLib.GINT16_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_FORMAT</span></code></a>.</p>
+<p>Note that this is not necessarily the correct format to scan or print
+a POSIX <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code> or a Windows <code class="docutils literal notranslate"><span class="pre">SSIZE_T</span></code>, even though the in-memory
+representation is the same.
+On POSIX platforms, the <code class="docutils literal notranslate"><span class="pre">&quot;zd&quot;</span></code> format should be used for <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -619,6 +676,10 @@ and printing values of type #gssize. See also <a class="reference internal" href
 <dd><p>The platform dependent length modifier for conversion specifiers
 for scanning and printing values of type #gssize. It
 is a string literal.</p>
+<p>Note that this is not necessarily the correct modifier to scan or print
+a POSIX <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code> or a Windows <code class="docutils literal notranslate"><span class="pre">SSIZE_T</span></code>, even though the in-memory
+representation is the same.
+On POSIX platforms, the <code class="docutils literal notranslate"><span class="pre">&quot;z&quot;</span></code> modifier should be used for <code class="docutils literal notranslate"><span class="pre">ssize_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -629,6 +690,9 @@ is a string literal.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GUINT16_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'hu'</span></em><a class="headerlink" href="#GLib.GUINT16_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #guint16. See also <a class="reference internal" href="#GLib.GINT16_FORMAT" title="GLib.GINT16_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_FORMAT</span></code></a></p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">uint16_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIu16</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNu16</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -636,6 +700,9 @@ and printing values of type #guint16. See also <a class="reference internal" hre
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GUINT32_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'u'</span></em><a class="headerlink" href="#GLib.GUINT32_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier for scanning
 and printing values of type #guint32. See also <a class="reference internal" href="#GLib.GINT16_FORMAT" title="GLib.GINT16_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT16_FORMAT</span></code></a>.</p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIu32</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNu32</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -649,6 +716,9 @@ is not defined.  Note that scanf() may not support 64-bit integers, even
 if <a class="reference internal" href="#GLib.GINT64_FORMAT" title="GLib.GINT64_FORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.GINT64_FORMAT</span></code></a> is defined. Due to its weak error handling, scanf()
 is not recommended for parsing anyway; consider using <a class="reference internal" href="functions.html#GLib.ascii_strtoull" title="GLib.ascii_strtoull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ascii_strtoull</span></code></a>()
 instead.</p>
+<p>This is not necessarily the correct modifier for printing and scanning
+<code class="docutils literal notranslate"><span class="pre">uint64_t</span></code> values, even though the in-memory representation is the same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIu64</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNu64</span></code> should be used for <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -656,6 +726,11 @@ instead.</p>
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">GUINTPTR_FORMAT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'lu'</span></em><a class="headerlink" href="#GLib.GUINTPTR_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the platform dependent conversion specifier
 for scanning and printing values of type #guintptr.</p>
+<p>Note that this is not necessarily the correct format to scan or
+print a <code class="docutils literal notranslate"><span class="pre">uintptr_t</span></code>, even though the in-memory representation is the
+same.
+Standard C macros like <code class="docutils literal notranslate"><span class="pre">PRIuPTR</span></code> and <code class="docutils literal notranslate"><span class="pre">SCNuPTR</span></code> should be used for
+<code class="docutils literal notranslate"><span class="pre">uintptr_t</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.22.</span></p>
 </div>
@@ -1156,6 +1231,8 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXINT16">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXINT16</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">32767</span></em><a class="headerlink" href="#GLib.MAXINT16" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #gint16.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">INT16_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1165,6 +1242,8 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXINT32">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXINT32</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">2147483647</span></em><a class="headerlink" href="#GLib.MAXINT32" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #gint32.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">INT32_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1180,6 +1259,8 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXINT8">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXINT8</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">127</span></em><a class="headerlink" href="#GLib.MAXINT8" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #gint8.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">INT8_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1219,6 +1300,8 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXUINT16">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXUINT16</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">65535</span></em><a class="headerlink" href="#GLib.MAXUINT16" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #guint16.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">UINT16_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1228,6 +1311,8 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXUINT32">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXUINT32</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">4294967295</span></em><a class="headerlink" href="#GLib.MAXUINT32" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #guint32.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">UINT32_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1237,12 +1322,16 @@ linked against at application run time.</p>
 <dt class="sig sig-object py" id="GLib.MAXUINT64">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXUINT64</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">18446744073709551615</span></em><a class="headerlink" href="#GLib.MAXUINT64" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #guint64.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">UINT64_MAX</span></code>, which should be
+preferred in new code.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.MAXUINT8">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MAXUINT8</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">255</span></em><a class="headerlink" href="#GLib.MAXUINT8" title="Permalink to this definition">¶</a></dt>
 <dd><p>The maximum value which can be held in a #guint8.</p>
+<p>This is the same as standard C <code class="docutils literal notranslate"><span class="pre">UINT8_MAX</span></code>, which should be
+preferred in new code.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.4.</span></p>
 </div>
@@ -1327,7 +1416,7 @@ linked against at application run time.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.MINOR_VERSION">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MINOR_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">74</span></em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MINOR_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">76</span></em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minor version number of the GLib library.</p>
 <p>Like #gtk_minor_version, but from the headers used at
 application compile time, rather than from the library
@@ -1812,7 +1901,7 @@ using functions deprecated in later releases will not).</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.glib_version">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">glib_version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">(2,</span> <span class="pre">74,</span> <span class="pre">4)</span></em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">glib_version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">(2,</span> <span class="pre">76,</span> <span class="pre">4)</span></em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">

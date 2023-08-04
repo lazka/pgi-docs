@@ -365,6 +365,9 @@
 <td><p><a class="reference internal" href="#Gio.Task.set_source_tag" title="Gio.Task.set_source_tag"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_source_tag</span></code></a> (source_tag)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gio.Task.set_static_name" title="Gio.Task.set_static_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_static_name</span></code></a> (name)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gio.Task.set_task_data" title="Gio.Task.set_task_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_task_data</span></code></a> (task_data, task_data_destroy)</p></td>
 </tr>
 </tbody>
@@ -458,6 +461,9 @@ return value.</p>
 <p>Using <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> requires the thread-default <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> from when the
 <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> was constructed to be running at least until the task has completed
 and its data has been freed.</p>
+<p>If a <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> has been constructed and its callback set, it is an error to
+not call <code class="docutils literal notranslate"><span class="pre">g_task_return_*()</span></code> on it. GLib will warn at runtime if this happens
+(since 2.76).</p>
 <p>Here is an example for using <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> as a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">CakeFrostingType</span><span class="w"> </span><span class="n">frosting</span><span class="p">;</span>
@@ -930,12 +936,28 @@ having come from the <code class="docutils literal notranslate"><span class="pre
 function (for “short-circuit” results, such as when passing
 0 to <a class="reference internal" href="InputStream.html#Gio.InputStream.read_async" title="Gio.InputStream.read_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream.read_async</span></code></a>()).</p></li>
 </ul>
+<dl class="simple">
+<dt>Thread-safety considerations</dt><dd></dd>
+</dl>
+<p>Due to some infelicities in the API design, there is a
+thread-safety concern that users of <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> have to be aware of:</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">main</span></code> thread drops its last reference to the source object
+or the task data before the task is finalized, then the finalizers
+of these objects may be called on the worker thread.</p>
+<p>This is a problem if the finalizers use non-threadsafe API, and
+can lead to hard-to-debug crashes. Possible workarounds include:</p>
+<ul class="simple">
+<li><p>Clear task data in a signal handler for <code class="docutils literal notranslate"><span class="pre">notify::completed</span></code></p></li>
+<li><p>Keep iterating a main context in the main thread and defer
+dropping the reference to the source object to that main
+context when the task is finalized</p></li>
+</ul>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version g_task_propagate_pointer(.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.is_valid">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L2139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.is_valid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2217"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.is_valid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -962,7 +984,7 @@ source object). This can be used in g_return_if_fail() checks.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">callback_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L719"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">callback_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L771"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1001,7 +1023,7 @@ do not want this behavior, you can use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.report_error">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">report_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L766"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.report_error" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">report_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L818"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.report_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1028,13 +1050,13 @@ wrapper method, and deal with it appropriately if so.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_cancellable">
-<span class="sig-name descname"><span class="pre">get_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_cancellable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_cancellable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Gets <cite>self</cite>'s <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p>
@@ -1045,7 +1067,7 @@ wrapper method, and deal with it appropriately if so.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_check_cancellable">
-<span class="sig-name descname"><span class="pre">get_check_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_check_cancellable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_check_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1238"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_check_cancellable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1060,7 +1082,7 @@ wrapper method, and deal with it appropriately if so.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_completed">
-<span class="sig-name descname"><span class="pre">get_completed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L2114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_completed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_completed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2192"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_completed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the task has completed, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -1079,7 +1101,7 @@ the callback.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_context">
-<span class="sig-name descname"><span class="pre">get_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_context" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1203"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_context" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a></p>
@@ -1101,7 +1123,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1215"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1292"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>’s name, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -1118,7 +1140,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_priority">
-<span class="sig-name descname"><span class="pre">get_priority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_priority" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_priority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1179"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_priority" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s priority</p>
@@ -1135,7 +1157,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_return_on_cancel">
-<span class="sig-name descname"><span class="pre">get_return_on_cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1179"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_return_on_cancel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_return_on_cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_return_on_cancel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1150,7 +1172,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_source_object">
-<span class="sig-name descname"><span class="pre">get_source_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1055"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_source_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_source_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1132"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_source_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s source object, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -1168,7 +1190,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_source_tag">
-<span class="sig-name descname"><span class="pre">get_source_tag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_source_tag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_source_tag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1275"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_source_tag" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s source tag</p>
@@ -1185,7 +1207,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.get_task_data">
-<span class="sig-name descname"><span class="pre">get_task_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1084"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_task_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_task_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.get_task_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><cite>self</cite>'s <code class="docutils literal notranslate"><span class="pre">task_data</span></code>.</p>
@@ -1202,7 +1224,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.had_error">
-<span class="sig-name descname"><span class="pre">had_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1994"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.had_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">had_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2072"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.had_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the task resulted in an error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -1219,7 +1241,7 @@ context is the default <a class="reference external" href="../../GLib-2.0/classe
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.propagate_boolean">
-<span class="sig-name descname"><span class="pre">propagate_boolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1868"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">propagate_boolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1946"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1243,7 +1265,7 @@ error) to the caller, you may only call it once.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.propagate_int">
-<span class="sig-name descname"><span class="pre">propagate_int</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1813"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_int" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">propagate_int</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1891"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_int" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1267,7 +1289,7 @@ error) to the caller, you may only call it once.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.propagate_pointer">
-<span class="sig-name descname"><span class="pre">propagate_pointer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1757"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_pointer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">propagate_pointer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1835"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_pointer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1292,7 +1314,7 @@ error) to the caller, you may only call it once.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.propagate_value">
-<span class="sig-name descname"><span class="pre">propagate_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L2080"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">propagate_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2158"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.propagate_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1325,7 +1347,7 @@ error) to the caller, you may only call it once.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_boolean">
-<span class="sig-name descname"><span class="pre">return_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1917"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – the <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> result of a task function.</p>
@@ -1341,7 +1363,7 @@ means).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_error">
-<span class="sig-name descname"><span class="pre">return_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1902"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1980"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – the <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> result of a task function.</p>
@@ -1363,7 +1385,7 @@ as well.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_error_if_cancelled">
-<span class="sig-name descname"><span class="pre">return_error_if_cancelled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1961"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_error_if_cancelled" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_error_if_cancelled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2039"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_error_if_cancelled" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> has been cancelled, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not</p>
@@ -1383,7 +1405,7 @@ means).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_int">
-<span class="sig-name descname"><span class="pre">return_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1784"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_int" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1862"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_int" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the integer (#gssize) result of a task function.</p>
@@ -1399,7 +1421,7 @@ means).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_pointer">
-<span class="sig-name descname"><span class="pre">return_pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_destroy</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1726"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_pointer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_destroy</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1804"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_pointer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1432,7 +1454,7 @@ reference on it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.return_value">
-<span class="sig-name descname"><span class="pre">return_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L2033"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">return_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L2111"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.return_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> result of
@@ -1452,7 +1474,7 @@ like will normally be much easier to use.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.run_in_thread">
-<span class="sig-name descname"><span class="pre">run_in_thread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1564"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.run_in_thread" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run_in_thread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1641"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.run_in_thread" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>task_func</strong> (<a class="reference internal" href="../callbacks.html#Gio.TaskThreadFunc" title="Gio.TaskThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TaskThreadFunc</span></code></a>) – a <a class="reference internal" href="../callbacks.html#Gio.TaskThreadFunc" title="Gio.TaskThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TaskThreadFunc</span></code></a></p>
@@ -1474,7 +1496,7 @@ limited number of them (around ten) at a time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.run_in_thread_sync">
-<span class="sig-name descname"><span class="pre">run_in_thread_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1611"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.run_in_thread_sync" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run_in_thread_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_func</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1688"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.run_in_thread_sync" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>task_func</strong> (<a class="reference internal" href="../callbacks.html#Gio.TaskThreadFunc" title="Gio.TaskThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TaskThreadFunc</span></code></a>) – a <a class="reference internal" href="../callbacks.html#Gio.TaskThreadFunc" title="Gio.TaskThreadFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TaskThreadFunc</span></code></a></p>
@@ -1500,7 +1522,7 @@ limited number of them at a time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_check_cancellable">
-<span class="sig-name descname"><span class="pre">set_check_cancellable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check_cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L899"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_check_cancellable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_check_cancellable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check_cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L951"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_check_cancellable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>check_cancellable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether <a class="reference internal" href="#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a> will check the state of
@@ -1526,7 +1548,7 @@ you must leave check-cancellable set <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_name">
-<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1032"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1084"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a human readable name for the task, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to unset it</p>
@@ -1547,7 +1569,7 @@ other than the one it was constructed in. It is called automatically by
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_priority">
-<span class="sig-name descname"><span class="pre">set_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L865"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_priority" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L917"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_priority" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the <a class="reference external" href="https://developer.gnome.org/gio/stable/GAsyncResult.html#io-priority">priority</a> of the request</p>
@@ -1566,7 +1588,7 @@ and can also be explicitly retrieved later via
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_return_on_cancel">
-<span class="sig-name descname"><span class="pre">set_return_on_cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_on_cancel</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L952"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_return_on_cancel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_return_on_cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_on_cancel</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1004"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_return_on_cancel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>return_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether the task returns automatically when
@@ -1612,7 +1634,7 @@ will also be completed right away.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_source_tag">
-<span class="sig-name descname"><span class="pre">set_source_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L1003"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_source_tag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_source_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1055"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_source_tag" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>source_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an opaque pointer indicating the source of this task</p>
@@ -1634,8 +1656,23 @@ set, for convenience.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Gio.Task.set_static_name">
+<span class="sig-name descname"><span class="pre">set_static_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L1110"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_static_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a human readable name for the task. Must be a string literal</p>
+</dd>
+</dl>
+<p>Sets <cite>self</cite>’s name, used in debugging and profiling.</p>
+<p>This is a variant of <a class="reference internal" href="#Gio.Task.set_name" title="Gio.Task.set_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task.set_name</span></code></a>() that avoids copying <cite>name</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.76.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Gio.Task.set_task_data">
-<span class="sig-name descname"><span class="pre">set_task_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_data_destroy</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.74.4/gio/gtask.c#L835"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_task_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_task_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_data_destroy</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.76.4/gio/gtask.c#L887"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Task.set_task_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

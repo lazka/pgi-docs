@@ -244,7 +244,7 @@
 <span id="adw-springanimation-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited</dt>
-<dd class="field-odd"><p><a class="reference internal" href="Animation.html#adw-animation-methods"><span class="std std-ref">Adw.Animation (10)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Animation.html#adw-animation-methods"><span class="std std-ref">Adw.Animation (12)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></p>
 </dd>
 <dt class="field-even">Structs</dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -258,6 +258,12 @@
 <tbody>
 <tr class="row-odd"><td><p><em>class</em></p></td>
 <td><p><a class="reference internal" href="#Adw.SpringAnimation.new" title="Adw.SpringAnimation.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new</span></code></a> (widget, from_, to, spring_params, target)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Adw.SpringAnimation.calculate_value" title="Adw.SpringAnimation.calculate_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_value</span></code></a> (time)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Adw.SpringAnimation.calculate_velocity" title="Adw.SpringAnimation.calculate_velocity"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_velocity</span></code></a> (time)</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Adw.SpringAnimation.get_clamp" title="Adw.SpringAnimation.get_clamp"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_clamp</span></code></a> ()</p></td>
@@ -316,7 +322,7 @@
 <span id="adw-springanimation-props"></span><h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited</dt>
-<dd class="field-odd"><p><a class="reference internal" href="Animation.html#adw-animation-props"><span class="std std-ref">Adw.Animation (4)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Animation.html#adw-animation-props"><span class="std std-ref">Adw.Animation (5)</span></a></p>
 </dd>
 </dl>
 <table class="colwidths-given docutils align-default">
@@ -434,9 +440,6 @@ changing the duration. This makes spring animations useful for deceleration
 at the end of gestures.</p>
 <p>If the initial and final values are equal, and the initial velocity is not 0,
 the animation value will bounce and return to its resting position.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Adw.SpringAnimation.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spring_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Adw.SpringAnimation.new" title="Permalink to this definition">¶</a></dt>
@@ -460,8 +463,51 @@ the animation value will bounce and return to its resting position.</p>
 <p>Creates a new <code class="docutils literal notranslate"><span class="pre">AdwSpringAnimation</span></code> on <cite>widget</cite>.</p>
 <p>The animation will animate <cite>target</cite> from <cite>from</cite> to <cite>to</cite> with the dynamics of a
 spring described by <cite>spring_params</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Adw.SpringAnimation.calculate_value">
+<span class="sig-name descname"><span class="pre">calculate_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Adw.SpringAnimation.calculate_value" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – elapsed time, in milliseconds</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value at <cite>time</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p>Calculates the value <cite>self</cite> will have at <cite>time</cite>.</p>
+<p>The time starts at 0 and ends at
+[property`SpringAnimation`:estimated_duration].</p>
+<p>See also [method`SpringAnimation`.calculate_velocity].</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
+<p><span class="versionmodified added">New in version 1.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Adw.SpringAnimation.calculate_velocity">
+<span class="sig-name descname"><span class="pre">calculate_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Adw.SpringAnimation.calculate_velocity" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – elapsed time, in milliseconds</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the velocity at <cite>time</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p>Calculates the velocity <cite>self</cite> will have at <cite>time</cite>.</p>
+<p>The time starts at 0 and ends at
+[property`SpringAnimation`:estimated_duration].</p>
+<p>See also [method`SpringAnimation`.calculate_value].</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.</span></p>
 </div>
 </dd></dl>
 
@@ -477,9 +523,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets whether <cite>self</cite> should be clamped.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -494,9 +537,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the precision of the spring.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -510,11 +550,8 @@ spring described by <cite>spring_params</cite>.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the estimated duration of <cite>self</cite>.</p>
+<p>Gets the estimated duration of <cite>self</cite>, in milliseconds.</p>
 <p>Can be [constDURATION_INFINITE] if the spring damping is set to 0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -529,9 +566,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the initial velocity of <cite>self</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -546,9 +580,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the physical parameters of the spring of <cite>self</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -563,9 +594,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the value <cite>self</cite> will animate from.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -580,9 +608,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the value <cite>self</cite> will animate to.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -597,9 +622,6 @@ spring described by <cite>spring_params</cite>.</p>
 </dd>
 </dl>
 <p>Gets the current velocity of <cite>self</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -615,9 +637,6 @@ spring described by <cite>spring_params</cite>.</p>
 final value, preventing overshooting.</p>
 <p>It won’t prevent overshooting [property`SpringAnimation`:py:data:<cite>:value-from&lt;Adw.SpringAnimation.props.value_from&gt;</cite>] if a
 relative negative [property`SpringAnimation`:py:data:<cite>:initial-velocity&lt;Adw.SpringAnimation.props.initial_velocity&gt;</cite>] is set.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -636,9 +655,6 @@ this value.</p>
 stop after the animated value has stopped visibly changing.</p>
 <p>If the epsilon value is too large, the animation will end prematurely.</p>
 <p>The default value is 0.001.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -651,9 +667,6 @@ stop after the animated value has stopped visibly changing.</p>
 </dl>
 <p>Sets the initial velocity of <cite>self</cite>.</p>
 <p>Initial velocity affects only the animation curve, but not its duration.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -665,9 +678,6 @@ stop after the animated value has stopped visibly changing.</p>
 </dd>
 </dl>
 <p>Sets the physical parameters of the spring of <cite>self</cite>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -681,9 +691,6 @@ stop after the animated value has stopped visibly changing.</p>
 <p>Sets the value <cite>self</cite> will animate from.</p>
 <p>The animation will start at this value and end at
 [property`SpringAnimation`:py:data:<cite>:value-to&lt;Adw.SpringAnimation.props.value_to&gt;</cite>].</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -697,9 +704,6 @@ stop after the animated value has stopped visibly changing.</p>
 <p>Sets the value <cite>self</cite> will animate to.</p>
 <p>The animation will start at [property`SpringAnimation`:py:data:<cite>:value-from&lt;Adw.SpringAnimation.props.value_from&gt;</cite>] and end at
 this value.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 </dd></dl>
@@ -729,9 +733,6 @@ this value.</p>
 final value, preventing overshooting.</p>
 <p>It won’t prevent overshooting [property`SpringAnimation`:py:data:<cite>:value-from&lt;Adw.SpringAnimation.props.value_from&gt;</cite>] if a
 relative negative [property`SpringAnimation`:py:data:<cite>:initial-velocity&lt;Adw.SpringAnimation.props.initial_velocity&gt;</cite>] is set.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -759,9 +760,6 @@ this value.</p>
 stop after the animated value has stopped visibly changing.</p>
 <p>If the epsilon value is too large, the animation will end prematurely.</p>
 <p>The default value is 0.001.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -783,9 +781,6 @@ stop after the animated value has stopped visibly changing.</p>
 </dl>
 <p>Estimated duration of the animation, in milliseconds.</p>
 <p>Can be [constDURATION_INFINITE] if the spring damping is set to 0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -807,9 +802,6 @@ stop after the animated value has stopped visibly changing.</p>
 </dl>
 <p>The initial velocity to start the animation with.</p>
 <p>Initial velocity affects only the animation curve, but not its duration.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -830,9 +822,6 @@ stop after the animated value has stopped visibly changing.</p>
 </dd>
 </dl>
 <p>Physical parameters describing the spring.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -855,9 +844,6 @@ stop after the animated value has stopped visibly changing.</p>
 <p>The value to animate from.</p>
 <p>The animation will start at this value and end at
 [property`SpringAnimation`:py:data:<cite>:value-to&lt;Adw.SpringAnimation.props.value_to&gt;</cite>].</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -880,9 +866,6 @@ stop after the animated value has stopped visibly changing.</p>
 <p>The value to animate to.</p>
 <p>The animation will start at [property`SpringAnimation`:py:data:<cite>:value-from&lt;Adw.SpringAnimation.props.value_from&gt;</cite>] and end
 at this value.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py data">
@@ -903,9 +886,6 @@ at this value.</p>
 </dd>
 </dl>
 <p>Current velocity of the animation.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.0.</span></p>
-</div>
 </dd></dl>
 
 </section>

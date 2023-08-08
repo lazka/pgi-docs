@@ -262,7 +262,7 @@
 <dd class="field-odd"><p><a class="reference internal" href="Object.html#ibus-object-methods"><span class="std std-ref">IBus.Object (2)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a></p>
 </dd>
 <dt class="field-even">Structs</dt>
-<dd class="field-even"><p><a class="reference internal" href="ServiceClass.html#ibus-serviceclass-methods"><span class="std std-ref">IBus.ServiceClass (1)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
+<dd class="field-even"><p><a class="reference internal" href="ServiceClass.html#ibus-serviceclass-methods"><span class="std std-ref">IBus.ServiceClass (2)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
 </dd>
 </dl>
 <table class="colwidths-given docutils align-default">
@@ -275,21 +275,24 @@
 <td><p><a class="reference internal" href="#IBus.Service.add_interfaces" title="IBus.Service.add_interfaces"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_interfaces</span></code></a> (xml_data)</p></td>
 </tr>
 <tr class="row-even"><td><p><em>class</em></p></td>
+<td><p><a class="reference internal" href="#IBus.Service.free_interfaces" title="IBus.Service.free_interfaces"><code class="xref py py-func docutils literal notranslate"><span class="pre">free_interfaces</span></code></a> (depth)</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>class</em></p></td>
 <td><p><a class="reference internal" href="#IBus.Service.new" title="IBus.Service.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new</span></code></a> (connection, path)</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#IBus.Service.emit_signal" title="IBus.Service.emit_signal"><code class="xref py py-func docutils literal notranslate"><span class="pre">emit_signal</span></code></a> (dest_bus_name, interface_name, signal_name, parameters)</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#IBus.Service.get_connection" title="IBus.Service.get_connection"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_connection</span></code></a> ()</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#IBus.Service.get_object_path" title="IBus.Service.get_object_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_object_path</span></code></a> ()</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#IBus.Service.register" title="IBus.Service.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">register</span></code></a> (connection)</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#IBus.Service.unregister" title="IBus.Service.unregister"><code class="xref py py-func docutils literal notranslate"><span class="pre">unregister</span></code></a> (connection)</p></td>
 </tr>
 </tbody>
@@ -339,7 +342,7 @@
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="#IBus.Service.props.connection" title="IBus.Service.props.connection"><code class="xref py py-data docutils literal notranslate"><span class="pre">connection</span></code></a></p></td>
 <td><p><a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a></p></td>
-<td><p>r/w/co</p></td>
+<td><p>r/w/c</p></td>
 <td><p>The connection of service object</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#IBus.Service.props.object_path" title="IBus.Service.props.object_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">object-path</span></code></a></p></td>
@@ -421,6 +424,27 @@
 </dd>
 </dl>
 <p>Set the interface introspection information with the service class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="IBus.Service.free_interfaces">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">free_interfaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#IBus.Service.free_interfaces" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The number of D-Bus introspection interfaces.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The actual freed number of the introspection interfaces
+if <cite>depth</cite> is not 0.
+If <cite>depth</cite> is 0, the total number of the introspection interfaces is
+returned but any interfaces are not freed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+<p>Free the first <cite>depth</cite> interfaces if <cite>depth</cite> is positive. Free the last
+-<cite>depth</cite> interfaces if <cite>depth</cite> is negative.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -611,7 +635,7 @@
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags</dt>
-<dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a></p>
 </dd>
 </dl>
 <p>The connection of service object.</p>

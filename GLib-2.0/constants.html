@@ -173,6 +173,7 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="#GLib.ANALYZER_ANALYZING" title="GLib.ANALYZER_ANALYZING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ANALYZER_ANALYZING</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.ASCII_DTOSTR_BUF_SIZE" title="GLib.ASCII_DTOSTR_BUF_SIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ASCII_DTOSTR_BUF_SIZE</span></code></a></p></li>
+<li><p><a class="reference internal" href="#GLib.ATOMIC_REF_COUNT_INIT" title="GLib.ATOMIC_REF_COUNT_INIT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ATOMIC_REF_COUNT_INIT</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.BIG_ENDIAN" title="GLib.BIG_ENDIAN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.BIG_ENDIAN</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.CSET_A_2_Z" title="GLib.CSET_A_2_Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.CSET_A_2_Z</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.CSET_DIGITS" title="GLib.CSET_DIGITS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.CSET_DIGITS</span></code></a></p></li>
@@ -317,6 +318,7 @@
 <li><p><a class="reference internal" href="#GLib.PRIORITY_HIGH" title="GLib.PRIORITY_HIGH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.PRIORITY_HIGH_IDLE" title="GLib.PRIORITY_HIGH_IDLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH_IDLE</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.PRIORITY_LOW" title="GLib.PRIORITY_LOW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_LOW</span></code></a></p></li>
+<li><p><a class="reference internal" href="#GLib.REF_COUNT_INIT" title="GLib.REF_COUNT_INIT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.REF_COUNT_INIT</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.SEARCHPATH_SEPARATOR" title="GLib.SEARCHPATH_SEPARATOR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SEARCHPATH_SEPARATOR</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.SEARCHPATH_SEPARATOR_S" title="GLib.SEARCHPATH_SEPARATOR_S"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SEARCHPATH_SEPARATOR_S</span></code></a></p></li>
 <li><p><a class="reference internal" href="#GLib.SIZEOF_LONG" title="GLib.SIZEOF_LONG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SIZEOF_LONG</span></code></a></p></li>
@@ -383,6 +385,30 @@ on systems with 64bit IEEE-compatible doubles.</p>
 
 <span class="n">fprintf</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value=%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">g_ascii_dtostr</span><span class="w"> </span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="w"> </span><span class="p">(</span><span class="n">buf</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="p">));</span>
 </pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="GLib.ATOMIC_REF_COUNT_INIT">
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">ATOMIC_REF_COUNT_INIT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#GLib.ATOMIC_REF_COUNT_INIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates to the initial reference count for <code class="docutils literal notranslate"><span class="pre">gatomicrefcount</span></code>.</p>
+<p>This macro is useful for initializing <code class="docutils literal notranslate"><span class="pre">gatomicrefcount</span></code> fields inside
+structures, for instance:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">gatomicrefcount</span><span class="w"> </span><span class="n">ref_count</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">address</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">Person</span><span class="p">;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="n">default_person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_ATOMIC_REF_COUNT_INIT</span><span class="p">,</span>
+<span class="w">  </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Default name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Default address&quot;</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
 </div>
 </dd></dl>
 
@@ -1349,7 +1375,7 @@ preferred in new code.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.MICRO_VERSION">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MICRO_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MICRO_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#GLib.MICRO_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The micro version number of the GLib library.</p>
 <p>Like #gtk_micro_version, but from the headers used at
 application compile time, rather than from the library
@@ -1416,7 +1442,7 @@ linked against at application run time.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.MINOR_VERSION">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MINOR_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">76</span></em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">MINOR_VERSION</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">77</span></em><a class="headerlink" href="#GLib.MINOR_VERSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minor version number of the GLib library.</p>
 <p>Like #gtk_minor_version, but from the headers used at
 application compile time, rather than from the library
@@ -1567,14 +1593,14 @@ from the X server.</p>
 <dt class="sig sig-object py" id="GLib.PRIORITY_HIGH">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">PRIORITY_HIGH</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">-100</span></em><a class="headerlink" href="#GLib.PRIORITY_HIGH" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this for high priority event sources.</p>
-<p>It is not used within GLib or GTK+.</p>
+<p>It is not used within GLib or GTK.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.PRIORITY_HIGH_IDLE">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">PRIORITY_HIGH_IDLE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">100</span></em><a class="headerlink" href="#GLib.PRIORITY_HIGH_IDLE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this for high priority idle functions.</p>
-<p>GTK+ uses <a class="reference internal" href="#GLib.PRIORITY_HIGH_IDLE" title="GLib.PRIORITY_HIGH_IDLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH_IDLE</span></code></a> + 10 for resizing operations,
+<p>GTK uses <a class="reference internal" href="#GLib.PRIORITY_HIGH_IDLE" title="GLib.PRIORITY_HIGH_IDLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH_IDLE</span></code></a> + 10 for resizing operations,
 and <a class="reference internal" href="#GLib.PRIORITY_HIGH_IDLE" title="GLib.PRIORITY_HIGH_IDLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH_IDLE</span></code></a> + 20 for redrawing operations. (This is
 done to ensure that any pending resizes are processed before any
 pending redraws, so that widgets are not redrawn twice unnecessarily.)</p>
@@ -1584,7 +1610,31 @@ pending redraws, so that widgets are not redrawn twice unnecessarily.)</p>
 <dt class="sig sig-object py" id="GLib.PRIORITY_LOW">
 <span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">PRIORITY_LOW</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">300</span></em><a class="headerlink" href="#GLib.PRIORITY_LOW" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this for very low priority background tasks.</p>
-<p>It is not used within GLib or GTK+.</p>
+<p>It is not used within GLib or GTK.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="GLib.REF_COUNT_INIT">
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">REF_COUNT_INIT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#GLib.REF_COUNT_INIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates to the initial reference count for <code class="docutils literal notranslate"><span class="pre">grefcount</span></code>.</p>
+<p>This macro is useful for initializing <code class="docutils literal notranslate"><span class="pre">grefcount</span></code> fields inside
+structures, for instance:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">grefcount</span><span class="w"> </span><span class="n">ref_count</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">address</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">Person</span><span class="p">;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="n">default_person</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_REF_COUNT_INIT</span><span class="p">,</span>
+<span class="w">  </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Default name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Default address&quot;</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py data">
@@ -1901,7 +1951,7 @@ using functions deprecated in later releases will not).</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="GLib.glib_version">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">glib_version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">(2,</span> <span class="pre">76,</span> <span class="pre">4)</span></em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">glib_version</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">(2,</span> <span class="pre">77,</span> <span class="pre">1)</span></em><a class="headerlink" href="#GLib.glib_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py data">

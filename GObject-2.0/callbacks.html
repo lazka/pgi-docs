@@ -252,6 +252,24 @@
 <td><p><a class="reference internal" href="#GObject.TypePluginUse" title="GObject.TypePluginUse"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypePluginUse</span></code></a> (plugin)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValueCollectFunc" title="GObject.TypeValueCollectFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValueCollectFunc</span></code></a> (value, collect_values, collect_flags)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValueCopyFunc" title="GObject.TypeValueCopyFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValueCopyFunc</span></code></a> (src_value)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValueFreeFunc" title="GObject.TypeValueFreeFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValueFreeFunc</span></code></a> (value)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValueInitFunc" title="GObject.TypeValueInitFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValueInitFunc</span></code></a> (value)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValueLCopyFunc" title="GObject.TypeValueLCopyFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValueLCopyFunc</span></code></a> (value, collect_values, collect_flags)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#GObject.TypeValuePeekPointerFunc" title="GObject.TypeValuePeekPointerFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TypeValuePeekPointerFunc</span></code></a> (value)</p></td>
+</tr>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#GObject.ValueTransform" title="GObject.ValueTransform"><code class="xref py py-func docutils literal notranslate"><span class="pre">ValueTransform</span></code></a> (src_value, dest_value)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
@@ -815,6 +833,242 @@ is added</p></li>
 </dl>
 <p>The type of the <cite>use_plugin</cite> function of <a class="reference internal" href="classes/TypePluginClass.html#GObject.TypePluginClass" title="GObject.TypePluginClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePluginClass</span></code></a>, which gets called
 to increase the use count of <cite>plugin</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValueCollectFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValueCollectFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValueCollectFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to initialize</p></li>
+<li><p><strong>collect_values</strong> ([<a class="reference internal" href="classes/TypeCValue.html#GObject.TypeCValue" title="GObject.TypeCValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeCValue</span></code></a>]) – the collected values</p></li>
+<li><p><strong>collect_flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – optional flags</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">NULL</span></code> on success, otherwise a
+newly allocated error string on failure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>This function is responsible for converting the values collected from
+a variadic argument list into contents suitable for storage in a <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>.</p>
+<p>This function should setup <cite>value</cite> similar to <a class="reference internal" href="#GObject.TypeValueInitFunc" title="GObject.TypeValueInitFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeValueInitFunc</span></code></a>; e.g.
+for a string value that does not allow <code class="docutils literal notranslate"><span class="pre">NULL</span></code> pointers, it needs to either
+emit an error, or do an implicit conversion by storing an empty string.</p>
+<p>The <cite>value</cite> passed in to this function has a zero-filled data array, so
+just like for <a class="reference internal" href="#GObject.TypeValueInitFunc" title="GObject.TypeValueInitFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeValueInitFunc</span></code></a> it is guaranteed to not contain any old
+contents that might need freeing.</p>
+<p>The <cite>n_collect_values</cite> argument is the string length of the <code class="docutils literal notranslate"><span class="pre">collect_format</span></code>
+field of <a class="reference internal" href="classes/TypeValueTable.html#GObject.TypeValueTable" title="GObject.TypeValueTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeValueTable</span></code></a>, and <code class="docutils literal notranslate"><span class="pre">collect_values</span></code> is an array of <a class="reference internal" href="classes/TypeCValue.html#GObject.TypeCValue" title="GObject.TypeCValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeCValue</span></code></a>
+with length of <cite>n_collect_values</cite>, containing the collected values according
+to <code class="docutils literal notranslate"><span class="pre">collect_format</span></code>.</p>
+<p>The <cite>collect_flags</cite> argument provided as a hint by the caller. It may
+contain the flag <a class="reference internal" href="constants.html#GObject.VALUE_NOCOPY_CONTENTS" title="GObject.VALUE_NOCOPY_CONTENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.VALUE_NOCOPY_CONTENTS</span></code></a> indicating that the collected
+value contents may be considered ‘static’ for the duration of the <cite>value</cite>
+lifetime. Thus an extra copy of the contents stored in <cite>collect_values</cite> is
+not required for assignment to <cite>value</cite>.</p>
+<p>For our above string example, we continue with:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">)</span>
+<span class="w">  </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">collect_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">G_VALUE_NOCOPY_CONTENTS</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// keep a flag for the value_free() implementation to not free this string</span>
+<span class="w">    </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">v_uint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_VALUE_NOCOPY_CONTENTS</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">);</span>
+<span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>It should be noted, that it is generally a bad idea to follow the
+<a class="reference internal" href="constants.html#GObject.VALUE_NOCOPY_CONTENTS" title="GObject.VALUE_NOCOPY_CONTENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.VALUE_NOCOPY_CONTENTS</span></code></a> hint for reference counted types. Due to
+reentrancy requirements and reference count assertions performed
+by the signal emission code, reference counts should always be
+incremented for reference counted contents stored in the <code class="docutils literal notranslate"><span class="pre">value-&gt;data</span></code>
+array. To deviate from our string example for a moment, and taking
+a look at an exemplary implementation for <code class="docutils literal notranslate"><span class="pre">GTypeValueTable.collect_value()</span></code>
+of <code class="docutils literal notranslate"><span class="pre">GObject</span></code> :</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GObject</span><span class="w"> </span><span class="o">*</span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">);</span>
+<span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">   </span><span class="n">g_strdup_printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Object %p passed as invalid NULL pointer&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">object</span><span class="p">));</span>
+<span class="c1">// never honour G_VALUE_NOCOPY_CONTENTS for ref-counted types</span>
+<span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
+<span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The reference count for valid objects is always incremented, regardless
+of <code class="docutils literal notranslate"><span class="pre">collect_flags</span></code>. For invalid objects, the example returns a newly
+allocated string without altering <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+<p>Upon success, <code class="docutils literal notranslate"><span class="pre">collect_value()</span></code> needs to return <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. If, however,
+an error condition occurred, <code class="docutils literal notranslate"><span class="pre">collect_value()</span></code> should return a newly
+allocated string containing an error diagnostic.</p>
+<p>The calling code makes no assumptions about the <code class="docutils literal notranslate"><span class="pre">value</span></code> contents being
+valid upon error returns, <code class="docutils literal notranslate"><span class="pre">value</span></code> is simply thrown away without further
+freeing. As such, it is a good idea to not allocate <code class="docutils literal notranslate"><span class="pre">GValue</span></code> contents
+prior to returning an error; however, <code class="docutils literal notranslate"><span class="pre">collect_values()</span></code> is not obliged
+to return a correctly setup <cite>value</cite> for error returns, simply because
+any non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> return is considered a fatal programming error, and
+further program behaviour is undefined.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValueCopyFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValueCopyFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValueCopyFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>src_value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to copy</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the location of the copy</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><strong>dest_value</strong>: <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a></p>
+</dd>
+</dl>
+<p>Copies the content of a <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> into another.</p>
+<p>The <cite>dest_value</cite> is a <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> with zero-filled data section and <cite>src_value</cite>
+is a properly initialized <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> of same type, or derived type.</p>
+<p>The purpose of this function is to copy the contents of <cite>src_value</cite>
+into <cite>dest_value</cite> in a way, that even after <cite>src_value</cite> has been freed, the
+contents of <cite>dest_value</cite> remain valid. String type example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">dest_value-&gt;data[0].v_pointer</span> <span class="pre">=</span> <span class="pre">g_strdup</span> <span class="pre">(src_value-&gt;data[0].v_pointer);</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValueFreeFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValueFreeFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValueFreeFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to free</p>
+</dd>
+</dl>
+<p>Frees any old contents that might be left in the <code class="docutils literal notranslate"><span class="pre">value-&gt;data</span></code> array of
+the given value.</p>
+<p>No resources may remain allocated through the <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> contents after this
+function returns. E.g. for our above string type:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// only free strings without a specific flag for static storage</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">v_uint</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">G_VALUE_NOCOPY_CONTENTS</span><span class="p">))</span>
+<span class="w">  </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValueInitFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValueInitFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValueInitFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to initialize</p>
+</dd>
+</dl>
+<p>Initializes the value contents by setting the fields of the <code class="docutils literal notranslate"><span class="pre">value-&gt;data</span></code>
+array.</p>
+<p>The data array of the <a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> passed into this function was zero-filled
+with <code class="docutils literal notranslate"><span class="pre">memset()</span></code>, so no care has to be taken to free any old contents.
+For example, in the case of a string value that may never be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the
+implementation might look like:</p>
+<p><code class="docutils literal notranslate"><span class="pre">value-&gt;data[0].v_pointer</span> <span class="pre">=</span> <span class="pre">g_strdup</span> <span class="pre">(&quot;&quot;);</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValueLCopyFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValueLCopyFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collect_flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValueLCopyFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to lcopy</p></li>
+<li><p><strong>collect_values</strong> ([<a class="reference internal" href="classes/TypeCValue.html#GObject.TypeCValue" title="GObject.TypeCValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeCValue</span></code></a>]) – the collected
+locations for storage</p></li>
+<li><p><strong>collect_flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – optional flags</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">NULL</span></code> on success, otherwise
+a newly allocated error string on failure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>This function is responsible for storing the <code class="docutils literal notranslate"><span class="pre">value</span></code>
+contents into arguments passed through a variadic argument list which
+got collected into <code class="docutils literal notranslate"><span class="pre">collect_values</span></code> according to <code class="docutils literal notranslate"><span class="pre">lcopy_format</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">n_collect_values</span></code> argument equals the string length of
+<code class="docutils literal notranslate"><span class="pre">lcopy_format</span></code>, and <code class="docutils literal notranslate"><span class="pre">collect_flags</span></code> may contain <a class="reference internal" href="constants.html#GObject.VALUE_NOCOPY_CONTENTS" title="GObject.VALUE_NOCOPY_CONTENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.VALUE_NOCOPY_CONTENTS</span></code></a>.</p>
+<p>In contrast to <a class="reference internal" href="#GObject.TypeValueCollectFunc" title="GObject.TypeValueCollectFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeValueCollectFunc</span></code></a>, this function is obliged to always
+properly support <a class="reference internal" href="constants.html#GObject.VALUE_NOCOPY_CONTENTS" title="GObject.VALUE_NOCOPY_CONTENTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.VALUE_NOCOPY_CONTENTS</span></code></a>.</p>
+<p>Similar to <a class="reference internal" href="#GObject.TypeValueCollectFunc" title="GObject.TypeValueCollectFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeValueCollectFunc</span></code></a> the function may prematurely abort by
+returning a newly allocated string describing an error condition. To
+complete the string example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">gchar</span><span class="w"> </span><span class="o">**</span><span class="n">string_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">;</span>
+<span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">string_p</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;string location passed as NULL&quot;</span><span class="p">));</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">collect_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">G_VALUE_NOCOPY_CONTENTS</span><span class="p">)</span>
+<span class="w">  </span><span class="o">*</span><span class="n">string_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="o">*</span><span class="n">string_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And an illustrative version of this function for reference-counted
+types:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GObject</span><span class="w"> </span><span class="o">**</span><span class="n">object_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect_values</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">;</span>
+<span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">object_p</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;object location passed as NULL&quot;</span><span class="p">));</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">  </span><span class="o">*</span><span class="n">object_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">collect_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">G_VALUE_NOCOPY_CONTENTS</span><span class="p">)</span><span class="w"> </span><span class="c1">// always honour</span>
+<span class="w">  </span><span class="o">*</span><span class="n">object_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="o">*</span><span class="n">object_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">v_pointer</span><span class="p">);</span>
+
+<span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="GObject.TypeValuePeekPointerFunc">
+<span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">TypeValuePeekPointerFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeValuePeekPointerFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="classes/Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the value to peek</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a pointer to the value contents</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>If the value contents fit into a pointer, such as objects or strings,
+return this pointer, so the caller can peek at the current contents.</p>
+<p>To extend on our above string example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">value-&gt;data[0].v_pointer;</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.78.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">

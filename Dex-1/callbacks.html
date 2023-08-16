@@ -177,18 +177,75 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Dex.SchedulerFunc" title="Dex.SchedulerFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">SchedulerFunc</span></code></a> (func_data)</p></td>
+<td><p><a class="reference internal" href="#Dex.FiberFunc" title="Dex.FiberFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">FiberFunc</span></code></a> (*user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-func docutils literal notranslate"><span class="pre">FutureCallback</span></code></a> (future, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Dex.SchedulerFunc" title="Dex.SchedulerFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">SchedulerFunc</span></code></a> (*user_data)</p></td>
 </tr>
 </tbody>
 </table>
 <section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="Dex.SchedulerFunc">
-<span class="sig-prename descclassname"><span class="pre">Dex.</span></span><span class="sig-name descname"><span class="pre">SchedulerFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.SchedulerFunc" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="Dex.FiberFunc">
+<span class="sig-prename descclassname"><span class="pre">Dex.</span></span><span class="sig-name descname"><span class="pre">FiberFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.FiberFunc" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>This function prototype is used for spawning fibers. A fiber
+is a lightweight, cooperative-multitasking feature where the
+fiber is given it’s own stack. The fiber runs until it reaches
+a point of suspention (using <code class="docutils literal notranslate"><span class="pre">dex_await</span></code> or similar) or exits
+the fiber.</p>
+<p>When suspended, the fiber is placed onto a queue until it is
+runnable again. Once runnable, the fiber is scheduled to run
+from within whatever scheduler it was created with.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">dex_scheduler_spawn()</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Dex.FutureCallback">
+<span class="sig-prename descclassname"><span class="pre">Dex.</span></span><span class="sig-name descname"><span class="pre">FutureCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">future</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.FutureCallback" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>future</strong> (<a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a resolved or rejected <a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data associated with the callback</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>A <a class="reference internal" href="#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a> can be executed from a <a class="reference internal" href="classes/Block.html#Dex.Block" title="Dex.Block"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Block</span></code></a> as response to
+another <a class="reference internal" href="classes/Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> resolving or rejecting.</p>
+<p>The callback will be executed within the scheduler environment the
+block is created within when using <a class="reference internal" href="classes/Future.html#Dex.Future.then" title="Dex.Future.then"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.then</span></code></a>(), <a class="reference internal" href="classes/Future.html#Dex.Future.catch" title="Dex.Future.catch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.catch</span></code></a>(),
+<a class="reference internal" href="classes/Future.html#Dex.Future.finally_" title="Dex.Future.finally_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.finally_</span></code></a>(), <a class="reference internal" href="classes/Future.html#Dex.Future.all" title="Dex.Future.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.all</span></code></a>(), and similar functions.</p>
+<p>This is the expected way to handle completion of a future when not using
+<a class="reference internal" href="classes/Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> via <a class="reference internal" href="classes/Scheduler.html#Dex.Scheduler.spawn" title="Dex.Scheduler.spawn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn</span></code></a>().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Dex.SchedulerFunc">
+<span class="sig-prename descclassname"><span class="pre">Dex.</span></span><span class="sig-name descname"><span class="pre">SchedulerFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.SchedulerFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p>
 </dd>
 </dl>
 </dd></dl>

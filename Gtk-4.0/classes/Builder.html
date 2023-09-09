@@ -425,68 +425,152 @@ to make use of them. Non-widget objects need to be reffed with
 <p><code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> parses textual descriptions of user interfaces which are
 specified in XML format. We refer to these descriptions as “<a class="reference internal" href="#Gtk.Builder" title="Gtk.Builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Builder</span></code></a>
 UI definitions” or just “UI definitions” if the context is clear.</p>
+<p>### Structure of UI definitions</p>
+<p>UI definition files are always encoded in UTF-8.</p>
 <p>The toplevel element is <code class="docutils literal notranslate"><span class="pre">&lt;interface&gt;</span></code>. It optionally takes a “domain”
 attribute, which will make the builder look for translated strings
 using <code class="docutils literal notranslate"><span class="pre">dgettext()</span></code> in the domain specified. This can also be done by
-calling [method`Gtk`.Builder.set_translation_domain] on the builder.</p>
+calling [method`Gtk`.Builder.set_translation_domain] on the builder.
+For example:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>xml
+&lt;?xml version=”1.0” encoding=”UTF-8”&gt;
+&lt;interface domain=”your-app”&gt;</p>
+<blockquote>
+<div><p>…</p>
+</div></blockquote>
+<p>&lt;/interface&gt;
+``</p>
+<p>### Requirements</p>
+<p>The target toolkit version(s) are described by <code class="docutils literal notranslate"><span class="pre">&lt;requires&gt;</span></code> elements,
+the “lib” attribute specifies the widget library in question (currently
+the only supported value is “gtk”) and the “version” attribute specifies
+the target version in the form “<code class="docutils literal notranslate"><span class="pre">&lt;major&gt;</span></code>.``&lt;minor&gt;``”. <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> will
+error out if the version requirements are not met. For example:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>xml
+&lt;?xml version=”1.0” encoding=”UTF-8”&gt;
+&lt;interface domain=”your-app”&gt;</p>
+<blockquote>
+<div><p>&lt;requires lib=”gtk” version=”4.0” /&gt;</p>
+</div></blockquote>
+<p>&lt;/interface&gt;
+``</p>
+<p>### Objects</p>
+<p>Objects are defined as children of the <code class="docutils literal notranslate"><span class="pre">&lt;interface&gt;</span></code> element.</p>
 <p>Objects are described by <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> elements, which can contain
 <code class="docutils literal notranslate"><span class="pre">&lt;property&gt;</span></code> elements to set properties, <code class="docutils literal notranslate"><span class="pre">&lt;signal&gt;</span></code> elements which
 connect signals to handlers, and <code class="docutils literal notranslate"><span class="pre">&lt;child&gt;</span></code> elements, which describe
 child objects (most often widgets inside a container, but also e.g.
 actions in an action group, or columns in a tree model). A <code class="docutils literal notranslate"><span class="pre">&lt;child&gt;</span></code>
 element contains an <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> element which describes the child object.</p>
-<p>The target toolkit version(s) are described by <code class="docutils literal notranslate"><span class="pre">&lt;requires&gt;</span></code> elements,
-the “lib” attribute specifies the widget library in question (currently
-the only supported value is “gtk”) and the “version” attribute specifies
-the target version in the form “<code class="docutils literal notranslate"><span class="pre">&lt;major&gt;</span></code>.``&lt;minor&gt;``”. <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> will
-error out if the version requirements are not met.</p>
 <p>Typically, the specific kind of object represented by an <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code>
 element is specified by the “class” attribute. If the type has not
 been loaded yet, GTK tries to find the <code class="docutils literal notranslate"><span class="pre">get_type()</span></code> function from the
 class name by applying heuristics. This works in most cases, but if
 necessary, it is possible to specify the name of the <code class="docutils literal notranslate"><span class="pre">get_type()</span></code>
-function explicitly with the “type-func” attribute.</p>
+function explicitly with the “type-func” attribute. If your UI definition
+is referencing internal types, you should make sure to call
+<code class="docutils literal notranslate"><span class="pre">g_type_ensure()</span></code> for each object type before parsing the UI definition.</p>
 <p>Objects may be given a name with the “id” attribute, which allows the
 application to retrieve them from the builder with
 [method`Gtk`.Builder.get_object]. An id is also necessary to use the
 object as property value in other parts of the UI definition. GTK
 reserves ids starting and ending with <code class="docutils literal notranslate"><span class="pre">___</span></code> (three consecutive
 underscores) for its own purposes.</p>
+<p>### Properties</p>
 <p>Setting properties of objects is pretty straightforward with the
 <code class="docutils literal notranslate"><span class="pre">&lt;property&gt;</span></code> element: the “name” attribute specifies the name of the
-property, and the content of the element specifies the value.
-If the “translatable” attribute is set to a true value, GTK uses
+property, and the content of the element specifies the value:</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>xml
+&lt;object class=”GtkButton”&gt;</p>
+<blockquote>
+<div><p>&lt;property name=”label”&gt;Hello, world&lt;/property&gt;</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+``</p>
+<p>If the “translatable” attribute is set to a true value, GTK uses
 <code class="docutils literal notranslate"><span class="pre">gettext()</span></code> (or <code class="docutils literal notranslate"><span class="pre">dgettext()</span></code> if the builder has a translation domain set)
 to find a translation for the value. This happens before the value
 is parsed, so it can be used for properties of any type, but it is
 probably most useful for string properties. It is also possible to
 specify a context to disambiguate short strings, and comments which
-may help the translators.</p>
+may help the translators:</p>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a>xml
+&lt;object class=”GtkButton”&gt;</p>
+<blockquote>
+<div><p>&lt;property name=”label” translatable=”yes” context=”button”&gt;Hello, world&lt;/property&gt;</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+``</p>
 <p><code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> can parse textual representations for the most common
-property types: characters, strings, integers, floating-point numbers,
-booleans (strings like “<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>”, “t”, “yes”, “y”, “1” are interpreted
-as <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, strings like “<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>”, “f”, “no”, “n”, “0” are interpreted
-as <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>), enumerations (can be specified by their name, nick or
-integer value), flags (can be specified by their name, nick, integer
-value, optionally combined with “|”, e.g.
-“<a class="reference internal" href="../flags.html#Gtk.InputHints.EMOJI" title="Gtk.InputHints.EMOJI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputHints.EMOJI</span></code></a>|:obj:<cite>Gtk.InputHints.LOWERCASE</cite>”)
-and colors (in a format understood by [method`Gdk`.RGBA.parse]).</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>GVariant``s can be specified in the format understood by
-<a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant.parse" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.parse</span></code></a>(), and pixbufs can be specified as a filename of an
-image file to load.</p>
+property types:</p>
+<ul class="simple">
+<li><p>characters</p></li>
+<li><p>strings</p></li>
+<li><p>integers</p></li>
+<li><p>floating-point numbers</p></li>
+<li><p>booleans (strings like “<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>”, “t”, “yes”, “y”, “1” are interpreted
+as true values, strings like “<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>”, “f”, “no”, “n”, “0” are interpreted
+as false values)</p></li>
+<li><p>enumeration types (can be specified by their full C identifier their short
+name used when registering the enumeration type, or their integer value)</p></li>
+<li><p>flag types (can be specified by their C identifier, short name, integer
+value, and optionally combined with “|” for bitwise OR, e.g.
+“<a class="reference internal" href="../flags.html#Gtk.InputHints.EMOJI" title="Gtk.InputHints.EMOJI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputHints.EMOJI</span></code></a>|:obj:<cite>Gtk.InputHints.LOWERCASE</cite>”, or “emoji|lowercase”)</p></li>
+<li><p>colors (in a format understood by [method`Gdk`.RGBA.parse])</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> (can be specified in the format understood by
+[func`GLib`.Variant.parse])</p></li>
+<li><p>pixbufs (can be specified as a filename of an image file to load)</p></li>
+</ul>
 <p>Objects can be referred to by their name and by default refer to
 objects declared in the local XML fragment and objects exposed via
 [method`Gtk`.Builder.expose_object]. In general, <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> allows
-forward references to objects — declared in the local XML; an object
+forward references to objects declared in the local XML; an object
 doesn’t have to be constructed before it can be referred to. The
 exception to this rule is that an object has to be constructed before
 it can be used as the value of a construct-only property.</p>
+<p>### Property bindings</p>
 <p>It is also possible to bind a property value to another object’s
 property value using the attributes “bind-source” to specify the
 source object of the binding, and optionally, “bind-property” and
 “bind-flags” to specify the source property and source binding flags
-respectively. Internally, <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> implements this using <code class="docutils literal notranslate"><span class="pre">GBinding</span></code>
-objects. For more information see <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.bind_property" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.bind_property</span></code></a>().</p>
+respectively. Internally, <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> implements this using
+[class`GObject`.Binding] objects.</p>
+<p>For instance, in the example below the “label” property of the
+<code class="docutils literal notranslate"><span class="pre">bottom_label</span></code> widget is bound to the “label” property of the
+<code class="docutils literal notranslate"><span class="pre">top_button</span></code> widget:</p>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a>xml
+&lt;object class=”GtkBox”&gt;</p>
+<blockquote>
+<div><p>&lt;property name=”orientation”&gt;vertical&lt;/property&gt;
+&lt;child&gt;</p>
+<blockquote>
+<div><dl class="simple">
+<dt>&lt;object class=”GtkButton” id=”top_button”&gt;</dt><dd><p>&lt;property name=”label”&gt;Hello, world&lt;/property&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</div></blockquote>
+<p>&lt;/child&gt;
+&lt;child&gt;</p>
+<blockquote>
+<div><dl class="simple">
+<dt>&lt;object class=”GtkLabel” id=”bottom_label”&gt;</dt><dd><dl class="simple">
+<dt>&lt;property name=”label”</dt><dd><p>bind-source=”top_button”
+bind-property=”label”
+bind-flags=”sync-create” /&gt;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</div></blockquote>
+<p>&lt;/child&gt;</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+``</p>
+<p>For more information, see the documentation of the
+[method`GObject`.Object.bind_property] method.</p>
+<p>### Internal children</p>
 <p>Sometimes it is necessary to refer to widgets which have implicitly
 been constructed by GTK as part of a composite widget, to set
 properties on them or to add further children (e.g. the content area
@@ -494,41 +578,66 @@ of a <code class="docutils literal notranslate"><span class="pre">GtkDialog</spa
 property of the <code class="docutils literal notranslate"><span class="pre">&lt;child&gt;</span></code> element to a true value. Note that <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code>
 still requires an <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> element for the internal child, even if it
 has already been constructed.</p>
+<p>### Specialized children</p>
 <p>A number of widgets have different places where a child can be added
 (e.g. tabs vs. page content in notebooks). This can be reflected in
 a UI definition by specifying the “type” attribute on a <code class="docutils literal notranslate"><span class="pre">&lt;child&gt;</span></code>
 The possible values for the “type” attribute are described in the
 sections describing the widget-specific portions of UI definitions.</p>
-<dl class="simple">
-<dt>Signal handlers and function pointers</dt><dd></dd>
-</dl>
+<p>### Signal handlers and function pointers</p>
 <p>Signal handlers are set up with the <code class="docutils literal notranslate"><span class="pre">&lt;signal&gt;</span></code> element. The “name”
 attribute specifies the name of the signal, and the “handler” attribute
-specifies the function to connect to the signal.
-The remaining attributes, “after”, “swapped” and “object”, have the
+specifies the function to connect to the signal.</p>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a>xml
+&lt;object class=”GtkButton” id=”hello_button”&gt;</p>
+<blockquote>
+<div><p>&lt;signal name=”clicked” handler=”hello_button__clicked” /&gt;</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+``</p>
+<p>The remaining attributes, “after”, “swapped” and “object”, have the
 same meaning as the corresponding parameters of the
-g_signal_connect_object() or g_signal_connect_data() functions. A
-“last_modification_time” attribute is also allowed, but it does not
-have a meaning to the builder.</p>
-<p>If you rely on <code class="docutils literal notranslate"><span class="pre">GModule</span></code> support to lookup callbacks in the symbol table,
-the following details should be noted:</p>
+[func`GObject`.signal_connect_object] or [func`GObject`.signal_connect_data]
+functions:</p>
+<ul class="simple">
+<li><p>“after” matches the <code class="docutils literal notranslate"><span class="pre">G_CONNECT_AFTER</span></code> flag, and will ensure that the
+handler is called after the default class closure for the signal</p></li>
+<li><p>“swapped” matches the <code class="docutils literal notranslate"><span class="pre">G_CONNECT_SWAPPED</span></code> flag, and will swap the
+instance and closure arguments when invoking the signal handler</p></li>
+<li><p>“object” will bind the signal handler to the lifetime of the object
+referenced by the attribute</p></li>
+</ul>
+<p>By default “swapped” will be set to “yes” if not specified otherwise, in
+the case where “object” is set, for convenience. A “last_modification_time”
+attribute is also allowed, but it does not have a meaning to the builder.</p>
 <p>When compiling applications for Windows, you must declare signal callbacks
-with %G_MODULE_EXPORT, or they will not be put in the symbol table.
-On Linux and Unix, this is not necessary; applications should instead
-be compiled with the -Wl,–export-dynamic <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>, and linked against
-<code class="docutils literal notranslate"><span class="pre">gmodule-export-2.0</span></code>.</p>
+with the <code class="docutils literal notranslate"><span class="pre">G_MODULE_EXPORT</span></code> decorator, or they will not be put in the symbol
+table:</p>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a>c
+G_MODULE_EXPORT void
+hello_button__clicked (GtkButton <a href="#id15"><span class="problematic" id="id16">*</span></a>button,</p>
+<blockquote>
+<div><p>gpointer data)</p>
+</div></blockquote>
 <dl class="simple">
-<dt>A <a class="reference internal" href="#Gtk.Builder" title="Gtk.Builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Builder</span></code></a> UI Definition</dt><dd></dd>
+<dt>{</dt><dd><p>// …</p>
+</dd>
 </dl>
-<p><a href="#id3"><span class="problematic" id="id4">``</span></a>xml
+<p>On Linux and Unix, this is not necessary; applications should instead
+be compiled with the <code class="docutils literal notranslate"><span class="pre">-Wl,--export-dynamic</span></code> argument inside their compiler
+flags, and linked against <code class="docutils literal notranslate"><span class="pre">gmodule-export-2.0</span></code>.</p>
+<dl class="simple">
+<dt>Example UI Definition</dt><dd></dd>
+</dl>
+<p><a href="#id17"><span class="problematic" id="id18">``</span></a>xml
 &lt;interface&gt;</p>
 <blockquote>
 <div><dl>
 <dt>&lt;object class=”GtkDialog” id=”dialog1”&gt;</dt><dd><dl>
 <dt>&lt;child internal-child=”content_area”&gt;</dt><dd><dl>
-<dt>&lt;object class=”GtkBox” id=”vbox1”&gt;</dt><dd><dl>
+<dt>&lt;object class=”GtkBox”&gt;</dt><dd><dl>
 <dt>&lt;child internal-child=”action_area”&gt;</dt><dd><dl>
-<dt>&lt;object class=”GtkBox” id=”hbuttonbox1”&gt;</dt><dd><dl>
+<dt>&lt;object class=”GtkBox”&gt;</dt><dd><dl>
 <dt>&lt;child&gt;</dt><dd><dl class="simple">
 <dt>&lt;object class=”GtkButton” id=”ok_button”&gt;</dt><dd><p>&lt;property name=”label” translatable=”yes”&gt;_Ok&lt;/property&gt;
 &lt;property name=”use-underline”&gt;True&lt;/property&gt;
@@ -557,18 +666,24 @@ be compiled with the -Wl,–export-dynamic <code class="docutils literal notrans
 </div></blockquote>
 <p>&lt;/interface&gt;
 ``</p>
-<p>Beyond this general structure, several object classes define their
-own XML DTD fragments for filling in the ANY placeholders in the DTD
-above. Note that a custom element in a <code class="docutils literal notranslate"><span class="pre">&lt;child&gt;</span></code> element gets parsed by
-the custom tag handler of the parent object, while a custom element in
-an <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> element gets parsed by the custom tag handler of the object.</p>
-<p>These XML fragments are explained in the documentation of the
-respective objects.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">&lt;template&gt;</span></code> tag can be used to define a widget class’s components.
-See the <a class="reference external" href="class.Widget.html#building-composite-widgets-from-template-xml">GtkWidget documentation</a> for details.</p>
+<dl class="simple">
+<dt>Using <a class="reference internal" href="Buildable.html#Gtk.Buildable" title="Gtk.Buildable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Buildable</span></code></a> for extending UI definitions</dt><dd></dd>
+</dl>
+<p>Objects can implement the [iface`Gtk`.Buildable] interface to add custom
+elements and attributes to the XML. Typically, any extension will be
+documented in each type that implements the interface.</p>
+<dl class="simple">
+<dt>Templates</dt><dd></dd>
+</dl>
+<p>When describing a [class`Gtk`.Widget], you can use the <code class="docutils literal notranslate"><span class="pre">&lt;template&gt;</span></code> tag to
+describe a UI bound to a specific widget type. GTK will automatically load
+the UI definition when instantiating the type, and bind children and
+signal handlers to instance fields and function symbols.</p>
+<p>For more information, see the <a class="reference external" href="class.Widget.html#building-composite-widgets-from-template-xml">GtkWidget documentation</a>
+for details.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a new (empty) <code class="docutils literal notranslate"><span class="pre">GtkBuilder</span></code> object</p>
@@ -586,7 +701,7 @@ descriptions into a single builder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.new_from_file">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2873"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_file" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L3025"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – filename of user interface description file</p>
@@ -606,7 +721,7 @@ user interface descriptions that are shipped as part of your program.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.new_from_resource">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2897"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_resource" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L3049"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_resource" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>resource_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GResource</span></code> resource path</p>
@@ -625,7 +740,7 @@ description, then the program will be aborted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.new_from_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2927"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L3079"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.new_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -650,7 +765,7 @@ from untrusted sources.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_from_file">
-<span class="sig-name descname"><span class="pre">add_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1231"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1341"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the file to parse</p>
@@ -684,7 +799,7 @@ thing to do when an error is detected is to call <code class="docutils literal n
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_from_resource">
-<span class="sig-name descname"><span class="pre">add_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1432"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_resource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_resource" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>resource_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the path of the resource file to parse</p>
@@ -715,7 +830,7 @@ to call g_error().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_from_string">
-<span class="sig-name descname"><span class="pre">add_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1586"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1717"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -749,7 +864,7 @@ to call g_error().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_objects_from_file">
-<span class="sig-name descname"><span class="pre">add_objects_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1296"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_objects_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1406"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -780,7 +895,7 @@ its child (for instance a <code class="docutils literal notranslate"><span class
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_objects_from_resource">
-<span class="sig-name descname"><span class="pre">add_objects_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1507"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_resource" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_objects_from_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1638"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_resource" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -811,7 +926,7 @@ its child (for instance a <code class="docutils literal notranslate"><span class
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.add_objects_from_string">
-<span class="sig-name descname"><span class="pre">add_objects_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1641"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_objects_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_ids</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1772"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.add_objects_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -841,7 +956,7 @@ its child (for instance a <code class="docutils literal notranslate"><span class
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.create_closure">
-<span class="sig-name descname"><span class="pre">create_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2848"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.create_closure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L3000"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.create_closure" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -869,7 +984,7 @@ will be set.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.expose_object">
-<span class="sig-name descname"><span class="pre">expose_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1785"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.expose_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">expose_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1916"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.expose_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -888,7 +1003,7 @@ if an object has already been added with <cite>name</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.extend_with_template">
-<span class="sig-name descname"><span class="pre">extend_with_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1360"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.extend_with_template" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extend_with_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1479"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.extend_with_template" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -916,7 +1031,7 @@ templates are handled by <code class="docutils literal notranslate"><span class=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_current_object">
-<span class="sig-name descname"><span class="pre">get_current_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1808"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_current_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_current_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1939"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_current_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the current object</p>
@@ -930,7 +1045,7 @@ templates are handled by <code class="docutils literal notranslate"><span class=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_object">
-<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1686"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1817"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – name of object to get</p>
@@ -949,7 +1064,7 @@ of the returned object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_objects">
-<span class="sig-name descname"><span class="pre">get_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1711"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1842"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_objects" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a
@@ -968,7 +1083,7 @@ counts of the returned objects.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_scope">
-<span class="sig-name descname"><span class="pre">get_scope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1856"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_scope" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_scope</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1987"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_scope" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the current scope</p>
@@ -982,7 +1097,7 @@ counts of the returned objects.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_translation_domain">
-<span class="sig-name descname"><span class="pre">get_translation_domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1759"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_translation_domain" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_translation_domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1890"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_translation_domain" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the translation domain</p>
@@ -996,7 +1111,7 @@ counts of the returned objects.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.get_type_from_name">
-<span class="sig-name descname"><span class="pre">get_type_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2747"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_type_from_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_type_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L2896"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.get_type_from_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>type_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – type name to lookup</p>
@@ -1017,7 +1132,7 @@ the <code class="docutils literal notranslate"><span class="pre">GtkBuildable</s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.set_current_object">
-<span class="sig-name descname"><span class="pre">set_current_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1834"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_current_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_current_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1965"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_current_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>current_object</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the new current object</p>
@@ -1034,7 +1149,7 @@ object to the widget the template is inited for. For functions like
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.set_scope">
-<span class="sig-name descname"><span class="pre">set_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1876"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_scope" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L2007"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_scope" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>scope</strong> (<a class="reference internal" href="BuilderScope.html#Gtk.BuilderScope" title="Gtk.BuilderScope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.BuilderScope</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the scope to use</p>
@@ -1046,7 +1161,7 @@ object to the widget the template is inited for. For functions like
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.set_translation_domain">
-<span class="sig-name descname"><span class="pre">set_translation_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1736"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_translation_domain" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_translation_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L1867"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.set_translation_domain" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the translation domain</p>
@@ -1057,7 +1172,7 @@ object to the widget the template is inited for. For functions like
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.value_from_string">
-<span class="sig-name descname"><span class="pre">value_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L1998"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.value_from_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">value_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L2129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.value_from_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1093,7 +1208,7 @@ assigned a <code class="docutils literal notranslate"><span class="pre">GError</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Builder.value_from_string_type">
-<span class="sig-name descname"><span class="pre">value_from_string_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkbuilder.c#L2123"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.value_from_string_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">value_from_string_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkbuilder.c#L2254"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Builder.value_from_string_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

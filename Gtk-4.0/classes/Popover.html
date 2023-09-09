@@ -375,7 +375,7 @@
 <span id="gtk-popover-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited</dt>
-<dd class="field-odd"><p><a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (180)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="Accessible.html#gtk-accessible-methods"><span class="std std-ref">Gtk.Accessible (15)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (1)</span></a>,     <a class="reference internal" href="Native.html#gtk-native-methods"><span class="std std-ref">Gtk.Native (6)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (181)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="Accessible.html#gtk-accessible-methods"><span class="std std-ref">Gtk.Accessible (15)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (1)</span></a>,     <a class="reference internal" href="Native.html#gtk-native-methods"><span class="std std-ref">Gtk.Native (6)</span></a></p>
 </dd>
 <dt class="field-even">Structs</dt>
 <dd class="field-even"><p><a class="reference internal" href="WidgetClass.html#gtk-widgetclass-methods"><span class="std std-ref">Gtk.WidgetClass (18)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -665,34 +665,35 @@ populated from a <code class="docutils literal notranslate"><span class="pre">GM
 <dt>CSS nodes</dt><dd></dd>
 </dl>
 <p>``
-popover[.menu]
+popover.background[.menu]
 ├── arrow
-╰── contents.background</p>
+╰── contents</p>
 <blockquote>
 <div><p>╰── &lt;child&gt;</p>
 </div></blockquote>
 <p><a href="#id3"><span class="problematic" id="id4">``</span></a></p>
-<p>The contents child node always gets the .background style class
-and the popover itself gets the .menu style class if the popover
-is menu-like (i.e. <code class="docutils literal notranslate"><span class="pre">GtkPopoverMenu</span></code>).</p>
+<p><code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code> has a main node with name <code class="docutils literal notranslate"><span class="pre">popover</span></code>, an arrow with name <code class="docutils literal notranslate"><span class="pre">arrow</span></code>,
+and another node for the content named <code class="docutils literal notranslate"><span class="pre">contents</span></code>. The <code class="docutils literal notranslate"><span class="pre">popover</span></code> node always
+gets the <code class="docutils literal notranslate"><span class="pre">.background</span></code> style class. It also gets the <code class="docutils literal notranslate"><span class="pre">.menu</span></code> style class
+if the popover is menu-like, e.g. is a [class`Gtk`.PopoverMenu].</p>
 <p>Particular uses of <code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code>, such as touch selection popups or
 magnifiers in <code class="docutils literal notranslate"><span class="pre">GtkEntry</span></code> or <code class="docutils literal notranslate"><span class="pre">GtkTextView</span></code> get style classes like
-.touch-selection or .magnifier to differentiate from plain popovers.</p>
-<p>When styling a popover directly, the popover node should usually
+<code class="docutils literal notranslate"><span class="pre">.touch-selection</span></code> or <code class="docutils literal notranslate"><span class="pre">.magnifier</span></code> to differentiate from plain popovers.</p>
+<p>When styling a popover directly, the <code class="docutils literal notranslate"><span class="pre">popover</span></code> node should usually
 not have any background. The visible part of the popover can have
-a shadow. To specify it in CSS, set the box-shadow of the contents node.</p>
+a shadow. To specify it in CSS, set the box-shadow of the <code class="docutils literal notranslate"><span class="pre">contents</span></code> node.</p>
 <p>Note that, in order to accomplish appropriate arrow visuals, <code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code>
-uses custom drawing for the arrow node. This makes it possible for the
+uses custom drawing for the <code class="docutils literal notranslate"><span class="pre">arrow</span></code> node. This makes it possible for the
 arrow to change its shape dynamically, but it also limits the possibilities
-of styling it using CSS. In particular, the arrow gets drawn over the
-content node’s border and shadow, so they look like one shape, which
-means that the border width of the content node and the arrow node should
+of styling it using CSS. In particular, the <code class="docutils literal notranslate"><span class="pre">arrow</span></code> gets drawn over the
+<code class="docutils literal notranslate"><span class="pre">content</span></code> node’s border and shadow, so they look like one shape, which
+means that the border width of the <code class="docutils literal notranslate"><span class="pre">content</span></code> node and the <code class="docutils literal notranslate"><span class="pre">arrow</span></code> node should
 be the same. The arrow also does not support any border shape other than
 solid, no border-radius, only one border width (border-bottom-width is
 used) and no box-shadow.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L1993"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2002"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the new <code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code></p>
@@ -706,7 +707,7 @@ used) and no box-shadow.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_autohide">
-<span class="sig-name descname"><span class="pre">get_autohide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2301"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_autohide" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_autohide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2313"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_autohide" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is modal</p>
@@ -722,7 +723,7 @@ implications of this.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_cascade_popdown">
-<span class="sig-name descname"><span class="pre">get_cascade_popdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_cascade_popdown" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_cascade_popdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2575"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_cascade_popdown" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> will close after a modal child.</p>
@@ -736,7 +737,7 @@ implications of this.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_child">
-<span class="sig-name descname"><span class="pre">get_child</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2037"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_child" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_child</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2046"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_child" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the child widget of <cite>self</cite></p>
@@ -750,7 +751,7 @@ implications of this.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_has_arrow">
-<span class="sig-name descname"><span class="pre">get_has_arrow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2411"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_has_arrow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_has_arrow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2423"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_has_arrow" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>whether the popover has an arrow</p>
@@ -765,7 +766,7 @@ pointing at the widget that it is relative to.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_mnemonics_visible">
-<span class="sig-name descname"><span class="pre">get_mnemonics_visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2460"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_mnemonics_visible" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_mnemonics_visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2472"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_mnemonics_visible" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if mnemonics are supposed to be visible
@@ -780,7 +781,7 @@ in this popover</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_offset">
-<span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_offset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2530"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_offset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><dl class="field-list simple">
@@ -802,7 +803,7 @@ in this popover</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_pointing_to">
-<span class="sig-name descname"><span class="pre">get_pointing_to</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2174"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_pointing_to" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_pointing_to</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2183"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_pointing_to" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a rectangle to point to was set.</p>
@@ -826,7 +827,7 @@ widget coordinates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.get_position">
-<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2245"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_position" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2257"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.get_position" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The preferred position.</p>
@@ -840,7 +841,7 @@ widget coordinates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.popdown">
-<span class="sig-name descname"><span class="pre">popdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.popdown" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">popdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2371"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.popdown" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pops <cite>self</cite> down.</p>
 <p>This may have the side-effect of closing a parent popover
 as well. See [property`Gtk`.Popover:cascade-popdown].</p>
@@ -848,13 +849,13 @@ as well. See [property`Gtk`.Popover:cascade-popdown].</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.popup">
-<span class="sig-name descname"><span class="pre">popup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.popup" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">popup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2329"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.popup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pops <cite>self</cite> up.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.present">
-<span class="sig-name descname"><span class="pre">present</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L642"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.present" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">present</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L650"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.present" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allocate a size for the <code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code>.</p>
 <p>This function needs to be called in size-allocate by widgets
 who have a <code class="docutils literal notranslate"><span class="pre">GtkPopover</span></code> as child. When using a layout manager,
@@ -864,7 +865,7 @@ this is happening automatically.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_autohide">
-<span class="sig-name descname"><span class="pre">set_autohide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">autohide</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2271"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_autohide" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_autohide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">autohide</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2283"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_autohide" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>autohide</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to dismiss the popover on outside clicks</p>
@@ -881,7 +882,7 @@ popup to be hidden.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_cascade_popdown">
-<span class="sig-name descname"><span class="pre">set_cascade_popdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cascade_popdown</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2543"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_cascade_popdown" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_cascade_popdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cascade_popdown</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2555"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_cascade_popdown" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cascade_popdown</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the popover should follow a child closing</p>
@@ -894,7 +895,7 @@ closed when a child modal popover is closed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_child">
-<span class="sig-name descname"><span class="pre">set_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2007"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_child" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2016"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_child" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>child</strong> (<a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the child widget</p>
@@ -905,7 +906,7 @@ closed when a child modal popover is closed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_default_widget">
-<span class="sig-name descname"><span class="pre">set_default_widget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_default_widget" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_default_widget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2070"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_default_widget" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>widget</strong> (<a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a child widget of <cite>self</cite> to set as
@@ -920,7 +921,7 @@ unsets the default widget for a <code class="docutils literal notranslate"><span
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_has_arrow">
-<span class="sig-name descname"><span class="pre">set_has_arrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">has_arrow</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2386"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_has_arrow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_has_arrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">has_arrow</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2398"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_has_arrow" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>has_arrow</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to draw an arrow</p>
@@ -932,7 +933,7 @@ pointing at the widget it is relative to.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_mnemonics_visible">
-<span class="sig-name descname"><span class="pre">set_mnemonics_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mnemonics_visible</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2429"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_mnemonics_visible" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_mnemonics_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mnemonics_visible</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_mnemonics_visible" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>mnemonics_visible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – the new value</p>
@@ -943,7 +944,7 @@ pointing at the widget it is relative to.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_offset">
-<span class="sig-name descname"><span class="pre">set_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_offset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2492"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_offset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_offset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2504"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_offset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -960,7 +961,7 @@ for positioning the popover.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_pointing_to">
-<span class="sig-name descname"><span class="pre">set_pointing_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_pointing_to" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_pointing_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_pointing_to" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>rect</strong> (<a class="reference external" href="../../Gdk-4.0/classes/Rectangle.html#Gdk.Rectangle" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.Rectangle</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – rectangle to point to</p>
@@ -972,7 +973,7 @@ for positioning the popover.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Popover.set_position">
-<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.10.5/gtk/gtkpopover.c#L2216"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_position" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.12.1/gtk/gtkpopover.c#L2228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Popover.set_position" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>position</strong> (<a class="reference internal" href="../enums.html#Gtk.PositionType" title="Gtk.PositionType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PositionType</span></code></a>) – preferred popover position</p>

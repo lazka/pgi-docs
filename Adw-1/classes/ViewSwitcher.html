@@ -74,7 +74,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Adw.ViewSwitcherBar" href="ViewSwitcherBar.html" />
-    <link rel="prev" title="Adw.ViewStackPage" href="ViewStackPage.html" /> 
+    <link rel="prev" title="Adw.ViewStackPages" href="ViewStackPages.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,7 +100,7 @@
 
 
 
-<td><a accesskey="p" href="ViewStackPage.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="ViewStackPages.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -148,7 +148,7 @@
 
 
 
-<td><a accesskey="p" href="ViewStackPage.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="ViewStackPages.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -331,7 +331,7 @@
 <span id="adw-viewswitcher-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited</dt>
-<dd class="field-odd"><p><a class="reference external" href="../../Gtk-4.0/classes/Widget.html#gtk-widget-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Widget (180)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Gtk-4.0/classes/Accessible.html#gtk-accessible-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Accessible (15)</span></a>,     <a class="reference external" href="../../Gtk-4.0/classes/Buildable.html#gtk-buildable-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Buildable (1)</span></a></p>
+<dd class="field-odd"><p><a class="reference external" href="../../Gtk-4.0/classes/Widget.html#gtk-widget-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Widget (181)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Gtk-4.0/classes/Accessible.html#gtk-accessible-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Accessible (15)</span></a>,     <a class="reference external" href="../../Gtk-4.0/classes/Buildable.html#gtk-buildable-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.Buildable (1)</span></a></p>
 </dd>
 <dt class="field-even">Structs</dt>
 <dd class="field-even"><p><a class="reference external" href="../../Gtk-4.0/classes/WidgetClass.html#gtk-widgetclass-methods" title="(in Gtk 4.0 v4.0)"><span class="xref std std-ref">Gtk.WidgetClass (18)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -447,8 +447,72 @@ contained in a [class`ViewStack`] in a similar fashion to
 <p><code class="docutils literal notranslate"><span class="pre">AdwViewSwitcher</span></code> buttons always have an icon and a label. They can be
 displayed side by side, or icon on top of the label. This can be controlled
 via the [property`ViewSwitcher`:py:data:<cite>:policy&lt;Adw.ViewSwitcher.props.policy&gt;</cite>] property.</p>
-<p>Most applications should be using [class`ViewSwitcherBar`] and
-[class`ViewSwitcherTitle`].</p>
+<p><code class="docutils literal notranslate"><span class="pre">AdwViewSwitcher</span></code> is intended to be used in a header bar together with
+[class`ViewSwitcherBar`] at the bottom of the window, and a [class`Breakpoint`]
+showing the view switcher bar on narrow sizes, while removing the view
+switcher from the header bar, as follows:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>xml
+&lt;object class=”AdwWindow”&gt;</p>
+<blockquote>
+<div><p>&lt;property name=”width-request”&gt;360&lt;/property&gt;
+&lt;property name=”height-request”&gt;200&lt;/property&gt;
+&lt;child&gt;</p>
+<blockquote>
+<div><dl class="simple">
+<dt>&lt;object class=”AdwBreakpoint”&gt;</dt><dd><p>&lt;condition&gt;max-width: 550sp&lt;/condition&gt;
+&lt;setter object=”switcher_bar” property=”reveal”&gt;True&lt;/setter&gt;
+&lt;setter object=”header_bar” property=”title-widget”/&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</div></blockquote>
+<p>&lt;/child&gt;
+&lt;property name=”content”&gt;</p>
+<blockquote>
+<div><dl>
+<dt>&lt;object class=”AdwToolbarView”&gt;</dt><dd><dl>
+<dt>&lt;child type=”top”&gt;</dt><dd><dl>
+<dt>&lt;object class=”AdwHeaderBar” id=”header_bar”&gt;</dt><dd><dl>
+<dt>&lt;property name=”title-widget”&gt;</dt><dd><dl class="simple">
+<dt>&lt;object class=”AdwViewSwitcher”&gt;</dt><dd><p>&lt;property name=”stack”&gt;stack&lt;/property&gt;
+&lt;property name=”policy”&gt;wide&lt;/property&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</dd>
+</dl>
+<p>&lt;/property&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</dd>
+</dl>
+<p>&lt;/child&gt;
+&lt;property name=”content”&gt;</p>
+<blockquote>
+<div><p>&lt;object class=”AdwViewStack” id=”stack”/&gt;</p>
+</div></blockquote>
+<p>&lt;/property&gt;
+&lt;child type=”bottom”&gt;</p>
+<blockquote>
+<div><dl class="simple">
+<dt>&lt;object class=”AdwViewSwitcherBar” id=”switcher_bar”&gt;</dt><dd><p>&lt;property name=”stack”&gt;stack&lt;/property&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</div></blockquote>
+<p>&lt;/child&gt;</p>
+</dd>
+</dl>
+<p>&lt;/object&gt;</p>
+</div></blockquote>
+<p>&lt;/property&gt;</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+``</p>
+<p>It’s recommended to set [property`ViewSwitcher`:py:data:<cite>:policy&lt;Adw.ViewSwitcher.props.policy&gt;</cite>] to
+<code class="docutils literal notranslate"><span class="pre">ADW_VIEW_SWITCHER_POLICY_WIDE</span></code> in this case.</p>
+<p>You may have to adjust the breakpoint condition for your specific pages.</p>
 <dl class="simple">
 <dt>CSS nodes</dt><dd></dd>
 </dl>

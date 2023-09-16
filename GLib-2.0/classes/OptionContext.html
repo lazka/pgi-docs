@@ -260,12 +260,146 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.OptionContext">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">OptionContext</span></span><a class="headerlink" href="#GLib.OptionContext" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <code class="docutils literal notranslate"><span class="pre">GOptionContext</span></code> struct defines which options
-are accepted by the commandline option parser. The struct has only private
-fields and should not be directly accessed.</p>
+<dd><p>The GOption commandline parser is intended to be a simpler replacement
+for the popt library. It supports short and long commandline options,
+as shown in the following example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">testtreemodel</span> <span class="pre">-r</span> <span class="pre">1</span> <span class="pre">--max-size</span> <span class="pre">20</span> <span class="pre">--rand</span> <span class="pre">--display=:1.0</span> <span class="pre">-vb</span> <span class="pre">--</span> <span class="pre">file1</span> <span class="pre">file2</span></code></p>
+<p>The example demonstrates a number of features of the GOption
+commandline parser:</p>
+<ul class="simple">
+<li><p>Options can be single letters, prefixed by a single dash.</p></li>
+<li><p>Multiple short options can be grouped behind a single dash.</p></li>
+<li><p>Long options are prefixed by two consecutive dashes.</p></li>
+<li><p>Options can have an extra argument, which can be a number, a string or
+a filename. For long options, the extra argument can be appended with
+an equals sign after the option name, which is useful if the extra
+argument starts with a dash, which would otherwise cause it to be
+interpreted as another option.</p></li>
+<li><p>Non-option arguments are returned to the application as rest arguments.</p></li>
+<li><p>An argument consisting solely of two dashes turns off further parsing,
+any remaining arguments (even those starting with a dash) are returned
+to the application as rest arguments.</p></li>
+</ul>
+<p>Another important feature of GOption is that it can automatically
+generate nicely formatted help output. Unless it is explicitly turned
+off with <a class="reference internal" href="#GLib.OptionContext.set_help_enabled" title="GLib.OptionContext.set_help_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext.set_help_enabled</span></code></a>(), GOption will recognize
+the <code class="docutils literal notranslate"><span class="pre">--help</span></code>, <code class="docutils literal notranslate"><span class="pre">-?</span></code>, <code class="docutils literal notranslate"><span class="pre">--help-all</span></code> and <code class="docutils literal notranslate"><span class="pre">--help-groupname</span></code> options
+(where <code class="docutils literal notranslate"><span class="pre">groupname</span></code> is the name of a <a class="reference internal" href="OptionGroup.html#GLib.OptionGroup" title="GLib.OptionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionGroup</span></code></a>) and write a text
+similar to the one shown in the following example to stdout.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Usage:
+  testtreemodel [OPTION...] - test tree model performance
+
+Help Options:
+  -h, --help               Show help options
+  --help-all               Show all help options
+  --help-gtk               Show GTK Options
+
+Application Options:
+  -r, --repeats=N          Average over N repetitions
+  -m, --max-size=M         Test up to 2^M items
+  --display=DISPLAY        X display to use
+  -v, --verbose            Be verbose
+  -b, --beep               Beep when done
+  --rand                   Randomize the data
+</pre></div>
+</div>
+<p>GOption groups options in <a class="reference internal" href="OptionGroup.html#GLib.OptionGroup" title="GLib.OptionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionGroups</span></code></a>, which makes it easy to
+incorporate options from multiple sources. The intended use for this is
+to let applications collect option groups from the libraries it uses,
+add them to their <a class="reference internal" href="#GLib.OptionContext" title="GLib.OptionContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext</span></code></a>, and parse all options by a single call
+to <a class="reference internal" href="#GLib.OptionContext.parse" title="GLib.OptionContext.parse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext.parse</span></code></a>(). See gtk_get_option_group() for an example.</p>
+<p>If an option is declared to be of type string or filename, GOption takes
+care of converting it to the right encoding; strings are returned in
+UTF-8, filenames are returned in the GLib filename encoding. Note that
+this only works if setlocale() has been called before
+<a class="reference internal" href="#GLib.OptionContext.parse" title="GLib.OptionContext.parse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext.parse</span></code></a>().</p>
+<p>Here is a complete example of setting up GOption to parse the example
+commandline above and produce the example help output.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gint</span><span class="w"> </span><span class="n">repeats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">gint</span><span class="w"> </span><span class="n">max_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"> </span><span class="n">beep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">gboolean</span><span class="w"> </span><span class="n">randomize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">GOptionEntry</span><span class="w"> </span><span class="n">entries</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;repeats&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;r&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_OPTION_ARG_INT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">repeats</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Average over N repetitions&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;max-size&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;m&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_OPTION_ARG_INT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">max_size</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Test up to 2^M items&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;M&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;verbose&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;v&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_OPTION_ARG_NONE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">verbose</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Be verbose&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;beep&quot;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;b&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_OPTION_ARG_NONE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">beep</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Beep when done&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;rand&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">G_OPTION_ARG_NONE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">randomize</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Randomize the data&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="n">G_OPTION_ENTRY_NULL</span>
+<span class="p">};</span>
+
+<span class="kt">int</span>
+<span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">  </span><span class="n">GOptionContext</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_option_context_new</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;- test tree model performance&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_option_context_add_main_entries</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">entries</span><span class="p">,</span><span class="w"> </span><span class="n">GETTEXT_PACKAGE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">g_option_context_add_group</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">gtk_get_option_group</span><span class="w"> </span><span class="p">(</span><span class="n">TRUE</span><span class="p">));</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_option_context_parse</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">g_print</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;option parsing failed: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
+<span class="w">      </span><span class="n">exit</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">...</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>On UNIX systems, the argv that is passed to main() has no particular
+encoding, even to the extent that different parts of it may have
+different encodings.  In general, normal arguments and flags will be
+in the current locale and filenames should be considered to be opaque
+byte strings.  Proper use of <a class="reference internal" href="../enums.html#GLib.OptionArg.FILENAME" title="GLib.OptionArg.FILENAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionArg.FILENAME</span></code></a> vs
+<a class="reference internal" href="../enums.html#GLib.OptionArg.STRING" title="GLib.OptionArg.STRING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionArg.STRING</span></code></a> is therefore important.</p>
+<p>Note that on Windows, filenames do have an encoding, but using
+<a class="reference internal" href="#GLib.OptionContext" title="GLib.OptionContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext</span></code></a> with the argv as passed to main() will result in a
+program that can only accept commandline arguments with characters
+from the system codepage.  This can cause problems when attempting to
+deal with filenames containing Unicode characters that fall outside
+of the codepage.</p>
+<p>A solution to this is to use g_win32_get_command_line() and
+<a class="reference internal" href="#GLib.OptionContext.parse_strv" title="GLib.OptionContext.parse_strv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext.parse_strv</span></code></a>() which will properly handle full Unicode
+filenames.  If you are using #GApplication, this is done
+automatically for you.</p>
+<p>The following example shows how you can use <a class="reference internal" href="#GLib.OptionContext" title="GLib.OptionContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionContext</span></code></a> directly
+in order to correctly deal with Unicode filenames on Windows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span>
+<span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">GError</span><span class="w"> </span><span class="o">*</span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">  </span><span class="n">GOptionContext</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">;</span>
+<span class="w">  </span><span class="n">gchar</span><span class="w"> </span><span class="o">**</span><span class="n">args</span><span class="p">;</span>
+
+<span class="cp">#ifdef G_OS_WIN32</span>
+<span class="w">  </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_win32_get_command_line</span><span class="w"> </span><span class="p">();</span>
+<span class="cp">#else</span>
+<span class="w">  </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdupv</span><span class="w"> </span><span class="p">(</span><span class="n">argv</span><span class="p">);</span>
+<span class="cp">#endif</span>
+
+<span class="w">  </span><span class="c1">// set up context</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_option_context_parse_strv</span><span class="w"> </span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// error happened</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="p">...</span>
+
+<span class="w">  </span><span class="n">g_strfreev</span><span class="w"> </span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.add_group">
-<span class="sig-name descname"><span class="pre">add_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L575"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.add_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L575"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.add_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="OptionGroup.html#GLib.OptionGroup" title="GLib.OptionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionGroup</span></code></a>) – the group to add</p>
@@ -281,7 +415,7 @@ ownership of the <cite>group</cite> and thus the <cite>group</cite> should not b
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.add_main_entries">
-<span class="sig-name descname"><span class="pre">add_main_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.add_main_entries" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_main_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.add_main_entries" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -301,7 +435,7 @@ exist, adds the <cite>entries</cite> to it and sets the translation domain.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L394"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L394"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees context and all the groups which have been
 added to it.</p>
 <p>Please note that parsed arguments need to be freed separately (see
@@ -313,7 +447,7 @@ added to it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_description">
-<span class="sig-name descname"><span class="pre">get_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_description" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_description" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the description</p>
@@ -330,7 +464,7 @@ added to it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_help">
-<span class="sig-name descname"><span class="pre">get_help</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_help</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_help" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_help</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_help</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_help" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -359,7 +493,7 @@ To obtain the help text for an option group, call
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_help_enabled">
-<span class="sig-name descname"><span class="pre">get_help_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L450"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_help_enabled" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_help_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L450"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_help_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if automatic help generation is turned on.</p>
@@ -377,7 +511,7 @@ is turned on for <cite>self</cite>. See <a class="reference internal" href="#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_ignore_unknown_options">
-<span class="sig-name descname"><span class="pre">get_ignore_unknown_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L494"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_ignore_unknown_options" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_ignore_unknown_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L494"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_ignore_unknown_options" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if unknown options are ignored.</p>
@@ -395,7 +529,7 @@ is turned on for <cite>self</cite>. See <a class="reference internal" href="#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_main_group">
-<span class="sig-name descname"><span class="pre">get_main_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L640"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_main_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_main_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L640"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_main_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the main group of <cite>self</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if
@@ -414,7 +548,7 @@ is turned on for <cite>self</cite>. See <a class="reference internal" href="#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_strict_posix">
-<span class="sig-name descname"><span class="pre">get_strict_posix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L555"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_strict_posix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_strict_posix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L555"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_strict_posix" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if strict POSIX is enabled, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -432,7 +566,7 @@ is turned on for <cite>self</cite>. See <a class="reference internal" href="#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.get_summary">
-<span class="sig-name descname"><span class="pre">get_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_summary" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.get_summary" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the summary</p>
@@ -449,7 +583,7 @@ is turned on for <cite>self</cite>. See <a class="reference internal" href="#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.parse">
-<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L1959"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.parse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L1959"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.parse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>argv</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – a pointer to the array of command line arguments</p>
@@ -496,7 +630,7 @@ arguments.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.parse_strv">
-<span class="sig-name descname"><span class="pre">parse_strv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.parse_strv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">parse_strv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.parse_strv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>arguments</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – a pointer
@@ -543,7 +677,7 @@ See g_win32_get_command_line() for a solution.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_description">
-<span class="sig-name descname"><span class="pre">set_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2694"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_description" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2694"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_description" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a string to be shown in <code class="docutils literal notranslate"><span class="pre">--help</span></code> output
@@ -561,7 +695,7 @@ of options. This text often includes a bug reporting address.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_help_enabled">
-<span class="sig-name descname"><span class="pre">set_help_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">help_enabled</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L431"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_help_enabled" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_help_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">help_enabled</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L431"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_help_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>help_enabled</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to enable <code class="docutils literal notranslate"><span class="pre">--help</span></code>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> to disable it</p>
@@ -578,7 +712,7 @@ output to stdout.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_ignore_unknown_options">
-<span class="sig-name descname"><span class="pre">set_ignore_unknown_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_unknown</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L475"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_ignore_unknown_options" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_ignore_unknown_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_unknown</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L475"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_ignore_unknown_options" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>ignore_unknown</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to ignore unknown options, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> to produce
@@ -598,7 +732,7 @@ determine whether a non-option belongs to a preceding unknown option.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_main_group">
-<span class="sig-name descname"><span class="pre">set_main_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L612"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_main_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_main_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L612"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_main_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="OptionGroup.html#GLib.OptionGroup" title="GLib.OptionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.OptionGroup</span></code></a>) – the group to set as main group</p>
@@ -615,7 +749,7 @@ treated differently when generating <code class="docutils literal notranslate"><
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_strict_posix">
-<span class="sig-name descname"><span class="pre">set_strict_posix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_posix</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L535"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_strict_posix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_strict_posix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_posix</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L535"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_strict_posix" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>strict_posix</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – the new value</p>
@@ -647,7 +781,7 @@ parsing).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_summary">
-<span class="sig-name descname"><span class="pre">set_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summary</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2651"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_summary" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">summary</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2651"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_summary" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>summary</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a string to be shown in <code class="docutils literal notranslate"><span class="pre">--help</span></code> output
@@ -666,7 +800,7 @@ of options. This is typically a summary of the program functionality.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_translate_func">
-<span class="sig-name descname"><span class="pre">set_translate_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_translate_func" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_translate_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_translate_func" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -691,7 +825,7 @@ domain, see <a class="reference internal" href="#GLib.OptionContext.set_translat
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.OptionContext.set_translation_domain">
-<span class="sig-name descname"><span class="pre">set_translation_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/glib/goption.c#L2624"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_translation_domain" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_translation_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/glib/goption.c#L2624"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.OptionContext.set_translation_domain" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the domain to use</p>

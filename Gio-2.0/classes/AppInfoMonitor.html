@@ -278,7 +278,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.AppInfoMonitor.signals.changed" title="Gio.AppInfoMonitor.signals.changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">changed</span></code></a></p></td>
-<td><p>Signal emitted when the app info database for changes (ie: newly installed or removed applications).</p></td>
+<td><p>Signal emitted when the app info database changes, when applications are installed or removed.</p></td>
 </tr>
 </tbody>
 </table>
@@ -305,17 +305,33 @@
 </dd>
 </dl>
 <p><a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> is a very simple object used for monitoring the app
-info database for changes (ie: newly installed or removed
-applications).</p>
+info database for changes (newly installed or removed applications).</p>
 <p>Call <a class="reference internal" href="#Gio.AppInfoMonitor.get" title="Gio.AppInfoMonitor.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor.get</span></code></a>() to get a <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> and connect
-to the “changed” signal.</p>
+to the <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> <a class="reference internal" href="#Gio.AppInfoMonitor.signals.changed" title="Gio.AppInfoMonitor.signals.changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">::changed</span></code></a> signal. The signal will be emitted once when
+the app info database changes, and will not be emitted again until after the
+next call to <a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_all" title="Gio.AppInfo.get_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_all</span></code></a>() or another <code class="docutils literal notranslate"><span class="pre">g_app_info_*()</span></code> function. This
+is because monitoring the app info database for changes is expensive.</p>
+<p>The following functions will re-arm the <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> <a class="reference internal" href="#Gio.AppInfoMonitor.signals.changed" title="Gio.AppInfoMonitor.signals.changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">::changed</span></code></a> signal so
+it can be emitted again:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_all" title="Gio.AppInfo.get_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_all</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_all_for_type" title="Gio.AppInfo.get_all_for_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_all_for_type</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_default_for_type" title="Gio.AppInfo.get_default_for_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_default_for_type</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_fallback_for_type" title="Gio.AppInfo.get_fallback_for_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_fallback_for_type</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_recommended_for_type" title="Gio.AppInfo.get_recommended_for_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_recommended_for_type</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="DesktopAppInfo.html#Gio.DesktopAppInfo.get_implementations" title="Gio.DesktopAppInfo.get_implementations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DesktopAppInfo.get_implementations</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="DesktopAppInfo.html#Gio.DesktopAppInfo.new" title="Gio.DesktopAppInfo.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DesktopAppInfo.new</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="DesktopAppInfo.html#Gio.DesktopAppInfo.new_from_filename" title="Gio.DesktopAppInfo.new_from_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DesktopAppInfo.new_from_filename</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="DesktopAppInfo.html#Gio.DesktopAppInfo.new_from_keyfile" title="Gio.DesktopAppInfo.new_from_keyfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DesktopAppInfo.new_from_keyfile</span></code></a>()</p></li>
+<li><p><a class="reference internal" href="DesktopAppInfo.html#Gio.DesktopAppInfo.search" title="Gio.DesktopAppInfo.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DesktopAppInfo.search</span></code></a>()</p></li>
+</ul>
 <p>In the usual case, applications should try to make note of the change
 (doing things like invalidating caches) but not act on it.  In
 particular, applications should avoid making calls to <a class="reference internal" href="AppInfo.html#Gio.AppInfo" title="Gio.AppInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo</span></code></a> APIs
 in response to the change signal, deferring these until the time that
-the data is actually required.  The exception to this case is when
+the updated data is actually required.  The exception to this case is when
 application information is actually being displayed on the screen
-(eg: during a search or when the list of all applications is shown).
+(for example, during a search or when the list of all applications is shown).
 The reason for this is that changes to the list of installed
 applications often come in groups (like during system updates) and
 rescanning the list on every change is pointless and expensive.</p>
@@ -324,7 +340,7 @@ rescanning the list on every change is pointless and expensive.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.AppInfoMonitor.get">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/gio/gappinfo.c#L1779"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AppInfoMonitor.get" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/gio/gappinfo.c#L1779"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AppInfoMonitor.get" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>a reference to a <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a></p>
@@ -338,6 +354,9 @@ context.</p>
 <p>The <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> will emit a “changed” signal in the
 thread-default main context whenever the list of installed
 applications (as reported by <a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_all" title="Gio.AppInfo.get_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_all</span></code></a>()) may have changed.</p>
+<p>The <a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a> <a class="reference internal" href="#Gio.AppInfoMonitor.signals.changed" title="Gio.AppInfoMonitor.signals.changed"><code class="xref py py-func docutils literal notranslate"><span class="pre">::changed</span></code></a> signal will only be emitted once until
+<a class="reference internal" href="AppInfo.html#Gio.AppInfo.get_all" title="Gio.AppInfo.get_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfo.get_all</span></code></a>() (or another <code class="docutils literal notranslate"><span class="pre">g_app_info_*()</span></code> function) is called. Doing
+so will re-arm the signal ready to notify about the next change.</p>
 <p>You must only call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the return value from under
 the same main context as you created it.</p>
 <div class="versionadded">
@@ -364,8 +383,11 @@ the same main context as you created it.</p>
 <dd class="field-odd"><p><strong>app_info_monitor</strong> (<a class="reference internal" href="#Gio.AppInfoMonitor" title="Gio.AppInfoMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AppInfoMonitor</span></code></a>) – The object which received the signal</p>
 </dd>
 </dl>
-<p>Signal emitted when the app info database for changes (ie: newly installed
-or removed applications).</p>
+<p>Signal emitted when the app info database changes, when applications are
+installed or removed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.40.</span></p>
+</div>
 </dd></dl>
 
 </section>

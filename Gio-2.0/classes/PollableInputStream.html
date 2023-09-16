@@ -298,12 +298,16 @@
 can be polled for readiness to read. This can be used when
 interfacing with a non-GIO API that expects
 UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.</p>
+<p>Some classes may implement <a class="reference internal" href="#Gio.PollableInputStream" title="Gio.PollableInputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream</span></code></a> but have only certain
+instances of that class be pollable. If <a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>()
+returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, then the behavior of other <a class="reference internal" href="#Gio.PollableInputStream" title="Gio.PollableInputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream</span></code></a> methods is
+undefined.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.28.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.PollableInputStream.can_poll">
-<span class="sig-name descname"><span class="pre">can_poll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/gio/gpollableinputstream.c#L86"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.can_poll" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_poll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/gio/gpollableinputstream.c#L86"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.can_poll" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is pollable, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not.</p>
@@ -325,7 +329,7 @@ a stream cannot switch from pollable to non-pollable or vice versa.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.PollableInputStream.create_source">
-<span class="sig-name descname"><span class="pre">create_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/gio/gpollableinputstream.c#L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.create_source" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/gio/gpollableinputstream.c#L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.create_source" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -344,6 +348,8 @@ source is of the <a class="reference internal" href="../callbacks.html#Gio.Polla
 the stream may not actually be readable even after the source
 triggers, so you should use <a class="reference internal" href="#Gio.PollableInputStream.read_nonblocking" title="Gio.PollableInputStream.read_nonblocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.read_nonblocking</span></code></a>()
 rather than <a class="reference internal" href="InputStream.html#Gio.InputStream.read" title="Gio.InputStream.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream.read</span></code></a>() from the callback.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.28.</span></p>
 </div>
@@ -351,7 +357,7 @@ rather than <a class="reference internal" href="InputStream.html#Gio.InputStream
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.PollableInputStream.is_readable">
-<span class="sig-name descname"><span class="pre">is_readable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/gio/gpollableinputstream.c#L117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.is_readable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_readable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/gio/gpollableinputstream.c#L117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.is_readable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is readable, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not. If an error
@@ -370,6 +376,8 @@ after this returns <a class="reference external" href="https://docs.python.org/3
 non-blocking behavior, you should always use
 <a class="reference internal" href="#Gio.PollableInputStream.read_nonblocking" title="Gio.PollableInputStream.read_nonblocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.read_nonblocking</span></code></a>(), which will return a
 <a class="reference internal" href="../enums.html#Gio.IOErrorEnum.WOULD_BLOCK" title="Gio.IOErrorEnum.WOULD_BLOCK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.WOULD_BLOCK</span></code></a> error rather than blocking.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.28.</span></p>
 </div>
@@ -377,7 +385,7 @@ non-blocking behavior, you should always use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.PollableInputStream.read_nonblocking">
-<span class="sig-name descname"><span class="pre">read_nonblocking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.77.1/gio/gpollableinputstream.c#L205"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.read_nonblocking" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read_nonblocking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.0/gio/gpollableinputstream.c#L205"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PollableInputStream.read_nonblocking" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -410,6 +418,8 @@ use <cite>cancellable</cite> to cancel it. However, it will return an error
 if <cite>cancellable</cite> has already been cancelled when you call, which
 may happen if you call this method after a source triggers due
 to having been cancelled.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -455,6 +465,8 @@ source is of the <a class="reference internal" href="../callbacks.html#Gio.Polla
 the stream may not actually be readable even after the source
 triggers, so you should use <a class="reference internal" href="#Gio.PollableInputStream.read_nonblocking" title="Gio.PollableInputStream.read_nonblocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.read_nonblocking</span></code></a>()
 rather than <a class="reference internal" href="InputStream.html#Gio.InputStream.read" title="Gio.InputStream.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream.read</span></code></a>() from the callback.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>stream</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.28.</span></p>
 </div>
@@ -481,6 +493,8 @@ after this returns <a class="reference external" href="https://docs.python.org/3
 non-blocking behavior, you should always use
 <a class="reference internal" href="#Gio.PollableInputStream.read_nonblocking" title="Gio.PollableInputStream.read_nonblocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.read_nonblocking</span></code></a>(), which will return a
 <a class="reference internal" href="../enums.html#Gio.IOErrorEnum.WOULD_BLOCK" title="Gio.IOErrorEnum.WOULD_BLOCK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.WOULD_BLOCK</span></code></a> error rather than blocking.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>stream</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.28.</span></p>
 </div>
@@ -515,6 +529,8 @@ use <cite>cancellable</cite> to cancel it. However, it will return an error
 if <cite>cancellable</cite> has already been cancelled when you call, which
 may happen if you call this method after a source triggers due
 to having been cancelled.</p>
+<p>The behaviour of this method is undefined if
+<a class="reference internal" href="#Gio.PollableInputStream.can_poll" title="Gio.PollableInputStream.can_poll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PollableInputStream.can_poll</span></code></a>() returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for <cite>stream</cite>.</p>
 </dd></dl>
 
 </dd></dl>

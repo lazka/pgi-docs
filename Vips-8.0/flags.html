@@ -173,6 +173,7 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="#Vips.ArgumentFlags" title="Vips.ArgumentFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vips.ArgumentFlags</span></code></a></p></li>
 <li><p><a class="reference internal" href="#Vips.ForeignFlags" title="Vips.ForeignFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vips.ForeignFlags</span></code></a></p></li>
+<li><p><a class="reference internal" href="#Vips.ForeignKeep" title="Vips.ForeignKeep"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vips.ForeignKeep</span></code></a></p></li>
 <li><p><a class="reference internal" href="#Vips.ForeignPngFilter" title="Vips.ForeignPngFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vips.ForeignPngFilter</span></code></a></p></li>
 <li><p><a class="reference internal" href="#Vips.OperationFlags" title="Vips.OperationFlags"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vips.OperationFlags</span></code></a></p></li>
 </ul>
@@ -196,6 +197,9 @@ deprecate a required argument, but you must obviously add a new required
 argument if you do.</p>
 <p>Input args with <a class="reference internal" href="#Vips.ArgumentFlags.MODIFY" title="Vips.ArgumentFlags.MODIFY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.ArgumentFlags.MODIFY</span></code></a> will be modified by the operation.
 This is used for things like the in-place drawing operations.</p>
+<p><a class="reference internal" href="#Vips.ArgumentFlags.NON_HASHABLE" title="Vips.ArgumentFlags.NON_HASHABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.ArgumentFlags.NON_HASHABLE</span></code></a> stops the argument being used in hash and
+equality tests. It’s useful for arguments like <code class="docutils literal notranslate"><span class="pre">revalidate</span></code> which
+control the behaviour of the operator cache.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.ArgumentFlags.NONE">
 <span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#Vips.ArgumentFlags.NONE" title="Permalink to this definition">¶</a></dt>
@@ -224,6 +228,12 @@ This is used for things like the in-place drawing operations.</p>
 <dt class="sig sig-object py" id="Vips.ArgumentFlags.CONSTRUCT">
 <span class="sig-name descname"><span class="pre">CONSTRUCT</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#Vips.ArgumentFlags.CONSTRUCT" title="Permalink to this definition">¶</a></dt>
 <dd><p>can only be set in the constructor</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ArgumentFlags.NON_HASHABLE">
+<span class="sig-name descname"><span class="pre">NON_HASHABLE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">256</span></em><a class="headerlink" href="#Vips.ArgumentFlags.NON_HASHABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>the argument is non-hashable</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -299,6 +309,55 @@ need to swap bytes. See vips_copy().</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="Vips.ForeignKeep">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Vips.</span></span><span class="sig-name descname"><span class="pre">ForeignKeep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.ForeignKeep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GFlags</span></code></a></p>
+<p>Which metadata to retain.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#Vips.ForeignKeep.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>don’t attach metadata</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.EXIF">
+<span class="sig-name descname"><span class="pre">EXIF</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#Vips.ForeignKeep.EXIF" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep Exif metadata</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.OTHER">
+<span class="sig-name descname"><span class="pre">OTHER</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">16</span></em><a class="headerlink" href="#Vips.ForeignKeep.OTHER" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep other metadata (e.g. PNG comments and some TIFF tags)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.XMP">
+<span class="sig-name descname"><span class="pre">XMP</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#Vips.ForeignKeep.XMP" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep XMP metadata</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.ALL">
+<span class="sig-name descname"><span class="pre">ALL</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">31</span></em><a class="headerlink" href="#Vips.ForeignKeep.ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep all metadata</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.IPTC">
+<span class="sig-name descname"><span class="pre">IPTC</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#Vips.ForeignKeep.IPTC" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep IPTC metadata</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.ForeignKeep.ICC">
+<span class="sig-name descname"><span class="pre">ICC</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#Vips.ForeignKeep.ICC" title="Permalink to this definition">¶</a></dt>
+<dd><p>keep ICC metadata</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="Vips.ForeignPngFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Vips.</span></span><span class="sig-name descname"><span class="pre">ForeignPngFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.ForeignPngFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../GObject-2.0/flags.html#GObject.GFlags" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GFlags</span></code></a></p>
@@ -368,6 +427,9 @@ on untrusted input. Use <a class="reference internal" href="functions.html#Vips.
 untrusted operations.</p>
 <p><a class="reference internal" href="#Vips.OperationFlags.BLOCKED" title="Vips.OperationFlags.BLOCKED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.OperationFlags.BLOCKED</span></code></a> means the operation is prevented from executing. Use
 <a class="reference internal" href="classes/Operation.html#Vips.Operation.block_set" title="Vips.Operation.block_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Operation.block_set</span></code></a>() to enable and disable groups of operations.</p>
+<p><a class="reference internal" href="#Vips.OperationFlags.REVALIDATE" title="Vips.OperationFlags.REVALIDATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.OperationFlags.REVALIDATE</span></code></a> force the operation to run, updating the cache
+with the new value. This is used by eg. <a class="reference internal" href="classes/ForeignLoad.html#Vips.ForeignLoad" title="Vips.ForeignLoad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.ForeignLoad</span></code></a> to implement the
+“revalidate” argument.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.OperationFlags.NONE">
 <span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#Vips.OperationFlags.NONE" title="Permalink to this definition">¶</a></dt>
@@ -401,6 +463,12 @@ untrusted operations.</p>
 <dt class="sig sig-object py" id="Vips.OperationFlags.NOCACHE">
 <span class="sig-name descname"><span class="pre">NOCACHE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#Vips.OperationFlags.NOCACHE" title="Permalink to this definition">¶</a></dt>
 <dd><p>must not be cached</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Vips.OperationFlags.REVALIDATE">
+<span class="sig-name descname"><span class="pre">REVALIDATE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">64</span></em><a class="headerlink" href="#Vips.OperationFlags.REVALIDATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>force the operation to run</p>
 </dd></dl>
 
 <dl class="py attribute">

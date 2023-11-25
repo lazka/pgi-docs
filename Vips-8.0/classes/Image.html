@@ -1419,7 +1419,7 @@ replaced by a working one.</p>
 <span class="sig-name descname"><span class="pre">free_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Image.free_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the orignal buffer that was stolen</p>
+<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the original buffer that was stolen</p>
 </dd>
 </dl>
 <p>Free the externally allocated buffer found in the input image. This function
@@ -1453,23 +1453,23 @@ does not exist. Use <a class="reference internal" href="#Vips.Image.get_typeof" 
 existence of a field first if you are not certain it will be there.</p>
 <p>For example, to read a double from an image (though of course you would use
 <a class="reference internal" href="#Vips.Image.get_double" title="Vips.Image.get_double"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_double</span></code></a>() in practice):</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GValue value = { 0 };
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GValue value = G_VALUE_INIT;
 double d;
 
-if (vips_image_get (image, name, &amp;value))
-  return -1;
+if (vips_image_get(image, name, &amp;value))
+    return -1;
 
-if (G_VALUE_TYPE (&amp;value) != G_TYPE_DOUBLE) {
-  vips_error( &quot;mydomain&quot;,
-    _(&quot;field \&quot;%s\&quot; is of type %s, not double&quot;),
-    name,
-    g_type_name (G_VALUE_TYPE (&amp;value)));
-  g_value_unset (&amp;value);
-  return -1;
+if (G_VALUE_TYPE(&amp;value) != G_TYPE_DOUBLE) {
+    vips_error(&quot;mydomain&quot;,
+        _(&quot;field \&quot;%s\&quot; is of type %s, not double&quot;),
+        name,
+        g_type_name(G_VALUE_TYPE(&amp;value)));
+    g_value_unset(&amp;value);
+    return -1;
 }
 
-d = g_value_get_double (&amp;value);
-g_value_unset (&amp;value);
+d = g_value_get_double(&amp;value);
+g_value_unset(&amp;value);
 </pre></div>
 </div>
 <p>See also: <a class="reference internal" href="#Vips.Image.get_typeof" title="Vips.Image.get_typeof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_typeof</span></code></a>(), <a class="reference internal" href="#Vips.Image.get_double" title="Vips.Image.get_double"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_double</span></code></a>().</p>
@@ -1621,10 +1621,8 @@ make a string that’s for humans.</p>
 <dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, <strong>data</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>)</p>
 </dd>
 </dl>
-<p>Gets <cite>blob</cite> from <cite>self</cite> under the name <cite>name</cite>, optionally returns its length in
-<cite>length</cite>. A convenience
-function over <a class="reference internal" href="#Vips.Image.get" title="Vips.Image.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get</span></code></a>(). Use <a class="reference internal" href="#Vips.Image.get_typeof" title="Vips.Image.get_typeof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_typeof</span></code></a>() to test for the
-existence
+<p>Gets <cite>data</cite> from <cite>self</cite> under the name <cite>name</cite>, optionally returns its
+length in <cite>length</cite>. Use <a class="reference internal" href="#Vips.Image.get_typeof" title="Vips.Image.get_typeof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_typeof</span></code></a>() to test for the existence
 of a piece of metadata.</p>
 <p>See also: <a class="reference internal" href="#Vips.Image.get" title="Vips.Image.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get</span></code></a>(), <a class="reference internal" href="#Vips.Image.get_typeof" title="Vips.Image.get_typeof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_typeof</span></code></a>(), <a class="reference internal" href="Blob.html#Vips.Blob.get" title="Vips.Blob.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Blob.get</span></code></a>(),</p>
 </dd></dl>
@@ -2210,7 +2208,7 @@ fields yourself.</p>
 <span class="sig-name descname"><span class="pre">inplace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Image.inplace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>0 on succeess, or -1 on error.</p>
+<dd class="field-odd"><p>0 on success, or -1 on error.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -2346,7 +2344,7 @@ end of a computation, but it might be useful to call at other times.</p>
 <span class="sig-name descname"><span class="pre">pio_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Image.pio_input" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>0 on succeess, or -1 on error.</p>
+<dd class="field-odd"><p>0 on success, or -1 on error.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -2363,7 +2361,7 @@ work.</p>
 <span class="sig-name descname"><span class="pre">pio_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Image.pio_output" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>0 on succeess, or -1 on error.</p>
+<dd class="field-odd"><p>0 on success, or -1 on error.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -2461,12 +2459,12 @@ destroyed. The <a class="reference external" href="../../GObject-2.0/classes/Val
 value when you’re done with it.</p>
 <p>For example, to set an integer on an image (though you would use the
 convenience function <a class="reference internal" href="#Vips.Image.set_int" title="Vips.Image.set_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.set_int</span></code></a>() in practice), you would do:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GValue value = { 0 };
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GValue value = G_VALUE_INIT;
 
-g_value_init (&amp;value, G_TYPE_INT);
-g_value_set_int (&amp;value, 42);
-vips_image_set (image, name, &amp;value);
-g_value_unset (&amp;value);
+g_value_init(&amp;value, G_TYPE_INT);
+g_value_set_int(&amp;value, 42);
+vips_image_set(image, name, &amp;value);
+g_value_unset(&amp;value);
 </pre></div>
 </div>
 <p>See also: <a class="reference internal" href="#Vips.Image.get" title="Vips.Image.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get</span></code></a>().</p>
@@ -2534,9 +2532,7 @@ memory</p></li>
 </ul>
 </dd>
 </dl>
-<p>Attaches <cite>blob</cite> as a metadata item on <cite>self</cite> under the name <cite>name</cite>. A
-convenience
-function over <a class="reference internal" href="#Vips.Image.set" title="Vips.Image.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.set</span></code></a>() using a vips_blob.</p>
+<p>Attaches <cite>data</cite> as a metadata item on <cite>self</cite> under the name <cite>name</cite>.</p>
 <p>See also: <a class="reference internal" href="#Vips.Image.get_blob" title="Vips.Image.get_blob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_blob</span></code></a>(), <a class="reference internal" href="#Vips.Image.set" title="Vips.Image.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.set</span></code></a>().</p>
 </dd></dl>
 
@@ -2551,9 +2547,8 @@ function over <a class="reference internal" href="#Vips.Image.set" title="Vips.I
 </ul>
 </dd>
 </dl>
-<p>Attaches <cite>blob</cite> as a metadata item on <cite>self</cite> under the name <cite>name</cite>, taking
-a copy of the memory area. A convenience function over
-<a class="reference internal" href="#Vips.Image.set_blob" title="Vips.Image.set_blob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.set_blob</span></code></a>().</p>
+<p>Attaches <cite>data</cite> as a metadata item on <cite>self</cite> under the name <cite>name</cite>, taking
+a copy of the memory area.</p>
 <p>See also: <a class="reference internal" href="#Vips.Image.get_blob" title="Vips.Image.get_blob"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.get_blob</span></code></a>(), <a class="reference internal" href="#Vips.Image.set" title="Vips.Image.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Image.set</span></code></a>().</p>
 </dd></dl>
 
@@ -2671,7 +2666,7 @@ function over <a class="reference internal" href="#Vips.Image.set" title="Vips.I
 <span class="sig-name descname"><span class="pre">wio_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Image.wio_input" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>0 on succeess, or -1 on error.</p>
+<dd class="field-odd"><p>0 on success, or -1 on error.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>

@@ -870,25 +870,24 @@ from two sources.</p>
 <dt class="sig sig-object py" id="Vips.DemandStyle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Vips.</span></span><span class="sig-name descname"><span class="pre">DemandStyle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.DemandStyle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="../GObject-2.0/enums.html#GObject.GEnum" title="(in GObject 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.GEnum</span></code></a></p>
-<p>See vips_image_pipelinev(). Operations can hint to the VIPS image IO
-system about the kind of demand geometry they prefer.</p>
+<p>See vips_image_pipelinev(). Operations can hint
+the kind of demand geometry they prefer
+to the VIPS image IO system.</p>
 <p>These demand styles are given below in order of increasing
-restrictiveness.  When demanding output from a pipeline,
+specialisation.  When demanding output from a pipeline,
 vips_image_generate()
-will use the most restrictive of the styles requested by the operations
+will use the most general style requested by the operations
 in the pipeline.</p>
-<p><a class="reference internal" href="#Vips.DemandStyle.THINSTRIP" title="Vips.DemandStyle.THINSTRIP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.THINSTRIP</span></code></a> — This operation would like to output strips
-the width of the image and a few pels high. This is option suitable for
-point-to-point operations, such as those in the arithmetic package.</p>
-<p>This option is only efficient for cases where each output pel depends
-upon the pel in the corresponding position in the input image.</p>
+<p><a class="reference internal" href="#Vips.DemandStyle.SMALLTILE" title="Vips.DemandStyle.SMALLTILE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.SMALLTILE</span></code></a> — This is the most general demand format.
+Output is demanded in small (around 100x100 pel) sections. This style works
+reasonably efficiently, even for bizarre operations like 45 degree rotate.</p>
 <p><a class="reference internal" href="#Vips.DemandStyle.FATSTRIP" title="Vips.DemandStyle.FATSTRIP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.FATSTRIP</span></code></a> — This operation would like to output strips
 the width of the image and as high as possible. This option is suitable
 for area operations which do not violently transform coordinates, such
 as vips_conv().</p>
-<p><a class="reference internal" href="#Vips.DemandStyle.SMALLTILE" title="Vips.DemandStyle.SMALLTILE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.SMALLTILE</span></code></a> — This is the most general demand format.
-Output is demanded in small (around 100x100 pel) sections. This style works
-reasonably efficiently, even for bizzare operations like 45 degree rotate.</p>
+<p><a class="reference internal" href="#Vips.DemandStyle.THINSTRIP" title="Vips.DemandStyle.THINSTRIP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.THINSTRIP</span></code></a> — This operation would like to output strips
+the width of the image and a few pels high. This option is suitable for
+point-to-point operations, such as those in the arithmetic package.</p>
 <p><a class="reference internal" href="#Vips.DemandStyle.ANY" title="Vips.DemandStyle.ANY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.DemandStyle.ANY</span></code></a> — This image is not being demand-read from a disc
 file (even indirectly) so any demand style is OK. It’s used for things like
 vips_black() where the pixels are calculated.</p>
@@ -901,13 +900,13 @@ vips_black() where the pixels are calculated.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.DemandStyle.SMALLTILE">
 <span class="sig-name descname"><span class="pre">SMALLTILE</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#Vips.DemandStyle.SMALLTILE" title="Permalink to this definition">¶</a></dt>
-<dd><p>demand in small (typically 64x64 pixel) tiles</p>
+<dd><p>demand in small (typically 128x128 pixel) tiles</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.DemandStyle.FATSTRIP">
 <span class="sig-name descname"><span class="pre">FATSTRIP</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#Vips.DemandStyle.FATSTRIP" title="Permalink to this definition">¶</a></dt>
-<dd><p>demand in fat (typically 10 pixel high) strips</p>
+<dd><p>demand in fat (typically 16 pixel high) strips</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1678,6 +1677,22 @@ pixels interpreted as coordinates in CIE Lab space.</p>
 you want some other behaviour.</p>
 <p>The gaps in numbering are historical and must be maintained. Allocate
 new numbers from the end.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Vips.Interpretation.max_alpha">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpretation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Interpretation.max_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>interpretation</strong> (<a class="reference internal" href="#Vips.Interpretation" title="Vips.Interpretation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Interpretation</span></code></a>) – image interpretation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the maximum alpha value for an interpretation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.Interpretation.ERROR">
 <span class="sig-name descname"><span class="pre">ERROR</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#Vips.Interpretation.ERROR" title="Permalink to this definition">¶</a></dt>
@@ -2083,19 +2098,19 @@ new numbers from the end.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.OperationMath2.POW">
 <span class="sig-name descname"><span class="pre">POW</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#Vips.OperationMath2.POW" title="Permalink to this definition">¶</a></dt>
-<dd><p>pow( left, right )</p>
+<dd><p>pow(left, right)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.OperationMath2.WOP">
 <span class="sig-name descname"><span class="pre">WOP</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#Vips.OperationMath2.WOP" title="Permalink to this definition">¶</a></dt>
-<dd><p>pow( right, left )</p>
+<dd><p>pow(right, left)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="Vips.OperationMath2.ATAN2">
 <span class="sig-name descname"><span class="pre">ATAN2</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#Vips.OperationMath2.ATAN2" title="Permalink to this definition">¶</a></dt>
-<dd><p>atan2( left, right )</p>
+<dd><p>atan2(left, right)</p>
 </dd></dl>
 
 <dl class="py attribute">

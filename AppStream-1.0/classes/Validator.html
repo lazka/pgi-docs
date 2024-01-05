@@ -252,13 +252,13 @@
 <td><p><a class="reference internal" href="#AppStream.Validator.add_release_file" title="AppStream.Validator.add_release_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_release_file</span></code></a> (release_file)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#AppStream.Validator.clear_issues" title="AppStream.Validator.clear_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">clear_issues</span></code></a> ()</p></td>
+<td><p><a class="reference internal" href="#AppStream.Validator.check_success" title="AppStream.Validator.check_success"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_success</span></code></a> ()</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#AppStream.Validator.clear_release_data" title="AppStream.Validator.clear_release_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">clear_release_data</span></code></a> ()</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#AppStream.Validator.get_check_urls" title="AppStream.Validator.get_check_urls"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_check_urls</span></code></a> ()</p></td>
+<td><p><a class="reference internal" href="#AppStream.Validator.get_allow_net" title="AppStream.Validator.get_allow_net"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_allow_net</span></code></a> ()</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#AppStream.Validator.get_issue_files_count" title="AppStream.Validator.get_issue_files_count"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_issue_files_count</span></code></a> ()</p></td>
@@ -270,7 +270,7 @@
 <td><p><a class="reference internal" href="#AppStream.Validator.get_issues_per_file" title="AppStream.Validator.get_issues_per_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_issues_per_file</span></code></a> ()</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#AppStream.Validator.get_report_yaml" title="AppStream.Validator.get_report_yaml"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_report_yaml</span></code></a> (yaml_report)</p></td>
+<td><p><a class="reference internal" href="#AppStream.Validator.get_report_yaml" title="AppStream.Validator.get_report_yaml"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_report_yaml</span></code></a> ()</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#AppStream.Validator.get_strict" title="AppStream.Validator.get_strict"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_strict</span></code></a> ()</p></td>
@@ -285,7 +285,7 @@
 <td><p><a class="reference internal" href="#AppStream.Validator.get_tags" title="AppStream.Validator.get_tags"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_tags</span></code></a> ()</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#AppStream.Validator.set_check_urls" title="AppStream.Validator.set_check_urls"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_check_urls</span></code></a> (value)</p></td>
+<td><p><a class="reference internal" href="#AppStream.Validator.set_allow_net" title="AppStream.Validator.set_allow_net"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_allow_net</span></code></a> (value)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#AppStream.Validator.set_strict" title="AppStream.Validator.set_strict"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_strict</span></code></a> (is_strict)</p></td>
@@ -457,9 +457,22 @@ Increasing the severity of any tag is always allowed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AppStream.Validator.clear_issues">
-<span class="sig-name descname"><span class="pre">clear_issues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.clear_issues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clears the list of issues</p>
+<dt class="sig sig-object py" id="AppStream.Validator.check_success">
+<span class="sig-name descname"><span class="pre">check_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.check_success" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if previously validated files were valid.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Check the current registered values again and return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>
+if no issues were found that would make the previously validated
+files fail validation.</p>
+<p>Usually you do not need to call this function explicitly, as
+the as_validator_validate_* functions will already return whether
+data was valid as return value.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -473,11 +486,11 @@ validation process.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AppStream.Validator.get_check_urls">
-<span class="sig-name descname"><span class="pre">get_check_urls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.get_check_urls" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="AppStream.Validator.get_allow_net">
+<span class="sig-name descname"><span class="pre">get_allow_net</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.get_allow_net" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> in case we check if remote URLs exist.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> in case we allow network access.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -537,13 +550,13 @@ a list of issues per-file is desired without prior explicit sorting.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="AppStream.Validator.get_report_yaml">
-<span class="sig-name descname"><span class="pre">get_report_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_report</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.get_report_yaml" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_report_yaml</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.get_report_yaml" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>yaml_report</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -613,15 +626,15 @@ a list of issues per-file is desired without prior explicit sorting.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="AppStream.Validator.set_check_urls">
-<span class="sig-name descname"><span class="pre">set_check_urls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.set_check_urls" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="AppStream.Validator.set_allow_net">
+<span class="sig-name descname"><span class="pre">set_allow_net</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AppStream.Validator.set_allow_net" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if remote URLs should be checked for availability.</p>
 </dd>
 </dl>
-<p>Set this value to make the <a class="reference internal" href="#AppStream.Validator" title="AppStream.Validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AppStream.Validator</span></code></a> check whether remote URLs
-actually exist.</p>
+<p>If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the validator will be allowed to connect
+to the internet to e.g. check URLs for validity.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -655,7 +668,7 @@ Otherwise, only a “warning” or “error” will cause the validation to fail
 </dd>
 </dl>
 <p>Validate AppStream XML data from a byte array.
-Remember to run <a class="reference internal" href="#AppStream.Validator.clear_issues" title="AppStream.Validator.clear_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AppStream.Validator.clear_issues</span></code></a> if you do not want previous
+Remember to run %as_validator_clear_issues if you do not want previous
 validation runs to affect the outcome of this validation.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.14.0.</span></p>
@@ -676,9 +689,7 @@ validation runs to affect the outcome of this validation.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Validate AppStream XML data.
-Remember to run <a class="reference internal" href="#AppStream.Validator.clear_issues" title="AppStream.Validator.clear_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AppStream.Validator.clear_issues</span></code></a> if you do not want previous
-validation runs to affect the outcome of this validation.</p>
+<p>Validate AppStream XML data.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -695,9 +706,7 @@ validation runs to affect the outcome of this validation.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Validate an AppStream XML file.
-Remember to run <a class="reference internal" href="#AppStream.Validator.clear_issues" title="AppStream.Validator.clear_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AppStream.Validator.clear_issues</span></code></a> if you do not want previous
-validation runs to affect the outcome of this validation.</p>
+<p>Validate an AppStream XML file.</p>
 </dd></dl>
 
 <dl class="py method">

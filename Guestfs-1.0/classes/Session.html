@@ -8470,11 +8470,15 @@ the appliance at boot time. See <a class="reference internal" href="#Guestfs.Ses
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>get the temporary directory for sockets</p>
-<p>Get the directory used by the handle to store temporary socket files.</p>
+<p>get the temporary directory for sockets and PID files</p>
+<p>Get the directory used by the handle to store temporary socket and PID
+files.</p>
 <p>This is different from <a class="reference internal" href="#Guestfs.Session.get_tmpdir" title="Guestfs.Session.get_tmpdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.get_tmpdir</span></code></a>(), as we need shorter
 paths for sockets (due to the limited buffers of filenames for UNIX
-sockets), and <a class="reference internal" href="#Guestfs.Session.get_tmpdir" title="Guestfs.Session.get_tmpdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.get_tmpdir</span></code></a>() may be too long for them.</p>
+sockets), and <a class="reference internal" href="#Guestfs.Session.get_tmpdir" title="Guestfs.Session.get_tmpdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.get_tmpdir</span></code></a>() may be too long for them.
+Furthermore, sockets and PID files must be accessible to such background
+services started by libguestfs that may not have permission to access
+the temporary directory returned by <a class="reference internal" href="#Guestfs.Session.get_tmpdir" title="Guestfs.Session.get_tmpdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.get_tmpdir</span></code></a>().</p>
 <p>The environment variable XDG_RUNTIME_DIR controls the default value: If
 XDG_RUNTIME_DIR is set, then that is the default. Else /tmp is the
 default.</p>
@@ -19744,8 +19748,8 @@ the file <cite>path</cite>, starting with the &#64;-nrlines’th line.</p>
 <p>The optional <cite>compress</cite> flag controls compression. If not given, then the
 input should be an uncompressed tar file. Otherwise one of the following
 strings may be given to select the compression type of the input file:
-<cite>compress</cite>, <cite>gzip</cite>, <cite>bzip2</cite>, <cite>xz</cite>, <cite>lzop</cite>. (Note that not all builds of
-libguestfs will support all of these compression types).</p>
+<cite>compress</cite>, <cite>gzip</cite>, <cite>bzip2</cite>, <cite>xz</cite>, <cite>lzop</cite>, <cite>lzma</cite>, <cite>zstd</cite>. (Note that not all
+builds of libguestfs will support all of these compression types).</p>
 <p>The other optional arguments are:</p>
 <p><cite>xattrs</cite>
 If set to true, extended attributes are restored from the tar file.</p>
@@ -19786,8 +19790,8 @@ file <cite>tarfile</cite>.</p>
 <p>The optional <cite>compress</cite> flag controls compression. If not given, then the
 output will be an uncompressed tar file. Otherwise one of the following
 strings may be given to select the compression type of the output file:
-<cite>compress</cite>, <cite>gzip</cite>, <cite>bzip2</cite>, <cite>xz</cite>, <cite>lzop</cite>. (Note that not all builds of
-libguestfs will support all of these compression types).</p>
+<cite>compress</cite>, <cite>gzip</cite>, <cite>bzip2</cite>, <cite>xz</cite>, <cite>lzop</cite>, <cite>lzma</cite>, <cite>zstd</cite>. (Note that not all
+builds of libguestfs will support all of these compression types).</p>
 <p>The other optional arguments are:</p>
 <p><cite>excludes</cite>
 A list of wildcards. Files are excluded if they match any of the

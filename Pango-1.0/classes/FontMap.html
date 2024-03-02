@@ -127,6 +127,7 @@
 <li><a class="reference internal" href="#Pango.FontMap.list_families"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.list_families()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.load_font"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.load_font()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.load_fontset"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.load_fontset()</span></code></a></li>
+<li><a class="reference internal" href="#Pango.FontMap.reload_font"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.reload_font()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_changed"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_changed()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_get_family"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_get_family()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_get_serial"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_get_serial()</span></code></a></li>
@@ -197,6 +198,7 @@
 <li><a class="reference internal" href="#Pango.FontMap.list_families"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.list_families()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.load_font"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.load_font()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.load_fontset"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.load_fontset()</span></code></a></li>
+<li><a class="reference internal" href="#Pango.FontMap.reload_font"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.reload_font()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_changed"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_changed()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_get_family"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_get_family()</span></code></a></li>
 <li><a class="reference internal" href="#Pango.FontMap.do_get_serial"><code class="docutils literal notranslate"><span class="pre">Pango.FontMap.do_get_serial()</span></code></a></li>
@@ -336,6 +338,9 @@
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Pango.FontMap.load_fontset" title="Pango.FontMap.load_fontset"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_fontset</span></code></a> (context, desc, language)</p></td>
 </tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Pango.FontMap.reload_font" title="Pango.FontMap.reload_font"><code class="xref py py-func docutils literal notranslate"><span class="pre">reload_font</span></code></a> (font, scale, context, variations)</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -463,7 +468,7 @@ particular rendering system.</p>
 particular rendering systems.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.changed">
-<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L434"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L447"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.changed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Forces a change in the context, which will cause any <code class="docutils literal notranslate"><span class="pre">PangoContext</span></code>
 using this fontmap to change.</p>
 <p>This function is only useful when implementing a new backend
@@ -477,7 +482,7 @@ context and such data is changed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.create_context">
-<span class="sig-name descname"><span class="pre">create_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L142"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.create_context" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L155"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.create_context" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the newly allocated <code class="docutils literal notranslate"><span class="pre">PangoContext</span></code>,
@@ -501,7 +506,7 @@ gtk_widget_get_pango_context(). Use those instead.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.get_family">
-<span class="sig-name descname"><span class="pre">get_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L482"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.get_family" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L495"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.get_family" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a family name</p>
@@ -521,7 +526,7 @@ gtk_widget_get_pango_context(). Use those instead.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.get_serial">
-<span class="sig-name descname"><span class="pre">get_serial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L395"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.get_serial" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_serial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L408"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.get_serial" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The current serial number of <cite>self</cite>.</p>
@@ -546,7 +551,7 @@ like in <code class="docutils literal notranslate"><span class="pre">PangoContex
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.list_families">
-<span class="sig-name descname"><span class="pre">list_families</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L193"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.list_families" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_families</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L206"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.list_families" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>location to
@@ -565,7 +570,7 @@ for enumerating families.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.load_font">
-<span class="sig-name descname"><span class="pre">load_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L168"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.load_font" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L181"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.load_font" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -586,7 +591,7 @@ loaded, or <a class="reference external" href="https://docs.python.org/3/library
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Pango.FontMap.load_fontset">
-<span class="sig-name descname"><span class="pre">load_fontset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.51.0/pango/pango-fontmap.c#L221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.load_fontset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_fontset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L234"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.load_fontset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -605,6 +610,34 @@ loaded, or <a class="reference external" href="https://docs.python.org/3/library
 </dl>
 <p>Load a set of fonts in the fontmap that can be used to render
 a font matching <cite>desc</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Pango.FontMap.reload_font">
+<span class="sig-name descname"><span class="pre">reload_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variations</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/pango/blob/1.52.0/pango/pango-fontmap.c#L562"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Pango.FontMap.reload_font" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>font</strong> (<a class="reference internal" href="Font.html#Pango.Font" title="Pango.Font"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Font</span></code></a>) – a font in <cite>self</cite></p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the scale factor to apply</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="Context.html#Pango.Context" title="Pango.Context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Context</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">PangoContext</span></code></p></li>
+<li><p><strong>variations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – font variations to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the modified font</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Font.html#Pango.Font" title="Pango.Font"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.Font</span></code></a></p>
+</dd>
+</dl>
+<p>Returns a new font that is like <cite>font</cite>, except that its size
+is multiplied by <cite>scale</cite>, its backend-dependent configuration
+(e.g. cairo font options) is replaced by the one in <cite>context</cite>,
+and its variations are replaced by <cite>variations</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.52.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">

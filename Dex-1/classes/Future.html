@@ -163,6 +163,9 @@
 <li><a class="reference internal" href="#Dex.Future.get_name"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_name()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.get_status"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_status()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.get_value"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_pending"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_pending()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_rejected"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_rejected()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_resolved"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_resolved()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -258,6 +261,9 @@
 <li><a class="reference internal" href="#Dex.Future.get_name"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_name()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.get_status"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_status()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.get_value"><code class="docutils literal notranslate"><span class="pre">Dex.Future.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_pending"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_pending()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_rejected"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_rejected()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.is_resolved"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_resolved()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -467,6 +473,15 @@
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Dex.Future.get_value" title="Dex.Future.get_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_value</span></code></a> ()</p></td>
 </tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Dex.Future.is_pending" title="Dex.Future.is_pending"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_pending</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Dex.Future.is_rejected" title="Dex.Future.is_rejected"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_rejected</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Dex.Future.is_resolved" title="Dex.Future.is_resolved"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_resolved</span></code></a> ()</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -491,6 +506,15 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
+<p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> is the base class representing a future which may resolve with
+a value or reject with error at some point in the future.</p>
+<p>It is the basis for libdex’s concurrency and parallelism model.</p>
+<p>Use futures to represent work in progress and allow consumers to build
+robust processing chains up front which will complete or fail as futures
+resolve or reject.</p>
+<p>When running on a <a class="reference internal" href="Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a>, you may use <a class="reference internal" href="#Dex.Future.await_" title="Dex.Future.await_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.await_</span></code></a>() and similar functions
+to suspend the current thread and return upon completion of the dependent
+future.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Dex.Future.all">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">futures</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.all" title="Permalink to this definition">¶</a></dt>
@@ -1300,6 +1324,52 @@ be no observer interested in the futures completion or rejection.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Dex.Future.is_pending">
+<span class="sig-name descname"><span class="pre">is_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.is_pending" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the future is still pending; otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This is a convenience function equivalent to calling
+<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.PENDING" title="Dex.FutureStatus.PENDING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.PENDING</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Dex.Future.is_rejected">
+<span class="sig-name descname"><span class="pre">is_rejected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.is_rejected" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the future was rejected with an error; otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This is a convenience function equivalent to calling
+<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.REJECTED" title="Dex.FutureStatus.REJECTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.REJECTED</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Dex.Future.is_resolved">
+<span class="sig-name descname"><span class="pre">is_resolved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.is_resolved" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the future has successfully resolved with a value;
+otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This is a convenience function equivalent to calling
+<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.RESOLVED" title="Dex.FutureStatus.RESOLVED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.RESOLVED</span></code></a>.</p>
 </dd></dl>
 
 </dd></dl>

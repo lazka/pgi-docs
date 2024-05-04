@@ -118,6 +118,7 @@
 <li><a class="reference internal" href="#details">Details</a><ul>
 <li><a class="reference internal" href="#Gst.MetaInfo"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo</span></code></a><ul>
 <li><a class="reference internal" href="#Gst.MetaInfo.is_custom"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo.is_custom()</span></code></a></li>
+<li><a class="reference internal" href="#Gst.MetaInfo.register"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo.register()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -168,6 +169,7 @@
 <li><a class="reference internal" href="#details">Details</a><ul>
 <li><a class="reference internal" href="#Gst.MetaInfo"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo</span></code></a><ul>
 <li><a class="reference internal" href="#Gst.MetaInfo.is_custom"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo.is_custom()</span></code></a></li>
+<li><a class="reference internal" href="#Gst.MetaInfo.register"><code class="docutils literal notranslate"><span class="pre">Gst.MetaInfo.register()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -214,6 +216,16 @@
 <td><p>r/w</p></td>
 <td><p>tag identifying the metadata structure and api</p></td>
 </tr>
+<tr class="row-odd"><td><p>clear_func</p></td>
+<td><p><a class="reference internal" href="../callbacks.html#Gst.MetaClearFunction" title="Gst.MetaClearFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaClearFunction</span></code></a></p></td>
+<td><p>r/w</p></td>
+<td><p>Function for clearing the metadata, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not supported by this meta. This is called by the buffer pool when a buffer is returned for pooled metas.</p></td>
+</tr>
+<tr class="row-even"><td><p>deserialize_func</p></td>
+<td><p><a class="reference internal" href="../callbacks.html#Gst.MetaDeserializeFunction" title="Gst.MetaDeserializeFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaDeserializeFunction</span></code></a></p></td>
+<td><p>r/w</p></td>
+<td><p>Function for deserializing the metadata, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not supported by this meta.</p></td>
+</tr>
 <tr class="row-odd"><td><p>free_func</p></td>
 <td><p><a class="reference internal" href="../callbacks.html#Gst.MetaFreeFunction" title="Gst.MetaFreeFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaFreeFunction</span></code></a></p></td>
 <td><p>r/w</p></td>
@@ -224,17 +236,22 @@
 <td><p>r/w</p></td>
 <td><p>function for initializing the metadata</p></td>
 </tr>
-<tr class="row-odd"><td><p>size</p></td>
+<tr class="row-odd"><td><p>serialize_func</p></td>
+<td><p><a class="reference internal" href="../callbacks.html#Gst.MetaSerializeFunction" title="Gst.MetaSerializeFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaSerializeFunction</span></code></a></p></td>
+<td><p>r/w</p></td>
+<td><p>Function for serializing the metadata, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not supported by this meta.</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w</p></td>
 <td><p>size of the metadata</p></td>
 </tr>
-<tr class="row-even"><td><p>transform_func</p></td>
+<tr class="row-odd"><td><p>transform_func</p></td>
 <td><p><a class="reference internal" href="../callbacks.html#Gst.MetaTransformFunction" title="Gst.MetaTransformFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaTransformFunction</span></code></a></p></td>
 <td><p>r/w</p></td>
 <td><p>function for transforming the metadata</p></td>
 </tr>
-<tr class="row-odd"><td><p>type</p></td>
+<tr class="row-even"><td><p>type</p></td>
 <td><p><a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p></td>
 <td><p>r/w</p></td>
 <td><p>type identifying the implementor of the api</p></td>
@@ -253,6 +270,9 @@
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gst.MetaInfo.is_custom" title="Gst.MetaInfo.is_custom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_custom</span></code></a> ()</p></td>
 </tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gst.MetaInfo.register" title="Gst.MetaInfo.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a> ()</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -265,7 +285,7 @@
 structure.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gst.MetaInfo.is_custom">
-<span class="sig-name descname"><span class="pre">is_custom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.22.10/gst/gstmeta.c#L309"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gst.MetaInfo.is_custom" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_custom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.24.2/gst/gstmeta.c#L364"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gst.MetaInfo.is_custom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>whether <cite>self</cite> was registered as a <a class="reference internal" href="CustomMeta.html#Gst.CustomMeta" title="Gst.CustomMeta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.CustomMeta</span></code></a> with
@@ -277,6 +297,26 @@ structure.</p>
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.20.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gst.MetaInfo.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gstreamer/blob/1.24.2/gst/gstmeta.c#L544"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gst.MetaInfo.register" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the registered meta</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#Gst.MetaInfo" title="Gst.MetaInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.MetaInfo</span></code></a></p>
+</dd>
+</dl>
+<p>Registers a new meta.</p>
+<p>Use the structure returned by gst_meta_info_new(), it consumes it and the
+structure shouldnt be used after. The one returned by the function can be
+kept.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.24.</span></p>
 </div>
 </dd></dl>
 

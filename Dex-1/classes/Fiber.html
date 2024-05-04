@@ -244,7 +244,7 @@
 <span id="dex-fiber-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Future.html#dex-future-methods"><span class="std std-ref">Dex.Future (45)</span></a>,     <a class="reference internal" href="Object.html#dex-object-methods"><span class="std std-ref">Dex.Object (2)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Future.html#dex-future-methods"><span class="std std-ref">Dex.Future (48)</span></a>,     <a class="reference internal" href="Object.html#dex-object-methods"><span class="std std-ref">Dex.Object (2)</span></a></p>
 </dd>
 </dl>
 </section>
@@ -269,6 +269,18 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
+<p><a class="reference internal" href="#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> is a fiber (or coroutine) which itself is a <a class="reference internal" href="Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>.</p>
+<p>When the fiber completes execution it will either resolve or reject the
+with the result or error.</p>
+<p>You may treat a <a class="reference internal" href="#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> like any other <a class="reference internal" href="Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> which makes it simple
+to integrate fibers into other processing chains.</p>
+<p><a class="reference internal" href="#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> are provided their own stack seperate from a threads main stack,
+They are automatically scheduled as necessary.</p>
+<p>Use <a class="reference internal" href="Future.html#Dex.Future.await_" title="Dex.Future.await_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.await_</span></code></a>() and similar functions to await the result of another future
+within the fiber and the fiber will be suspended allowing another fiber to
+run and/or the rest of the applications main loop.</p>
+<p>Once a fiber is created, it is pinned to that scheduler. Use
+<a class="reference internal" href="Scheduler.html#Dex.Scheduler.spawn" title="Dex.Scheduler.spawn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn</span></code></a>() to create a fiber on a specific scheduler.</p>
 </dd></dl>
 
 </section>

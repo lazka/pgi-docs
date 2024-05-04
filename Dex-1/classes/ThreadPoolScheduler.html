@@ -291,6 +291,18 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
+<p><a class="reference internal" href="#Dex.ThreadPoolScheduler" title="Dex.ThreadPoolScheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.ThreadPoolScheduler</span></code></a> is a <a class="reference internal" href="Scheduler.html#Dex.Scheduler" title="Dex.Scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Scheduler</span></code></a> that will dispatch work items
+and fibers to sub-schedulers on a specific operating system thread.</p>
+<p><a class="reference internal" href="Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> will never migrate from the thread they are created on to reduce
+chances of safety issues involved in tracking state between CPU.</p>
+<p>New work items are placed into a global work queue and then dispatched
+efficiently to a single thread pool worker using a specialized async
+semaphore. On modern Linux using io_uring, this wakes up a single worker
+thread and therefore is not subject to “thundering herd” common with
+global work queues.</p>
+<p>When a worker creates a new work item, it is placed into a work stealing
+queue owned by the thread. Other worker threads may steal work items when
+they have exhausted their own work queue.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Dex.ThreadPoolScheduler.get_default">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.ThreadPoolScheduler.get_default" title="Permalink to this definition">¶</a></dt>

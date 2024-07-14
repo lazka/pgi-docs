@@ -337,72 +337,69 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a> type provides a mechanism for participating
-in how a <a class="reference internal" href="DBusServer.html#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> (or a <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a>) authenticates remote
-peers. Simply instantiate a <a class="reference internal" href="#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a> and connect to the
+<p><code class="docutils literal notranslate"><span class="pre">GDBusAuthObserver</span></code> provides a mechanism for participating
+in how a [class`Gio`.DBusServer] (or a [class`Gio`.DBusConnection])
+authenticates remote peers.</p>
+<p>Simply instantiate a <code class="docutils literal notranslate"><span class="pre">GDBusAuthObserver</span></code> and connect to the
 signals you are interested in. Note that new signals may be added
-in the future</p>
+in the future.</p>
 <dl class="simple">
 <dt>Controlling Authentication Mechanisms</dt><dd></dd>
 </dl>
-<p>By default, a <a class="reference internal" href="DBusServer.html#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> or server-side <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> will allow
-any authentication mechanism to be used. If you only
-want to allow D-Bus connections with the <code class="docutils literal notranslate"><span class="pre">EXTERNAL</span></code> mechanism,
-which makes use of credentials passing and is the recommended
-mechanism for modern Unix platforms such as Linux and the BSD family,
-you would use a signal handler like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gboolean</span>
-<span class="nf">on_allow_mechanism</span><span class="w"> </span><span class="p">(</span><span class="n">GDBusAuthObserver</span><span class="w"> </span><span class="o">*</span><span class="n">observer</span><span class="p">,</span>
-<span class="w">                    </span><span class="k">const</span><span class="w"> </span><span class="n">gchar</span><span class="w">       </span><span class="o">*</span><span class="n">mechanism</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">gpointer</span><span class="w">           </span><span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_strcmp0</span><span class="w"> </span><span class="p">(</span><span class="n">mechanism</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;EXTERNAL&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>By default, a <code class="docutils literal notranslate"><span class="pre">GDBusServer</span></code> or server-side <code class="docutils literal notranslate"><span class="pre">GDBusConnection</span></code> will allow
+any authentication mechanism to be used. If you only want to allow D-Bus
+connections with the <code class="docutils literal notranslate"><span class="pre">EXTERNAL</span></code> mechanism, which makes use of credentials
+passing and is the recommended mechanism for modern Unix platforms such
+as Linux and the BSD family, you would use a signal handler like this:</p>
+<p>```c
+static <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>
+on_allow_mechanism (<a class="reference internal" href="#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a> *observer,
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>       *mechanism,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>           user_data)
+{
+if (<a class="reference external" href="../../GLib-2.0/functions.html#GLib.strcmp0" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strcmp0</span></code></a> (mechanism, “EXTERNAL”) == 0)
+{
+return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
+}</p>
+<p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
+}
+```</p>
 <dl class="simple">
 <dt>Controlling Authorization</dt><dd></dd>
 </dl>
-<p>By default, a <a class="reference internal" href="DBusServer.html#Gio.DBusServer" title="Gio.DBusServer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServer</span></code></a> or server-side <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> will accept
+<p>By default, a <code class="docutils literal notranslate"><span class="pre">GDBusServer</span></code> or server-side <code class="docutils literal notranslate"><span class="pre">GDBusConnection</span></code> will accept
 connections from any successfully authenticated user (but not from
 anonymous connections using the <code class="docutils literal notranslate"><span class="pre">ANONYMOUS</span></code> mechanism). If you only
 want to allow D-Bus connections from processes owned by the same uid
 as the server, since GLib 2.68, you should use the
-<a class="reference internal" href="../flags.html#Gio.DBusServerFlags.AUTHENTICATION_REQUIRE_SAME_USER" title="Gio.DBusServerFlags.AUTHENTICATION_REQUIRE_SAME_USER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusServerFlags.AUTHENTICATION_REQUIRE_SAME_USER</span></code></a> flag. It’s equivalent
+<code class="docutils literal notranslate"><span class="pre">G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER</span></code> flag. It’s equivalent
 to the following signal handler:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gboolean</span>
-<span class="nf">on_authorize_authenticated_peer</span><span class="w"> </span><span class="p">(</span><span class="n">GDBusAuthObserver</span><span class="w"> </span><span class="o">*</span><span class="n">observer</span><span class="p">,</span>
-<span class="w">                                 </span><span class="n">GIOStream</span><span class="w">         </span><span class="o">*</span><span class="n">stream</span><span class="p">,</span>
-<span class="w">                                 </span><span class="n">GCredentials</span><span class="w">      </span><span class="o">*</span><span class="n">credentials</span><span class="p">,</span>
-<span class="w">                                 </span><span class="n">gpointer</span><span class="w">           </span><span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">gboolean</span><span class="w"> </span><span class="n">authorized</span><span class="p">;</span>
-
-<span class="w">  </span><span class="n">authorized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">credentials</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="n">GCredentials</span><span class="w"> </span><span class="o">*</span><span class="n">own_credentials</span><span class="p">;</span>
-<span class="w">      </span><span class="n">own_credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_credentials_new</span><span class="w"> </span><span class="p">();</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_credentials_is_same_user</span><span class="w"> </span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span><span class="w"> </span><span class="n">own_credentials</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">))</span>
-<span class="w">        </span><span class="n">authorized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span>
-<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">own_credentials</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">authorized</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>```c
+static <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>
+on_authorize_authenticated_peer (<a class="reference internal" href="#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a> *observer,
+<a class="reference internal" href="IOStream.html#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>         *stream,
+<a class="reference internal" href="Credentials.html#Gio.Credentials" title="Gio.Credentials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Credentials</span></code></a>      *credentials,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>           user_data)
+{
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> authorized;</p>
+<p>authorized = <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
+if (credentials != <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)
+{
+<a class="reference internal" href="Credentials.html#Gio.Credentials" title="Gio.Credentials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Credentials</span></code></a> *own_credentials;
+own_credentials = <a class="reference internal" href="Credentials.html#Gio.Credentials.new" title="Gio.Credentials.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Credentials.new</span></code></a> ();
+if (<a class="reference internal" href="Credentials.html#Gio.Credentials.is_same_user" title="Gio.Credentials.is_same_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Credentials.is_same_user</span></code></a> (credentials, own_credentials, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>))
+authorized = <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (own_credentials);
+}</p>
+<p>return authorized;
+}
+```</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.DBusAuthObserver.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gdbusauthobserver.c#L257"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gdbusauthobserver.c#L250"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A <a class="reference internal" href="#Gio.DBusAuthObserver" title="Gio.DBusAuthObserver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusAuthObserver</span></code></a>. Free with <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>().</p>
@@ -419,7 +416,7 @@ to the following signal handler:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.DBusAuthObserver.allow_mechanism">
-<span class="sig-name descname"><span class="pre">allow_mechanism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mechanism</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gdbusauthobserver.c#L306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.allow_mechanism" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">allow_mechanism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mechanism</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gdbusauthobserver.c#L299"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.allow_mechanism" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mechanism</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the mechanism, e.g. <code class="docutils literal notranslate"><span class="pre">DBUS_COOKIE_SHA1</span></code>.</p>
@@ -439,7 +436,7 @@ to the following signal handler:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.DBusAuthObserver.authorize_authenticated_peer">
-<span class="sig-name descname"><span class="pre">authorize_authenticated_peer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gdbusauthobserver.c#L279"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.authorize_authenticated_peer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">authorize_authenticated_peer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credentials</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gdbusauthobserver.c#L272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.DBusAuthObserver.authorize_authenticated_peer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -406,10 +406,17 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.String">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">String</span></span><a class="headerlink" href="#GLib.String" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a> struct contains the public fields of a <a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a>.</p>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">GString</span></code> is an object that handles the memory management of a C string.</p>
+<p>The emphasis of <code class="docutils literal notranslate"><span class="pre">GString</span></code> is on text, typically UTF-8. Crucially, the “str” member
+of a <code class="docutils literal notranslate"><span class="pre">GString</span></code> is guaranteed to have a trailing nul character, and it is therefore
+always safe to call functions such as <code class="docutils literal notranslate"><span class="pre">strchr()</span></code> or <code class="docutils literal notranslate"><span class="pre">strdup()</span></code> on it.</p>
+<p>However, a <code class="docutils literal notranslate"><span class="pre">GString</span></code> can also hold arbitrary binary data, because it has a “len” member,
+which includes any possible embedded nul characters in the data. Conceptually then,
+<code class="docutils literal notranslate"><span class="pre">GString</span></code> is like a <code class="docutils literal notranslate"><span class="pre">GByteArray</span></code> with the addition of many convenience methods for
+text, and a guaranteed nul terminator.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the initial text to copy into the string, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to
@@ -427,7 +434,7 @@ start with an empty string</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.new_len">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L210"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new_len" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L200"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -452,7 +459,7 @@ bytes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.new_take">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_take</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new_take" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_take</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L165"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.new_take" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>init</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – initial text used as the string.
@@ -477,7 +484,7 @@ allocated and will eventually be freed with <a class="reference internal" href="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.sized_new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sized_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfl_size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L115"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.sized_new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sized_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfl_size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L105"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.sized_new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dfl_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the default size of the space allocated to hold the string</p>
@@ -497,7 +504,7 @@ too often.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L590"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the string to append onto the end of <cite>self</cite></p>
@@ -515,7 +522,7 @@ it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.append_c">
-<span class="sig-name descname"><span class="pre">append_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L643"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_c" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L633"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_c" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the byte to append onto the end of <cite>self</cite></p>
@@ -533,7 +540,7 @@ it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.append_len">
-<span class="sig-name descname"><span class="pre">append_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L626"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_len" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -559,7 +566,7 @@ makes <a class="reference internal" href="#GLib.String.append_len" title="GLib.S
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.append_unichar">
-<span class="sig-name descname"><span class="pre">append_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L662"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_unichar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_unichar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a Unicode character</p>
@@ -577,7 +584,7 @@ to the string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.append_uri_escaped">
-<span class="sig-name descname"><span class="pre">append_uri_escaped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_utf8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L581"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_uri_escaped" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append_uri_escaped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_utf8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L571"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.append_uri_escaped" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -603,7 +610,7 @@ are reserved in URIs using URI-style escape sequences.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.ascii_down">
-<span class="sig-name descname"><span class="pre">ascii_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L1082"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.ascii_down" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ascii_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L1072"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.ascii_down" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>passed-in <cite>self</cite> pointer, with all the
@@ -619,7 +626,7 @@ with semantics that exactly match <a class="reference internal" href="../functio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.ascii_up">
-<span class="sig-name descname"><span class="pre">ascii_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L1113"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.ascii_up" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ascii_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L1103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.ascii_up" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>passed-in <cite>self</cite> pointer, with all the
@@ -635,7 +642,7 @@ with semantics that exactly match <a class="reference internal" href="../functio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.assign">
-<span class="sig-name descname"><span class="pre">assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L390"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.assign" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L380"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.assign" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rval</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the string to copy into <cite>self</cite></p>
@@ -655,7 +662,7 @@ have to worry about having enough space to copy the string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.down">
-<span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L1146"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.down" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L1136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.down" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a></p>
@@ -672,7 +679,7 @@ have to worry about having enough space to copy the string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.equal">
-<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L327"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.equal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.equal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>v2</strong> (<a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a>) – another <a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a></p>
@@ -691,7 +698,7 @@ For use with <a class="reference internal" href="HashTable.html#GLib.HashTable" 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.erase">
-<span class="sig-name descname"><span class="pre">erase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L978"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.erase" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">erase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L968"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.erase" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -713,7 +720,7 @@ The rest of the <a class="reference internal" href="#GLib.String" title="GLib.St
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">free_segment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L245"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">free_segment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L235"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>free_segment</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the actual character data is freed as well</p>
@@ -736,7 +743,7 @@ free it after use with <a class="reference internal" href="../functions.html#GLi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.free_and_steal">
-<span class="sig-name descname"><span class="pre">free_and_steal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L278"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free_and_steal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free_and_steal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L268"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free_and_steal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the character data of <cite>self</cite></p>
@@ -755,7 +762,7 @@ must free it after use with <a class="reference internal" href="../functions.htm
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.free_to_bytes">
-<span class="sig-name descname"><span class="pre">free_to_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L300"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free_to_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free_to_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L290"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.free_to_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A newly allocated <a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> containing contents of <cite>self</cite>; <cite>self</cite> itself is freed</p>
@@ -778,7 +785,7 @@ equal to the “len” member.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.hash">
-<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.hash" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L349"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.hash" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>hash code for <cite>self</cite></p>
@@ -792,7 +799,7 @@ equal to the “len” member.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L764"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L754"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -813,7 +820,7 @@ expanding it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.insert_c">
-<span class="sig-name descname"><span class="pre">insert_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L765"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_c" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_c" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -833,7 +840,7 @@ expanding it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.insert_len">
-<span class="sig-name descname"><span class="pre">insert_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L482"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_len" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L472"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -861,7 +868,7 @@ is considered to request the entire string length.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.insert_unichar">
-<span class="sig-name descname"><span class="pre">insert_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L825"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_unichar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.insert_unichar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -883,7 +890,7 @@ into the string at the given position.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.overwrite">
-<span class="sig-name descname"><span class="pre">overwrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L908"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.overwrite" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">overwrite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L898"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.overwrite" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -906,7 +913,7 @@ into the string at the given position.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.overwrite_len">
-<span class="sig-name descname"><span class="pre">overwrite_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L932"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.overwrite_len" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">overwrite_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L922"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.overwrite_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -931,7 +938,7 @@ This function will work with embedded nuls.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.prepend">
-<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L681"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the string to prepend on the start of <cite>self</cite></p>
@@ -949,7 +956,7 @@ expanding it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.prepend_c">
-<span class="sig-name descname"><span class="pre">prepend_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L724"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_c" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_c" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the byte to prepend on the start of the <a class="reference internal" href="#GLib.String" title="GLib.String"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a></p>
@@ -967,7 +974,7 @@ expanding it if necessary.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.prepend_len">
-<span class="sig-name descname"><span class="pre">prepend_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L707"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_len" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L697"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -993,7 +1000,7 @@ makes <a class="reference internal" href="#GLib.String.prepend_len" title="GLib.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.prepend_unichar">
-<span class="sig-name descname"><span class="pre">prepend_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L743"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_unichar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend_unichar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wc</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L733"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.prepend_unichar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>wc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a Unicode character</p>
@@ -1011,7 +1018,7 @@ to the string.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.replace">
-<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">find</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L1034"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.replace" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">find</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L1024"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.replace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1043,7 +1050,7 @@ not work correctly in earlier versions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.set_size">
-<span class="sig-name descname"><span class="pre">set_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.set_size" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L434"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.set_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the new length</p>
@@ -1064,7 +1071,7 @@ always, string-&gt;str[string-&gt;len] will be a nul byte.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.truncate">
-<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.truncate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L409"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.truncate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the new size of <cite>self</cite></p>
@@ -1081,7 +1088,7 @@ always, string-&gt;str[string-&gt;len] will be a nul byte.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.String.up">
-<span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstring.c#L1180"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.up" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstring.c#L1170"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.String.up" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite></p>

@@ -295,43 +295,45 @@
 It goes as follows:</p>
 <p>The type is initially introduced (usually upon loading the module
 the first time, or by your main application that knows what modules
-introduces what types), like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">new_type_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_type_register_dynamic</span><span class="w"> </span><span class="p">(</span><span class="n">parent_type_id</span><span class="p">,</span>
-<span class="s">&quot;TypeName&quot;</span><span class="p">,</span>
-<span class="n">new_type_plugin</span><span class="p">,</span>
-<span class="n">type_flags</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>where <cite>new_type_plugin</cite> is an implementation of the
-<a class="reference internal" href="#GObject.TypePlugin" title="GObject.TypePlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin</span></code></a> interface.</p>
+introduces what types), like this:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>c
+new_type_id = g_type_register_dynamic (parent_type_id,</p>
+<blockquote>
+<div><p>“TypeName”,
+new_type_plugin,
+type_flags);</p>
+</div></blockquote>
+<p>``
+where <code class="docutils literal notranslate"><span class="pre">new_type_plugin</span></code> is an implementation of the
+<code class="docutils literal notranslate"><span class="pre">GTypePlugin</span></code> interface.</p>
 <p>The type’s implementation is referenced, e.g. through
-<a class="reference internal" href="TypeClass.html#GObject.TypeClass.ref" title="GObject.TypeClass.ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeClass.ref</span></code></a>() or through g_type_create_instance() (this is
-being called by g_object_new()) or through one of the above done on
-a type derived from <cite>new_type_id</cite>.</p>
-<p>This causes the type system to load the type’s implementation by
-calling <a class="reference internal" href="#GObject.TypePlugin.use" title="GObject.TypePlugin.use"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.use</span></code></a>() and <a class="reference internal" href="#GObject.TypePlugin.complete_type_info" title="GObject.TypePlugin.complete_type_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.complete_type_info</span></code></a>()
-on <cite>new_type_plugin</cite>.</p>
-<p>At some point the type’s implementation isn’t required anymore,
-e.g. after <a class="reference internal" href="TypeClass.html#GObject.TypeClass.unref" title="GObject.TypeClass.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeClass.unref</span></code></a>() or <a class="reference internal" href="../functions.html#GObject.type_free_instance" title="GObject.type_free_instance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.type_free_instance</span></code></a>() (called
-when the reference count of an instance drops to zero).</p>
+[func`GObject`.TypeClass.ref] or through [func`GObject`.type_create_instance]
+(this is being called by [ctor`GObject`.Object.new]) or through one of the above
+done on a type derived from <code class="docutils literal notranslate"><span class="pre">new_type_id</span></code>.</p>
+<p>This causes the type system to load the type’s implementation by calling
+[method`GObject`.TypePlugin.use] and [method`GObject`.TypePlugin.complete_type_info]
+on <code class="docutils literal notranslate"><span class="pre">new_type_plugin</span></code>.</p>
+<p>At some point the type’s implementation isn’t required anymore, e.g. after
+[method`GObject`.TypeClass.unref] or [func`GObject`.type_free_instance]
+(called when the reference count of an instance drops to zero).</p>
 <p>This causes the type system to throw away the information retrieved
-from <a class="reference internal" href="#GObject.TypePlugin.complete_type_info" title="GObject.TypePlugin.complete_type_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.complete_type_info</span></code></a>() and then it calls
-<a class="reference internal" href="#GObject.TypePlugin.unuse" title="GObject.TypePlugin.unuse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.unuse</span></code></a>() on <cite>new_type_plugin</cite>.</p>
+from [method`GObject`.TypePlugin.complete_type_info] and then it calls
+[method`GObject`.TypePlugin.unuse] on <code class="docutils literal notranslate"><span class="pre">new_type_plugin</span></code>.</p>
 <p>Things may repeat from the second step.</p>
-<p>So basically, you need to implement a <a class="reference internal" href="#GObject.TypePlugin" title="GObject.TypePlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin</span></code></a> type that
+<p>So basically, you need to implement a <code class="docutils literal notranslate"><span class="pre">GTypePlugin</span></code> type that
 carries a use_count, once use_count goes from zero to one, you need
 to load the implementation to successfully handle the upcoming
-<a class="reference internal" href="#GObject.TypePlugin.complete_type_info" title="GObject.TypePlugin.complete_type_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.complete_type_info</span></code></a>() call. Later, maybe after
+[method`GObject`.TypePlugin.complete_type_info] call. Later, maybe after
 succeeding use/unuse calls, once use_count drops to zero, you can
 unload the implementation again. The type system makes sure to call
-<a class="reference internal" href="#GObject.TypePlugin.use" title="GObject.TypePlugin.use"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.use</span></code></a>() and <a class="reference internal" href="#GObject.TypePlugin.complete_type_info" title="GObject.TypePlugin.complete_type_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin.complete_type_info</span></code></a>() again
-when the type is needed again.</p>
-<p><a class="reference internal" href="TypeModule.html#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> is an implementation of <a class="reference internal" href="#GObject.TypePlugin" title="GObject.TypePlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin</span></code></a> that already
-implements most of this except for the actual module loading and
+[method`GObject`.TypePlugin.use] and [method`GObject`.TypePlugin.complete_type_info]
+again when the type is needed again.</p>
+<p>[class`GObject`.TypeModule] is an implementation of <code class="docutils literal notranslate"><span class="pre">GTypePlugin</span></code> that
+already implements most of this except for the actual module loading and
 unloading. It even handles multiple registered types per module.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypePlugin.complete_interface_info">
-<span class="sig-name descname"><span class="pre">complete_interface_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypePlugin.complete_interface_info" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">complete_interface_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypeplugin.c#L190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypePlugin.complete_interface_info" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -349,7 +351,7 @@ function outside of the <a class="reference internal" href="Object.html#GObject.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypePlugin.complete_type_info">
-<span class="sig-name descname"><span class="pre">complete_type_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_table</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypePlugin.complete_type_info" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">complete_type_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_table</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypeplugin.c#L159"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypePlugin.complete_type_info" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -366,7 +368,7 @@ type system itself.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypePlugin.unuse">
-<span class="sig-name descname"><span class="pre">unuse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypePlugin.unuse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unuse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypeplugin.c#L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypePlugin.unuse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls the <cite>unuse_plugin</cite> function from the <a class="reference internal" href="TypePluginClass.html#GObject.TypePluginClass" title="GObject.TypePluginClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePluginClass</span></code></a> of
 <cite>self</cite>.  There should be no need to use this function outside of
 the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> type system itself.</p>
@@ -374,7 +376,7 @@ the <a class="reference internal" href="Object.html#GObject.Object" title="GObje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypePlugin.use">
-<span class="sig-name descname"><span class="pre">use</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypePlugin.use" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">use</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypeplugin.c#L115"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypePlugin.use" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls the <cite>use_plugin</cite> function from the <a class="reference internal" href="TypePluginClass.html#GObject.TypePluginClass" title="GObject.TypePluginClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePluginClass</span></code></a> of
 <cite>self</cite>.  There should be no need to use this function outside of
 the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> type system itself.</p>

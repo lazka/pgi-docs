@@ -421,35 +421,36 @@
 <dd class="field-odd"><p><a class="reference internal" href="TypeModuleClass.html#GObject.TypeModuleClass" title="GObject.TypeModuleClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">GObject.TypeModuleClass</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> provides a simple implementation of the <a class="reference internal" href="TypePlugin.html#GObject.TypePlugin" title="GObject.TypePlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypePlugin</span></code></a>
+<p><code class="docutils literal notranslate"><span class="pre">GTypeModule</span></code> provides a simple implementation of the <code class="docutils literal notranslate"><span class="pre">GTypePlugin</span></code>
 interface.</p>
-<p>The model of <a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> is a dynamically loaded module which
+<p>The model of <code class="docutils literal notranslate"><span class="pre">GTypeModule</span></code> is a dynamically loaded module which
 implements some number of types and interface implementations.</p>
 <p>When the module is loaded, it registers its types and interfaces
-using <a class="reference internal" href="#GObject.TypeModule.register_type" title="GObject.TypeModule.register_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.register_type</span></code></a>() and <a class="reference internal" href="#GObject.TypeModule.add_interface" title="GObject.TypeModule.add_interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.add_interface</span></code></a>().
+using [method`GObject`.TypeModule.register_type] and
+[method`GObject`.TypeModule.add_interface].
 As long as any instances of these types and interface implementations
 are in use, the module is kept loaded. When the types and interfaces
 are gone, the module may be unloaded. If the types and interfaces
 become used again, the module will be reloaded. Note that the last
 reference cannot be released from within the module code, since that
-would lead to the caller’s code being unloaded before <a class="reference internal" href="Object.html#GObject.Object.unref" title="GObject.Object.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>()
+would lead to the caller’s code being unloaded before <code class="docutils literal notranslate"><span class="pre">g_object_unref()</span></code>
 returns to it.</p>
 <p>Keeping track of whether the module should be loaded or not is done by
 using a use count - it starts at zero, and whenever it is greater than
 zero, the module is loaded. The use count is maintained internally by
 the type system, but also can be explicitly controlled by
-<a class="reference internal" href="#GObject.TypeModule.use" title="GObject.TypeModule.use"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.use</span></code></a>() and <a class="reference internal" href="#GObject.TypeModule.unuse" title="GObject.TypeModule.unuse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.unuse</span></code></a>(). Typically, when loading
-a module for the first type, <a class="reference internal" href="#GObject.TypeModule.use" title="GObject.TypeModule.use"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.use</span></code></a>() will be used to load
-it so that it can initialize its types. At some later point, when the
-module no longer needs to be loaded except for the type
-implementations it contains, <a class="reference internal" href="#GObject.TypeModule.unuse" title="GObject.TypeModule.unuse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.unuse</span></code></a>() is called.</p>
-<p><a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> does not actually provide any implementation of module
+[method`GObject`.TypeModule.use] and [method`GObject`.TypeModule.unuse].
+Typically, when loading a module for the first type, <code class="docutils literal notranslate"><span class="pre">g_type_module_use()</span></code>
+will be used to load it so that it can initialize its types. At some later
+point, when the module no longer needs to be loaded except for the type
+implementations it contains, <code class="docutils literal notranslate"><span class="pre">g_type_module_unuse()</span></code> is called.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GTypeModule</span></code> does not actually provide any implementation of module
 loading and unloading. To create a particular module type you must
-derive from <a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> and implement the load and unload functions
-in <a class="reference internal" href="TypeModuleClass.html#GObject.TypeModuleClass" title="GObject.TypeModuleClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModuleClass</span></code></a>.</p>
+derive from <code class="docutils literal notranslate"><span class="pre">GTypeModule</span></code> and implement the load and unload functions
+in <code class="docutils literal notranslate"><span class="pre">GTypeModuleClass</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.add_interface">
-<span class="sig-name descname"><span class="pre">add_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.add_interface" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interface_info</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L474"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.add_interface" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -470,7 +471,7 @@ instead. This can be used when making a static build of the module.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.register_enum">
-<span class="sig-name descname"><span class="pre">register_enum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_static_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.register_enum" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">register_enum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_static_values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L551"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.register_enum" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -503,7 +504,7 @@ instead. This can be used when making a static build of the module.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.register_flags">
-<span class="sig-name descname"><span class="pre">register_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_static_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.register_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">register_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_static_values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L593"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.register_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -536,7 +537,7 @@ instead. This can be used when making a static build of the module.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.register_type">
-<span class="sig-name descname"><span class="pre">register_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.register_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">register_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L383"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.register_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -568,7 +569,7 @@ instead. This can be used when making a static build of the module.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.set_name">
-<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.set_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.set_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a human-readable name to use in error messages.</p>
@@ -579,7 +580,7 @@ instead. This can be used when making a static build of the module.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.unuse">
-<span class="sig-name descname"><span class="pre">unuse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.unuse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unuse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L290"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.unuse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases the use count of a <a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> by one. If the
 result is zero, the module will be unloaded. (However, the
 <a class="reference internal" href="#GObject.TypeModule" title="GObject.TypeModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a> will not be freed, and types associated with the
@@ -589,7 +590,7 @@ initialized, it must exist forever.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.use">
-<span class="sig-name descname"><span class="pre">use</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.TypeModule.use" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">use</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gtypemodule.c#L244"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.TypeModule.use" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if the plugin needed to be loaded and
@@ -613,12 +614,15 @@ its prior value.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>loads the module and registers one or more types using
+<a class="reference internal" href="#GObject.TypeModule.register_type" title="GObject.TypeModule.register_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule.register_type</span></code></a>().</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.TypeModule.do_unload">
 <span class="sig-name descname"><span class="pre">do_unload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GObject.TypeModule.do_unload" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>unloads the module</p>
+</dd></dl>
 
 </dd></dl>
 

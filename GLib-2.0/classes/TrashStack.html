@@ -251,14 +251,22 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.TrashStack">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">TrashStack</span></span><a class="headerlink" href="#GLib.TrashStack" title="Permalink to this definition">¶</a></dt>
-<dd><p>Each piece of memory that is pushed onto the stack
-is cast to a <a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a>.</p>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">GTrashStack</span></code> is an efficient way to keep a stack of unused allocated
+memory chunks. Each memory chunk is required to be large enough to hold
+a <code class="docutils literal notranslate"><span class="pre">gpointer</span></code>. This allows the stack to be maintained without any space
+overhead, since the stack pointers can be stored inside the memory chunks.</p>
+<p>There is no function to create a <code class="docutils literal notranslate"><span class="pre">GTrashStack</span></code>. A <code class="docutils literal notranslate"><span class="pre">NULL</span></code> <code class="docutils literal notranslate"><span class="pre">GTrashStack*</span></code>
+is a perfectly valid empty stack.</p>
+<p>Each piece of memory that is pushed onto the stack is cast to a
+<code class="docutils literal notranslate"><span class="pre">GTrashStack*</span></code>.</p>
+<p>There is no longer any good reason to use <code class="docutils literal notranslate"><span class="pre">GTrashStack</span></code>.  If you have
+extra pieces of memory, <code class="docutils literal notranslate"><span class="pre">free()</span></code> them and allocate them again later.</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 2.48: </span><a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a> is deprecated without replacement</p>
+<p><span class="versionmodified deprecated">Deprecated since version 2.48: </span><code class="docutils literal notranslate"><span class="pre">GTrashStack</span></code> is deprecated without replacement</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TrashStack.height">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtrashstack.c#L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.height" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtrashstack.c#L137"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.height" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stack_p</strong> (<a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a>) – a <a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a></p>
@@ -280,7 +288,7 @@ where N denotes the number of items on the stack.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TrashStack.peek">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">peek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtrashstack.c#L123"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.peek" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">peek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtrashstack.c#L115"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.peek" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stack_p</strong> (<a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a>) – a <a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a></p>
@@ -301,7 +309,7 @@ which may be <a class="reference external" href="https://docs.python.org/3/libra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TrashStack.pop">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtrashstack.c#L95"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.pop" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtrashstack.c#L87"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.pop" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>stack_p</strong> (<a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a>) – a <a class="reference internal" href="#GLib.TrashStack" title="GLib.TrashStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TrashStack</span></code></a></p>
@@ -321,7 +329,7 @@ which may be <a class="reference external" href="https://docs.python.org/3/libra
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TrashStack.push">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtrashstack.c#L77"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.push" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtrashstack.c#L69"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TrashStack.push" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

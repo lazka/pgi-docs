@@ -583,26 +583,28 @@
 <dd class="field-even"><p><a class="reference internal" href="MountIface.html#Gio.MountIface" title="Gio.MountIface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.MountIface</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> interface represents user-visible mounts. Note, when
-porting from GnomeVFS, <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> is the moral equivalent of #GnomeVFSVolume.</p>
-<p><a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> is a “mounted” filesystem that you can access. Mounted is in
-quotes because it’s not the same as a unix mount, it might be a gvfs
+<p>The <code class="docutils literal notranslate"><span class="pre">GMount</span></code> interface represents user-visible mounts. Note, when
+<a class="reference external" href="migrating-gnome-vfs.html">porting from GnomeVFS</a>, <code class="docutils literal notranslate"><span class="pre">GMount</span></code> is the moral
+equivalent of <code class="docutils literal notranslate"><span class="pre">GnomeVFSVolume</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GMount</span></code> is a ‘mounted’ filesystem that you can access. Mounted is in
+quotes because it’s not the same as a UNIX mount, it might be a GVFS
 mount, but you can still access the files on it if you use GIO. Might or
 might not be related to a volume object.</p>
-<p>Unmounting a <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> instance is an asynchronous operation. For
-more information about asynchronous operations, see <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>
-and <a class="reference internal" href="Task.html#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a>. To unmount a <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> instance, first call
-<a class="reference internal" href="#Gio.Mount.unmount_with_operation" title="Gio.Mount.unmount_with_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount.unmount_with_operation</span></code></a>() with (at least) the <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> instance and a
-<a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>.  The callback will be fired when the
-operation has resolved (either with success or failure), and a
-<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> structure will be passed to the callback.  That
-callback should then call <a class="reference internal" href="#Gio.Mount.unmount_with_operation_finish" title="Gio.Mount.unmount_with_operation_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount.unmount_with_operation_finish</span></code></a>() with the <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a>
-and the <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> data to see if the operation was completed
-successfully.  If an <cite>error</cite> is present when <a class="reference internal" href="#Gio.Mount.unmount_with_operation_finish" title="Gio.Mount.unmount_with_operation_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount.unmount_with_operation_finish</span></code></a>()
-is called, then it will be filled with any error information.</p>
+<p>Unmounting a <code class="docutils literal notranslate"><span class="pre">GMount</span></code> instance is an asynchronous operation. For
+more information about asynchronous operations, see [iface`Gio`.AsyncResult]
+and [class`Gio`.Task]. To unmount a <code class="docutils literal notranslate"><span class="pre">GMount</span></code> instance, first call
+[method`Gio`.Mount.unmount_with_operation] with (at least) the <code class="docutils literal notranslate"><span class="pre">GMount</span></code>
+instance and a [type`Gio`.AsyncReadyCallback].  The callback will be fired
+when the operation has resolved (either with success or failure), and a
+[iface`Gio`.AsyncResult] structure will be passed to the callback.  That
+callback should then call [method`Gio`.Mount.unmount_with_operation_finish]
+with the <code class="docutils literal notranslate"><span class="pre">GMount</span></code> and the [iface`Gio`.AsyncResult] data to see if the
+operation was completed successfully.  If an <code class="docutils literal notranslate"><span class="pre">error</span></code> is present when
+[method`Gio`.Mount.unmount_with_operation_finish] is called, then it will be
+filled with any error information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.can_eject">
-<span class="sig-name descname"><span class="pre">can_eject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L355"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.can_eject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_eject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L354"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.can_eject" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the <cite>self</cite> can be ejected.</p>
@@ -616,7 +618,7 @@ is called, then it will be filled with any error information.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.can_unmount">
-<span class="sig-name descname"><span class="pre">can_unmount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L335"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.can_unmount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_unmount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L334"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.can_unmount" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the <cite>self</cite> can be unmounted.</p>
@@ -630,7 +632,7 @@ is called, then it will be filled with any error information.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.eject">
-<span class="sig-name descname"><span class="pre">eject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L461"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">eject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L460"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -651,7 +653,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.eject_finish">
-<span class="sig-name descname"><span class="pre">eject_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L501"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">eject_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L500"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -675,7 +677,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.eject_with_operation">
-<span class="sig-name descname"><span class="pre">eject_with_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L561"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_with_operation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">eject_with_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L560"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_with_operation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -698,7 +700,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.eject_with_operation_finish">
-<span class="sig-name descname"><span class="pre">eject_with_operation_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L667"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_with_operation_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">eject_with_operation_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L666"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.eject_with_operation_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -722,7 +724,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_default_location">
-<span class="sig-name descname"><span class="pre">get_default_location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L158"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_default_location" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_default_location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L157"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_default_location" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="File.html#Gio.File" title="Gio.File"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>.
@@ -740,7 +742,7 @@ the home directory, or the root of the volume).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_drive">
-<span class="sig-name descname"><span class="pre">get_drive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L315"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_drive" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_drive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L314"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_drive" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="Drive.html#Gio.Drive" title="Gio.Drive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Drive</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if <cite>self</cite> is not
@@ -759,7 +761,7 @@ using that object to get the <a class="reference internal" href="Drive.html#Gio.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_icon">
-<span class="sig-name descname"><span class="pre">get_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L209"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L208"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>.
@@ -775,7 +777,7 @@ The returned object should be unreffed with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the name for the given <cite>self</cite>.
@@ -791,7 +793,7 @@ when no longer needed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_root">
-<span class="sig-name descname"><span class="pre">get_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_root" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L133"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_root" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="File.html#Gio.File" title="Gio.File"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>.
@@ -807,7 +809,7 @@ The returned object should be unreffed with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_sort_key">
-<span class="sig-name descname"><span class="pre">get_sort_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L1050"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_sort_key" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_sort_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L1049"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_sort_key" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Sorting key for <cite>self</cite> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no such key is available.</p>
@@ -824,7 +826,7 @@ The returned object should be unreffed with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_symbolic_icon">
-<span class="sig-name descname"><span class="pre">get_symbolic_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L234"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_symbolic_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_symbolic_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_symbolic_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>.
@@ -843,7 +845,7 @@ The returned object should be unreffed with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_uuid">
-<span class="sig-name descname"><span class="pre">get_uuid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L266"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_uuid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uuid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L265"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_uuid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the UUID for <cite>self</cite> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no UUID
@@ -863,7 +865,7 @@ available.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.get_volume">
-<span class="sig-name descname"><span class="pre">get_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_volume" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L288"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.get_volume" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="Volume.html#Gio.Volume" title="Gio.Volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Volume</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if <cite>self</cite> is not
@@ -880,7 +882,7 @@ The returned object should be unreffed with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.guess_content_type">
-<span class="sig-name descname"><span class="pre">guess_content_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_rescan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L794"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">guess_content_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_rescan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L793"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -909,7 +911,7 @@ is finished by calling <a class="reference internal" href="#Gio.Mount.guess_cont
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.guess_content_type_finish">
-<span class="sig-name descname"><span class="pre">guess_content_type_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L838"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">guess_content_type_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L837"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
@@ -937,7 +939,7 @@ guessing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.guess_content_type_sync">
-<span class="sig-name descname"><span class="pre">guess_content_type_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_rescan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L882"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type_sync" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">guess_content_type_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_rescan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L881"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.guess_content_type_sync" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -972,7 +974,7 @@ see <a class="reference internal" href="#Gio.Mount.guess_content_type" title="Gi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.is_shadowed">
-<span class="sig-name descname"><span class="pre">is_shadowed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L974"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.is_shadowed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_shadowed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L973"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.is_shadowed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is shadowed.</p>
@@ -1008,7 +1010,7 @@ activation root on a <a class="reference internal" href="Volume.html#Gio.Volume"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.remount">
-<span class="sig-name descname"><span class="pre">remount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L646"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.remount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L645"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.remount" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1033,7 +1035,7 @@ unmounted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.remount_finish">
-<span class="sig-name descname"><span class="pre">remount_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L750"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.remount_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remount_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L749"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.remount_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -1054,7 +1056,7 @@ unmounted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.shadow">
-<span class="sig-name descname"><span class="pre">shadow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L1001"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.shadow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">shadow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L1000"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.shadow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Increments the shadow count on <cite>self</cite>. Usually used by
 <a class="reference internal" href="VolumeMonitor.html#Gio.VolumeMonitor" title="Gio.VolumeMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.VolumeMonitor</span></code></a> implementations when creating a shadow mount for
 <cite>self</cite>, see <a class="reference internal" href="#Gio.Mount.is_shadowed" title="Gio.Mount.is_shadowed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount.is_shadowed</span></code></a>() for more information. The caller
@@ -1066,7 +1068,7 @@ will need to emit the <a class="reference internal" href="#Gio.Mount" title="Gio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.unmount">
-<span class="sig-name descname"><span class="pre">unmount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L385"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unmount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L384"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1087,7 +1089,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.unmount_finish">
-<span class="sig-name descname"><span class="pre">unmount_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L425"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unmount_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -1111,7 +1113,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.unmount_with_operation">
-<span class="sig-name descname"><span class="pre">unmount_with_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L539"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_with_operation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unmount_with_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mount_operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L538"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_with_operation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1134,7 +1136,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.unmount_with_operation_finish">
-<span class="sig-name descname"><span class="pre">unmount_with_operation_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L582"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_with_operation_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unmount_with_operation_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L581"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unmount_with_operation_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -1158,7 +1160,7 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.unshadow">
-<span class="sig-name descname"><span class="pre">unshadow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmount.c#L1025"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unshadow" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unshadow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmount.c#L1024"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Mount.unshadow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrements the shadow count on <cite>self</cite>. Usually used by
 <a class="reference internal" href="VolumeMonitor.html#Gio.VolumeMonitor" title="Gio.VolumeMonitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.VolumeMonitor</span></code></a> implementations when destroying a shadow mount for
 <cite>self</cite>, see <a class="reference internal" href="#Gio.Mount.is_shadowed" title="Gio.Mount.is_shadowed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount.is_shadowed</span></code></a>() for more information. The caller
@@ -1199,7 +1201,8 @@ will need to emit the <a class="reference internal" href="#Gio.Mount" title="Gio
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.do_changed">
 <span class="sig-name descname"><span class="pre">do_changed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Gio.Mount.do_changed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Changed signal that is emitted when the mount’s state has changed.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.do_eject">
@@ -1534,7 +1537,8 @@ see <a class="reference internal" href="#Gio.Mount.guess_content_type" title="Gi
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.do_pre_unmount">
 <span class="sig-name descname"><span class="pre">do_pre_unmount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Gio.Mount.do_pre_unmount" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The <a class="reference internal" href="#Gio.Mount.signals.pre_unmount" title="Gio.Mount.signals.pre_unmount"><code class="xref py py-func docutils literal notranslate"><span class="pre">::pre-unmount</span></code></a> signal that is emitted when the <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> will soon be emitted. If the recipient is somehow holding the mount open by keeping an open file on it it should close the file.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.do_remount">
@@ -1668,7 +1672,8 @@ and <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title=
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Mount.do_unmounted">
 <span class="sig-name descname"><span class="pre">do_unmounted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Gio.Mount.do_unmounted" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The unmounted signal that is emitted when the <a class="reference internal" href="#Gio.Mount" title="Gio.Mount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> have been unmounted. If the recipient is holding references to the object they should release them so the object can be finalized.</p>
+</dd></dl>
 
 </dd></dl>
 

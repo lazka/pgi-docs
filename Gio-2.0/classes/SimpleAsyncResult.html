@@ -391,163 +391,151 @@
 <dd class="field-odd"><p><a class="reference internal" href="SimpleAsyncResultClass.html#Gio.SimpleAsyncResultClass" title="Gio.SimpleAsyncResultClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResultClass</span></code></a></p>
 </dd>
 </dl>
-<p>As of GLib 2.46, <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> is deprecated in favor of
-<a class="reference internal" href="Task.html#Gio.Task" title="Gio.Task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Task</span></code></a>, which provides a simpler API.</p>
-<p><a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> implements <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
-<p><a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> handles <a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallbacks</span></code></a>, error
+<p>As of GLib 2.46, <code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> is deprecated in favor of
+[class`Gio`.Task], which provides a simpler API.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> implements [iface`Gio`.AsyncResult].</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> handles [type`Gio`.AsyncReadyCallback]s, error
 reporting, operation cancellation and the final state of an operation,
 completely transparent to the application. Results can be returned
 as a pointer e.g. for functions that return data that is collected
 asynchronously, a boolean value for checking the success or failure
-of an operation, or a #gssize for operations which return the number
+of an operation, or a <code class="docutils literal notranslate"><span class="pre">gssize</span></code> for operations which return the number
 of bytes modified by the operation; all of the simple return cases
 are covered.</p>
 <p>Most of the time, an application will not need to know of the details
 of this API; it is handled transparently, and any necessary operations
-are handled by <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>'s interface. However, if implementing a
-new GIO module, for writing language bindings, or for complex
+are handled by [iface`Gio`.AsyncResult]’s interface. However, if implementing
+a new GIO module, for writing language bindings, or for complex
 applications that need better control of how asynchronous operations
 are completed, it is important to understand this functionality.</p>
-<p>GSimpleAsyncResults are tagged with the calling function to ensure
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>GSimpleAsyncResult``s are tagged with the calling function to ensure
 that asynchronous functions and their finishing functions are used
 together correctly.</p>
-<p>To create a new <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a>, call <a class="reference internal" href="#Gio.SimpleAsyncResult.new" title="Gio.SimpleAsyncResult.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.new</span></code></a>().
-If the result needs to be created for a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>, use
-<a class="reference internal" href="#Gio.SimpleAsyncResult.new_from_error" title="Gio.SimpleAsyncResult.new_from_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.new_from_error</span></code></a>() or
-g_simple_async_result_new_take_error(). If a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> is not available
-(e.g. the asynchronous operation’s doesn’t take a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> argument),
+<p>To create a new <code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code>, call [ctor`Gio`.SimpleAsyncResult.new].
+If the result needs to be created for a <code class="docutils literal notranslate"><span class="pre">GError</span></code>, use
+[ctor`Gio`.SimpleAsyncResult.new_from_error] or
+[ctor`Gio`.SimpleAsyncResult.new_take_error]. If a <code class="docutils literal notranslate"><span class="pre">GError</span></code> is not available
+(e.g. the asynchronous operation doesn’t take a <code class="docutils literal notranslate"><span class="pre">GError</span></code> argument),
 but the result still needs to be created for an error condition, use
-g_simple_async_result_new_error() (or g_simple_async_result_set_error_va()
-if your application or binding requires passing a variable argument list
-directly), and the error can then be propagated through the use of
-<a class="reference internal" href="#Gio.SimpleAsyncResult.propagate_error" title="Gio.SimpleAsyncResult.propagate_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.propagate_error</span></code></a>().</p>
+[ctor`Gio`.SimpleAsyncResult.new_error] (or
+[method`Gio`.SimpleAsyncResult.set_error_va] if your application or binding
+requires passing a variable argument list directly), and the error can then
+be propagated through the use of
+[method`Gio`.SimpleAsyncResult.propagate_error].</p>
 <p>An asynchronous operation can be made to ignore a cancellation event by
-calling <a class="reference internal" href="#Gio.SimpleAsyncResult.set_handle_cancellation" title="Gio.SimpleAsyncResult.set_handle_cancellation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.set_handle_cancellation</span></code></a>() with a
-<a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> for the operation and <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>. This is useful for
+calling [method`Gio`.SimpleAsyncResult.set_handle_cancellation] with a
+<code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> for the operation and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>. This is useful for
 operations that are dangerous to cancel, such as close (which would
 cause a leak if cancelled before being run).</p>
-<p><a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> can integrate into GLib’s event loop, <a class="reference external" href="../../GLib-2.0/classes/MainLoop.html#GLib.MainLoop" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop</span></code></a>,
-or it can use <a class="reference external" href="../../GLib-2.0/classes/Thread.html#GLib.Thread" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Threads</span></code></a>.
-<a class="reference internal" href="#Gio.SimpleAsyncResult.complete" title="Gio.SimpleAsyncResult.complete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete</span></code></a>() will finish an I/O task directly
-from the point where it is called. <a class="reference internal" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Gio.SimpleAsyncResult.complete_in_idle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete_in_idle</span></code></a>()
-will finish it from an idle handler in the
-<a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thread-default</span> <span class="pre">main</span> <span class="pre">context</span></code></a>
-where the <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> was created.
-g_simple_async_result_run_in_thread() will run the job in a
-separate thread and then use
-<a class="reference internal" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Gio.SimpleAsyncResult.complete_in_idle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete_in_idle</span></code></a>() to deliver the result.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> can integrate into GLib’s event loop,
+[type`GLib`.MainLoop], or it can use [type`GLib`.Thread]s.
+[method`Gio`.SimpleAsyncResult.complete] will finish an I/O task directly
+from the point where it is called.
+[method`Gio`.SimpleAsyncResult.complete_in_idle] will finish it from an idle
+handler in the  thread-default main context (see
+[method`GLib`.MainContext.push_thread_default]) where the <code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code>
+was created. [method`Gio`.SimpleAsyncResult.run_in_thread] will run the job in
+a separate thread and then use
+[method`Gio`.SimpleAsyncResult.complete_in_idle] to deliver the result.</p>
 <p>To set the results of an asynchronous function,
-g_simple_async_result_set_op_res_gpointer(),
-<a class="reference internal" href="#Gio.SimpleAsyncResult.set_op_res_gboolean" title="Gio.SimpleAsyncResult.set_op_res_gboolean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.set_op_res_gboolean</span></code></a>(), and
-<a class="reference internal" href="#Gio.SimpleAsyncResult.set_op_res_gssize" title="Gio.SimpleAsyncResult.set_op_res_gssize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.set_op_res_gssize</span></code></a>()
-are provided, setting the operation’s result to a <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, or
-gssize, respectively.</p>
+[method`Gio`.SimpleAsyncResult.set_op_res_gpointer],
+[method`Gio`.SimpleAsyncResult.set_op_res_gboolean], and
+[method`Gio`.SimpleAsyncResult.set_op_res_gssize]
+are provided, setting the operation’s result to a <code class="docutils literal notranslate"><span class="pre">gpointer</span></code>, <code class="docutils literal notranslate"><span class="pre">gboolean</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">gssize</span></code>, respectively.</p>
 <p>Likewise, to get the result of an asynchronous function,
-g_simple_async_result_get_op_res_gpointer(),
-<a class="reference internal" href="#Gio.SimpleAsyncResult.get_op_res_gboolean" title="Gio.SimpleAsyncResult.get_op_res_gboolean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.get_op_res_gboolean</span></code></a>(), and
-<a class="reference internal" href="#Gio.SimpleAsyncResult.get_op_res_gssize" title="Gio.SimpleAsyncResult.get_op_res_gssize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.get_op_res_gssize</span></code></a>() are
-provided, getting the operation’s result as a <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, and
-gssize, respectively.</p>
+[method`Gio`.SimpleAsyncResult.get_op_res_gpointer],
+[method`Gio`.SimpleAsyncResult.get_op_res_gboolean], and
+[method`Gio`.SimpleAsyncResult.get_op_res_gssize] are
+provided, getting the operation’s result as a <code class="docutils literal notranslate"><span class="pre">gpointer</span></code>, <code class="docutils literal notranslate"><span class="pre">gboolean</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">gssize</span></code>, respectively.</p>
 <p>For the details of the requirements implementations must respect, see
-<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.  A typical implementation of an asynchronous operation
-using <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> looks something like this:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span>
-<span class="nf">baked_cb</span><span class="w"> </span><span class="p">(</span><span class="n">Cake</span><span class="w">    </span><span class="o">*</span><span class="n">cake</span><span class="p">,</span>
-<span class="w">          </span><span class="n">gpointer</span><span class="w"> </span><span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="c1">// In this example, this callback is not given a reference to the cake,</span>
-<span class="w">  </span><span class="c1">// so the GSimpleAsyncResult has to take a reference to it.</span>
-<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_data</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
-<span class="w">    </span><span class="n">g_simple_async_result_set_error</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span>
-<span class="w">                                     </span><span class="n">BAKER_ERRORS</span><span class="p">,</span>
-<span class="w">                                     </span><span class="n">BAKER_ERROR_NO_FLOUR</span><span class="p">,</span>
-<span class="w">                                     </span><span class="s">&quot;Go to the supermarket&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="k">else</span>
-<span class="w">    </span><span class="n">g_simple_async_result_set_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span>
-<span class="w">                                               </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">),</span>
-<span class="w">                                               </span><span class="n">g_object_unref</span><span class="p">);</span>
-
-
-<span class="w">  </span><span class="c1">// In this example, we assume that baked_cb is called as a callback from</span>
-<span class="w">  </span><span class="c1">// the mainloop, so it&#39;s safe to complete the operation synchronously here.</span>
-<span class="w">  </span><span class="c1">// If, however, _baker_prepare_cake () might call its callback without</span>
-<span class="w">  </span><span class="c1">// first returning to the mainloop — inadvisable, but some APIs do so —</span>
-<span class="w">  </span><span class="c1">// we would need to use g_simple_async_result_complete_in_idle().</span>
-<span class="w">  </span><span class="n">g_simple_async_result_complete</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<span class="w">  </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span>
-<span class="nf">baker_bake_cake_async</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">              </span><span class="o">*</span><span class="n">self</span><span class="p">,</span>
-<span class="w">                       </span><span class="n">guint</span><span class="w">               </span><span class="n">radius</span><span class="p">,</span>
-<span class="w">                       </span><span class="n">GAsyncReadyCallback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span>
-<span class="w">                       </span><span class="n">gpointer</span><span class="w">            </span><span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">simple</span><span class="p">;</span>
-<span class="w">  </span><span class="n">Cake</span><span class="w">               </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">radius</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="n">g_simple_async_report_error_in_idle</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span>
-<span class="w">                                           </span><span class="n">callback</span><span class="p">,</span>
-<span class="w">                                           </span><span class="n">user_data</span><span class="p">,</span>
-<span class="w">                                           </span><span class="n">BAKER_ERRORS</span><span class="p">,</span>
-<span class="w">                                           </span><span class="n">BAKER_ERROR_TOO_SMALL</span><span class="p">,</span>
-<span class="w">                                           </span><span class="s">&quot;%ucm radius cakes are silly&quot;</span><span class="p">,</span>
-<span class="w">                                           </span><span class="n">radius</span><span class="p">);</span>
-<span class="w">      </span><span class="k">return</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">  </span><span class="n">simple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_simple_async_result_new</span><span class="w"> </span><span class="p">(</span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span>
-<span class="w">                                      </span><span class="n">callback</span><span class="p">,</span>
-<span class="w">                                      </span><span class="n">user_data</span><span class="p">,</span>
-<span class="w">                                      </span><span class="n">baker_bake_cake_async</span><span class="p">);</span>
-<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_baker_get_cached_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">);</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="n">g_simple_async_result_set_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">,</span>
-<span class="w">                                                 </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">),</span>
-<span class="w">                                                 </span><span class="n">g_object_unref</span><span class="p">);</span>
-<span class="w">      </span><span class="n">g_simple_async_result_complete_in_idle</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">);</span>
-<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">);</span>
-<span class="w">      </span><span class="c1">// Drop the reference returned by _baker_get_cached_cake();</span>
-<span class="w">      </span><span class="c1">// the GSimpleAsyncResult has taken its own reference.</span>
-<span class="w">      </span><span class="n">g_object_unref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-<span class="w">      </span><span class="k">return</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">  </span><span class="n">_baker_prepare_cake</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">baked_cb</span><span class="p">,</span><span class="w"> </span><span class="n">simple</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="n">Cake</span><span class="w"> </span><span class="o">*</span>
-<span class="nf">baker_bake_cake_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Baker</span><span class="w">        </span><span class="o">*</span><span class="n">self</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">GAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">GError</span><span class="w">      </span><span class="o">**</span><span class="n">error</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">simple</span><span class="p">;</span>
-<span class="w">  </span><span class="n">Cake</span><span class="w">               </span><span class="o">*</span><span class="n">cake</span><span class="p">;</span>
-
-<span class="w">  </span><span class="n">g_return_val_if_fail</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_is_valid</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">,</span>
-<span class="w">                                                        </span><span class="n">G_OBJECT</span><span class="w"> </span><span class="p">(</span><span class="n">self</span><span class="p">),</span>
-<span class="w">                                                        </span><span class="n">baker_bake_cake_async</span><span class="p">),</span>
-<span class="w">                        </span><span class="nb">NULL</span><span class="p">);</span>
-
-<span class="w">  </span><span class="n">simple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">GSimpleAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_propagate_error</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">))</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-
-<span class="w">  </span><span class="n">cake</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CAKE</span><span class="w"> </span><span class="p">(</span><span class="n">g_simple_async_result_get_op_res_gpointer</span><span class="w"> </span><span class="p">(</span><span class="n">simple</span><span class="p">));</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">g_object_ref</span><span class="w"> </span><span class="p">(</span><span class="n">cake</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+[iface`Gio`.AsyncResult].  A typical implementation of an asynchronous
+operation using <code class="docutils literal notranslate"><span class="pre">GSimpleAsyncResult</span></code> looks something like this:</p>
+<p>```c
+static void
+baked_cb (Cake    *cake,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> user_data)
+{
+// In this example, this callback is not given a reference to the cake,
+// so the <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> has to take a reference to it.
+<a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> *result = user_data;</p>
+<p>if (cake == <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)
+g_simple_async_result_set_error (result,
+BAKER_ERRORS,
+BAKER_ERROR_NO_FLOUR,
+“Go to the supermarket”);
+else
+g_simple_async_result_set_op_res_gpointer (result,
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.ref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.ref</span></code></a> (cake),
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>);</p>
+<p>// In this example, we assume that baked_cb is called as a callback from
+// the mainloop, so it’s safe to complete the operation synchronously here.
+// If, however, _baker_prepare_cake () might call its callback without
+// first returning to the mainloop — inadvisable, but some APIs do so —
+// we would need to use <a class="reference internal" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Gio.SimpleAsyncResult.complete_in_idle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete_in_idle</span></code></a>().
+<a class="reference internal" href="#Gio.SimpleAsyncResult.complete" title="Gio.SimpleAsyncResult.complete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete</span></code></a> (result);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (result);
+}</p>
+<p>void
+baker_bake_cake_async (Baker              *self,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>               radius,
+<a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> callback,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>            user_data)
+{
+<a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> *simple;
+Cake               *cake;</p>
+<p>if (radius &lt; 3)
+{
+g_simple_async_report_error_in_idle (G_OBJECT (self),
+callback,
+user_data,
+BAKER_ERRORS,
+BAKER_ERROR_TOO_SMALL,
+“%ucm radius cakes are silly”,
+radius);
+return;
+}</p>
+<p>simple = <a class="reference internal" href="#Gio.SimpleAsyncResult.new" title="Gio.SimpleAsyncResult.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.new</span></code></a> (G_OBJECT (self),
+callback,
+user_data,
+baker_bake_cake_async);
+cake = _baker_get_cached_cake (self, radius);</p>
+<p>if (cake != <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)
+{
+g_simple_async_result_set_op_res_gpointer (simple,
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.ref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.ref</span></code></a> (cake),
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>);
+<a class="reference internal" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Gio.SimpleAsyncResult.complete_in_idle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.complete_in_idle</span></code></a> (simple);
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (simple);
+// Drop the reference returned by _baker_get_cached_cake();
+// the <a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> has taken its own reference.
+<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a> (cake);
+return;
+}</p>
+<p>_baker_prepare_cake (self, radius, baked_cb, simple);
+}</p>
+<p>Cake *
+baker_bake_cake_finish (Baker        *self,
+<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> *result,
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>      **error)
+{
+<a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> *simple;
+Cake               *cake;</p>
+<p>g_return_val_if_fail (<a class="reference internal" href="#Gio.SimpleAsyncResult.is_valid" title="Gio.SimpleAsyncResult.is_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.is_valid</span></code></a> (result,
+G_OBJECT (self),
+baker_bake_cake_async),
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>simple = (<a class="reference internal" href="#Gio.SimpleAsyncResult" title="Gio.SimpleAsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult</span></code></a> *) result;</p>
+<p>if (<a class="reference internal" href="#Gio.SimpleAsyncResult.propagate_error" title="Gio.SimpleAsyncResult.propagate_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SimpleAsyncResult.propagate_error</span></code></a> (simple, error))
+return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p>cake = CAKE (g_simple_async_result_get_op_res_gpointer (simple));
+return <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.ref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.ref</span></code></a> (cake);
+}
+```</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.is_valid">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L982"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.is_valid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L980"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.is_valid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -584,7 +572,7 @@ check is skipped.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L320"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L318"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -616,7 +604,7 @@ this function returns.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.new_from_error">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L355"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.new_from_error" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L353"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.new_from_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -641,7 +629,7 @@ this function returns.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.complete">
-<span class="sig-name descname"><span class="pre">complete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L782"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.complete" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">complete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.complete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Completes an asynchronous I/O job immediately. Must be called in
 the thread where the asynchronous result was to be delivered, as it
 invokes the callback directly. If you are in a different thread use
@@ -655,7 +643,7 @@ is needed to complete the call.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.complete_in_idle">
-<span class="sig-name descname"><span class="pre">complete_in_idle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L836"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">complete_in_idle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L834"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.complete_in_idle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Completes an asynchronous function in an idle handler in the
 <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thread-default</span> <span class="pre">main</span> <span class="pre">context</span></code></a>
 of the thread that <cite>self</cite> was initially created in
@@ -669,7 +657,7 @@ is needed to complete the call.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.get_op_res_gboolean">
-<span class="sig-name descname"><span class="pre">get_op_res_gboolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L654"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.get_op_res_gboolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_op_res_gboolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.get_op_res_gboolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the operation’s result was <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>
@@ -687,7 +675,7 @@ if the operation’s result was <a class="reference external" href="https://docs
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.get_op_res_gssize">
-<span class="sig-name descname"><span class="pre">get_op_res_gssize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L618"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.get_op_res_gssize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_op_res_gssize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.get_op_res_gssize" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a gssize returned from the asynchronous function.</p>
@@ -704,7 +692,7 @@ if the operation’s result was <a class="reference external" href="https://docs
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.propagate_error">
-<span class="sig-name descname"><span class="pre">propagate_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L532"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.propagate_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">propagate_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L530"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.propagate_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -728,7 +716,7 @@ function will return <a class="reference external" href="https://docs.python.org
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.set_check_cancellable">
-<span class="sig-name descname"><span class="pre">set_check_cancellable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check_cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L1143"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_check_cancellable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_check_cancellable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">check_cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L1141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_check_cancellable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>check_cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> to check, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to unset</p>
@@ -756,7 +744,7 @@ unrelated <a class="reference internal" href="#Gio.SimpleAsyncResult.set_handle_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.set_from_error">
-<span class="sig-name descname"><span class="pre">set_from_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_from_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_from_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L669"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_from_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>.</p>
@@ -770,7 +758,7 @@ unrelated <a class="reference internal" href="#Gio.SimpleAsyncResult.set_handle_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.set_handle_cancellation">
-<span class="sig-name descname"><span class="pre">set_handle_cancellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle_cancellation</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L491"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_handle_cancellation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_handle_cancellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle_cancellation</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L489"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_handle_cancellation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>handle_cancellation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>.</p>
@@ -787,7 +775,7 @@ unrelated <a class="reference internal" href="#Gio.SimpleAsyncResult.set_handle_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.set_op_res_gboolean">
-<span class="sig-name descname"><span class="pre">set_op_res_gboolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_res</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L635"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_op_res_gboolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_op_res_gboolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_res</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L633"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_op_res_gboolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>op_res</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>.</p>
@@ -801,7 +789,7 @@ unrelated <a class="reference internal" href="#Gio.SimpleAsyncResult.set_handle_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SimpleAsyncResult.set_op_res_gssize">
-<span class="sig-name descname"><span class="pre">set_op_res_gssize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_res</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsimpleasyncresult.c#L600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_op_res_gssize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_op_res_gssize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_res</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsimpleasyncresult.c#L598"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SimpleAsyncResult.set_op_res_gssize" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>op_res</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #gssize.</p>

@@ -348,19 +348,20 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.Notification" title="Gio.Notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Notification</span></code></a> is a mechanism for creating a notification to be shown
-to the user – typically as a pop-up notification presented by the
+<p><code class="docutils literal notranslate"><span class="pre">GNotification</span></code> is a mechanism for creating a notification to be shown
+to the user — typically as a pop-up notification presented by the
 desktop environment shell.</p>
-<p>The key difference between <a class="reference internal" href="#Gio.Notification" title="Gio.Notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Notification</span></code></a> and other similar APIs is
+<p>The key difference between <code class="docutils literal notranslate"><span class="pre">GNotification</span></code> and other similar APIs is
 that, if supported by the desktop environment, notifications sent
-with <a class="reference internal" href="#Gio.Notification" title="Gio.Notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Notification</span></code></a> will persist after the application has exited,
+with <code class="docutils literal notranslate"><span class="pre">GNotification</span></code> will persist after the application has exited,
 and even across system reboots.</p>
 <p>Since the user may click on a notification while the application is
-not running, applications using <a class="reference internal" href="#Gio.Notification" title="Gio.Notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Notification</span></code></a> should be able to be
-started as a D-Bus service, using <a class="reference internal" href="Application.html#Gio.Application" title="Gio.Application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Application</span></code></a>.</p>
-<p>In order for <a class="reference internal" href="#Gio.Notification" title="Gio.Notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Notification</span></code></a> to work, the application must have installed
-a <code class="docutils literal notranslate"><span class="pre">.desktop</span></code> file. For example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Desktop Entry]
+not running, applications using <code class="docutils literal notranslate"><span class="pre">GNotification</span></code> should be able to be
+started as a D-Bus service, using [class`Gio`.Application].</p>
+<p>In order for <code class="docutils literal notranslate"><span class="pre">GNotification</span></code> to work, the application must have installed
+a <code class="docutils literal notranslate"><span class="pre">.desktop</span></code> file. For example:
+``
+[Desktop Entry]
 Name=Test Application
 Comment=Description of what Test Application does
 Exec=gnome-test-application
@@ -371,26 +372,26 @@ Categories=GNOME;GTK;TestApplication Category;
 StartupNotify=true
 DBusActivatable=true
 X-GNOME-UsesNotifications=true
-</pre></div>
-</div>
+``</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">X-GNOME-UsesNotifications</span></code> key indicates to GNOME Control Center
 that this application uses notifications, so it can be listed in the
 Control Center’s ‘Notifications’ panel.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">.desktop</span></code> file must be named as <code class="docutils literal notranslate"><span class="pre">org.gnome.TestApplication.desktop</span></code>,
-where <code class="docutils literal notranslate"><span class="pre">org.gnome.TestApplication</span></code> is the ID passed to <a class="reference internal" href="Application.html#Gio.Application.new" title="Gio.Application.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Application.new</span></code></a>().</p>
+where <code class="docutils literal notranslate"><span class="pre">org.gnome.TestApplication</span></code> is the ID passed to
+[ctor`Gio`.Application.new].</p>
 <p>User interaction with a notification (either the default action, or
 buttons) must be associated with actions on the application (ie:
-“app.” actions).  It is not possible to route user interaction
+<code class="docutils literal notranslate"><span class="pre">app.</span></code> actions).  It is not possible to route user interaction
 through the notification itself, because the object will not exist if
 the application is autostarted as a result of a notification being
 clicked.</p>
-<p>A notification can be sent with <a class="reference internal" href="Application.html#Gio.Application.send_notification" title="Gio.Application.send_notification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Application.send_notification</span></code></a>().</p>
+<p>A notification can be sent with [method`Gio`.Application.send_notification].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.40.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L177"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the title of the notification</p>
@@ -414,7 +415,7 @@ resending <cite>notification</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.add_button">
-<span class="sig-name descname"><span class="pre">add_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detailed_action</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L437"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.add_button" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detailed_action</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L427"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.add_button" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -437,7 +438,7 @@ for <cite>detailed_action</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.add_button_with_target">
-<span class="sig-name descname"><span class="pre">add_button_with_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L516"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.add_button_with_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_button_with_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L506"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.add_button_with_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -458,7 +459,7 @@ its parameter.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_body">
-<span class="sig-name descname"><span class="pre">set_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L267"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_body" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L257"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_body" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>body</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the new body for <cite>self</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -472,7 +473,7 @@ its parameter.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_category">
-<span class="sig-name descname"><span class="pre">set_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L390"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_category" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L380"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_category" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>category</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the category for <cite>self</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for no category</p>
@@ -490,7 +491,7 @@ helps the notification server to select proper feedback to the user.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_default_action">
-<span class="sig-name descname"><span class="pre">set_default_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L674"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_default_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_default_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L664"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_default_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>detailed_action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a detailed action name</p>
@@ -512,7 +513,7 @@ was sent on is activated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_default_action_and_target">
-<span class="sig-name descname"><span class="pre">set_default_action_and_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_default_action_and_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_default_action_and_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_default_action_and_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -535,7 +536,7 @@ was sent on is activated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_icon">
-<span class="sig-name descname"><span class="pre">set_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L296"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>icon</strong> (<a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>) – the icon to be shown in <cite>self</cite>, as a <a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a></p>
@@ -549,7 +550,7 @@ was sent on is activated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_priority">
-<span class="sig-name descname"><span class="pre">set_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L410"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_priority" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L400"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_priority" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>priority</strong> (<a class="reference internal" href="../enums.html#Gio.NotificationPriority" title="Gio.NotificationPriority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.NotificationPriority</span></code></a>) – a <a class="reference internal" href="../enums.html#Gio.NotificationPriority" title="Gio.NotificationPriority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.NotificationPriority</span></code></a></p>
@@ -561,7 +562,7 @@ was sent on is activated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_title">
-<span class="sig-name descname"><span class="pre">set_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_title" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L218"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_title" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the new title for <cite>self</cite></p>
@@ -575,7 +576,7 @@ was sent on is activated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Notification.set_urgent">
-<span class="sig-name descname"><span class="pre">set_urgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urgent</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gnotification.c#L345"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_urgent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_urgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urgent</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gnotification.c#L335"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Notification.set_urgent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>urgent</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is urgent</p>

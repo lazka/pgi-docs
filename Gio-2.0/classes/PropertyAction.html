@@ -332,17 +332,17 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.PropertyAction.props.invert_boolean" title="Gio.PropertyAction.props.invert_boolean"><code class="xref py py-data docutils literal notranslate"><span class="pre">invert-boolean</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>Whether to invert the value of a boolean property</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gio.PropertyAction.props.object" title="Gio.PropertyAction.props.object"><code class="xref py py-data docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p></td>
 <td><p>w/co</p></td>
-<td><p>The object with the property to wrap</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.PropertyAction.props.property_name" title="Gio.PropertyAction.props.property_name"><code class="xref py py-data docutils literal notranslate"><span class="pre">property-name</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
 <td><p>w/co</p></td>
-<td><p>The name of the property to wrap</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -376,51 +376,52 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p>A <a class="reference internal" href="#Gio.PropertyAction" title="Gio.PropertyAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PropertyAction</span></code></a> is a way to get a <a class="reference internal" href="Action.html#Gio.Action" title="Gio.Action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Action</span></code></a> with a state value
-reflecting and controlling the value of a <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> property.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">GPropertyAction</span></code> is a way to get a [iface`Gio`.Action] with a state value
+reflecting and controlling the value of a [class`GObject`.Object] property.</p>
 <p>The state of the action will correspond to the value of the property.
 Changing it will change the property (assuming the requested value
-matches the requirements as specified in the <a class="reference external" href="../../GObject-2.0/classes/ParamSpec.html#GObject.ParamSpec" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpec</span></code></a>).</p>
+matches the requirements as specified in the [type`GObject`.ParamSpec]).</p>
 <p>Only the most common types are presently supported.  Booleans are
 mapped to booleans, strings to strings, signed/unsigned integers to
 int32/uint32 and floats and doubles to doubles.</p>
 <p>If the property is an enum then the state will be string-typed and
 conversion will automatically be performed between the enum value and
-“nick” string as per the <a class="reference external" href="../../GObject-2.0/classes/EnumValue.html#GObject.EnumValue" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.EnumValue</span></code></a> table.</p>
+‘nick’ string as per the [type`GObject`.EnumValue] table.</p>
 <p>Flags types are not currently supported.</p>
 <p>Properties of object types, boxed types and pointer types are not
 supported and probably never will be.</p>
-<p>Properties of <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> types are not currently supported.</p>
-<p>If the property is boolean-valued then the action will have a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+<p>Properties of [type`GLib`.Variant] types are not currently supported.</p>
+<p>If the property is boolean-valued then the action will have a <code class="docutils literal notranslate"><span class="pre">NULL</span></code>
 parameter type, and activating the action (with no parameter) will
 toggle the value of the property.</p>
 <p>In all other cases, the parameter type will correspond to the type of
 the property.</p>
 <p>The general idea here is to reduce the number of locations where a
 particular piece of state is kept (and therefore has to be synchronised
-between). <a class="reference internal" href="#Gio.PropertyAction" title="Gio.PropertyAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.PropertyAction</span></code></a> does not have a separate state that is kept
-in sync with the property value – its state is the property value.</p>
-<p>For example, it might be useful to create a <a class="reference internal" href="Action.html#Gio.Action" title="Gio.Action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Action</span></code></a> corresponding to
-the “visible-child-name” property of a #GtkStack so that the current
-page can be switched from a menu.  The active radio indication in the
-menu is then directly determined from the active page of the
-#GtkStack.</p>
-<p>An anti-example would be binding the “active-id” property on a
-#GtkComboBox.  This is because the state of the combobox itself is
-probably uninteresting and is actually being used to control
-something else.</p>
-<p>Another anti-example would be to bind to the “visible-child-name”
-property of a #GtkStack if this value is actually stored in
-<a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a>.  In that case, the real source of the value is
-<a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a>.  If you want a <a class="reference internal" href="Action.html#Gio.Action" title="Gio.Action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Action</span></code></a> to control a setting stored in
-<a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a>, see <a class="reference internal" href="Settings.html#Gio.Settings.create_action" title="Gio.Settings.create_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings.create_action</span></code></a>() instead, and possibly
-combine its use with <a class="reference internal" href="Settings.html#Gio.Settings.bind" title="Gio.Settings.bind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings.bind</span></code></a>().</p>
+between). <code class="docutils literal notranslate"><span class="pre">GPropertyAction</span></code> does not have a separate state that is kept
+in sync with the property value — its state is the property value.</p>
+<p>For example, it might be useful to create a [iface`Gio`.Action] corresponding
+to the <code class="docutils literal notranslate"><span class="pre">visible-child-name</span></code> property of a <a class="reference external" href="https://docs.gtk.org/gtk4/class.Stack.html">GtkStack</a>
+so that the current page can be switched from a menu.  The active radio
+indication in the menu is then directly determined from the active page of
+the <code class="docutils literal notranslate"><span class="pre">GtkStack</span></code>.</p>
+<p>An anti-example would be binding the <code class="docutils literal notranslate"><span class="pre">active-id</span></code> property on a
+<a class="reference external" href="https://docs.gtk.org/gtk4/class.ComboBox.html">GtkComboBox</a>. This is
+because the state of the combo box itself is probably uninteresting and is
+actually being used to control something else.</p>
+<p>Another anti-example would be to bind to the <code class="docutils literal notranslate"><span class="pre">visible-child-name</span></code>
+property of a <a class="reference external" href="https://docs.gtk.org/gtk4/class.Stack.html">GtkStack</a> if
+this value is actually stored in [class`Gio`.Settings].  In that case, the
+real source of the value is* [class`Gio`.Settings].  If you want
+a [iface`Gio`.Action] to control a setting stored in [class`Gio`.Settings],
+see [method`Gio`.Settings.create_action] instead, and possibly combine its
+use with [method`Gio`.Settings.bind].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.38.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.PropertyAction.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gpropertyaction.c#L633"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PropertyAction.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gpropertyaction.c#L607"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.PropertyAction.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

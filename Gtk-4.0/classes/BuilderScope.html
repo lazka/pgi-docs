@@ -317,6 +317,11 @@ as that class implements support for automatic lookups from C symbols.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/Closure.html#GObject.Closure" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure</span></code></a></p>
 </dd>
 </dl>
+<p>Create a closure with the given arguments. See <a class="reference internal" href="Builder.html#Gtk.Builder.create_closure" title="Gtk.Builder.create_closure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Builder.create_closure</span></code></a>()
+for more details on those.
+The C implementation will try to use dlsym() to locate the function name and then
+g_cclosure_new() to create a closure for the symbol.
+The default implementation just fails and returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -333,6 +338,11 @@ as that class implements support for automatic lookups from C symbols.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p>
 </dd>
 </dl>
+<p>Try to lookup a <code class="docutils literal notranslate"><span class="pre">GType</span></code> via the given function name, specified
+explicitly in a <a class="reference internal" href="Builder.html#Gtk.Builder" title="Gtk.Builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Builder</span></code></a> file, like via the “type-func” attribute in the <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> tag.
+This function is very rarely used.
+The C implementation will use dlsym() and call the resulting function as a <code class="docutils literal notranslate"><span class="pre">GTypeFunc</span></code>.
+The default implementation will fail and just return <a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_INVALID" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_INVALID</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -349,6 +359,11 @@ as that class implements support for automatic lookups from C symbols.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p>
 </dd>
 </dl>
+<p>Try to lookup a <code class="docutils literal notranslate"><span class="pre">GType</span></code> via the its name. See
+<a class="reference internal" href="Builder.html#Gtk.Builder.get_type_from_name" title="Gtk.Builder.get_type_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Builder.get_type_from_name</span></code></a>() for more details.
+The C implementation will use <a class="reference external" href="../../GObject-2.0/functions.html#GObject.type_from_name" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.type_from_name</span></code></a>() and if that fails try to guess the
+correct function name for registering the type and then use dlsym() to load it.
+The default implementation just tries <a class="reference external" href="../../GObject-2.0/functions.html#GObject.type_from_name" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.type_from_name</span></code></a>() and otherwise fails.</p>
 </dd></dl>
 
 </dd></dl>

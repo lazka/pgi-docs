@@ -496,12 +496,28 @@ is guaranteed to be called. Unlike GIO, there is no guarantee about where
 this callback will be called from, it could be called before the action
 returns or it could be called later from another thread. The signature of
 this callback <a class="reference internal" href="../callbacks.html#GstInsertBin.InsertBinCallback" title="GstInsertBin.InsertBinCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBinCallback</span></code></a>().</p>
+<p>Apart from the library API, since 1.24 insertbin can also be found in the
+registry:</p>
+<p>``` C
+<a class="reference external" href="../../Gst-1.0/classes/Element.html#Gst.Element" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Element</span></code></a> *pipeline, *insertbin, *videoflip;</p>
+<p><a class="reference external" href="../../Gst-1.0/functions.html#Gst.init" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.init</span></code></a> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+pipeline =
+<a class="reference external" href="../../Gst-1.0/functions.html#Gst.parse_launch" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.parse_launch</span></code></a> (“videotestsrc ! insertbin name=i ! autovideosink”,
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>…</p>
+<p>insertbin = <a class="reference external" href="../../Gst-1.0/classes/Bin.html#Gst.Bin.get_by_name" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Bin.get_by_name</span></code></a> (GST_BIN (pipeline), “i”);
+videoflip = <a class="reference external" href="../../Gst-1.0/classes/ElementFactory.html#Gst.ElementFactory.make" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.ElementFactory.make</span></code></a> (“videoflip”, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>…</p>
+<p>g_object_set (videoflip, “method”, 1, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+g_signal_emit_by_name (insertbin, “append”, videoflip, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>…
+```</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.2.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L1070"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The name of the new <a class="reference internal" href="#GstInsertBin.InsertBin" title="GstInsertBin.InsertBin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin</span></code></a> element (or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p>
@@ -521,7 +537,7 @@ this callback <a class="reference internal" href="../callbacks.html#GstInsertBin
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.append" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L927"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.append" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -542,7 +558,7 @@ in the bin.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.insert_after">
-<span class="sig-name descname"><span class="pre">insert_after</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sibling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.insert_after" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_after</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sibling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L978"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.insert_after" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -564,7 +580,7 @@ element in the bin.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.insert_before">
-<span class="sig-name descname"><span class="pre">insert_before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sibling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.insert_before" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sibling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L952"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.insert_before" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -586,7 +602,7 @@ element in the bin.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.prepend">
-<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.prepend" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L902"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.prepend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -607,7 +623,7 @@ in the bin.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstInsertBin.InsertBin.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstInsertBin.InsertBin.remove" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/1.24.5/insertbin/gstinsertbin.c#L1003"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GstInsertBin.InsertBin.remove" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -653,6 +669,9 @@ removed or not, or <a class="reference external" href="https://docs.python.org/3
 <p>This action signal adds the filter like element after any other element
 in the bin.</p>
 <p>Same as <a class="reference internal" href="#GstInsertBin.InsertBin.append" title="GstInsertBin.InsertBin.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin.append</span></code></a>()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -680,6 +699,9 @@ in the bin.</p>
 element in the bin.
 element in the bin.</p>
 <p>Same as <a class="reference internal" href="#GstInsertBin.InsertBin.insert_after" title="GstInsertBin.InsertBin.insert_after"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin.insert_after</span></code></a>()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -706,6 +728,9 @@ element in the bin.</p>
 <p>This action signal adds the filter like element before the <cite>sibling</cite>
 element in the bin.</p>
 <p>Same as <a class="reference internal" href="#GstInsertBin.InsertBin.insert_before" title="GstInsertBin.InsertBin.insert_before"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin.insert_before</span></code></a>()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -731,6 +756,9 @@ element in the bin.</p>
 <p>This action signal adds the filter like element before any other element
 in the bin.</p>
 <p>Same as <a class="reference internal" href="#GstInsertBin.InsertBin.prepend" title="GstInsertBin.InsertBin.prepend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin.prepend</span></code></a>()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -755,6 +783,9 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 </dl>
 <p>This action signal removed the filter like element from the bin.</p>
 <p>Same as <a class="reference internal" href="#GstInsertBin.InsertBin.remove" title="GstInsertBin.InsertBin.remove"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstInsertBin.InsertBin.remove</span></code></a>()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 </section>

@@ -330,20 +330,20 @@
 <dd class="field-even"><p><a class="reference internal" href="SeekableIface.html#Gio.SeekableIface" title="Gio.SeekableIface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.SeekableIface</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.Seekable" title="Gio.Seekable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Seekable</span></code></a> is implemented by streams (implementations of
-<a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> or <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a>) that support seeking.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSeekable</span></code> is implemented by streams (implementations of
+[class`Gio`.InputStream] or [class`Gio`.OutputStream]) that support seeking.</p>
 <p>Seekable streams largely fall into two categories: resizable and
 fixed-size.</p>
-<p><a class="reference internal" href="#Gio.Seekable" title="Gio.Seekable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Seekable</span></code></a> on fixed-sized streams is approximately the same as POSIX
-lseek() on a block device (for example: attempting to seek past the
-end of the device is an error).  Fixed streams typically cannot be
+<p><code class="docutils literal notranslate"><span class="pre">GSeekable</span></code> on fixed-sized streams is approximately the same as POSIX
+<a class="reference external" href="man:lseek(2">lseek()</a>) on a block device (for example: attempting to seek
+past the end of the device is an error).  Fixed streams typically cannot be
 truncated.</p>
-<p><a class="reference internal" href="#Gio.Seekable" title="Gio.Seekable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Seekable</span></code></a> on resizable streams is approximately the same as POSIX
-lseek() on a normal file.  Seeking past the end and writing data will
-usually cause the stream to resize by introducing zero bytes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSeekable</span></code> on resizable streams is approximately the same as POSIX
+<a class="reference external" href="man:lseek(2">lseek()</a>) on a normal file.  Seeking past the end and writing
+data will usually cause the stream to resize by introducing zero bytes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Seekable.can_seek">
-<span class="sig-name descname"><span class="pre">can_seek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gseekable.c#L88"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.can_seek" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_seek</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gseekable.c#L85"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.can_seek" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> can be seeked. <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -357,7 +357,7 @@ usually cause the stream to resize by introducing zero bytes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Seekable.can_truncate">
-<span class="sig-name descname"><span class="pre">can_truncate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gseekable.c#L153"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.can_truncate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_truncate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gseekable.c#L150"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.can_truncate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the stream can be truncated, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -372,7 +372,7 @@ usually cause the stream to resize by introducing zero bytes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Seekable.seek">
-<span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gseekable.c#L132"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.seek" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gseekable.c#L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.seek" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -408,7 +408,7 @@ was cancelled, the error <a class="reference internal" href="../enums.html#Gio.I
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Seekable.tell">
-<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gseekable.c#L68"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.tell" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gseekable.c#L65"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.tell" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the (positive or zero) offset from the beginning of the
@@ -423,7 +423,7 @@ buffer, zero if the target is not seekable.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Seekable.truncate">
-<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gseekable.c#L190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.truncate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">truncate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gseekable.c#L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Seekable.truncate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

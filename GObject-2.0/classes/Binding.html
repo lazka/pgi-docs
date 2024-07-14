@@ -336,27 +336,27 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#GObject.Binding.props.flags" title="GObject.Binding.props.flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">flags</span></code></a></p></td>
 <td><p><a class="reference internal" href="../flags.html#GObject.BindingFlags" title="GObject.BindingFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BindingFlags</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The binding flags</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#GObject.Binding.props.source" title="GObject.Binding.props.source"><code class="xref py py-data docutils literal notranslate"><span class="pre">source</span></code></a></p></td>
 <td><p><a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The source of the binding</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#GObject.Binding.props.source_property" title="GObject.Binding.props.source_property"><code class="xref py py-data docutils literal notranslate"><span class="pre">source-property</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The property on the source to bind</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#GObject.Binding.props.target" title="GObject.Binding.props.target"><code class="xref py py-data docutils literal notranslate"><span class="pre">target</span></code></a></p></td>
 <td><p><a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The target of the binding</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#GObject.Binding.props.target_property" title="GObject.Binding.props.target_property"><code class="xref py py-data docutils literal notranslate"><span class="pre">target-property</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The property on the target to bind</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -390,40 +390,51 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#GObject.Binding" title="GObject.Binding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding</span></code></a> is the representation of a binding between a property on a
-<a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> instance (or source) and another property on another <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>
+<p><code class="docutils literal notranslate"><span class="pre">GObject</span></code> instance (or source) and another property on another <code class="docutils literal notranslate"><span class="pre">GObject</span></code>
 instance (or target).</p>
 <p>Whenever the source property changes, the same value is applied to the
 target property; for instance, the following binding:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_object_bind_property</span><span class="w"> </span><span class="p">(</span><span class="n">object1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;property-a&quot;</span><span class="p">,</span>
-<span class="n">object2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;property-b&quot;</span><span class="p">,</span>
-<span class="n">G_BINDING_DEFAULT</span><span class="p">);</span>
-</pre></div>
-</div>
+<dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">``</span></a>c</dt><dd><dl class="simple">
+<dt>g_object_bind_property (object1, “property-a”,</dt><dd><p>object2, “property-b”,
+G_BINDING_DEFAULT);</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a></p>
 <p>will cause the property named “property-b” of <cite>object2</cite> to be updated
-every time g_object_set() or the specific accessor changes the value of
+every time [method`GObject`.set] or the specific accessor changes the value of
 the property “property-a” of <cite>object1</cite>.</p>
 <p>It is possible to create a bidirectional binding between two properties
-of two <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> instances, so that if either property changes, the
+of two <code class="docutils literal notranslate"><span class="pre">GObject</span></code> instances, so that if either property changes, the
 other is updated as well, for instance:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_object_bind_property</span><span class="w"> </span><span class="p">(</span><span class="n">object1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;property-a&quot;</span><span class="p">,</span>
-<span class="n">object2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;property-b&quot;</span><span class="p">,</span>
-<span class="n">G_BINDING_BIDIRECTIONAL</span><span class="p">);</span>
-</pre></div>
-</div>
+<dl class="simple">
+<dt><a href="#id5"><span class="problematic" id="id6">``</span></a>c</dt><dd><dl class="simple">
+<dt>g_object_bind_property (object1, “property-a”,</dt><dd><p>object2, “property-b”,
+G_BINDING_BIDIRECTIONAL);</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a></p>
 <p>will keep the two properties in sync.</p>
 <p>It is also possible to set a custom transformation function (in both
 directions, in case of a bidirectional binding) to apply a custom
 transformation from the source value to the target value before
 applying it; for instance, the following binding:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_object_bind_property_full</span><span class="w"> </span><span class="p">(</span><span class="n">adjustment1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">,</span>
-<span class="n">adjustment2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p">,</span>
-<span class="n">G_BINDING_BIDIRECTIONAL</span><span class="p">,</span>
-<span class="n">celsius_to_fahrenheit</span><span class="p">,</span>
-<span class="n">fahrenheit_to_celsius</span><span class="p">,</span>
-<span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</pre></div>
-</div>
+<dl class="simple">
+<dt><a href="#id9"><span class="problematic" id="id10">``</span></a>c</dt><dd><dl class="simple">
+<dt>g_object_bind_property_full (adjustment1, “value”,</dt><dd><p>adjustment2, “value”,
+G_BINDING_BIDIRECTIONAL,
+celsius_to_fahrenheit,
+fahrenheit_to_celsius,
+NULL, NULL);</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a></p>
 <p>will keep the “value” property of the two adjustments in sync; the
 <cite>celsius_to_fahrenheit</cite> function will be called whenever the “value”
 property of <cite>adjustment1</cite> changes and will transform the current value
@@ -433,31 +444,32 @@ the “value” property of <cite>adjustment2</cite> changes, and will transform
 current value of the property before applying it to the “value” property
 of <cite>adjustment1</cite>.</p>
 <p>Note that <a class="reference internal" href="#GObject.Binding" title="GObject.Binding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding</span></code></a> does not resolve cycles by itself; a cycle like</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>object1:propertyA -&gt; object2:propertyB
+<dl class="simple">
+<dt><a href="#id13"><span class="problematic" id="id14">``</span></a></dt><dd><p>object1:propertyA -&gt; object2:propertyB
 object2:propertyB -&gt; object3:propertyC
-object3:propertyC -&gt; object1:propertyA
-</pre></div>
-</div>
+object3:propertyC -&gt; object1:propertyA</p>
+</dd>
+</dl>
+<p><a href="#id15"><span class="problematic" id="id16">``</span></a></p>
 <p>might lead to an infinite loop. The loop, in this particular case,
-can be avoided if the objects emit the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> <a class="reference internal" href="Object.html#GObject.Object.signals.notify" title="GObject.Object.signals.notify"><code class="xref py py-func docutils literal notranslate"><span class="pre">::notify</span></code></a> signal only
+can be avoided if the objects emit the <code class="docutils literal notranslate"><span class="pre">GObject::notify</span></code> signal only
 if the value has effectively been changed. A binding is implemented
-using the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> <a class="reference internal" href="Object.html#GObject.Object.signals.notify" title="GObject.Object.signals.notify"><code class="xref py py-func docutils literal notranslate"><span class="pre">::notify</span></code></a> signal, so it is susceptible to all the
-various ways of blocking a signal emission, like <a class="reference internal" href="../functions.html#GObject.signal_stop_emission" title="GObject.signal_stop_emission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.signal_stop_emission</span></code></a>()
-or <a class="reference internal" href="../functions.html#GObject.signal_handler_block" title="GObject.signal_handler_block"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.signal_handler_block</span></code></a>().</p>
+using the <code class="docutils literal notranslate"><span class="pre">GObject::notify</span></code> signal, so it is susceptible to all the
+various ways of blocking a signal emission, like [func`GObject`.signal_stop_emission]
+or [func`GObject`.signal_handler_block].</p>
 <p>A binding will be severed, and the resources it allocates freed, whenever
-either one of the <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> instances it refers to are finalized, or when
+either one of the <code class="docutils literal notranslate"><span class="pre">GObject</span></code> instances it refers to are finalized, or when
 the <a class="reference internal" href="#GObject.Binding" title="GObject.Binding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding</span></code></a> instance loses its last reference.</p>
 <p>Bindings for languages with garbage collection can use
-<a class="reference internal" href="#GObject.Binding.unbind" title="GObject.Binding.unbind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding.unbind</span></code></a>() to explicitly release a binding between the source
+[method`GObject`.Binding.unbind] to explicitly release a binding between the source
 and target properties, instead of relying on the last reference on the
 binding, source, and target instances to drop.</p>
-<p><a class="reference internal" href="#GObject.Binding" title="GObject.Binding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding</span></code></a> is available since <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> 2.26</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.dup_source">
-<span class="sig-name descname"><span class="pre">dup_source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.dup_source" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1040"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.dup_source" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the source <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
@@ -478,7 +490,7 @@ binding then this function will return <a class="reference external" href="https
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.dup_target">
-<span class="sig-name descname"><span class="pre">dup_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.dup_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.dup_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the target <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
@@ -499,7 +511,7 @@ binding then this function will return <a class="reference external" href="https
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.get_flags">
-<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.get_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L979"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.get_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <a class="reference internal" href="../flags.html#GObject.BindingFlags" title="GObject.BindingFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BindingFlags</span></code></a> used by the <a class="reference internal" href="#GObject.Binding" title="GObject.Binding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Binding</span></code></a></p>
@@ -516,7 +528,7 @@ binding then this function will return <a class="reference external" href="https
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.get_source">
-<span class="sig-name descname"><span class="pre">get_source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.get_source" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1009"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.get_source" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the source <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
@@ -543,7 +555,7 @@ invalid if the source is finalized from another thread in the meantime.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.get_source_property">
-<span class="sig-name descname"><span class="pre">get_source_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.get_source_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_source_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1120"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.get_source_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the name of the source property</p>
@@ -561,7 +573,7 @@ of the binding.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.get_target">
-<span class="sig-name descname"><span class="pre">get_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.get_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1070"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.get_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the target <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
@@ -588,7 +600,7 @@ invalid if the target is finalized from another thread in the meantime.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.get_target_property">
-<span class="sig-name descname"><span class="pre">get_target_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.get_target_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_property</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.get_target_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the name of the target property</p>
@@ -606,7 +618,7 @@ of the binding.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Binding.unbind">
-<span class="sig-name descname"><span class="pre">unbind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Binding.unbind" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unbind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1165"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Binding.unbind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Explicitly releases the binding between the source and the target
 property expressed by <cite>self</cite>.</p>
 <p>This function will release the reference that is being held on

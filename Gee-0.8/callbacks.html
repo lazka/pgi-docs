@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>
+    Callbacks -
+    
+    Gee 0.8
+  </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
+  
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interfaces" href="interfaces.html" />
+    <link rel="prev" title="Functions" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+<div class="non-fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Gee-0.8/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Gee 0.8</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gee.EqualDataFunc"><code class="docutils literal notranslate"><span class="pre">Gee.EqualDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FlatMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FlatMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FoldFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FoldFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FoldMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FoldMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.ForallFunc"><code class="docutils literal notranslate"><span class="pre">Gee.ForallFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.ForallMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.ForallMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.HashDataFunc"><code class="docutils literal notranslate"><span class="pre">Gee.HashDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.LazyFunc"><code class="docutils literal notranslate"><span class="pre">Gee.LazyFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.MapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.MapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.Predicate"><code class="docutils literal notranslate"><span class="pre">Gee.Predicate()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.StreamFunc"><code class="docutils literal notranslate"><span class="pre">Gee.StreamFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.Task"><code class="docutils literal notranslate"><span class="pre">Gee.Task()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.UnfoldFunc"><code class="docutils literal notranslate"><span class="pre">Gee.UnfoldFunc()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+<div class="fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Gee-0.8/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Gee 0.8</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gee.EqualDataFunc"><code class="docutils literal notranslate"><span class="pre">Gee.EqualDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FlatMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FlatMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FoldFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FoldFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.FoldMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.FoldMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.ForallFunc"><code class="docutils literal notranslate"><span class="pre">Gee.ForallFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.ForallMapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.ForallMapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.HashDataFunc"><code class="docutils literal notranslate"><span class="pre">Gee.HashDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.LazyFunc"><code class="docutils literal notranslate"><span class="pre">Gee.LazyFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.MapFunc"><code class="docutils literal notranslate"><span class="pre">Gee.MapFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.Predicate"><code class="docutils literal notranslate"><span class="pre">Gee.Predicate()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.StreamFunc"><code class="docutils literal notranslate"><span class="pre">Gee.StreamFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.Task"><code class="docutils literal notranslate"><span class="pre">Gee.Task()</span></code></a></li>
+<li><a class="reference internal" href="#Gee.UnfoldFunc"><code class="docutils literal notranslate"><span class="pre">Gee.UnfoldFunc()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="main">
+            
+  <section id="callbacks">
+<h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this heading">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1.0%" />
+<col style="width: 99.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.EqualDataFunc" title="Gee.EqualDataFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">EqualDataFunc</span></code></a> (t_type, t_dup_func, t_destroy_func, a, b, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.FlatMapFunc" title="Gee.FlatMapFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">FlatMapFunc</span></code></a> (a_type, a_dup_func, a_destroy_func, g_type, g_dup_func, g_destroy_func, g, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.FoldFunc" title="Gee.FoldFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">FoldFunc</span></code></a> (a_type, a_dup_func, a_destroy_func, g_type, g_dup_func, g_destroy_func, g, a, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.FoldMapFunc" title="Gee.FoldMapFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">FoldMapFunc</span></code></a> (a_type, a_dup_func, a_destroy_func, k_type, k_dup_func, k_destroy_func, v_type, v_dup_func, v_destroy_func, k, v, a, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.ForallFunc" title="Gee.ForallFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ForallFunc</span></code></a> (g_type, g_dup_func, g_destroy_func, g, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.ForallMapFunc" title="Gee.ForallMapFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ForallMapFunc</span></code></a> (k_type, k_dup_func, k_destroy_func, v_type, v_dup_func, v_destroy_func, k, v, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.HashDataFunc" title="Gee.HashDataFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">HashDataFunc</span></code></a> (t_type, t_dup_func, t_destroy_func, v, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.LazyFunc" title="Gee.LazyFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">LazyFunc</span></code></a> (g_type, g_dup_func, g_destroy_func, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.MapFunc" title="Gee.MapFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">MapFunc</span></code></a> (a_type, a_dup_func, a_destroy_func, g_type, g_dup_func, g_destroy_func, g, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.Predicate" title="Gee.Predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">Predicate</span></code></a> (g_type, g_dup_func, g_destroy_func, g, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.StreamFunc" title="Gee.StreamFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">StreamFunc</span></code></a> (g_type, g_dup_func, g_destroy_func, a_type, a_dup_func, a_destroy_func, state, g, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gee.Task" title="Gee.Task"><code class="xref py py-func docutils literal notranslate"><span class="pre">Task</span></code></a> (g_type, g_dup_func, g_destroy_func, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gee.UnfoldFunc" title="Gee.UnfoldFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UnfoldFunc</span></code></a> (a_type, a_dup_func, a_destroy_func, *user_data)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.EqualDataFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">EqualDataFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.EqualDataFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>t_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>t_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.FlatMapFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">FlatMapFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.FlatMapFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="classes/Iterator.html#Gee.Iterator" title="Gee.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.Iterator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.FoldFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">FoldFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.FoldFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.FoldMapFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">FoldMapFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.FoldMapFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>k_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>k_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>k_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>v_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>v_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>v_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.ForallFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">ForallFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.ForallFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.ForallMapFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">ForallMapFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.ForallMapFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>k_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>k_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>v_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>v_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>v_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.HashDataFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">HashDataFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.HashDataFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>t_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>t_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.LazyFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">LazyFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.LazyFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.MapFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">MapFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.MapFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.Predicate">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">Predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.Predicate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.StreamFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">StreamFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.StreamFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>state</strong> (<a class="reference internal" href="enums.html#Gee.TraversableStream" title="Gee.TraversableStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.TraversableStream</span></code></a>) – </p></li>
+<li><p><strong>g</strong> (<a class="reference internal" href="classes/Lazy.html#Gee.Lazy" title="Gee.Lazy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.Lazy</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(<a class="reference internal" href="enums.html#Gee.TraversableStream" title="Gee.TraversableStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.TraversableStream</span></code></a>, <strong>lazy</strong>: <a class="reference internal" href="classes/Lazy.html#Gee.Lazy" title="Gee.Lazy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.Lazy</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.Task">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_destroy_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.Task" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>g_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>g_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gee.UnfoldFunc">
+<span class="sig-prename descclassname"><span class="pre">Gee.</span></span><span class="sig-name descname"><span class="pre">UnfoldFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_dup_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_destroy_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gee.UnfoldFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_type</strong> (<a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – </p></li>
+<li><p><strong>a_dup_func</strong> (<a class="reference external" href="../GObject-2.0/callbacks.html#GObject.BoxedCopyFunc" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.BoxedCopyFunc</span></code></a>) – </p></li>
+<li><p><strong>a_destroy_func</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="classes/Lazy.html#Gee.Lazy" title="Gee.Lazy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gee.Lazy</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div> 
+
+</body>
+</html>

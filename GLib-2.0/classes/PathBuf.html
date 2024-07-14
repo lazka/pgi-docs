@@ -294,37 +294,30 @@
 <dd><p><code class="docutils literal notranslate"><span class="pre">GPathBuf</span></code> is a helper type that allows you to easily build paths from
 individual elements, using the platform specific conventions for path
 separators.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_auto</span><span class="w"> </span><span class="p">(</span><span class="n">GPathBuf</span><span class="p">)</span><span class="w"> </span><span class="n">path</span><span class="p">;</span>
-
-<span class="n">g_path_buf_init</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">);</span>
-
-<span class="n">g_path_buf_push</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usr&quot;</span><span class="p">);</span>
-<span class="n">g_path_buf_push</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bin&quot;</span><span class="p">);</span>
-<span class="n">g_path_buf_push</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;echo&quot;</span><span class="p">);</span>
-
-<span class="n">g_autofree</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">echo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_path_buf_to_path</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">);</span>
-<span class="n">g_assert_cmpstr</span><span class="w"> </span><span class="p">(</span><span class="n">echo</span><span class="p">,</span><span class="w"> </span><span class="o">==</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/usr/bin/echo&quot;</span><span class="p">);</span>
-</pre></div>
-</div>
+<p>```c
+g_auto (<a class="reference internal" href="#GLib.PathBuf" title="GLib.PathBuf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf</span></code></a>) path;</p>
+<p><a class="reference internal" href="#GLib.PathBuf.init" title="GLib.PathBuf.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.init</span></code></a> (&amp;path);</p>
+<p><a class="reference internal" href="#GLib.PathBuf.push" title="GLib.PathBuf.push"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.push</span></code></a> (&amp;path, “usr”);
+<a class="reference internal" href="#GLib.PathBuf.push" title="GLib.PathBuf.push"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.push</span></code></a> (&amp;path, “bin”);
+<a class="reference internal" href="#GLib.PathBuf.push" title="GLib.PathBuf.push"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.push</span></code></a> (&amp;path, “echo”);</p>
+<p>g_autofree <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *echo = <a class="reference internal" href="#GLib.PathBuf.to_path" title="GLib.PathBuf.to_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.to_path</span></code></a> (&amp;path);
+g_assert_cmpstr (echo, ==, “/usr/bin/echo”);
+```</p>
 <p>You can also load a full path and then operate on its components:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_auto</span><span class="w"> </span><span class="p">(</span><span class="n">GPathBuf</span><span class="p">)</span><span class="w"> </span><span class="n">path</span><span class="p">;</span>
-
-<span class="n">g_path_buf_init_from_path</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/usr/bin/echo&quot;</span><span class="p">);</span>
-
-<span class="n">g_path_buf_pop</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">);</span>
-<span class="n">g_path_buf_push</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sh&quot;</span><span class="p">);</span>
-
-<span class="n">g_autofree</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">sh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_path_buf_to_path</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">path</span><span class="p">);</span>
-<span class="n">g_assert_cmpstr</span><span class="w"> </span><span class="p">(</span><span class="n">sh</span><span class="p">,</span><span class="w"> </span><span class="o">==</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/usr/bin/sh&quot;</span><span class="p">);</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">GPathBuf</span></code> is available since GLib 2.76.</p>
+<p>```c
+g_auto (<a class="reference internal" href="#GLib.PathBuf" title="GLib.PathBuf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf</span></code></a>) path;</p>
+<p><a class="reference internal" href="#GLib.PathBuf.init_from_path" title="GLib.PathBuf.init_from_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.init_from_path</span></code></a> (&amp;path, “/usr/bin/echo”);</p>
+<p><a class="reference internal" href="#GLib.PathBuf.pop" title="GLib.PathBuf.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.pop</span></code></a> (&amp;path);
+<a class="reference internal" href="#GLib.PathBuf.push" title="GLib.PathBuf.push"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.push</span></code></a> (&amp;path, “sh”);</p>
+<p>g_autofree <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *sh = <a class="reference internal" href="#GLib.PathBuf.to_path" title="GLib.PathBuf.to_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.to_path</span></code></a> (&amp;path);
+g_assert_cmpstr (sh, ==, “/usr/bin/sh”);
+```</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.76.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.equal">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L579"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.equal" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L577"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.equal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -354,7 +347,7 @@ equal.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L130"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L128"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears the contents of the path buffer.</p>
 <p>This function should be use to free the resources in a stack-allocated
 <code class="docutils literal notranslate"><span class="pre">GPathBuf</span></code> initialized using <a class="reference internal" href="#GLib.PathBuf.init" title="GLib.PathBuf.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PathBuf.init</span></code></a>() or
@@ -366,7 +359,7 @@ equal.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.clear_to_path">
-<span class="sig-name descname"><span class="pre">clear_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L155"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.clear_to_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L153"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.clear_to_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the built path</p>
@@ -385,7 +378,7 @@ equal.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L207"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L205"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees a <code class="docutils literal notranslate"><span class="pre">GPathBuf</span></code> allocated by g_path_buf_new().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.76.</span></p>
@@ -394,7 +387,7 @@ equal.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.free_to_path">
-<span class="sig-name descname"><span class="pre">free_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L231"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.free_to_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L229"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.free_to_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the path</p>
@@ -414,7 +407,7 @@ returns the path inside the buffer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L81"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.init" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L79"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.init" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the initialized path builder</p>
@@ -431,7 +424,7 @@ returns the path inside the buffer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.init_from_path">
-<span class="sig-name descname"><span class="pre">init_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L104"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.init_from_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.init_from_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a file system path</p>
@@ -451,7 +444,7 @@ returns the path inside the buffer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.pop">
-<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L417"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.pop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L415"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.pop" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the buffer was modified and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> otherwise</p>
@@ -488,7 +481,7 @@ not be removed and <a class="reference external" href="https://docs.python.org/3
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.push">
-<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L321"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.push" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L319"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.push" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a path</p>
@@ -530,7 +523,7 @@ only directory separator.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.set_extension">
-<span class="sig-name descname"><span class="pre">set_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L508"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.set_extension" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L506"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.set_extension" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>extension</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the file extension</p>
@@ -553,7 +546,7 @@ only directory separator.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.set_filename">
-<span class="sig-name descname"><span class="pre">set_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L476"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.set_filename" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L474"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.set_filename" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the file name in the path</p>
@@ -598,7 +591,7 @@ sibling of the original path.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.PathBuf.to_path">
-<span class="sig-name descname"><span class="pre">to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gpathbuf.c#L536"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.to_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gpathbuf.c#L534"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.PathBuf.to_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the path</p>

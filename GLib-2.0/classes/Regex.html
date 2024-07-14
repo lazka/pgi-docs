@@ -73,7 +73,7 @@
   </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="GLib.SList" href="SList.html" />
+    <link rel="next" title="GLib.Relation" href="Relation.html" />
     <link rel="prev" title="GLib.RecMutex" href="RecMutex.html" /> 
 </head>
 
@@ -104,7 +104,7 @@
 
 
 
-<td><a accesskey="n" href="SList.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="Relation.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -138,6 +138,7 @@
 <li><a class="reference internal" href="#GLib.Regex.match_full"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.match_full()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.ref"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.ref()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.replace"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Regex.replace_eval"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace_eval()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.replace_literal"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace_literal()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.split"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.split()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.split_full"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.split_full()</span></code></a></li>
@@ -178,7 +179,7 @@
 
 
 
-<td><a accesskey="n" href="SList.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="Relation.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -212,6 +213,7 @@
 <li><a class="reference internal" href="#GLib.Regex.match_full"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.match_full()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.ref"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.ref()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.replace"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Regex.replace_eval"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace_eval()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.replace_literal"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.replace_literal()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.split"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.split()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Regex.split_full"><code class="docutils literal notranslate"><span class="pre">GLib.Regex.split_full()</span></code></a></li>
@@ -316,15 +318,18 @@
 <td><p><a class="reference internal" href="#GLib.Regex.replace" title="GLib.Regex.replace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace</span></code></a> (string, start_position, replacement, match_options)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GLib.Regex.replace_eval" title="GLib.Regex.replace_eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_eval</span></code></a> (string, start_position, match_options, eval, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#GLib.Regex.replace_literal" title="GLib.Regex.replace_literal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_literal</span></code></a> (string, start_position, replacement, match_options)</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#GLib.Regex.split" title="GLib.Regex.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split</span></code></a> (string, match_options)</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#GLib.Regex.split_full" title="GLib.Regex.split_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_full</span></code></a> (string, start_position, match_options, max_tokens)</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#GLib.Regex.unref" title="GLib.Regex.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unref</span></code></a> ()</p></td>
 </tr>
 </tbody>
@@ -335,9 +340,10 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Regex">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Regex</span></span><a class="headerlink" href="#GLib.Regex" title="Permalink to this definition">¶</a></dt>
-<dd><p>The g_regex_*() functions implement regular
-expression pattern matching using syntax and semantics similar to
-Perl regular expression.</p>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">GRegex</span></code> is the “compiled” form of a regular expression pattern.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GRegex</span></code> implements regular expression pattern matching using syntax and
+semantics similar to Perl regular expression. See the
+<a class="reference external" href="man:pcrepattern(3">PCRE documentation</a>) for the syntax definition.</p>
 <p>Some functions accept a <cite>start_position</cite> argument, setting it differs
 from just passing over a shortened string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a>
 in the case of a pattern that begins with any kind of lookbehind assertion.
@@ -367,27 +373,25 @@ separator, U+2028), or PS (paragraph separator, U+2029).</p>
 <p>The behaviour of the dot, circumflex, and dollar metacharacters are
 affected by newline characters, the default is to recognize any newline
 character (the same characters recognized by “\R”). This can be changed
-with <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_CR" title="GLib.RegexCompileFlags.NEWLINE_CR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexCompileFlags.NEWLINE_CR</span></code></a>, <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_LF" title="GLib.RegexCompileFlags.NEWLINE_LF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexCompileFlags.NEWLINE_LF</span></code></a> and <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.NEWLINE_CRLF" title="GLib.RegexCompileFlags.NEWLINE_CRLF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexCompileFlags.NEWLINE_CRLF</span></code></a>
-compile options, and with <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_ANY" title="GLib.RegexMatchFlags.NEWLINE_ANY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NEWLINE_ANY</span></code></a>,
-<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_CR" title="GLib.RegexMatchFlags.NEWLINE_CR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NEWLINE_CR</span></code></a>, <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_LF" title="GLib.RegexMatchFlags.NEWLINE_LF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NEWLINE_LF</span></code></a> and
-<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NEWLINE_CRLF" title="GLib.RegexMatchFlags.NEWLINE_CRLF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NEWLINE_CRLF</span></code></a> match options. These settings are also
-relevant when compiling a pattern if <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags.EXTENDED" title="GLib.RegexCompileFlags.EXTENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexCompileFlags.EXTENDED</span></code></a> is set, and an
+with <code class="docutils literal notranslate"><span class="pre">G_REGEX_NEWLINE_CR</span></code>, <code class="docutils literal notranslate"><span class="pre">G_REGEX_NEWLINE_LF</span></code> and <code class="docutils literal notranslate"><span class="pre">G_REGEX_NEWLINE_CRLF</span></code>
+compile options, and with <code class="docutils literal notranslate"><span class="pre">G_REGEX_MATCH_NEWLINE_ANY</span></code>,
+<code class="docutils literal notranslate"><span class="pre">G_REGEX_MATCH_NEWLINE_CR</span></code>, <code class="docutils literal notranslate"><span class="pre">G_REGEX_MATCH_NEWLINE_LF</span></code> and
+<code class="docutils literal notranslate"><span class="pre">G_REGEX_MATCH_NEWLINE_CRLF</span></code> match options. These settings are also
+relevant when compiling a pattern if <code class="docutils literal notranslate"><span class="pre">G_REGEX_EXTENDED</span></code> is set, and an
 unescaped “#” outside a character class is encountered. This indicates
 a comment that lasts until after the next newline.</p>
-<p>Creating and manipulating the same <a class="reference internal" href="#GLib.Regex" title="GLib.Regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Regex</span></code></a> structure from different
-threads is not a problem as <a class="reference internal" href="#GLib.Regex" title="GLib.Regex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Regex</span></code></a> does not modify its internal
-state between creation and destruction, on the other hand <a class="reference internal" href="MatchInfo.html#GLib.MatchInfo" title="GLib.MatchInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MatchInfo</span></code></a>
+<p>Creating and manipulating the same <code class="docutils literal notranslate"><span class="pre">GRegex</span></code> structure from different
+threads is not a problem as <code class="docutils literal notranslate"><span class="pre">GRegex</span></code> does not modify its internal
+state between creation and destruction, on the other hand <code class="docutils literal notranslate"><span class="pre">GMatchInfo</span></code>
 is not threadsafe.</p>
 <p>The regular expressions low-level functionalities are obtained through
-the excellent
-<a class="reference external" href="http://www.pcre.org/">PCRE</a>
-library written by Philip Hazel.</p>
+the excellent <a class="reference external" href="http://www.pcre.org/">PCRE</a> library written by Philip Hazel.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.14.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.check_replacement">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_replacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L3528"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.check_replacement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_replacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.check_replacement" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>replacement</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the replacement string</p>
@@ -424,7 +428,7 @@ subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GL
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1658"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1657"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -434,7 +438,7 @@ subpattern) requires valid <a class="reference internal" href="MatchInfo.html#GL
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.escape_nul">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_nul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L3566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.escape_nul" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_nul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.escape_nul" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -460,7 +464,7 @@ In this case the output string will be of course equal to <cite>string</cite>.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.escape_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L3636"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.escape_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3635"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.escape_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -488,7 +492,7 @@ in <cite>length</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.match_simple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">match_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2132"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_simple" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">match_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2131"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_simple" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -520,7 +524,7 @@ once, it’s more efficient to compile the pattern once with
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1730"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1729"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -549,7 +553,7 @@ the initial setup of the <a class="reference internal" href="#GLib.Regex" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.split_simple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2576"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split_simple" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_simple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2575"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split_simple" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -597,7 +601,7 @@ characters. For example splitting “ab c” using as a separator
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_capture_count">
-<span class="sig-name descname"><span class="pre">get_capture_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1971"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_capture_count" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_capture_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1970"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_capture_count" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of capturing subpatterns</p>
@@ -614,7 +618,7 @@ characters. For example splitting “ab c” using as a separator
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_compile_flags">
-<span class="sig-name descname"><span class="pre">get_compile_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2038"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_compile_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_compile_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2037"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_compile_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>flags from <a class="reference internal" href="../flags.html#GLib.RegexCompileFlags" title="GLib.RegexCompileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexCompileFlags</span></code></a></p>
@@ -634,7 +638,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_has_cr_or_lf">
-<span class="sig-name descname"><span class="pre">get_has_cr_or_lf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1991"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_has_cr_or_lf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_has_cr_or_lf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1990"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_has_cr_or_lf" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the pattern contains explicit CR or LF references</p>
@@ -651,7 +655,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_match_flags">
-<span class="sig-name descname"><span class="pre">get_match_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2093"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_match_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_match_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2092"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_match_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>flags from <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags</span></code></a></p>
@@ -668,7 +672,7 @@ top-level within the compiled pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_max_backref">
-<span class="sig-name descname"><span class="pre">get_max_backref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1951"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_max_backref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_max_backref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1950"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_max_backref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of the highest back reference</p>
@@ -687,7 +691,7 @@ back references.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_max_lookbehind">
-<span class="sig-name descname"><span class="pre">get_max_lookbehind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2013"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_max_lookbehind" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_max_lookbehind</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2012"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_max_lookbehind" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of characters in the longest lookbehind assertion.</p>
@@ -706,7 +710,7 @@ the partial matching facilities.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_pattern">
-<span class="sig-name descname"><span class="pre">get_pattern</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1931"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_pattern" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_pattern</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1930"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_pattern" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the pattern of <cite>self</cite></p>
@@ -724,7 +728,7 @@ the string passed to <a class="reference internal" href="#GLib.Regex.new" title=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.get_string_number">
-<span class="sig-name descname"><span class="pre">get_string_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_string_number" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2517"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.get_string_number" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – name of the subexpression</p>
@@ -745,7 +749,7 @@ does not exists</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.match">
-<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2202"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2201"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -809,7 +813,7 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.match_all">
-<span class="sig-name descname"><span class="pre">match_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2335"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_all" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">match_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2334"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_all" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -850,7 +854,7 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.match_all_full">
-<span class="sig-name descname"><span class="pre">match_all_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2402"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_all_full" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">match_all_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2401"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_all_full" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -914,7 +918,7 @@ freeing or modifying <cite>string</cite> then the behaviour is undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.match_full">
-<span class="sig-name descname"><span class="pre">match_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2282"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_full" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">match_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2281"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.match_full" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -992,7 +996,7 @@ string you can use <a class="reference internal" href="MatchInfo.html#GLib.Match
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1672"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite></p>
@@ -1009,7 +1013,7 @@ string you can use <a class="reference internal" href="MatchInfo.html#GLib.Match
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.replace">
-<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L3306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.replace" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3305"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.replace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1058,8 +1062,79 @@ begins with any kind of lookbehind assertion, such as “\b”.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="GLib.Regex.replace_eval">
+<span class="sig-name descname"><span class="pre">replace_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3460"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.replace_eval" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – string to perform matches against</p></li>
+<li><p><strong>start_position</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – starting index of the string to match, in bytes</p></li>
+<li><p><strong>match_options</strong> (<a class="reference internal" href="../flags.html#GLib.RegexMatchFlags" title="GLib.RegexMatchFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags</span></code></a>) – options for the match</p></li>
+<li><p><strong>eval</strong> (<a class="reference internal" href="../callbacks.html#GLib.RegexEvalCallback" title="GLib.RegexEvalCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexEvalCallback</span></code></a>) – a function to call for each match</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data to pass to the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a newly allocated string containing the replacements</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Replaces occurrences of the pattern in regex with the output of
+<cite>eval</cite> for that occurrence.</p>
+<p>Setting <cite>start_position</cite> differs from just passing over a shortened
+string and setting <a class="reference internal" href="../flags.html#GLib.RegexMatchFlags.NOTBOL" title="GLib.RegexMatchFlags.NOTBOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.RegexMatchFlags.NOTBOL</span></code></a> in the case of a pattern
+that begins with any kind of lookbehind assertion, such as “\b”.</p>
+<p>The following example uses <a class="reference internal" href="#GLib.Regex.replace_eval" title="GLib.Regex.replace_eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Regex.replace_eval</span></code></a>() to replace multiple
+strings at once:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">gboolean</span>
+<span class="nf">eval_cb</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">GMatchInfo</span><span class="w"> </span><span class="o">*</span><span class="n">info</span><span class="p">,</span>
+<span class="w">         </span><span class="n">GString</span><span class="w">          </span><span class="o">*</span><span class="n">res</span><span class="p">,</span>
+<span class="w">         </span><span class="n">gpointer</span><span class="w">          </span><span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">match</span><span class="p">;</span>
+<span class="w">  </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">r</span><span class="p">;</span>
+
+<span class="w">   </span><span class="n">match</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_match_info_fetch</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">   </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_hash_table_lookup</span><span class="w"> </span><span class="p">((</span><span class="n">GHashTable</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">match</span><span class="p">);</span>
+<span class="w">   </span><span class="n">g_string_append</span><span class="w"> </span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
+<span class="w">   </span><span class="n">g_free</span><span class="w"> </span><span class="p">(</span><span class="n">match</span><span class="p">);</span>
+
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="n">GRegex</span><span class="w"> </span><span class="o">*</span><span class="n">reg</span><span class="p">;</span>
+<span class="n">GHashTable</span><span class="w"> </span><span class="o">*</span><span class="n">h</span><span class="p">;</span>
+<span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">res</span><span class="p">;</span>
+
+<span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_hash_table_new</span><span class="w"> </span><span class="p">(</span><span class="n">g_str_hash</span><span class="p">,</span><span class="w"> </span><span class="n">g_str_equal</span><span class="p">);</span>
+
+<span class="n">g_hash_table_insert</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ONE&quot;</span><span class="p">);</span>
+<span class="n">g_hash_table_insert</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TWO&quot;</span><span class="p">);</span>
+<span class="n">g_hash_table_insert</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;THREE&quot;</span><span class="p">);</span>
+<span class="n">g_hash_table_insert</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;FOUR&quot;</span><span class="p">);</span>
+
+<span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_regex_new</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;1|2|3|4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">G_REGEX_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="n">G_REGEX_MATCH_DEFAULT</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_regex_replace_eval</span><span class="w"> </span><span class="p">(</span><span class="n">reg</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">eval_cb</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">g_hash_table_destroy</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="p">);</span>
+
+<span class="p">...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.replace_literal">
-<span class="sig-name descname"><span class="pre">replace_literal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L3379"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.replace_literal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">replace_literal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L3378"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.replace_literal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1093,7 +1168,7 @@ assertion, such as “\b”.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.split">
-<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2622"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2621"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1131,7 +1206,7 @@ For example splitting “ab c” using as a separator “\s*”, you will get
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.split_full">
-<span class="sig-name descname"><span class="pre">split_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L2673"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split_full" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">split_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L2672"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.split_full" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1178,7 +1253,7 @@ that begins with any kind of lookbehind assertion, such as “\b”.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Regex.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gregex.c#L1689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gregex.c#L1688"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Regex.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases reference count of <cite>self</cite> by 1. When reference count drops
 to zero, it frees all the memory associated with the regex structure.</p>
 <div class="versionadded">

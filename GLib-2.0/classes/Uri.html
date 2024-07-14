@@ -74,7 +74,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GLib.UriParamsIter" href="UriParamsIter.html" />
-    <link rel="prev" title="GLib.TreeNode" href="TreeNode.html" /> 
+    <link rel="prev" title="GLib.UnixPipe" href="UnixPipe.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,7 +100,7 @@
 
 
 
-<td><a accesskey="p" href="TreeNode.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="UnixPipe.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -183,7 +183,7 @@
 
 
 
-<td><a accesskey="p" href="TreeNode.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="UnixPipe.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -380,15 +380,57 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Uri">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Uri</span></span><a class="headerlink" href="#GLib.Uri" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> type and related functions can be used to parse URIs into
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">GUri</span></code> type and related functions can be used to parse URIs into
 their components, and build valid URIs from individual components.</p>
-<p>Note that <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> scope is to help manipulate URIs in various applications,
+<p>Since <code class="docutils literal notranslate"><span class="pre">GUri</span></code> only represents absolute URIs, all <code class="docutils literal notranslate"><span class="pre">GUri``s</span> <span class="pre">will</span> <span class="pre">have</span> <span class="pre">a</span>
+<span class="pre">URI</span> <span class="pre">scheme,</span> <span class="pre">so</span> <span class="pre">[method`GLib`.Uri.get\_scheme]</span> <span class="pre">will</span> <span class="pre">always</span> <span class="pre">return</span> <span class="pre">a</span> <span class="pre">non-``NULL</span></code>
+answer. Likewise, by definition, all URIs have a path component, so
+[method`GLib`.Uri.get_path] will always return a non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> string (which may
+be empty).</p>
+<p>If the URI string has an
+<a class="reference external" href="https://tools.ietf.org/html/rfc3986#section-3">‘authority’ component</a> (that
+is, if the scheme is followed by <code class="docutils literal notranslate"><span class="pre">://</span></code> rather than just <code class="docutils literal notranslate"><span class="pre">:</span></code>), then the
+<code class="docutils literal notranslate"><span class="pre">GUri</span></code> will contain a hostname, and possibly a port and ‘userinfo’.
+Additionally, depending on how the <code class="docutils literal notranslate"><span class="pre">GUri</span></code> was constructed/parsed (for example,
+using the <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_HAS_PASSWORD</span></code> and <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_HAS_AUTH_PARAMS</span></code> flags),
+the userinfo may be split out into a username, password, and
+additional authorization-related parameters.</p>
+<p>Normally, the components of a <code class="docutils literal notranslate"><span class="pre">GUri</span></code> will have all <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoded
+characters decoded. However, if you construct/parse a <code class="docutils literal notranslate"><span class="pre">GUri</span></code> with
+<code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_ENCODED</span></code>, then the <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoding will be preserved instead in
+the userinfo, path, and query fields (and in the host field if also
+created with <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_NON_DNS</span></code>). In particular, this is necessary if
+the URI may contain binary data or non-UTF-8 text, or if decoding
+the components might change the interpretation of the URI.</p>
+<p>For example, with the encoded flag:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>c
+g_autoptr(GUri) uri = g_uri_parse (”<a class="reference external" href="http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fparam%3Dvalue">http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fparam%3Dvalue</a>”, G_URI_FLAGS_ENCODED, &amp;err);
+g_assert_cmpstr (g_uri_get_query (uri), ==, “query=http%3A%2F%2Fhost%2Fpath%3Fparam%3Dvalue”);
+``</p>
+<p>While the default <code class="docutils literal notranslate"><span class="pre">%</span></code>-decoding behaviour would give:</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>c
+g_autoptr(GUri) uri = g_uri_parse (”<a class="reference external" href="http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fparam%3Dvalue">http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fparam%3Dvalue</a>”, G_URI_FLAGS_NONE, &amp;err);
+g_assert_cmpstr (g_uri_get_query (uri), ==, “query=http://host/path?param=value”);
+``</p>
+<p>During decoding, if an invalid UTF-8 string is encountered, parsing will fail
+with an error indicating the bad string location:</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>c
+g_autoptr(GUri) uri = g_uri_parse (”<a class="reference external" href="http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fbad%3D%00alue">http://host/path?query=http%3A%2F%2Fhost%2Fpath%3Fbad%3D%00alue</a>”, G_URI_FLAGS_NONE, &amp;err);
+g_assert_error (err, G_URI_ERROR, G_URI_ERROR_BAD_QUERY);
+``</p>
+<p>You should pass <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_ENCODED</span></code> or <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_ENCODED_QUERY</span></code> if you
+need to handle that case manually. In particular, if the query string
+contains <code class="docutils literal notranslate"><span class="pre">=</span></code> characters that are <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoded, you should let
+[func`GLib`.Uri.parse_params] do the decoding once of the query.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GUri</span></code> is immutable once constructed, and can safely be accessed from
+multiple threads. Its reference counting is atomic.</p>
+<p>Note that the scope of <code class="docutils literal notranslate"><span class="pre">GUri</span></code> is to help manipulate URIs in various applications,
 following <a class="reference external" href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. In particular,
 it doesn’t intend to cover web browser needs, and doesn’t implement the
 <a class="reference external" href="https://url.spec.whatwg.org/">WHATWG URL</a> standard. No APIs are provided to
 help prevent
 <a class="reference external" href="https://en.wikipedia.org/wiki/IDN_homograph_attack">homograph attacks</a>, so
-<a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> is not suitable for formatting URIs for display to the user for making
+<code class="docutils literal notranslate"><span class="pre">GUri</span></code> is not suitable for formatting URIs for display to the user for making
 security-sensitive decisions.</p>
 <dl class="simple">
 <dt>Relative and absolute URIs</dt><dd></dd>
@@ -408,71 +450,71 @@ may be empty). The path may be relative, starting with <code class="docutils lit
 <code class="docutils literal notranslate"><span class="pre">/?query#fragment</span></code> or <code class="docutils literal notranslate"><span class="pre">//example.com</span></code>.</p>
 <p>Absolute URIs have a scheme specified. Any other components of the URI which
 are missing are specified as explicitly unset in the URI, rather than being
-resolved relative to a base URI using <a class="reference internal" href="#GLib.Uri.parse_relative" title="GLib.Uri.parse_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse_relative</span></code></a>().</p>
+resolved relative to a base URI using [method`GLib`.Uri.parse_relative].</p>
 <p>For example, a valid absolute URI is <code class="docutils literal notranslate"><span class="pre">file:///home/bob</span></code> or
 <code class="docutils literal notranslate"><span class="pre">https://search.com?query=string</span></code>.</p>
-<p>A <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> instance is always an absolute URI. A string may be an absolute URI
+<p>A <code class="docutils literal notranslate"><span class="pre">GUri</span></code> instance is always an absolute URI. A string may be an absolute URI
 or a relative reference; see the documentation for individual functions as to
 what forms they accept.</p>
 <dl class="simple">
 <dt>Parsing URIs</dt><dd></dd>
 </dl>
-<p>The most minimalist APIs for parsing URIs are <a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>() and
-<a class="reference internal" href="#GLib.Uri.split_with_user" title="GLib.Uri.split_with_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split_with_user</span></code></a>(). These split a URI into its component
+<p>The most minimalist APIs for parsing URIs are [func`GLib`.Uri.split] and
+[func`GLib`.Uri.split_with_user]. These split a URI into its component
 parts, and return the parts; the difference between the two is that
-<a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>() treats the ‘userinfo’ component of the URI as a
-single element, while <a class="reference internal" href="#GLib.Uri.split_with_user" title="GLib.Uri.split_with_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split_with_user</span></code></a>() can (depending on the
-<a class="reference internal" href="../flags.html#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a> you pass) treat it as containing a username, password,
-and authentication parameters. Alternatively, <a class="reference internal" href="#GLib.Uri.split_network" title="GLib.Uri.split_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split_network</span></code></a>()
+[func`GLib`.Uri.split] treats the ‘userinfo’ component of the URI as a
+single element, while [func`GLib`.Uri.split_with_user] can (depending on the
+[flags`GLib`.UriFlags] you pass) treat it as containing a username, password,
+and authentication parameters. Alternatively, [func`GLib`.Uri.split_network]
 can be used when you are only interested in the components that are
 needed to initiate a network connection to the service (scheme,
 host, and port).</p>
-<p><a class="reference internal" href="#GLib.Uri.parse" title="GLib.Uri.parse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse</span></code></a>() is similar to <a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>(), but instead of returning
-individual strings, it returns a <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> structure (and it requires
+<p>[func`GLib`.Uri.parse] is similar to [func`GLib`.Uri.split], but instead of
+returning individual strings, it returns a <code class="docutils literal notranslate"><span class="pre">GUri</span></code> structure (and it requires
 that the URI be an absolute URI).</p>
-<p><a class="reference internal" href="#GLib.Uri.resolve_relative" title="GLib.Uri.resolve_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.resolve_relative</span></code></a>() and <a class="reference internal" href="#GLib.Uri.parse_relative" title="GLib.Uri.parse_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse_relative</span></code></a>() allow you to
-resolve a relative URI relative to a base URI.
-<a class="reference internal" href="#GLib.Uri.resolve_relative" title="GLib.Uri.resolve_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.resolve_relative</span></code></a>() takes two strings and returns a string,
-and <a class="reference internal" href="#GLib.Uri.parse_relative" title="GLib.Uri.parse_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse_relative</span></code></a>() takes a <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> and a string and returns a
-<a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a>.</p>
-<p>All of the parsing functions take a <a class="reference internal" href="../flags.html#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a> argument describing
+<p>[func`GLib`.Uri.resolve_relative] and [method`GLib`.Uri.parse_relative] allow
+you to resolve a relative URI relative to a base URI.
+[func`GLib`.Uri.resolve_relative] takes two strings and returns a string,
+and [method`GLib`.Uri.parse_relative] takes a <code class="docutils literal notranslate"><span class="pre">GUri</span></code> and a string and returns a
+<code class="docutils literal notranslate"><span class="pre">GUri</span></code>.</p>
+<p>All of the parsing functions take a [flags`GLib`.UriFlags] argument describing
 exactly how to parse the URI; see the documentation for that type
 for more details on the specific flags that you can pass. If you
 need to choose different flags based on the type of URI, you can
-use <a class="reference internal" href="#GLib.Uri.peek_scheme" title="GLib.Uri.peek_scheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.peek_scheme</span></code></a>() on the URI string to check the scheme
+use [func`GLib`.Uri.peek_scheme] on the URI string to check the scheme
 first, and use that to decide what flags to parse it with.</p>
-<p>For example, you might want to use <a class="reference internal" href="../flags.html#GLib.UriParamsFlags.WWW_FORM" title="GLib.UriParamsFlags.WWW_FORM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriParamsFlags.WWW_FORM</span></code></a> when parsing the
-params for a web URI, so compare the result of <a class="reference internal" href="#GLib.Uri.peek_scheme" title="GLib.Uri.peek_scheme"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.peek_scheme</span></code></a>() against
-<code class="docutils literal notranslate"><span class="pre">http</span></code> and <code class="docutils literal notranslate"><span class="pre">https</span></code>.</p>
+<p>For example, you might want to use <code class="docutils literal notranslate"><span class="pre">G_URI_PARAMS_WWW_FORM</span></code> when parsing the
+params for a web URI, so compare the result of [func`GLib`.Uri.peek_scheme]
+against <code class="docutils literal notranslate"><span class="pre">http</span></code> and <code class="docutils literal notranslate"><span class="pre">https</span></code>.</p>
 <dl class="simple">
 <dt>Building URIs</dt><dd></dd>
 </dl>
-<p><a class="reference internal" href="#GLib.Uri.join" title="GLib.Uri.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.join</span></code></a>() and <a class="reference internal" href="#GLib.Uri.join_with_user" title="GLib.Uri.join_with_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.join_with_user</span></code></a>() can be used to construct
+<p>[func`GLib`.Uri.join] and [func`GLib`.Uri.join_with_user] can be used to construct
 valid URI strings from a set of component strings. They are the
-inverse of <a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>() and <a class="reference internal" href="#GLib.Uri.split_with_user" title="GLib.Uri.split_with_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split_with_user</span></code></a>().</p>
-<p>Similarly, <a class="reference internal" href="#GLib.Uri.build" title="GLib.Uri.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.build</span></code></a>() and <a class="reference internal" href="#GLib.Uri.build_with_user" title="GLib.Uri.build_with_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.build_with_user</span></code></a>() can be used to
-construct a <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> from a set of component strings.</p>
+inverse of [func`GLib`.Uri.split] and [func`GLib`.Uri.split_with_user].</p>
+<p>Similarly, [func`GLib`.Uri.build] and [func`GLib`.Uri.build_with_user] can be
+used to construct a <code class="docutils literal notranslate"><span class="pre">GUri</span></code> from a set of component strings.</p>
 <p>As with the parsing functions, the building functions take a
-<a class="reference internal" href="../flags.html#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a> argument. In particular, it is important to keep in mind
+[flags`GLib`.UriFlags] argument. In particular, it is important to keep in mind
 whether the URI components you are using are already <code class="docutils literal notranslate"><span class="pre">%</span></code>-encoded. If so,
-you must pass the <a class="reference internal" href="../flags.html#GLib.UriFlags.ENCODED" title="GLib.UriFlags.ENCODED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.ENCODED</span></code></a> flag.</p>
+you must pass the <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_ENCODED</span></code> flag.</p>
 <dl class="simple">
 <dt>file:// URIs</dt><dd></dd>
 </dl>
 <p>Note that Windows and Unix both define special rules for parsing
 <code class="docutils literal notranslate"><span class="pre">file://</span></code> URIs (involving non-UTF-8 character sets on Unix, and the
-interpretation of path separators on Windows). <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> does not
-implement these rules. Use <a class="reference internal" href="../functions.html#GLib.filename_from_uri" title="GLib.filename_from_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.filename_from_uri</span></code></a>() and
-<a class="reference internal" href="../functions.html#GLib.filename_to_uri" title="GLib.filename_to_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.filename_to_uri</span></code></a>() if you want to properly convert between
+interpretation of path separators on Windows). <code class="docutils literal notranslate"><span class="pre">GUri</span></code> does not
+implement these rules. Use [func`GLib`.filename_from_uri] and
+[func`GLib`.filename_to_uri] if you want to properly convert between
 <code class="docutils literal notranslate"><span class="pre">file://</span></code> URIs and local filenames.</p>
 <dl class="simple">
 <dt>URI Equality</dt><dd></dd>
 </dl>
 <p>Note that there is no <code class="docutils literal notranslate"><span class="pre">g_uri_equal</span> <span class="pre">()</span></code> function, because comparing
-URIs usefully requires scheme-specific knowledge that <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> does
-not have. <a class="reference internal" href="#GLib.Uri" title="GLib.Uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a> can help with normalization if you use the various
-encoded <a class="reference internal" href="../flags.html#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a> as well as <a class="reference internal" href="../flags.html#GLib.UriFlags.SCHEME_NORMALIZE" title="GLib.UriFlags.SCHEME_NORMALIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags.SCHEME_NORMALIZE</span></code></a> however
-it is not comprehensive.
+URIs usefully requires scheme-specific knowledge that <code class="docutils literal notranslate"><span class="pre">GUri</span></code> does
+not have. <code class="docutils literal notranslate"><span class="pre">GUri</span></code> can help with normalization if you use the various
+encoded [flags`GLib`.UriFlags] as well as <code class="docutils literal notranslate"><span class="pre">G_URI_FLAGS_SCHEME_NORMALIZE</span></code>
+however it is not comprehensive.
 For example, <code class="docutils literal notranslate"><span class="pre">data:,foo</span></code> and <code class="docutils literal notranslate"><span class="pre">data:;base64,Zm9v</span></code> resolve to the same
 thing according to the <code class="docutils literal notranslate"><span class="pre">data:</span></code> URI specification which GLib does not
 handle.</p>
@@ -481,7 +523,7 @@ handle.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.build">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1885"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.build" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1876"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.build" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -512,7 +554,7 @@ components of the “userinfo” separately.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.build_with_user">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1942"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.build_with_user" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1933"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.build_with_user" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -549,7 +591,7 @@ if either <cite>password</cite> or <cite>auth_params</cite> is non-<a class="ref
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2903"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2894"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -559,7 +601,7 @@ if either <cite>password</cite> or <cite>auth_params</cite> is non-<a class="ref
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.escape_bytes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2803"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.escape_bytes" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2794"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.escape_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -592,7 +634,7 @@ bytes as `%` <code class="docutils literal notranslate"><span class="pre">00</sp
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.escape_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_utf8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2709"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.escape_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">escape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unescaped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reserved_chars_allowed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_utf8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2700"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.escape_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -624,7 +666,7 @@ portions of a URI.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.is_valid">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1278"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.is_valid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1269"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.is_valid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -643,7 +685,7 @@ portions of a URI.</p>
 </dd>
 </dl>
 <p>Parses <cite>uri_string</cite> according to <cite>flags</cite>, to determine whether it is a valid
-‘absolute URI [relative-absolute-uris]’, i.e. it does not need to be resolved
+<a class="reference external" href="#relative-and-absolute-uris">absolute URI</a>, i.e. it does not need to be resolved
 relative to another URI using <a class="reference internal" href="#GLib.Uri.parse_relative" title="GLib.Uri.parse_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.parse_relative</span></code></a>().</p>
 <p>If it’s not a valid URI, an error is returned explaining how it’s invalid.</p>
 <p>See <a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>(), and the definition of <a class="reference internal" href="../flags.html#GLib.UriFlags" title="GLib.UriFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriFlags</span></code></a>, for more
@@ -655,7 +697,7 @@ information on the effect of <cite>flags</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.join">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1788"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.join" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1779"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.join" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -694,7 +736,7 @@ in <cite>flags</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.join_with_user">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">join_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1842"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.join_with_user" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">join_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1833"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.join_with_user" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -733,7 +775,7 @@ in <cite>flags</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.list_extract_uris">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_extract_uris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gconvert.c#L1872"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.list_extract_uris" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_extract_uris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gconvert.c#L1782"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.list_extract_uris" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>uri_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an URI list</p>
@@ -757,7 +799,7 @@ discarding any comments. The URIs are not validated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.parse">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1411"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1402"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -776,7 +818,7 @@ discarding any comments. The URIs are not validated.</p>
 </dd>
 </dl>
 <p>Parses <cite>uri_string</cite> according to <cite>flags</cite>. If the result is not a
-valid ‘absolute URI [relative-absolute-uris]’, it will be discarded, and an
+valid <a class="reference external" href="#relative-and-absolute-uris">absolute URI</a>, it will be discarded, and an
 error returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.66.</span></p>
@@ -785,7 +827,7 @@ error returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.parse_params">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2330"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2321"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_params" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -838,7 +880,7 @@ characters in a row), then <cite>error</cite> is set and <a class="reference ext
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.parse_scheme">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2853"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_scheme" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2844"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_scheme" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a valid URI.</p>
@@ -863,7 +905,7 @@ as:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.peek_scheme">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">peek_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2885"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.peek_scheme" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">peek_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2876"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.peek_scheme" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a valid URI.</p>
@@ -891,7 +933,7 @@ all-lowercase and does not need to be freed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.resolve_relative">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolve_relative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1574"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.resolve_relative" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolve_relative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.resolve_relative" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -912,7 +954,7 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 </dd>
 </dl>
 <p>Parses <cite>uri_ref</cite> according to <cite>flags</cite> and, if it is a
-‘relative URI [relative-absolute-uris]’, resolves it relative to
+<a class="reference external" href="#relative-and-absolute-uris">relative URI</a>, resolves it relative to
 <cite>base_uri_string</cite>. If the result is not a valid absolute URI, it will be
 discarded, and an error returned.</p>
 <p>(If <cite>base_uri_string</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, this just returns <cite>uri_ref</cite>, or
@@ -924,7 +966,7 @@ discarded, and an error returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.split">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1106"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1097"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -975,7 +1017,7 @@ the fragment, or <a class="reference external" href="https://docs.python.org/3/l
 </dd>
 </dl>
 <p>Parses <cite>uri_ref</cite> (which can be an
-‘absolute or relative URI [relative-absolute-uris]’) according to <cite>flags</cite>, and
+<a class="reference external" href="#relative-and-absolute-uris">absolute or relative URI</a>) according to <cite>flags</cite>, and
 returns the pieces. Any component that doesn’t appear in <cite>uri_ref</cite> will be
 returned as <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> (but note that all URIs always have a path component,
 though it may be the empty string).</p>
@@ -995,7 +1037,7 @@ since it always returns only the full userinfo; use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.split_network">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1212"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split_network" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1203"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split_network" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1029,7 +1071,7 @@ port, or <code class="docutils literal notranslate"><span class="pre">-1</span><
 <dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>scheme</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <strong>host</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, <strong>port</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p>
 </dd>
 </dl>
-<p>Parses <cite>uri_string</cite> (which must be an ‘absolute URI [relative-absolute-uris]’)
+<p>Parses <cite>uri_string</cite> (which must be an <a class="reference external" href="#relative-and-absolute-uris">absolute URI</a>)
 according to <cite>flags</cite>, and returns the pieces relevant to connecting to a host.
 See the documentation for <a class="reference internal" href="#GLib.Uri.split" title="GLib.Uri.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri.split</span></code></a>() for more details; this is
 mostly a wrapper around that function with simpler arguments.
@@ -1042,7 +1084,7 @@ or does not contain a hostname component.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.split_with_user">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1170"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split_with_user" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_with_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.split_with_user" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1101,7 +1143,7 @@ the fragment, or <a class="reference external" href="https://docs.python.org/3/l
 </dd>
 </dl>
 <p>Parses <cite>uri_ref</cite> (which can be an
-‘absolute or relative URI [relative-absolute-uris]’) according to <cite>flags</cite>, and
+<a class="reference external" href="#relative-and-absolute-uris">absolute or relative URI</a>) according to <cite>flags</cite>, and
 returns the pieces. Any component that doesn’t appear in <cite>uri_ref</cite> will be
 returned as <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> (but note that all URIs always have a path component,
 though it may be the empty string).</p>
@@ -1117,7 +1159,7 @@ be parsed out if <cite>flags</cite> contains <a class="reference internal" href=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.unescape_bytes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2752"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_bytes" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2743"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1155,7 +1197,7 @@ handling.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.unescape_segment">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">escaped_string_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2627"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_segment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">escaped_string_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2618"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_segment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1191,7 +1233,7 @@ escaped path element, which might confuse pathname handling.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.unescape_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2680"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unescape_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">escaped_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">illegal_characters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.unescape_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1221,7 +1263,7 @@ escaped path element, which might confuse pathname handling.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_auth_params">
-<span class="sig-name descname"><span class="pre">get_auth_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2465"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_auth_params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_auth_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2456"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_auth_params" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s authentication parameters.</p>
@@ -1243,7 +1285,7 @@ further parsing this information.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_flags">
-<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2591"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2582"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s flags.</p>
@@ -1260,7 +1302,7 @@ further parsing this information.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_fragment">
-<span class="sig-name descname"><span class="pre">get_fragment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2572"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_fragment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_fragment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_fragment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s fragment.</p>
@@ -1278,7 +1320,7 @@ the flags with which <cite>self</cite> was created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_host">
-<span class="sig-name descname"><span class="pre">get_host</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2491"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_host" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_host</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2482"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_host" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s host.</p>
@@ -1302,7 +1344,7 @@ be a scope ID attached to the address. Eg, `fe80::1234%` <code class="docutils l
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_password">
-<span class="sig-name descname"><span class="pre">get_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_password" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2432"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_password" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s password.</p>
@@ -1321,7 +1363,7 @@ with <a class="reference internal" href="../flags.html#GLib.UriFlags.HAS_PASSWOR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_path">
-<span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2531"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s path.</p>
@@ -1339,7 +1381,7 @@ flags with which <cite>self</cite> was created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_port">
-<span class="sig-name descname"><span class="pre">get_port</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2509"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_port" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_port</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2500"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_port" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s port, or <code class="docutils literal notranslate"><span class="pre">-1</span></code> if no port was specified.</p>
@@ -1356,7 +1398,7 @@ flags with which <cite>self</cite> was created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_query">
-<span class="sig-name descname"><span class="pre">get_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2553"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_query" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2544"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_query" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s query.</p>
@@ -1376,7 +1418,7 @@ flags with which <cite>self</cite> was created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_scheme">
-<span class="sig-name descname"><span class="pre">get_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2381"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_scheme" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2372"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_scheme" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s scheme.</p>
@@ -1394,7 +1436,7 @@ regardless of the string or strings that <cite>self</cite> was created from.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_user">
-<span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2421"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_user" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2412"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_user" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s user.</p>
@@ -1414,7 +1456,7 @@ If <cite>self</cite> was not created with <a class="reference internal" href="..
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.get_userinfo">
-<span class="sig-name descname"><span class="pre">get_userinfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2400"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_userinfo" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_userinfo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2391"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.get_userinfo" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite>'s userinfo.</p>
@@ -1432,7 +1474,7 @@ the flags with which <cite>self</cite> was created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.parse_relative">
-<span class="sig-name descname"><span class="pre">parse_relative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L1439"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_relative" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">parse_relative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1430"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.parse_relative" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1451,7 +1493,7 @@ the flags with which <cite>self</cite> was created.</p>
 </dd>
 </dl>
 <p>Parses <cite>uri_ref</cite> according to <cite>flags</cite> and, if it is a
-‘relative URI [relative-absolute-uris]’, resolves it relative to <cite>self</cite>.
+<a class="reference external" href="#relative-and-absolute-uris">relative URI</a>, resolves it relative to <cite>self</cite>.
 If the result is not a valid absolute URI, it will be discarded, and an error
 returned.</p>
 <div class="versionadded">
@@ -1461,7 +1503,7 @@ returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.to_string">
-<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2007"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.to_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L1998"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string representing <cite>self</cite>,
@@ -1488,7 +1530,7 @@ logged, then consider using <a class="reference internal" href="#GLib.Uri.to_str
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Uri.to_string_partial">
-<span class="sig-name descname"><span class="pre">to_string_partial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/guri.c#L2029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.to_string_partial" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_string_partial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/guri.c#L2020"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Uri.to_string_partial" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.UriHideFlags" title="GLib.UriHideFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UriHideFlags</span></code></a>) – flags describing what parts of <cite>self</cite> to hide</p>

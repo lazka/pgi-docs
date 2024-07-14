@@ -328,12 +328,12 @@
 <tr class="row-even"><td><p>month</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w</p></td>
-<td><p>the day of the day-month-year representation of the date, as a number between 1 and 12</p></td>
+<td><p>the month of the day-month-year representation of the date, as a number between 1 and 12</p></td>
 </tr>
 <tr class="row-odd"><td><p>year</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w</p></td>
-<td><p>the day of the day-month-year representation of the date</p></td>
+<td><p>the year of the day-month-year representation of the date</p></td>
 </tr>
 </tbody>
 </table>
@@ -501,18 +501,43 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Date">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Date</span></span><a class="headerlink" href="#GLib.Date" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a day between January 1, Year 1 and a few thousand years in
-the future. None of its members should be accessed directly.</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">GDate</span></code> is obtained from <a class="reference internal" href="#GLib.Date.new" title="GLib.Date.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date.new</span></code></a>(), it will be safe
-to mutate but invalid and thus not safe for calendrical computations.</p>
-<p>If it’s declared on the stack, it will contain garbage so must be
-initialized with <a class="reference internal" href="#GLib.Date.clear" title="GLib.Date.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date.clear</span></code></a>(). <a class="reference internal" href="#GLib.Date.clear" title="GLib.Date.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date.clear</span></code></a>() makes the date invalid
-but safe. An invalid date doesn’t represent a day, it’s “empty.” A date
-becomes valid after you set it to a Julian day or you set a day, month,
-and year.</p>
+<dd><p><code class="docutils literal notranslate"><span class="pre">GDate</span></code> is a struct for calendrical calculations.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GDate</span></code> data structure represents a day between January 1, Year 1,
+and sometime a few thousand years in the future (right now it will go
+to the year 65535 or so, but [method`GLib`.Date.set_parse] only parses up to the
+year 8000 or so - just count on “a few thousand”). <code class="docutils literal notranslate"><span class="pre">GDate</span></code> is meant to
+represent everyday dates, not astronomical dates or historical dates
+or ISO timestamps or the like. It extrapolates the current Gregorian
+calendar forward and backward in time; there is no attempt to change
+the calendar to match time periods or locations. <code class="docutils literal notranslate"><span class="pre">GDate</span></code> does not store
+time information; it represents a day.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GDate</span></code> implementation has several nice features; it is only a
+64-bit struct, so storing large numbers of dates is very efficient. It
+can keep both a Julian and day-month-year representation of the date,
+since some calculations are much easier with one representation or the
+other. A Julian representation is simply a count of days since some
+fixed day in the past; for <a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a> the fixed day is January 1, 1 AD.
+(“Julian” dates in the <a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a> API aren’t really Julian dates in the
+technical sense; technically, Julian dates count from the start of the
+Julian period, Jan 1, 4713 BC).</p>
+<p><code class="docutils literal notranslate"><span class="pre">GDate</span></code> is simple to use. First you need a “blank” date; you can get a
+dynamically allocated date from [ctor`GLib`.Date.new], or you can declare an
+automatic variable or array and initialize it by calling [method`GLib`.Date.clear].
+A cleared date is safe; it’s safe to call [method`GLib`.Date.set_dmy] and the other
+mutator functions to initialize the value of a cleared date. However, a cleared date
+is initially invalid, meaning that it doesn’t represent a day that exists.
+It is undefined to call any of the date calculation routines on an invalid date.
+If you obtain a date from a user or other unpredictable source, you should check
+its validity with the [method`GLib`.Date.valid] predicate. [method`GLib`.Date.valid]
+is also used to check for errors with [method`GLib`.Date.set_parse] and other functions
+that can fail. Dates can be invalidated by calling [method`GLib`.Date.clear] again.</p>
+<p>It is very important to use the API to access the <code class="docutils literal notranslate"><span class="pre">GDate</span></code> struct. Often only the
+day-month-year or only the Julian representation is valid. Sometimes neither is valid.
+Use the API.</p>
+<p>GLib also features <code class="docutils literal notranslate"><span class="pre">GDateTime</span></code> which represents a precise time.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_days_in_month">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_days_in_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1956"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_days_in_month" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_days_in_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1938"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_days_in_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -533,7 +558,7 @@ years into account.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_monday_weeks_in_year">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_monday_weeks_in_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1983"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_monday_weeks_in_year" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_monday_weeks_in_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1965"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_monday_weeks_in_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>year</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a year</p>
@@ -556,7 +581,7 @@ one of the extra days happens to be a Monday.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_sunday_weeks_in_year">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_sunday_weeks_in_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2019"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_sunday_weeks_in_year" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_sunday_weeks_in_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2001"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_sunday_weeks_in_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>year</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – year to count weeks in</p>
@@ -579,7 +604,7 @@ one of the extra days happens to be a Sunday.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.is_leap_year">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_leap_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1936"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_leap_year" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_leap_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1918"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_leap_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>year</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – year to check</p>
@@ -600,7 +625,7 @@ is also divisible by 400.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L281"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a newly-allocated <a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a></p>
@@ -617,7 +642,7 @@ represent an existing day). Free the return value with <a class="reference inter
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.new_dmy">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new_dmy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L288"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new_dmy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -642,7 +667,7 @@ and valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.new_julian">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L339"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new_julian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L321"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.new_julian" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>julian_day</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – days since January 1, Year 1</p>
@@ -663,7 +688,7 @@ valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.strftime">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.strftime" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2653"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.strftime" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -696,7 +721,7 @@ where the C library only complies to C89.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_day">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L470"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_day" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L452"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_day" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>day</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – day to check</p>
@@ -714,7 +739,7 @@ between 1 and 31 inclusive).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_dmy">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L520"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_dmy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_dmy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -737,7 +762,7 @@ a few thousand years in the future).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_julian">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L500"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_julian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L482"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_julian" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>julian_date</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Julian day to check</p>
@@ -755,7 +780,7 @@ is basically a valid Julian, though there is a 32-bit limit.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_month">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L439"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_month" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L421"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>month</strong> (<a class="reference internal" href="../enums.html#GLib.DateMonth" title="GLib.DateMonth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateMonth</span></code></a>) – month</p>
@@ -773,7 +798,7 @@ enumeration values are the only valid months.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_weekday">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_weekday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weekday</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L485"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_weekday" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_weekday</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weekday</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L467"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_weekday" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>weekday</strong> (<a class="reference internal" href="../enums.html#GLib.DateWeekday" title="GLib.DateWeekday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateWeekday</span></code></a>) – weekday</p>
@@ -791,7 +816,7 @@ values are the only valid weekdays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid_year">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L454"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_year" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L436"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>year</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – year</p>
@@ -809,7 +834,7 @@ though there is a 16-bit limit to what <a class="reference internal" href="#GLib
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.add_days">
-<span class="sig-name descname"><span class="pre">add_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1721"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_days" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1703"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_days" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_days</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of days to move the date forward</p>
@@ -822,7 +847,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.add_months">
-<span class="sig-name descname"><span class="pre">add_months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_months</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1773"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_months" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_months</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1755"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_months" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_months</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of months to move forward</p>
@@ -837,7 +862,7 @@ the current day in it). The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.add_years">
-<span class="sig-name descname"><span class="pre">add_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_years</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1867"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_years" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_years</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1849"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.add_years" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_years</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of years to move forward</p>
@@ -851,7 +876,7 @@ to February 28. The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.clamp">
-<span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2160"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.clamp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2142"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.clamp" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -869,7 +894,7 @@ All non-<a class="reference external" href="https://docs.python.org/3/library/co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_dates</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L889"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_dates</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L871"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.clear" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_dates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of dates to clear</p>
@@ -883,7 +908,7 @@ Validity can be tested with <a class="reference internal" href="#GLib.Date.valid
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.compare">
-<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2053"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.compare" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2035"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.compare" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rhs</strong> (<a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a>) – second date to compare</p>
@@ -902,7 +927,7 @@ Both dates must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L383"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.copy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a newly-allocated <a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a> initialized from <cite>self</cite></p>
@@ -921,7 +946,7 @@ as is into the new object.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.days_between">
-<span class="sig-name descname"><span class="pre">days_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L870"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.days_between" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">days_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L852"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.days_between" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>date2</strong> (<a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a>) – the second date</p>
@@ -940,13 +965,13 @@ Both dates must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L363"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L345"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees a <a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a> returned from <a class="reference internal" href="#GLib.Date.new" title="GLib.Date.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date.new</span></code></a>().</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_day">
-<span class="sig-name descname"><span class="pre">get_day</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L690"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_day" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_day</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L672"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_day" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>day of the month</p>
@@ -960,7 +985,7 @@ Both dates must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_day_of_year">
-<span class="sig-name descname"><span class="pre">get_day_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L736"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_day_of_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_day_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L718"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_day_of_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>day of the year</p>
@@ -975,7 +1000,7 @@ year. The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_iso8601_week_of_year">
-<span class="sig-name descname"><span class="pre">get_iso8601_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L833"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_iso8601_week_of_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_iso8601_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_iso8601_week_of_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ISO 8601 week number of the year.</p>
@@ -993,7 +1018,7 @@ to ISO 8601.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_julian">
-<span class="sig-name descname"><span class="pre">get_julian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_julian" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_julian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L696"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_julian" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Julian day</p>
@@ -1010,7 +1035,7 @@ etc. The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_monday_week_of_year">
-<span class="sig-name descname"><span class="pre">get_monday_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L763"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_monday_week_of_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_monday_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_monday_week_of_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>week of the year</p>
@@ -1026,7 +1051,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_month">
-<span class="sig-name descname"><span class="pre">get_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L648"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_month" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L630"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>month of the year as a <a class="reference internal" href="../enums.html#GLib.DateMonth" title="GLib.DateMonth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateMonth</span></code></a></p>
@@ -1040,7 +1065,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_sunday_week_of_year">
-<span class="sig-name descname"><span class="pre">get_sunday_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L797"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_sunday_week_of_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_sunday_week_of_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L779"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_sunday_week_of_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>week number</p>
@@ -1056,7 +1081,7 @@ Can return 0 if the day is before the first Sunday of the year.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_weekday">
-<span class="sig-name descname"><span class="pre">get_weekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L627"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_weekday" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_weekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_weekday" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>day of the week as a <a class="reference internal" href="../enums.html#GLib.DateWeekday" title="GLib.DateWeekday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateWeekday</span></code></a>.</p>
@@ -1070,7 +1095,7 @@ Can return 0 if the day is before the first Sunday of the year.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.get_year">
-<span class="sig-name descname"><span class="pre">get_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L669"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L651"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.get_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>year in which the date falls</p>
@@ -1084,7 +1109,7 @@ Can return 0 if the day is before the first Sunday of the year.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.is_first_of_month">
-<span class="sig-name descname"><span class="pre">is_first_of_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1670"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_first_of_month" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_first_of_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1652"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_first_of_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the date is the first of the month</p>
@@ -1099,7 +1124,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.is_last_of_month">
-<span class="sig-name descname"><span class="pre">is_last_of_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1693"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_last_of_month" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_last_of_month</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1675"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.is_last_of_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the date is the last day of the month</p>
@@ -1114,7 +1139,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.order">
-<span class="sig-name descname"><span class="pre">order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.order" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2172"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.order" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>date2</strong> (<a class="reference internal" href="#GLib.Date" title="GLib.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Date</span></code></a>) – the second date</p>
@@ -1126,7 +1151,7 @@ and swap the values if this is not the case.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_day">
-<span class="sig-name descname"><span class="pre">set_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1569"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_day" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1551"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_day" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>day</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – day to set</p>
@@ -1138,7 +1163,7 @@ day-month-year triplet is invalid, the date will be invalid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_dmy">
-<span class="sig-name descname"><span class="pre">set_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1627"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_dmy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_dmy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_dmy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1156,7 +1181,7 @@ set it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_julian">
-<span class="sig-name descname"><span class="pre">set_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1650"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_julian" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_julian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">julian_date</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1632"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_julian" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>julian_date</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Julian day number (days since January 1, Year 1)</p>
@@ -1167,7 +1192,7 @@ set it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_month">
-<span class="sig-name descname"><span class="pre">set_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1543"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_month" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">month</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1525"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_month" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>month</strong> (<a class="reference internal" href="../enums.html#GLib.DateMonth" title="GLib.DateMonth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateMonth</span></code></a>) – month to set</p>
@@ -1179,7 +1204,7 @@ day-month-year triplet is invalid, the date will be invalid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_parse">
-<span class="sig-name descname"><span class="pre">set_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_parse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1244"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_parse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string to parse</p>
@@ -1199,7 +1224,7 @@ capacity).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_time">
-<span class="sig-name descname"><span class="pre">set_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1503"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1485"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – #GTime value to set.</p>
@@ -1214,7 +1239,7 @@ The time to date conversion is done using the user’s current timezone.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_time_t">
-<span class="sig-name descname"><span class="pre">set_time_t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timet</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1455"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time_t" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_time_t</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timet</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1437"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time_t" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>timet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – time_t value to set</p>
@@ -1237,7 +1262,7 @@ the user’s current timezone.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_time_val">
-<span class="sig-name descname"><span class="pre">set_time_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time_val" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_time_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1509"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_time_val" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>timeval</strong> (<a class="reference internal" href="TimeVal.html#GLib.TimeVal" title="GLib.TimeVal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a>) – <a class="reference internal" href="TimeVal.html#GLib.TimeVal" title="GLib.TimeVal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a> value to set</p>
@@ -1257,7 +1282,7 @@ additional precision.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.set_year">
-<span class="sig-name descname"><span class="pre">set_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1595"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_year" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1577"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.set_year" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>year</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – year to set</p>
@@ -1269,7 +1294,7 @@ triplet is invalid, the date will be invalid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.subtract_days">
-<span class="sig-name descname"><span class="pre">subtract_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1746"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_days" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">subtract_days</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_days</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1728"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_days" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_days</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of days to move</p>
@@ -1282,7 +1307,7 @@ The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.subtract_months">
-<span class="sig-name descname"><span class="pre">subtract_months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_months</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1818"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_months" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">subtract_months</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_months</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1800"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_months" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_months</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of months to move</p>
@@ -1296,7 +1321,7 @@ may change. The date must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.subtract_years">
-<span class="sig-name descname"><span class="pre">subtract_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_years</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L1901"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_years" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">subtract_years</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_years</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L1883"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.subtract_years" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_years</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of years to move</p>
@@ -1311,7 +1336,7 @@ must be valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.to_struct_tm">
-<span class="sig-name descname"><span class="pre">to_struct_tm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L2110"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.to_struct_tm" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_struct_tm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L2092"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.to_struct_tm" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – struct tm to fill</p>
@@ -1323,7 +1348,7 @@ Initializes the non-date parts with something safe but meaningless.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Date.valid">
-<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gdate.c#L410"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gdate.c#L392"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Date.valid" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Whether the date is valid</p>

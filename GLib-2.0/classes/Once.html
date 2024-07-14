@@ -118,7 +118,10 @@
 <li><a class="reference internal" href="#details">Details</a><ul>
 <li><a class="reference internal" href="#GLib.Once"><code class="docutils literal notranslate"><span class="pre">GLib.Once</span></code></a><ul>
 <li><a class="reference internal" href="#GLib.Once.init_enter"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_enter_impl"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter_impl()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_enter_pointer"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter_pointer()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Once.init_leave"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_leave()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_leave_pointer"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_leave_pointer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -169,7 +172,10 @@
 <li><a class="reference internal" href="#details">Details</a><ul>
 <li><a class="reference internal" href="#GLib.Once"><code class="docutils literal notranslate"><span class="pre">GLib.Once</span></code></a><ul>
 <li><a class="reference internal" href="#GLib.Once.init_enter"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_enter_impl"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter_impl()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_enter_pointer"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_enter_pointer()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.Once.init_leave"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_leave()</span></code></a></li>
+<li><a class="reference internal" href="#GLib.Once.init_leave_pointer"><code class="docutils literal notranslate"><span class="pre">GLib.Once.init_leave_pointer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -236,7 +242,16 @@
 <td><p><a class="reference internal" href="#GLib.Once.init_enter" title="GLib.Once.init_enter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_enter</span></code></a> (location)</p></td>
 </tr>
 <tr class="row-even"><td><p><em>class</em></p></td>
+<td><p><a class="reference internal" href="#GLib.Once.init_enter_impl" title="GLib.Once.init_enter_impl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_enter_impl</span></code></a> (location)</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>class</em></p></td>
+<td><p><a class="reference internal" href="#GLib.Once.init_enter_pointer" title="GLib.Once.init_enter_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_enter_pointer</span></code></a> (location)</p></td>
+</tr>
+<tr class="row-even"><td><p><em>class</em></p></td>
 <td><p><a class="reference internal" href="#GLib.Once.init_leave" title="GLib.Once.init_leave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_leave</span></code></a> (location, result)</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>class</em></p></td>
+<td><p><a class="reference internal" href="#GLib.Once.init_leave_pointer" title="GLib.Once.init_leave_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_leave_pointer</span></code></a> (location, result)</p></td>
 </tr>
 </tbody>
 </table>
@@ -254,18 +269,25 @@ struct.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Once.init_enter">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_enter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthread.c#L701"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_enter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_enter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthread.c#L621"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_enter" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – location of a static initializable variable
 containing 0</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the initialization section should be entered,
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the initialization section should be entered,
 <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and blocks otherwise</p>
+<dl class="field-list simple">
+<dt class="field-odd">location<span class="colon">:</span></dt>
+<dd class="field-odd"><p>location of a static initializable variable
+containing 0</p>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>location</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>)</p>
 </dd>
 </dl>
 <p>Function to be called when starting a critical initialization
@@ -297,8 +319,56 @@ the pointer passed to it should not be <code class="docutils literal notranslate
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="GLib.Once.init_enter_impl">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_enter_impl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/deprecated/gthread-deprecated.c#L385"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_enter_impl" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GLib.Once.init_enter_pointer">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_enter_pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthread.c#L668"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_enter_pointer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – location of a static initializable variable
+containing <code class="docutils literal notranslate"><span class="pre">NULL</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the initialization section should be entered,
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and blocks otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This functions behaves in the same way as <a class="reference internal" href="#GLib.Once.init_enter" title="GLib.Once.init_enter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Once.init_enter</span></code></a>(), but can
+can be used to initialize pointers (or #guintptr) instead of #gsize.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">MyStruct</span><span class="w"> </span><span class="o">*</span><span class="n">interesting_struct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_once_init_enter_pointer</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">interesting_struct</span><span class="p">))</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">MyStruct</span><span class="w"> </span><span class="o">*</span><span class="n">setup_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allocate_my_struct</span><span class="w"> </span><span class="p">();</span><span class="w"> </span><span class="c1">// initialization code here</span>
+
+<span class="w">    </span><span class="n">g_once_init_leave_pointer</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">interesting_struct</span><span class="p">,</span><span class="w"> </span><span class="n">g_steal_pointer</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">setup_value</span><span class="p">));</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="c1">// use interesting_struct here</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.80.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="GLib.Once.init_leave">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_leave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthread.c#L741"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_leave" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_leave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthread.c#L709"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_leave" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -306,6 +376,13 @@ the pointer passed to it should not be <code class="docutils literal notranslate
 containing 0</p></li>
 <li><p><strong>result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – new non-0 value for <cite>value_location</cite></p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>location of a static initializable variable
+containing 0</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>location</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
 </dd>
 </dl>
 <p>Counterpart to <a class="reference internal" href="#GLib.Once.init_enter" title="GLib.Once.init_enter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Once.init_enter</span></code></a>(). Expects a location of a static
@@ -317,6 +394,30 @@ initialization variable.</p>
 the pointer passed to it should not be <code class="docutils literal notranslate"><span class="pre">volatile</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.14.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GLib.Once.init_leave_pointer">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_leave_pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthread.c#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Once.init_leave_pointer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – location of a static initializable variable
+containing <code class="docutils literal notranslate"><span class="pre">NULL</span></code></p></li>
+<li><p><strong>result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – new non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> value for <code class="docutils literal notranslate"><span class="pre">*location</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Counterpart to <a class="reference internal" href="#GLib.Once.init_enter_pointer" title="GLib.Once.init_enter_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Once.init_enter_pointer</span></code></a>(). Expects a location of a static
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code>-initialized initialization variable, and an initialization value
+other than <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. Sets the variable to the initialization value, and
+releases concurrent threads blocking in <a class="reference internal" href="#GLib.Once.init_enter_pointer" title="GLib.Once.init_enter_pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Once.init_enter_pointer</span></code></a>() on this
+initialization variable.</p>
+<p>This functions behaves in the same way as <a class="reference internal" href="#GLib.Once.init_leave" title="GLib.Once.init_leave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Once.init_leave</span></code></a>(), but
+can be used to initialize pointers (or #guintptr) instead of #gsize.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.80.</span></p>
 </div>
 </dd></dl>
 

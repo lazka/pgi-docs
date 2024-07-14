@@ -458,47 +458,45 @@
 <dd class="field-even"><p><a class="reference internal" href="ActionGroupInterface.html#Gio.ActionGroupInterface" title="Gio.ActionGroupInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.ActionGroupInterface</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.ActionGroup" title="Gio.ActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup</span></code></a> represents a group of actions. Actions can be used to
-expose functionality in a structured way, either from one part of a
-program to another, or to the outside world. Action groups are often
-used together with a <a class="reference internal" href="MenuModel.html#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> that provides additional
-representation data for displaying the actions to the user, e.g. in
-a menu.</p>
-<p>The main way to interact with the actions in a <a class="reference internal" href="#Gio.ActionGroup" title="Gio.ActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup</span></code></a> is to
-activate them with <a class="reference internal" href="#Gio.ActionGroup.activate_action" title="Gio.ActionGroup.activate_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.activate_action</span></code></a>(). Activating an
-action may require a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> parameter. The required type of the
-parameter can be inquired with <a class="reference internal" href="#Gio.ActionGroup.get_action_parameter_type" title="Gio.ActionGroup.get_action_parameter_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.get_action_parameter_type</span></code></a>().
-Actions may be disabled, see <a class="reference internal" href="#Gio.ActionGroup.get_action_enabled" title="Gio.ActionGroup.get_action_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.get_action_enabled</span></code></a>().
+<p><code class="docutils literal notranslate"><span class="pre">GActionGroup</span></code> represents a group of actions.</p>
+<p>Actions can be used to expose functionality in a structured way, either
+from one part of a program to another, or to the outside world. Action
+groups are often used together with a <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> that provides additional
+representation data for displaying the actions to the user, e.g. in a menu.</p>
+<p>The main way to interact with the actions in a <code class="docutils literal notranslate"><span class="pre">GActionGroup</span></code> is to
+activate them with [method`Gio`.ActionGroup.activate_action]. Activating an
+action may require a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> parameter. The required type of the
+parameter can be inquired with [method`Gio`.ActionGroup.get_action_parameter_type].
+Actions may be disabled, see [method`Gio`.ActionGroup.get_action_enabled].
 Activating a disabled action has no effect.</p>
-<p>Actions may optionally have a state in the form of a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>. The
-current state of an action can be inquired with
-<a class="reference internal" href="#Gio.ActionGroup.get_action_state" title="Gio.ActionGroup.get_action_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.get_action_state</span></code></a>(). Activating a stateful action may
-change its state, but it is also possible to set the state by calling
-<a class="reference internal" href="#Gio.ActionGroup.change_action_state" title="Gio.ActionGroup.change_action_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.change_action_state</span></code></a>().</p>
+<p>Actions may optionally have a state in the form of a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>. The current
+state of an action can be inquired with [method`Gio`.ActionGroup.get_action_state].
+Activating a stateful action may change its state, but it is also possible to
+set the state by calling [method`Gio`.ActionGroup.change_action_state].</p>
 <p>As typical example, consider a text editing application which has an
 option to change the current font to ‘bold’. A good way to represent
 this would be a stateful action, with a boolean state. Activating the
 action would toggle the state.</p>
 <p>Each action in the group has a unique name (which is a string).  All
-method calls, except <a class="reference internal" href="#Gio.ActionGroup.list_actions" title="Gio.ActionGroup.list_actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.list_actions</span></code></a>() take the name of
+method calls, except [method`Gio`.ActionGroup.list_actions] take the name of
 an action as an argument.</p>
-<p>The <a class="reference internal" href="#Gio.ActionGroup" title="Gio.ActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup</span></code></a> API is meant to be the ‘public’ API to the action
-group.  The calls here are exactly the interaction that ‘external
+<p>The <code class="docutils literal notranslate"><span class="pre">GActionGroup</span></code> API is meant to be the ‘public’ API to the action
+group. The calls here are exactly the interaction that ‘external
 forces’ (eg: UI, incoming D-Bus messages, etc.) are supposed to have
-with actions.  ‘Internal’ APIs (ie: ones meant only to be accessed by
-the action group implementation) are found on subclasses.  This is
-why you will find - for example - <a class="reference internal" href="#Gio.ActionGroup.get_action_enabled" title="Gio.ActionGroup.get_action_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.get_action_enabled</span></code></a>()
+with actions. ‘Internal’ APIs (ie: ones meant only to be accessed by
+the action group implementation) are found on subclasses. This is
+why you will find - for example - [method`Gio`.ActionGroup.get_action_enabled]
 but not an equivalent set() call.</p>
 <p>Signals are emitted on the action group in response to state changes
 on individual actions.</p>
-<p>Implementations of <a class="reference internal" href="#Gio.ActionGroup" title="Gio.ActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup</span></code></a> should provide implementations for
-the virtual functions <a class="reference internal" href="#Gio.ActionGroup.list_actions" title="Gio.ActionGroup.list_actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.list_actions</span></code></a>() and
-<a class="reference internal" href="#Gio.ActionGroup.query_action" title="Gio.ActionGroup.query_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.query_action</span></code></a>().  The other virtual functions should
+<p>Implementations of <code class="docutils literal notranslate"><span class="pre">GActionGroup</span></code> should provide implementations for
+the virtual functions [method`Gio`.ActionGroup.list_actions] and
+[method`Gio`.ActionGroup.query_action]. The other virtual functions should
 not be implemented - their “wrappers” are actually implemented with
-calls to <a class="reference internal" href="#Gio.ActionGroup.query_action" title="Gio.ActionGroup.query_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup.query_action</span></code></a>().</p>
+calls to [method`Gio`.ActionGroup.query_action].</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.action_added">
-<span class="sig-name descname"><span class="pre">action_added</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L653"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_added" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">action_added</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L640"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_added" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of an action in the group</p>
@@ -513,7 +511,7 @@ calls to <a class="reference internal" href="#Gio.ActionGroup.query_action" titl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.action_enabled_changed">
-<span class="sig-name descname"><span class="pre">action_enabled_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L703"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_enabled_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">action_enabled_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L690"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_enabled_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -531,7 +529,7 @@ calls to <a class="reference internal" href="#Gio.ActionGroup.query_action" titl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.action_removed">
-<span class="sig-name descname"><span class="pre">action_removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L677"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_removed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">action_removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L664"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_removed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of an action in the group</p>
@@ -546,7 +544,7 @@ calls to <a class="reference internal" href="#Gio.ActionGroup.query_action" titl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.action_state_changed">
-<span class="sig-name descname"><span class="pre">action_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L732"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_state_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">action_state_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L719"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.action_state_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -564,7 +562,7 @@ calls to <a class="reference internal" href="#Gio.ActionGroup.query_action" titl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.activate_action">
-<span class="sig-name descname"><span class="pre">activate_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L631"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.activate_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">activate_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L618"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.activate_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -609,7 +607,7 @@ may fail to be activated on the primary instance.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.change_action_state">
-<span class="sig-name descname"><span class="pre">change_action_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L576"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.change_action_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">change_action_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.change_action_state" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -633,7 +631,7 @@ See <a class="reference internal" href="#Gio.ActionGroup.get_action_state_hint" 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.get_action_enabled">
-<span class="sig-name descname"><span class="pre">get_action_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L517"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_enabled" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_action_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L504"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to query</p>
@@ -655,7 +653,7 @@ have its state changed from outside callers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.get_action_parameter_type">
-<span class="sig-name descname"><span class="pre">get_action_parameter_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_parameter_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_action_parameter_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L406"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_parameter_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to query</p>
@@ -684,7 +682,7 @@ with the same name but a different parameter type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.get_action_state">
-<span class="sig-name descname"><span class="pre">get_action_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L545"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_action_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L532"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to query</p>
@@ -709,7 +707,7 @@ given by <a class="reference internal" href="#Gio.ActionGroup.get_action_state_t
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.get_action_state_hint">
-<span class="sig-name descname"><span class="pre">get_action_state_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L493"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state_hint" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_action_state_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L480"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state_hint" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to query</p>
@@ -742,7 +740,7 @@ within the range may fail.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.get_action_state_type">
-<span class="sig-name descname"><span class="pre">get_action_state_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L455"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_action_state_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L442"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.get_action_state_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to query</p>
@@ -774,7 +772,7 @@ with the same name but a different state type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.has_action">
-<span class="sig-name descname"><span class="pre">has_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L386"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.has_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L373"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.has_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the action to check for</p>
@@ -794,7 +792,7 @@ with the same name but a different state type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.list_actions">
-<span class="sig-name descname"><span class="pre">list_actions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.list_actions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_actions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L352"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.list_actions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of the names of the
@@ -814,7 +812,7 @@ it is no longer required.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.ActionGroup.query_action">
-<span class="sig-name descname"><span class="pre">query_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gactiongroup.c#L793"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.query_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">query_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gactiongroup.c#L780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.ActionGroup.query_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of an action in the group</p>

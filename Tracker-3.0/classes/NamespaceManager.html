@@ -341,26 +341,33 @@
 <dd class="field-odd"><p><a class="reference internal" href="NamespaceManagerClass.html#Tracker.NamespaceManagerClass" title="Tracker.NamespaceManagerClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tracker.NamespaceManagerClass</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> object represents a
-mapping of prefixes and namespaces.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> object represents a mapping between namespaces and
+their shortened prefixes.</p>
+<p>This object keeps track of namespaces, and allows you to assign
+short prefixes for them to avoid frequent use of full namespace IRIs. The syntax
+used is that of <a class="reference external" href="https://www.w3.org/TR/2010/NOTE-curie-20101216">Compact URIs (CURIEs)</a>.</p>
+<p>Usually you will want to use a namespace manager obtained through
+[method`Tracker`.SparqlConnection.get_namespace_manager] from the
+[class`Tracker`.SparqlConnection] that manages the RDF data, as that will
+contain all prefixes and namespaces that are pre-defined by its ontology.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.NamespaceManager.get_default">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.NamespaceManager.get_default" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a global, shared <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> instance</p>
+<dd class="field-odd"><p>a global, shared <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> instance</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the global <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> that contains a set of well-known
-namespaces and prefixes, such as rdf:, rdfs:, nie:, tracker:, etc.</p>
+<p>Returns the global <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> that contains a set of well-known
+namespaces and prefixes, such as <code class="docutils literal notranslate"><span class="pre">rdf:</span></code>, <code class="docutils literal notranslate"><span class="pre">rdfs:</span></code>, <code class="docutils literal notranslate"><span class="pre">nie:</span></code>, <code class="docutils literal notranslate"><span class="pre">tracker:</span></code>, etc.</p>
 <p>Note that the list of prefixes and namespaces is hardcoded in
 libtracker-sparql. It may not correspond with the installed set of
 ontologies, if they have been modified since they were installed.</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.3: </span>Use <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection.get_namespace_manager" title="Tracker.SparqlConnection.get_namespace_manager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.get_namespace_manager</span></code></a>() instead.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.3: </span>Use [method`Tracker`.SparqlConnection.get_namespace_manager] instead.</p>
 </div>
 </dd></dl>
 
@@ -369,13 +376,13 @@ ontologies, if they have been modified since they were installed.</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.NamespaceManager.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> instance</p>
+<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> instance</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> instance.</p>
+<p>Creates a new, empty <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> instance.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -392,9 +399,9 @@ ontologies, if they have been modified since they were installed.</p>
 <p>Adds <cite>prefix</cite> as the recognised abbreviaton of <cite>namespace</cite>.</p>
 <p>Only one prefix is allowed for a given namespace, and all prefixes must
 be unique.</p>
-<p>Since 3.3, This function may not be used on <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a>
-instances that were obtained through
-<a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection.get_namespace_manager" title="Tracker.SparqlConnection.get_namespace_manager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.get_namespace_manager</span></code></a>().</p>
+<p>Since 3.3, The <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> instances obtained through
+[method`Tracker`.SparqlConnection.get_namespace_manager] are “sealed”,
+this API call should not performed on those.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -412,7 +419,7 @@ instances that were obtained through
 </dd>
 </dl>
 <p>If <cite>uri</cite> begins with one of the namespaces known to this
-<a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a>, then the return value will be the
+<code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code>, then the return value will be the
 compressed URI. Otherwise, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
@@ -427,14 +434,14 @@ compressed URI. Otherwise, <a class="reference external" href="https://docs.pyth
 <dd class="field-odd"><p><strong>compact_uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a URI or compact URI</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a newly-allocated string</p>
+<dd class="field-even"><p>The possibly expanded URI in a newly-allocated string.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 <p>If <cite>compact_uri</cite> begins with one of the prefixes known to this
-<a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a>, then the return value will be the
+<code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code>, then the return value will be the
 expanded URI. Otherwise, a copy of <cite>compact_uri</cite> will be returned.</p>
 </dd></dl>
 
@@ -460,7 +467,7 @@ expanded URI. Otherwise, a copy of <cite>compact_uri</cite> will be returned.</p
 <dd class="field-odd"><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> knows about <cite>prefix</cite>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code> knows about <cite>prefix</cite>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -477,7 +484,7 @@ expanded URI. Otherwise, a copy of <cite>compact_uri</cite> will be returned.</p
 <dd class="field-odd"><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a string owned by the <a class="reference internal" href="#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-even"><p>a string owned by the <code class="docutils literal notranslate"><span class="pre">TrackerNamespaceManager</span></code>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -498,7 +505,8 @@ is not known.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>Writes out all namespaces as Turtle <cite>prefix</cite> statements.</p>
+<p>Writes out all namespaces as <code class="docutils literal notranslate"><span class="pre">&#64;prefix</span></code> statements in
+the <a class="reference external" href="https://www.w3.org/TR/turtle/">Turtle</a> RDF format.</p>
 </dd></dl>
 
 </dd></dl>

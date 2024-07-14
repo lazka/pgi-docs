@@ -425,24 +425,24 @@
 <dd class="field-odd"><p><a class="reference internal" href="MenuModelClass.html#Gio.MenuModelClass" title="Gio.MenuModelClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.MenuModelClass</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> represents the contents of a menu – an ordered list of
+<p><code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> represents the contents of a menu — an ordered list of
 menu items. The items are associated with actions, which can be
 activated through them. Items can be grouped in sections, and may
 have submenus associated with them. Both items and sections usually
 have some representation data, such as labels or icons. The type of
 the associated action (ie whether it is stateful, and what kind of
 state it has) can influence the representation of the item.</p>
-<p>The conceptual model of menus in <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> is hierarchical:
-sections and submenus are again represented by <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModels</span></code></a>.
-Menus themselves do not define their own roles. Rather, the role
-of a particular <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> is defined by the item that references
+<p>The conceptual model of menus in <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> is hierarchical:
+sections and submenus are again represented by <code class="docutils literal notranslate"><span class="pre">GMenuModel``s.</span>
+<span class="pre">Menus</span> <span class="pre">themselves</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">define</span> <span class="pre">their</span> <span class="pre">own</span> <span class="pre">roles.</span> <span class="pre">Rather,</span> <span class="pre">the</span> <span class="pre">role</span>
+<span class="pre">of</span> <span class="pre">a</span> <span class="pre">particular</span> <span class="pre">``GMenuModel</span></code> is defined by the item that references
 it (or, in the case of the ‘root’ menu, is defined by the context
 in which it is used).</p>
 <p>As an example, consider the visible portions of this menu:</p>
 <dl class="simple">
 <dt>An example menu</dt><dd></dd>
 </dl>
-<p>There are 8 “menus” visible in the screenshot: one menubar, two
+<p>There are 8 ‘menus’ visible in the screenshot: one menubar, two
 submenus and 5 sections:</p>
 <ul class="simple">
 <li><p>the toplevel menubar (containing 4 items)</p></li>
@@ -454,15 +454,15 @@ submenus and 5 sections:</p>
 <li><p>the Sources section (containing 2 items)</p></li>
 <li><p>the Markup section (containing 2 items)</p></li>
 </ul>
-<p>The <a class="reference external" href="https://developer.gnome.org/gio/stable/GMenuModel.html#menu-model">example</a> illustrates the conceptual connection between
+<p>The <a class="reference external" href="#a-menu-example">example</a> illustrates the conceptual connection between
 these 8 menus. Each large block in the figure represents a menu and the
 smaller blocks within the large block represent items in that menu. Some
 items contain references to other menus.</p>
 <dl class="simple">
 <dt>A menu example</dt><dd></dd>
 </dl>
-<p>Notice that the separators visible in the <a class="reference external" href="https://developer.gnome.org/gio/stable/GMenuModel.html#menu-example">example</a>
-appear nowhere in the <a class="reference external" href="https://developer.gnome.org/gio/stable/GMenuModel.html#menu-model">menu model</a>. This is because
+<p>Notice that the separators visible in the <a class="reference external" href="#an-example-menu">example</a>
+appear nowhere in the <a class="reference external" href="#a-menu-example">menu model</a>. This is because
 separators are not explicitly represented in the menu model. Instead,
 a separator is inserted between any two non-empty sections of a menu.
 Section items can have labels just like any other item. In that case,
@@ -472,28 +472,29 @@ that modern user interfaces tend to make these controls available
 outside the application. Examples include global menus, jumplists,
 dash boards, etc. To support such uses, it is necessary to ‘export’
 information about actions and their representation in menus, which
-is exactly what the <a class="reference external" href="https://developer.gnome.org/gio/stable/gio-GActionGroup-exporter.html#gio-GActionGroup-exporter">GActionGroup exporter</a>
-and the <a class="reference external" href="https://developer.gnome.org/gio/stable/gio-GMenuModel-exporter.html#gio-GMenuModel-exporter">GMenuModel exporter</a> do for
-<a class="reference internal" href="ActionGroup.html#Gio.ActionGroup" title="Gio.ActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ActionGroup</span></code></a> and <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a>. The client-side counterparts to
-make use of the exported information are <a class="reference internal" href="DBusActionGroup.html#Gio.DBusActionGroup" title="Gio.DBusActionGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusActionGroup</span></code></a> and
-<a class="reference internal" href="DBusMenuModel.html#Gio.DBusMenuModel" title="Gio.DBusMenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusMenuModel</span></code></a>.</p>
-<p>The API of <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> is very generic, with iterators for the
-attributes and links of an item, see <a class="reference internal" href="#Gio.MenuModel.iterate_item_attributes" title="Gio.MenuModel.iterate_item_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel.iterate_item_attributes</span></code></a>()
-and <a class="reference internal" href="#Gio.MenuModel.iterate_item_links" title="Gio.MenuModel.iterate_item_links"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel.iterate_item_links</span></code></a>(). The ‘standard’ attributes and
-link types have predefined names: <a class="reference internal" href="../constants.html#Gio.MENU_ATTRIBUTE_LABEL" title="Gio.MENU_ATTRIBUTE_LABEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_ATTRIBUTE_LABEL</span></code></a>,
-<a class="reference internal" href="../constants.html#Gio.MENU_ATTRIBUTE_ACTION" title="Gio.MENU_ATTRIBUTE_ACTION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_ATTRIBUTE_ACTION</span></code></a>, <a class="reference internal" href="../constants.html#Gio.MENU_ATTRIBUTE_TARGET" title="Gio.MENU_ATTRIBUTE_TARGET"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_ATTRIBUTE_TARGET</span></code></a>, <a class="reference internal" href="../constants.html#Gio.MENU_LINK_SECTION" title="Gio.MENU_LINK_SECTION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_LINK_SECTION</span></code></a>
-and <a class="reference internal" href="../constants.html#Gio.MENU_LINK_SUBMENU" title="Gio.MENU_LINK_SUBMENU"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_LINK_SUBMENU</span></code></a>.</p>
-<p>Items in a <a class="reference internal" href="#Gio.MenuModel" title="Gio.MenuModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> represent active controls if they refer to
+is exactly what the action group exporter and the menu model exporter do for
+[iface`Gio`.ActionGroup] and [class`Gio`.MenuModel]. The client-side
+counterparts to make use of the exported information are
+[class`Gio`.DBusActionGroup] and [class`Gio`.DBusMenuModel].</p>
+<p>The API of <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> is very generic, with iterators for the
+attributes and links of an item, see
+[method`Gio`.MenuModel.iterate_item_attributes] and
+[method`Gio`.MenuModel.iterate_item_links]. The ‘standard’ attributes and
+link types have predefined names: <code class="docutils literal notranslate"><span class="pre">G_MENU_ATTRIBUTE_LABEL</span></code>,
+<code class="docutils literal notranslate"><span class="pre">G_MENU_ATTRIBUTE_ACTION</span></code>, <code class="docutils literal notranslate"><span class="pre">G_MENU_ATTRIBUTE_TARGET</span></code>, <code class="docutils literal notranslate"><span class="pre">G_MENU_LINK_SECTION</span></code>
+and <code class="docutils literal notranslate"><span class="pre">G_MENU_LINK_SUBMENU</span></code>.</p>
+<p>Items in a <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> represent active controls if they refer to
 an action that can get activated when the user interacts with the
-menu item. The reference to the action is encoded by the string id
-in the <a class="reference internal" href="../constants.html#Gio.MENU_ATTRIBUTE_ACTION" title="Gio.MENU_ATTRIBUTE_ACTION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MENU_ATTRIBUTE_ACTION</span></code></a> attribute. An action id uniquely
+menu item. The reference to the action is encoded by the string ID
+in the <code class="docutils literal notranslate"><span class="pre">G_MENU_ATTRIBUTE_ACTION</span></code> attribute. An action ID uniquely
 identifies an action in an action group. Which action group(s) provide
 actions depends on the context in which the menu model is used.
 E.g. when the model is exported as the application menu of a
-#GtkApplication, actions can be application-wide or window-specific
-(and thus come from two different action groups). By convention, the
-application-wide actions have names that start with “app.”, while the
-names of window-specific actions start with “win.”.</p>
+<a class="reference external" href="https://docs.gtk.org/gtk4/class.Application.html">GtkApplication</a>,
+actions can be application-wide or window-specific (and thus come from
+two different action groups). By convention, the application-wide actions
+have names that start with <code class="docutils literal notranslate"><span class="pre">app.</span></code>, while the names of window-specific
+actions start with <code class="docutils literal notranslate"><span class="pre">win.</span></code>.</p>
 <p>While a wide variety of stateful actions is possible, the following
 is the minimum that is expected to be supported by all users of exported
 menu information:</p>
@@ -510,11 +511,11 @@ menu information:</p>
 <dl class="simple">
 <dt>Boolean State</dt><dd></dd>
 </dl>
-<p>An action with a boolean state will most typically be used with a “toggle”
-or “switch” menu item. The state can be set directly, but activating the
+<p>An action with a boolean state will most typically be used with a ‘toggle’
+or ‘switch’ menu item. The state can be set directly, but activating the
 action (with no parameter) results in the state being toggled.</p>
 <p>Selecting a toggle menu item will activate the action. The menu item should
-be rendered as “checked” when the state is true.</p>
+be rendered as ‘checked’ when the state is true.</p>
 <dl class="simple">
 <dt>String Parameter and State</dt><dd></dd>
 </dl>
@@ -525,14 +526,14 @@ equivalent to setting that parameter as the state.</p>
 <p>Radio menu items, in addition to being associated with the action, will
 have a target value. Selecting that menu item will result in activation
 of the action with the target value as the parameter. The menu item should
-be rendered as “selected” when the state of the action is equal to the
+be rendered as ‘selected’ when the state of the action is equal to the
 target value of the menu item.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.get_item_attribute_value">
-<span class="sig-name descname"><span class="pre">get_item_attribute_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L554"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_item_attribute_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_item_attribute_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L544"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_item_attribute_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -564,7 +565,7 @@ then <a class="reference external" href="https://docs.python.org/3/library/const
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.get_item_link">
-<span class="sig-name descname"><span class="pre">get_item_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L660"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_item_link" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_item_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L650"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_item_link" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -590,7 +591,7 @@ does not exist, <a class="reference external" href="https://docs.python.org/3/li
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.get_n_items">
-<span class="sig-name descname"><span class="pre">get_n_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L498"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_n_items" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_n_items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L488"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.get_n_items" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of items</p>
@@ -607,7 +608,7 @@ does not exist, <a class="reference external" href="https://docs.python.org/3/li
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.is_mutable">
-<span class="sig-name descname"><span class="pre">is_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L481"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.is_mutable" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_mutable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L471"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.is_mutable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the model is mutable (ie: “items-changed” may be
@@ -627,7 +628,7 @@ signal. Consumers of the model may make optimisations accordingly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.items_changed">
-<span class="sig-name descname"><span class="pre">items_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L695"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.items_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">items_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L685"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.items_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -656,7 +657,7 @@ user code is running without returning to the mainloop.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.iterate_item_attributes">
-<span class="sig-name descname"><span class="pre">iterate_item_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L520"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.iterate_item_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">iterate_item_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L510"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.iterate_item_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>item_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the index of the item</p>
@@ -678,7 +679,7 @@ the item at position <cite>item_index</cite> in <cite>self</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.MenuModel.iterate_item_links">
-<span class="sig-name descname"><span class="pre">iterate_item_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gmenumodel.c#L635"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.iterate_item_links" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">iterate_item_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_index</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gmenumodel.c#L625"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.MenuModel.iterate_item_links" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>item_index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the index of the item</p>

@@ -275,14 +275,33 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.TimeZone">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">TimeZone</span></span><a class="headerlink" href="#GLib.TimeZone" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#GLib.TimeZone" title="GLib.TimeZone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeZone</span></code></a> is an opaque structure whose members cannot be accessed
-directly.</p>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">GTimeZone</span></code> represents a time zone, at no particular point in time.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GTimeZone</span></code> struct is refcounted and immutable.</p>
+<p>Each time zone has an identifier (for example, ‘Europe/London’) which is
+platform dependent. See [ctor`GLib`.TimeZone.new] for information on the
+identifier formats. The identifier of a time zone can be retrieved using
+[method`GLib`.TimeZone.get_identifier].</p>
+<p>A time zone contains a number of intervals. Each interval has an abbreviation
+to describe it (for example, ‘PDT’), an offset to UTC and a flag indicating
+if the daylight savings time is in effect during that interval. A time zone
+always has at least one interval — interval 0. Note that interval abbreviations
+are not the same as time zone identifiers (apart from ‘UTC’), and cannot be
+passed to [ctor`GLib`.TimeZone.new].</p>
+<p>Every UTC time is contained within exactly one interval, but a given
+local time may be contained within zero, one or two intervals (due to
+incontinuities associated with daylight savings time).</p>
+<p>An interval may refer to a specific period of time (eg: the duration
+of daylight savings time during 2010) or it may refer to many periods
+of time that share the same properties (eg: all periods of daylight
+savings time).  It is also possible (usually for political reasons)
+that some properties (like the abbreviation) change between intervals
+without other properties changing.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L1751"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L1744"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a timezone identifier</p>
@@ -308,7 +327,7 @@ if <cite>identifier</cite> could not be parsed or loaded.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.new_identifier">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L1839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_identifier" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_identifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L1832"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_identifier" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>identifier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a timezone identifier</p>
@@ -384,7 +403,7 @@ when you are done with it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.new_local">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2037"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_local" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2030"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_local" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the local timezone</p>
@@ -407,7 +426,7 @@ when you are done with it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.new_offset">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2080"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_offset" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2073"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_offset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – offset to UTC, in seconds</p>
@@ -435,7 +454,7 @@ backwards compatibility. To detect failures like this, use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.new_utc">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_utc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2004"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_utc" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_utc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L1997"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.new_utc" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the universal timezone</p>
@@ -456,7 +475,7 @@ when you are done with it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.adjust_time">
-<span class="sig-name descname"><span class="pre">adjust_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L1758"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.adjust_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">adjust_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L1751"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.adjust_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -497,7 +516,7 @@ adjusted time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.find_interval">
-<span class="sig-name descname"><span class="pre">find_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2349"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.find_interval" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">find_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2342"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.find_interval" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -534,7 +553,7 @@ case.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.get_abbreviation">
-<span class="sig-name descname"><span class="pre">get_abbreviation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2413"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_abbreviation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_abbreviation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2406"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_abbreviation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an interval within the timezone</p>
@@ -558,7 +577,7 @@ is in effect.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.get_identifier">
-<span class="sig-name descname"><span class="pre">get_identifier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2487"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_identifier" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_identifier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2480"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_identifier" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>identifier for this timezone</p>
@@ -581,7 +600,7 @@ this function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.get_offset">
-<span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2439"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_offset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2432"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.get_offset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an interval within the timezone</p>
@@ -606,7 +625,7 @@ west of GMT, positive numbers for east).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.is_dst">
-<span class="sig-name descname"><span class="pre">is_dst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L2460"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.is_dst" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_dst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L2453"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.is_dst" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an interval within the timezone</p>
@@ -627,7 +646,7 @@ west of GMT, positive numbers for east).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L288"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L281"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a new reference to <cite>self</cite>.</p>
@@ -644,7 +663,7 @@ west of GMT, positive numbers for east).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.TimeZone.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gtimezone.c#L227"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gtimezone.c#L220"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.TimeZone.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases the reference count on <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>

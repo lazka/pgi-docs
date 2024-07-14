@@ -74,7 +74,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GES.EffectAsset" href="EffectAsset.html" />
-    <link rel="prev" title="GES.Container" href="Container.html" /> 
+    <link rel="prev" title="GES.DiscovererManager" href="DiscovererManager.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,7 +100,7 @@
 
 
 
-<td><a accesskey="p" href="Container.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="DiscovererManager.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -158,7 +158,7 @@
 
 
 
-<td><a accesskey="p" href="Container.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="DiscovererManager.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
@@ -488,16 +488,30 @@
 <dd class="field-odd"><p><a class="reference internal" href="EffectClass.html#GES.EffectClass" title="GES.EffectClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">GES.EffectClass</span></code></a></p>
 </dd>
 </dl>
-<p>Currently we only support effects with N sinkpads and one single srcpad.
-Apart from <code class="docutils literal notranslate"><span class="pre">gesaudiomixer</span></code> and <code class="docutils literal notranslate"><span class="pre">gescompositor</span></code> which can be used as effects
-and where sinkpads will be requested as needed based on the timeline topology
-GES will always request at most one sinkpad per effect (when required).</p>
+<p>Any GStreamer filter can be used as effects in GES. The only restriction we
+have is that effects element should have a single <a class="reference external" href="GST_PAD_SINK">sinkpad</a>
+(which will be requested if necessary) and a single <a class="reference external" href="GST_PAD_SRC">srcpad</a>.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">gesaudiomixer</span></code> and <code class="docutils literal notranslate"><span class="pre">gescompositor</span></code> can be used as effects even
+though they can have several sinkpads.</p>
+<dl class="simple">
+<dt>GES specific effects:</dt><dd></dd>
+</dl>
+<ul class="simple">
+<li><p>**``gesvideoscale``**: GES implements a specific scaling bin that allows
+specifying where scaling will happen inside the chain of effects. By
+default scaling can happen either in the source (if the source doesn’t have
+a specific size, like <code class="docutils literal notranslate"><span class="pre">videotestsrc</span></code> or <a class="reference external" href="ges_track_set_mixing">mixing</a> has
+been disabled) or in the mixing element otherwise, when adding that element
+as an effect, GES guarantees that the scaling will happen in it. This can
+be useful for example if you want to crop the video before scaling or apply
+rounding corners to the video after scaling, etc…</p></li>
+</ul>
 <p>Note: GES always adds converters (<code class="docutils literal notranslate"><span class="pre">audioconvert</span> <span class="pre">!</span> <span class="pre">audioresample</span> <span class="pre">!</span>
 <span class="pre">audioconvert</span></code> for audio effects and <code class="docutils literal notranslate"><span class="pre">videoconvert</span></code> for video effects) to
 make it simpler for end users.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Effect.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bin_description</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-effect.c#L368"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Effect.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bin_description</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-effect.c#L381"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Effect.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>bin_description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The gst-launch like bin description of the effect</p>

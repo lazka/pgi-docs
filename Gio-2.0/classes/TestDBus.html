@@ -328,7 +328,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.TestDBus.props.flags" title="Gio.TestDBus.props.flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">flags</span></code></a></p></td>
 <td><p><a class="reference internal" href="../flags.html#Gio.TestDBusFlags" title="Gio.TestDBusFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBusFlags</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>Flags specifying the behaviour of the D-Bus session</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -364,18 +364,18 @@
 </dl>
 <p>A helper class for testing code which uses D-Bus without touching the user’s
 session bus.</p>
-<p>Note that <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> modifies the user’s environment, calling setenv().
-This is not thread-safe, so all <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> calls should be completed before
-threads are spawned, or should have appropriate locking to ensure no access
-conflicts to environment variables shared between <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> and other
-threads.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code> modifies the user’s environment, calling
+<a class="reference external" href="man:setenv(3">setenv()</a>). This is not thread-safe, so all <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code>
+calls should be completed before threads are spawned, or should have
+appropriate locking to ensure no access conflicts to environment variables
+shared between <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code> and other threads.</p>
 <dl class="simple">
 <dt>Creating unit tests using <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a></dt><dd></dd>
 </dl>
 <p>Testing of D-Bus services can be tricky because normally we only ever run
 D-Bus services over an existing instance of the D-Bus daemon thus we
 usually don’t activate D-Bus services that are not yet installed into the
-target system. The <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> object makes this easier for us by taking care
+target system. The <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code> object makes this easier for us by taking care
 of the lower level tasks such as running a private D-Bus daemon and looking
 up uninstalled services in customizable locations, typically in your source
 code tree.</p>
@@ -386,51 +386,54 @@ is a good place to put this file.</p>
 uninstalled service executable in your source tree. Using autotools we would
 achieve this by adding a file such as <code class="docutils literal notranslate"><span class="pre">my-server.service.in</span></code> in the services
 directory and have it processed by configure.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[D-BUS Service]
+<p>``
+[D-BUS Service]
 Name=org.gtk.GDBus.Examples.ObjectManager
-Exec=@abs_top_builddir@/gio/tests/gdbus-example-objectmanager-server
-</pre></div>
-</div>
+Exec=&#64;abs_top_builddir&#64;/gio/tests/gdbus-example-objectmanager-server
+``</p>
 <p>You will also need to indicate this service directory in your test
 fixtures, so you will need to pass the path while compiling your
 test cases. Typically this is done with autotools with an added
 preprocessor flag specified to compile your tests such as:</p>
-<p><code class="docutils literal notranslate"><span class="pre">-DTEST_SERVICES=\&quot;&quot;$(abs_top_builddir)/tests/services&quot;\&quot;</span></code></p>
+<p>``
+-DTEST_SERVICES=&quot;”$(abs_top_builddir)/tests/services”&quot;
+``</p>
 <p>Once you have a service definition file which is local to your source tree,
-you can proceed to set up a GTest fixture using the <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> scaffolding.</p>
+you can proceed to set up a GTest fixture using the <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code> scaffolding.</p>
 <p>An example of a test fixture for D-Bus services can be found
 here:
 <a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-test-fixture.c">gdbus-test-fixture.c</a></p>
 <p>Note that these examples only deal with isolating the D-Bus aspect of your
 service. To successfully run isolated unit tests on your service you may need
 some additional modifications to your test case fixture. For example; if your
-service uses <a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a> and installs a schema then it is important that your test service
-not load the schema in the ordinary installed location (chances are that your service
-and schema files are not yet installed, or worse; there is an older version of the
-schema file sitting in the install location).</p>
+service uses [class`Gio`.Settings] and installs a schema then it is important
+that your test service not load the schema in the ordinary installed location
+(chances are that your service and schema files are not yet installed, or
+worse; there is an older version of the schema file sitting in the install
+location).</p>
 <p>Most of the time we can work around these obstacles using the
 environment. Since the environment is inherited by the D-Bus daemon
-created by <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> and then in turn inherited by any services the
+created by <code class="docutils literal notranslate"><span class="pre">GTestDBus</span></code> and then in turn inherited by any services the
 D-Bus daemon activates, using the setup routine for your fixture is
 a practical place to help sandbox your runtime environment. For the
 rather typical <a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a> case we can work around this by setting
 <code class="docutils literal notranslate"><span class="pre">GSETTINGS_SCHEMA_DIR</span></code> to the in tree directory holding your schemas
-in the above fixture_setup() routine.</p>
-<p>The <a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a> schemas need to be locally pre-compiled for this to work. This can be achieved
-by compiling the schemas locally as a step before running test cases, an autotools setup might
-do the following in the directory holding schemas:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>all-am:
-        $(GLIB_COMPILE_SCHEMAS) .
-
-CLEANFILES += gschemas.compiled
-</pre></div>
-</div>
+in the above <code class="docutils literal notranslate"><span class="pre">fixture_setup()</span></code> routine.</p>
+<p>The <a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a> schemas need to be locally pre-compiled for this to work. This
+can be achieved by compiling the schemas locally as a step before running
+test cases, an autotools setup might do the following in the directory
+holding schemas:</p>
+<p>```
+all-am:
+$(GLIB_COMPILE_SCHEMAS) .</p>
+<p>CLEANFILES += gschemas.compiled
+```</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.34.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L737"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L731"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Gio.TestDBusFlags" title="Gio.TestDBusFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBusFlags</span></code></a>) – a <a class="reference internal" href="../flags.html#Gio.TestDBusFlags" title="Gio.TestDBusFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBusFlags</span></code></a></p>
@@ -447,7 +450,7 @@ CLEANFILES += gschemas.compiled
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.unset">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L888"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.unset" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L882"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.unset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
 won’t use user’s session bus.</p>
 <p>This is useful for unit tests that want to verify behaviour when no session
@@ -457,7 +460,7 @@ bus is running. It is not necessary to call this if unit test already calls
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.add_service_dir">
-<span class="sig-name descname"><span class="pre">add_service_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L788"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.add_service_dir" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_service_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L782"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.add_service_dir" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – path to a directory containing .service files</p>
@@ -469,7 +472,7 @@ called after <a class="reference internal" href="#Gio.TestDBus.up" title="Gio.Te
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.down">
-<span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L855"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.down" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L849"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.down" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the session bus started by <a class="reference internal" href="#Gio.TestDBus.up" title="Gio.TestDBus.up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus.up</span></code></a>().</p>
 <p>This will wait for the singleton returned by <a class="reference internal" href="../functions.html#Gio.bus_get" title="Gio.bus_get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.bus_get</span></code></a>() or <a class="reference internal" href="../functions.html#Gio.bus_get_sync" title="Gio.bus_get_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.bus_get_sync</span></code></a>()
 to be destroyed. This is done to ensure that the next unit test won’t get a
@@ -478,7 +481,7 @@ leaked singleton from this test.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.get_bus_address">
-<span class="sig-name descname"><span class="pre">get_bus_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L771"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.get_bus_address" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_bus_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L765"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.get_bus_address" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the address of the bus, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
@@ -494,7 +497,7 @@ been called yet, <a class="reference external" href="https://docs.python.org/3/l
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.get_flags">
-<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L753"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.get_flags" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L747"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.get_flags" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value of <a class="reference internal" href="#Gio.TestDBus" title="Gio.TestDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus</span></code></a> <a class="reference internal" href="#Gio.TestDBus.props.flags" title="Gio.TestDBus.props.flags"><code class="xref py py-data docutils literal notranslate"><span class="pre">:flags</span></code></a> property</p>
@@ -508,7 +511,7 @@ been called yet, <a class="reference external" href="https://docs.python.org/3/l
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L836"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.stop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L830"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stop the session bus started by <a class="reference internal" href="#Gio.TestDBus.up" title="Gio.TestDBus.up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus.up</span></code></a>().</p>
 <p>Unlike <a class="reference internal" href="#Gio.TestDBus.down" title="Gio.TestDBus.down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TestDBus.down</span></code></a>(), this won’t verify the <a class="reference internal" href="DBusConnection.html#Gio.DBusConnection" title="Gio.DBusConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a>
 singleton returned by <a class="reference internal" href="../functions.html#Gio.bus_get" title="Gio.bus_get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.bus_get</span></code></a>() or <a class="reference internal" href="../functions.html#Gio.bus_get_sync" title="Gio.bus_get_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.bus_get_sync</span></code></a>() is destroyed. Unit
@@ -518,7 +521,7 @@ can use this function but should still call <a class="reference internal" href="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.TestDBus.up">
-<span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gtestdbus.c#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.up" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gtestdbus.c#L804"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.TestDBus.up" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start a dbus-daemon instance and set DBUS_SESSION_BUS_ADDRESS. After this
 call, it is safe for unit tests to start sending messages on the session bus.</p>
 <p>If this function is called from setup callback of g_test_add(),

@@ -315,76 +315,67 @@
 <dd class="field-even"><p><a class="reference internal" href="AsyncResultIface.html#Gio.AsyncResultIface" title="Gio.AsyncResultIface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.AsyncResultIface</span></code></a></p>
 </dd>
 </dl>
-<p>Provides a base class for implementing asynchronous function results.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GAsyncResult</span></code> provides a base class for implementing asynchronous function results.</p>
 <p>Asynchronous operations are broken up into two separate operations
-which are chained together by a <a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>. To begin
-an asynchronous operation, provide a <a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to the
+which are chained together by a <code class="docutils literal notranslate"><span class="pre">GAsyncReadyCallback</span></code>. To begin
+an asynchronous operation, provide a <code class="docutils literal notranslate"><span class="pre">GAsyncReadyCallback</span></code> to the
 asynchronous function. This callback will be triggered when the
 operation has completed, and must be run in a later iteration of
-the <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext.push_thread_default" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thread-default</span> <span class="pre">main</span> <span class="pre">context</span></code></a>
-from where the operation was initiated. It will be passed a
-<a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> instance filled with the details of the operation’s
-success or failure, the object the asynchronous function was
-started for and any error codes returned. The asynchronous callback
-function is then expected to call the corresponding “_finish()”
+the thread-default main context (see
+[method`GLib`.MainContext.push_thread_default]) from where the operation was
+initiated. It will be passed a <code class="docutils literal notranslate"><span class="pre">GAsyncResult</span></code> instance filled with the
+details of the operation’s success or failure, the object the asynchronous
+function was started for and any error codes returned. The asynchronous
+callback function is then expected to call the corresponding <code class="docutils literal notranslate"><span class="pre">_finish()</span></code>
 function, passing the object the function was called for, the
-<a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> instance, and (optionally) an <cite>error</cite> to grab any
+<code class="docutils literal notranslate"><span class="pre">GAsyncResult</span></code> instance, and (optionally) an <cite>error</cite> to grab any
 error conditions that may have occurred.</p>
-<p>The “_finish()” function for an operation takes the generic result
-(of type <a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) and returns the specific result that the
-operation in question yields (e.g. a <a class="reference internal" href="FileEnumerator.html#Gio.FileEnumerator" title="Gio.FileEnumerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileEnumerator</span></code></a> for a
+<p>The <code class="docutils literal notranslate"><span class="pre">_finish()</span></code> function for an operation takes the generic result
+(of type <code class="docutils literal notranslate"><span class="pre">GAsyncResult</span></code>) and returns the specific result that the
+operation in question yields (e.g. a [class`Gio`.FileEnumerator] for a
 “enumerate children” operation). If the result or error status of the
-operation is not needed, there is no need to call the “_finish()”
+operation is not needed, there is no need to call the <code class="docutils literal notranslate"><span class="pre">_finish()</span></code>
 function; GIO will take care of cleaning up the result and error
-information after the <a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> returns. You can pass
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the <a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> if you don’t need to take any
+information after the <code class="docutils literal notranslate"><span class="pre">GAsyncReadyCallback</span></code> returns. You can pass
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code> for the <code class="docutils literal notranslate"><span class="pre">GAsyncReadyCallback</span></code> if you don’t need to take any
 action at all after the operation completes. Applications may also
-take a reference to the <a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> and call “_finish()” later;
-however, the “_finish()” function may be called at most once.</p>
+take a reference to the <code class="docutils literal notranslate"><span class="pre">GAsyncResult</span></code> and call <code class="docutils literal notranslate"><span class="pre">_finish()</span></code> later;
+however, the <code class="docutils literal notranslate"><span class="pre">_finish()</span></code> function may be called at most once.</p>
 <p>Example of a typical asynchronous operation flow:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">_theoretical_frobnitz_async</span><span class="w"> </span><span class="p">(</span><span class="n">Theoretical</span><span class="w">         </span><span class="o">*</span><span class="n">t</span><span class="p">,</span>
-<span class="w">                                  </span><span class="n">GCancellable</span><span class="w">        </span><span class="o">*</span><span class="n">c</span><span class="p">,</span>
-<span class="w">                                  </span><span class="n">GAsyncReadyCallback</span><span class="w">  </span><span class="n">cb</span><span class="p">,</span>
-<span class="w">                                  </span><span class="n">gpointer</span><span class="w">             </span><span class="n">u</span><span class="p">);</span>
-
-<span class="n">gboolean</span><span class="w"> </span><span class="nf">_theoretical_frobnitz_finish</span><span class="w"> </span><span class="p">(</span><span class="n">Theoretical</span><span class="w">   </span><span class="o">*</span><span class="n">t</span><span class="p">,</span>
-<span class="w">                                       </span><span class="n">GAsyncResult</span><span class="w">  </span><span class="o">*</span><span class="n">res</span><span class="p">,</span>
-<span class="w">                                       </span><span class="n">GError</span><span class="w">       </span><span class="o">**</span><span class="n">e</span><span class="p">);</span>
-
-<span class="k">static</span><span class="w"> </span><span class="kt">void</span>
-<span class="nf">frobnitz_result_func</span><span class="w"> </span><span class="p">(</span><span class="n">GObject</span><span class="w">      </span><span class="o">*</span><span class="n">source_object</span><span class="p">,</span>
-<span class="w">                 </span><span class="n">GAsyncResult</span><span class="w"> </span><span class="o">*</span><span class="n">res</span><span class="p">,</span>
-<span class="w">                 </span><span class="n">gpointer</span><span class="w">      </span><span class="n">user_data</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">gboolean</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span>
-
-<span class="w">  </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_theoretical_frobnitz_finish</span><span class="w"> </span><span class="p">(</span><span class="n">source_object</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
-<span class="w">    </span><span class="n">g_printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Hurray!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="k">else</span>
-<span class="w">    </span><span class="n">g_printf</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Uh oh!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-
-<span class="w">  </span><span class="p">...</span>
-
-<span class="p">}</span>
-
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-<span class="w">   </span><span class="p">...</span>
-
-<span class="w">   </span><span class="n">_theoretical_frobnitz_async</span><span class="w"> </span><span class="p">(</span><span class="n">theoretical_data</span><span class="p">,</span>
-<span class="w">                                </span><span class="nb">NULL</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">frobnitz_result_func</span><span class="p">,</span>
-<span class="w">                                </span><span class="nb">NULL</span><span class="p">);</span>
-
-<span class="w">   </span><span class="p">...</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<p>```c
+void _theoretical_frobnitz_async (Theoretical         *t,
+<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>        *c,
+<a class="reference internal" href="../callbacks.html#Gio.AsyncReadyCallback" title="Gio.AsyncReadyCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a>  cb,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>             u);</p>
+<p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> _theoretical_frobnitz_finish (Theoretical   *t,
+<a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>  *res,
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>       **e);</p>
+<p>static void
+frobnitz_result_func (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>      *source_object,
+<a class="reference internal" href="#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> *res,
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>      user_data)
+{
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> success = <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;</p>
+<p>success = _theoretical_frobnitz_finish (source_object, res, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>if (success)
+g_printf (“Hurray!\n”);
+else
+g_printf (“Uh oh!\n”);</p>
+<p>…</p>
+<p>}</p>
+<p>int main (int argc, void *argv[])
+{
+…</p>
+<p>_theoretical_frobnitz_async (theoretical_data,
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
+frobnitz_result_func,
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>…
+}
+```</p>
 <p>The callback for an asynchronous operation is called only once, and is
 always called, even in the case of a cancelled operation. On cancellation
-the result is a <a class="reference internal" href="../enums.html#Gio.IOErrorEnum.CANCELLED" title="Gio.IOErrorEnum.CANCELLED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.CANCELLED</span></code></a> error.</p>
+the result is a <code class="docutils literal notranslate"><span class="pre">G_IO_ERROR_CANCELLED</span></code> error.</p>
 <dl class="simple">
 <dt>I/O Priority</dt><dd></dd>
 </dl>
@@ -393,11 +384,11 @@ which is used in certain cases to determine the order in which
 operations are executed. They are not used to determine system-wide
 I/O scheduling. Priorities are integers, with lower numbers indicating
 higher priority. It is recommended to choose priorities between
-<a class="reference external" href="../../GLib-2.0/constants.html#GLib.PRIORITY_LOW" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_LOW</span></code></a> and <a class="reference external" href="../../GLib-2.0/constants.html#GLib.PRIORITY_HIGH" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH</span></code></a>, with <a class="reference external" href="../../GLib-2.0/constants.html#GLib.PRIORITY_DEFAULT" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_DEFAULT</span></code></a>
+<code class="docutils literal notranslate"><span class="pre">G_PRIORITY_LOW</span></code> and <code class="docutils literal notranslate"><span class="pre">G_PRIORITY_HIGH</span></code>, with <code class="docutils literal notranslate"><span class="pre">G_PRIORITY_DEFAULT</span></code>
 as a default.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.AsyncResult.get_source_object">
-<span class="sig-name descname"><span class="pre">get_source_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gasyncresult.c#L159"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.get_source_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_source_object</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gasyncresult.c#L157"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.get_source_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a new reference to the source
@@ -412,7 +403,7 @@ object for the <cite>self</cite>, or <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.AsyncResult.get_user_data">
-<span class="sig-name descname"><span class="pre">get_user_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gasyncresult.c#L138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.get_user_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_user_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gasyncresult.c#L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.get_user_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the user data for <cite>self</cite>.</p>
@@ -426,7 +417,7 @@ object for the <cite>self</cite>, or <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.AsyncResult.is_tagged">
-<span class="sig-name descname"><span class="pre">is_tagged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gasyncresult.c#L227"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.is_tagged" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_tagged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gasyncresult.c#L225"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.is_tagged" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>source_tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an application-defined tag</p>
@@ -448,7 +439,7 @@ pointer indicating the function <cite>self</cite> was created by).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.AsyncResult.legacy_propagate_error">
-<span class="sig-name descname"><span class="pre">legacy_propagate_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gasyncresult.c#L193"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.legacy_propagate_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">legacy_propagate_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gasyncresult.c#L191"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.AsyncResult.legacy_propagate_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>

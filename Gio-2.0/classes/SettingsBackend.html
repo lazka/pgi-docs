@@ -411,29 +411,28 @@
 <dd class="field-odd"><p><a class="reference internal" href="SettingsBackendClass.html#Gio.SettingsBackendClass" title="Gio.SettingsBackendClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.SettingsBackendClass</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Gio.SettingsBackend" title="Gio.SettingsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SettingsBackend</span></code></a> interface defines a generic interface for
+<p>The <code class="docutils literal notranslate"><span class="pre">GSettingsBackend</span></code> interface defines a generic interface for
 non-strictly-typed data that is stored in a hierarchy. To implement
-an alternative storage backend for <a class="reference internal" href="Settings.html#Gio.Settings" title="Gio.Settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Settings</span></code></a>, you need to implement
-the <a class="reference internal" href="#Gio.SettingsBackend" title="Gio.SettingsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SettingsBackend</span></code></a> interface and then make it implement the
-extension point <a class="reference internal" href="../constants.html#Gio.SETTINGS_BACKEND_EXTENSION_POINT_NAME" title="Gio.SETTINGS_BACKEND_EXTENSION_POINT_NAME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SETTINGS_BACKEND_EXTENSION_POINT_NAME</span></code></a>.</p>
+an alternative storage backend for [class`Gio`.Settings], you need to
+implement the <code class="docutils literal notranslate"><span class="pre">GSettingsBackend</span></code> interface and then make it implement the
+extension point <code class="docutils literal notranslate"><span class="pre">G_SETTINGS_BACKEND_EXTENSION_POINT_NAME</span></code>.</p>
 <p>The interface defines methods for reading and writing values, a
 method for determining if writing of certain values will fail
 (lockdown) and a change notification mechanism.</p>
 <p>The semantics of the interface are very precisely defined and
 implementations must carefully adhere to the expectations of
 callers that are documented on each of the interface methods.</p>
-<p>Some of the <a class="reference internal" href="#Gio.SettingsBackend" title="Gio.SettingsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SettingsBackend</span></code></a> functions accept or return a <a class="reference external" href="../../GLib-2.0/classes/Tree.html#GLib.Tree" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Tree</span></code></a>.
-These trees always have strings as keys and <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> as values.
-g_settings_backend_create_tree() is a convenience function to create
-suitable trees.</p>
-<p>The <a class="reference internal" href="#Gio.SettingsBackend" title="Gio.SettingsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SettingsBackend</span></code></a> API is exported to allow third-party
+<p>Some of the <code class="docutils literal notranslate"><span class="pre">GSettingsBackend</span></code> functions accept or return a
+[struct`GLib`.Tree]. These trees always have strings as keys and
+[struct`GLib`.Variant] as values.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GSettingsBackend</span></code> API is exported to allow third-party
 implementations, but does not carry the same stability guarantees
 as the public GIO API. For this reason, you have to define the
-C preprocessor symbol %G_SETTINGS_ENABLE_BACKEND before including
+C preprocessor symbol <code class="docutils literal notranslate"><span class="pre">G_SETTINGS_ENABLE_BACKEND</span></code> before including
 <code class="docutils literal notranslate"><span class="pre">gio/gsettingsbackend.h</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.flatten_tree">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flatten_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L623"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.flatten_tree" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flatten_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L618"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.flatten_tree" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tree</strong> (<a class="reference external" href="../../GLib-2.0/classes/Tree.html#GLib.Tree" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Tree</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/Tree.html#GLib.Tree" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Tree</span></code></a> containing the changes</p>
@@ -470,7 +469,7 @@ optionally, the value to store at each of those keys.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.get_default">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L1019"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.get_default" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L1014"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.get_default" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the default <a class="reference internal" href="#Gio.SettingsBackend" title="Gio.SettingsBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SettingsBackend</span></code></a>,
@@ -492,7 +491,7 @@ to the name of a settings backend.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.changed">
-<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L383"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L378"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -526,7 +525,7 @@ value that was passed to that call.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.changed_tree">
-<span class="sig-name descname"><span class="pre">changed_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L662"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.changed_tree" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changed_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L657"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.changed_tree" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -545,7 +544,7 @@ value that was passed to that call.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.keys_changed">
-<span class="sig-name descname"><span class="pre">keys_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L429"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.keys_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">keys_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.keys_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -579,7 +578,7 @@ keys that were changed) but this is not strictly required.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.path_changed">
-<span class="sig-name descname"><span class="pre">path_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L476"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.path_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">path_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_tag</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L471"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.path_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -612,7 +611,7 @@ single key in the application will be notified of a possible change.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.path_writable_changed">
-<span class="sig-name descname"><span class="pre">path_writable_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.path_writable_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">path_writable_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.path_writable_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the path</p>
@@ -629,7 +628,7 @@ will always be made in response to external events.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.writable_changed">
-<span class="sig-name descname"><span class="pre">writable_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gsettingsbackend.c#L501"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.writable_changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writable_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gsettingsbackend.c#L496"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.SettingsBackend.writable_changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the key</p>
@@ -654,6 +653,7 @@ will always be made in response to external events.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>virtual method to get if a key is writable</p>
 </dd></dl>
 
 <dl class="py method">
@@ -671,6 +671,7 @@ will always be made in response to external events.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
 </dd>
 </dl>
+<p>virtual method to read a key’s value</p>
 </dd></dl>
 
 <dl class="py method">
@@ -687,6 +688,7 @@ will always be made in response to external events.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
 </dd>
 </dl>
+<p>virtual method to read user’s key value</p>
 </dd></dl>
 
 <dl class="py method">
@@ -700,6 +702,7 @@ will always be made in response to external events.</p>
 </ul>
 </dd>
 </dl>
+<p>virtual method to reset state</p>
 </dd></dl>
 
 <dl class="py method">
@@ -710,12 +713,14 @@ will always be made in response to external events.</p>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
 </dd>
 </dl>
+<p>virtual method to subscribe to key changes</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.do_sync">
 <span class="sig-name descname"><span class="pre">do_sync</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Gio.SettingsBackend.do_sync" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>virtual method to sync state</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.SettingsBackend.do_unsubscribe">
@@ -725,6 +730,7 @@ will always be made in response to external events.</p>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
 </dd>
 </dl>
+<p>virtual method to unsubscribe to key changes</p>
 </dd></dl>
 
 <dl class="py method">
@@ -742,6 +748,7 @@ will always be made in response to external events.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>virtual method to change key’s value</p>
 </dd></dl>
 
 <dl class="py method">
@@ -758,6 +765,7 @@ will always be made in response to external events.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>virtual method to change a tree of keys</p>
 </dd></dl>
 
 </dd></dl>

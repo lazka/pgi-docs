@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>
+    Functions -
+    
+    Wp 0.5
+  </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
+  
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Callbacks" href="callbacks.html" />
+    <link rel="prev" title="Wp 0.5 (0.5.5)" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+<div class="non-fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Wp-0.5/functions.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Wp 0.5</a> &raquo;</li>
+      
+    <li>Functions</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="index.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="callbacks.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Functions</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Wp.base_dirs_find_file"><code class="docutils literal notranslate"><span class="pre">Wp.base_dirs_find_file()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.base_dirs_new_files_iterator"><code class="docutils literal notranslate"><span class="pre">Wp.base_dirs_new_files_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.domain_library_quark"><code class="docutils literal notranslate"><span class="pre">Wp.domain_library_quark()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.get_library_api_version"><code class="docutils literal notranslate"><span class="pre">Wp.get_library_api_version()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.get_library_version"><code class="docutils literal notranslate"><span class="pre">Wp.get_library_version()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.init"><code class="docutils literal notranslate"><span class="pre">Wp.init()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_match_rules"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_match_rules()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_match_rules_update_properties"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_match_rules_update_properties()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_merge_containers"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_merge_containers()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.log_set_level"><code class="docutils literal notranslate"><span class="pre">Wp.log_set_level()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.log_writer_default"><code class="docutils literal notranslate"><span class="pre">Wp.log_writer_default()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_id_table_register"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_id_table_register()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_deinit"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_deinit()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_init"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_init()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_register"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_register()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value_from_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value_from_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_get_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_get_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_new_iterator"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_new_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_array_get_item_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_array_get_item_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_number"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_number()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_get_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_get_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_get_value_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_get_value_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_number"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_number()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_log_get_instance"><code class="docutils literal notranslate"><span class="pre">Wp.spa_log_get_instance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+<div class="fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Wp-0.5/functions.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Wp 0.5</a> &raquo;</li>
+      
+    <li>Functions</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="index.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="callbacks.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Functions</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Wp.base_dirs_find_file"><code class="docutils literal notranslate"><span class="pre">Wp.base_dirs_find_file()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.base_dirs_new_files_iterator"><code class="docutils literal notranslate"><span class="pre">Wp.base_dirs_new_files_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.domain_library_quark"><code class="docutils literal notranslate"><span class="pre">Wp.domain_library_quark()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.get_library_api_version"><code class="docutils literal notranslate"><span class="pre">Wp.get_library_api_version()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.get_library_version"><code class="docutils literal notranslate"><span class="pre">Wp.get_library_version()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.init"><code class="docutils literal notranslate"><span class="pre">Wp.init()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_match_rules"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_match_rules()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_match_rules_update_properties"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_match_rules_update_properties()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.json_utils_merge_containers"><code class="docutils literal notranslate"><span class="pre">Wp.json_utils_merge_containers()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.log_set_level"><code class="docutils literal notranslate"><span class="pre">Wp.log_set_level()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.log_writer_default"><code class="docutils literal notranslate"><span class="pre">Wp.log_writer_default()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_id_table_register"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_id_table_register()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_deinit"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_deinit()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_init"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_init()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_dynamic_type_register"><code class="docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_register()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_find_value_from_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_find_value_from_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_get_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_get_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_table_new_iterator"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_table_new_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_array_get_item_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_array_get_item_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_number"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_number()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_from_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_from_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_get_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_get_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_get_value_type"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_get_value_type()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_number"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_number()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_id_value_short_name"><code class="docutils literal notranslate"><span class="pre">Wp.spa_id_value_short_name()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.spa_log_get_instance"><code class="docutils literal notranslate"><span class="pre">Wp.spa_log_get_instance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="main">
+            
+  <section id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1.0%" />
+<col style="width: 99.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.base_dirs_find_file" title="Wp.base_dirs_find_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">base_dirs_find_file</span></code></a> (flags, subdir, filename)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.base_dirs_new_files_iterator" title="Wp.base_dirs_new_files_iterator"><code class="xref py py-func docutils literal notranslate"><span class="pre">base_dirs_new_files_iterator</span></code></a> (flags, subdir, suffix)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.domain_library_quark" title="Wp.domain_library_quark"><code class="xref py py-func docutils literal notranslate"><span class="pre">domain_library_quark</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.get_library_api_version" title="Wp.get_library_api_version"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_library_api_version</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.get_library_version" title="Wp.get_library_version"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_library_version</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.init" title="Wp.init"><code class="xref py py-func docutils literal notranslate"><span class="pre">init</span></code></a> (flags)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.json_utils_match_rules" title="Wp.json_utils_match_rules"><code class="xref py py-func docutils literal notranslate"><span class="pre">json_utils_match_rules</span></code></a> (json, match_props, callback, *data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.json_utils_match_rules_update_properties" title="Wp.json_utils_match_rules_update_properties"><code class="xref py py-func docutils literal notranslate"><span class="pre">json_utils_match_rules_update_properties</span></code></a> (json, props)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.json_utils_merge_containers" title="Wp.json_utils_merge_containers"><code class="xref py py-func docutils literal notranslate"><span class="pre">json_utils_merge_containers</span></code></a> (a, b)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.log_set_level" title="Wp.log_set_level"><code class="xref py py-func docutils literal notranslate"><span class="pre">log_set_level</span></code></a> (log_level)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.log_writer_default" title="Wp.log_writer_default"><code class="xref py py-func docutils literal notranslate"><span class="pre">log_writer_default</span></code></a> (log_level, fields, n_fields, user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_dynamic_id_table_register" title="Wp.spa_dynamic_id_table_register"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_dynamic_id_table_register</span></code></a> (name, values)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_dynamic_type_deinit" title="Wp.spa_dynamic_type_deinit"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_dynamic_type_deinit</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_dynamic_type_init" title="Wp.spa_dynamic_type_init"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_dynamic_type_init</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_dynamic_type_register" title="Wp.spa_dynamic_type_register"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_dynamic_type_register</span></code></a> (name, parent, values)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_find_value" title="Wp.spa_id_table_find_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_find_value</span></code></a> (table, value)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_find_value_from_name" title="Wp.spa_id_table_find_value_from_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_find_value_from_name</span></code></a> (table, name)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_find_value_from_short_name" title="Wp.spa_id_table_find_value_from_short_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_find_value_from_short_name</span></code></a> (table, short_name)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_from_name" title="Wp.spa_id_table_from_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_from_name</span></code></a> (name)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_get_type" title="Wp.spa_id_table_get_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_get_type</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_table_new_iterator" title="Wp.spa_id_table_new_iterator"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_table_new_iterator</span></code></a> (table)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_array_get_item_type" title="Wp.spa_id_value_array_get_item_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_array_get_item_type</span></code></a> (id)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_from_name" title="Wp.spa_id_value_from_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_from_name</span></code></a> (name)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_from_number" title="Wp.spa_id_value_from_number"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_from_number</span></code></a> (table_name, id)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_from_short_name" title="Wp.spa_id_value_from_short_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_from_short_name</span></code></a> (table_name, short_name)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_get_type" title="Wp.spa_id_value_get_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_get_type</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_get_value_type" title="Wp.spa_id_value_get_value_type"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_get_value_type</span></code></a> (id)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_name" title="Wp.spa_id_value_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_name</span></code></a> (id)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_number" title="Wp.spa_id_value_number"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_number</span></code></a> (id)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_id_value_short_name" title="Wp.spa_id_value_short_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_id_value_short_name</span></code></a> (id)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Wp.spa_log_get_instance" title="Wp.spa_log_get_instance"><code class="xref py py-func docutils literal notranslate"><span class="pre">spa_log_get_instance</span></code></a> ()</p></td>
+</tr>
+</tbody>
+</table>
+<section id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.base_dirs_find_file">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">base_dirs_find_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.base_dirs_find_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> (<a class="reference internal" href="flags.html#Wp.BaseDirsFlags" title="Wp.BaseDirsFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.BaseDirsFlags</span></code></a>) – flags to specify the directories to look into and other options specific to the kind of file being looked up</p></li>
+<li><p><strong>subdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the name of the subdirectory to search in, inside the specified directories</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the file to search for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A newly allocated string with the absolute, canonicalized file path, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the file was not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Searches for <cite>filename</cite> in the hierarchy of directories specified by the <cite>flags</cite> parameter.</p>
+<p>Returns the highest priority file found in the hierarchy of directories specified by the <cite>flags</cite> parameter. The <cite>subdir</cite> parameter is the name of the subdirectory to search in, inside the specified directories. If <cite>subdir</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the base path of each directory is used.
+The <cite>filename</cite> parameter is the name of the file to search for. If the file is found, its full path is returned. If the file is not found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned. The file is considered found if it is a regular file.
+If the <cite>filename</cite> is an absolute path, it is tested for existence and returned as is, ignoring the lookup directories in <cite>flags</cite> as well as the <cite>subdir</cite> parameter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.base_dirs_new_files_iterator">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">base_dirs_new_files_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.base_dirs_new_files_iterator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> (<a class="reference internal" href="flags.html#Wp.BaseDirsFlags" title="Wp.BaseDirsFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.BaseDirsFlags</span></code></a>) – flags to specify the directories to look into and other options specific to the kind of file being looked up</p></li>
+<li><p><strong>subdir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the name of the subdirectory to search in, inside the configuration directories</p></li>
+<li><p><strong>suffix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The filename suffix, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> matches all entries</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new iterator iterating over strings which are absolute &amp; canonicalized paths to the files found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/Iterator.html#Wp.Iterator" title="Wp.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Iterator</span></code></a></p>
+</dd>
+</dl>
+<p>Creates an iterator to iterate over all files that match <cite>suffix</cite> within the <cite>subdir</cite> of the directories specified in <cite>flags</cite>.</p>
+<p>The <cite>subdir</cite> parameter is the name of the subdirectory to search in, inside the directories specified by <cite>flags</cite>. If <cite>subdir</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the base path of each directory is used. If <cite>subdir</cite> is an absolute path, files are only looked up in that directory and the directories in <cite>flags</cite> are ignored.
+The <cite>suffix</cite> parameter is the filename suffix to match. If <cite>suffix</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all files are matched.
+The iterator will iterate over the absolute paths of all the files files found, in the order of priority of the directories, starting from the lowest priority directory (e.g. /usr/share/wireplumber) and ending with the highest priority directory (e.g. $XDG_CONFIG_HOME/wireplumber). Files within each directory are also sorted by filename.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.domain_library_quark">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">domain_library_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.domain_library_quark" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.get_library_api_version">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">get_library_api_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.get_library_api_version" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>WirePlumber library API version</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Gets the WirePlumber library API version.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.get_library_version">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">get_library_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.get_library_version" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>WirePlumber library version</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Gets the WirePlumber library version.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.4.12.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.init">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.init" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>flags</strong> (<a class="reference internal" href="flags.html#Wp.InitFlags" title="Wp.InitFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.InitFlags</span></code></a>) – initialization flags</p>
+</dd>
+</dl>
+<p>Initializes WirePlumber and PipeWire underneath.</p>
+<p><cite>flags</cite> can modify which parts are initialized, in cases where you want to handle part of this initialization externally.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.json_utils_match_rules">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">json_utils_match_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_props</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.json_utils_match_rules" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json</strong> (<a class="reference internal" href="classes/SpaJson.html#Wp.SpaJson" title="Wp.SpaJson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaJson</span></code></a>) – a JSON array containing rules in the described format</p></li>
+<li><p><strong>match_props</strong> (<a class="reference internal" href="classes/Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a>) – the properties to match against the rules</p></li>
+<li><p><strong>callback</strong> (<a class="reference internal" href="callbacks.html#Wp.RuleMatchCallback" title="Wp.RuleMatchCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.RuleMatchCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a function to call for each action on a successful match</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data to be passed to <cite>callback</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if an error occurred, <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Matches the given properties against a set of rules described in JSON and calls the given callback to perform actions on a successful match.</p>
+<p>The given JSON should be an array of objects, where each object has a “matches” and an “actions” property. The “matches” value should also be an array of objects, where each object is a set of properties to match. Inside such an object, all properties must match to consider a successful match. However, if multiple objects are provided, only one object needs to match.
+The “actions” value should be an object where the key is the action name and the value can be any valid JSON. Both the action name and the value are passed as-is on the <cite>callback</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.json_utils_match_rules_update_properties">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">json_utils_match_rules_update_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.json_utils_match_rules_update_properties" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json</strong> (<a class="reference internal" href="classes/SpaJson.html#Wp.SpaJson" title="Wp.SpaJson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaJson</span></code></a>) – a JSON array containing rules in the format accepted by <a class="reference internal" href="#Wp.json_utils_match_rules" title="Wp.json_utils_match_rules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.json_utils_match_rules</span></code></a>()</p></li>
+<li><p><strong>props</strong> (<a class="reference internal" href="classes/Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a>) – the properties to match against the rules and also update, acting on the “update-props” action</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the number of properties that were updated</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+<p>Matches the given properties against a set of rules described in JSON and updates the properties if the rule actions include the “update-props” action.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.json_utils_merge_containers">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">json_utils_merge_containers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.json_utils_merge_containers" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="classes/SpaJson.html#Wp.SpaJson" title="Wp.SpaJson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaJson</span></code></a>) – a JSON container</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="classes/SpaJson.html#Wp.SpaJson" title="Wp.SpaJson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaJson</span></code></a>) – a JSON container</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a new JSON container containing the merged contents of <cite>a</cite> and <cite>b</cite> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if <cite>a</cite> and <cite>b</cite> are not of the same type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/SpaJson.html#Wp.SpaJson" title="Wp.SpaJson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaJson</span></code></a></p>
+</dd>
+</dl>
+<p>Merges two JSON containers (objects or arrays) into one.</p>
+<p>If both <cite>a</cite> and <cite>b</cite> are objects, the result will be a new object containing all properties from both <cite>a</cite> and <cite>b</cite>. If a property exists in both <cite>a</cite> and <cite>b</cite>, the values are recursively merged. If a property exists in both <cite>a</cite> and <cite>b</cite> and the property name starts with the “override.” prefix in either of those, the value from the key with the prefix is used.
+If both <cite>a</cite> and <cite>b</cite> are arrays, the result will be a new array containing all elements from both <cite>a</cite> and <cite>b</cite>.
+If <cite>a</cite> and <cite>b</cite> are not of the same type, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.log_set_level">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">log_set_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.log_set_level" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.log_writer_default">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">log_writer_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.log_writer_default" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_level</strong> (<a class="reference external" href="../GLib-2.0/flags.html#GLib.LogLevelFlags" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LogLevelFlags</span></code></a>) – </p></li>
+<li><p><strong>fields</strong> (<a class="reference external" href="../GLib-2.0/classes/LogField.html#GLib.LogField" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LogField</span></code></a>) – </p></li>
+<li><p><strong>n_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../GLib-2.0/enums.html#GLib.LogWriterOutput" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LogWriterOutput</span></code></a></p>
+</dd>
+</dl>
+<p>WirePlumber’s <a class="reference external" href="../GLib-2.0/callbacks.html#GLib.LogWriterFunc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LogWriterFunc</span></code></a>.</p>
+<p>This is installed automatically when you call <a class="reference internal" href="#Wp.init" title="Wp.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.init</span></code></a>() with <a class="reference internal" href="flags.html#Wp.InitFlags.SET_GLIB_LOG" title="Wp.InitFlags.SET_GLIB_LOG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.InitFlags.SET_GLIB_LOG</span></code></a> set in the flags</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_dynamic_id_table_register">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_dynamic_id_table_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_dynamic_id_table_register" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the id table</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an array of spa_type_info that contains the values of the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the new table</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd>
+</dl>
+<p>Registers an additional WpSpaIdTable in the spa type system.</p>
+<p>This is useful to add custom enumeration types.
+Note that both <cite>name</cite> and <cite>values</cite> must be statically allocated, or otherwise guaranteed to be kept in memory until <a class="reference internal" href="#Wp.spa_dynamic_type_deinit" title="Wp.spa_dynamic_type_deinit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_deinit</span></code></a>() is called. No memory copy is done by this function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_dynamic_type_deinit">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_dynamic_type_deinit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_dynamic_type_deinit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deinitializes the spa type registry.</p>
+<p>You do not need to ever call this, unless you want to free memory at the end of the execution of a test, so that it doesn’t show as leaked in the memory profiler.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_dynamic_type_init">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_dynamic_type_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_dynamic_type_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the spa dynamic type registry.</p>
+<p>This allows registering new spa types at runtime. The spa type system still works if this function is not called.
+Normally called by <a class="reference internal" href="#Wp.init" title="Wp.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.init</span></code></a>() when <a class="reference internal" href="flags.html#Wp.InitFlags.SPA_TYPES" title="Wp.InitFlags.SPA_TYPES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.InitFlags.SPA_TYPES</span></code></a> is passed in its flags.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_dynamic_type_register">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_dynamic_type_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_dynamic_type_register" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the type</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="classes/SpaType.html#Wp.SpaType" title="Wp.SpaType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaType</span></code></a>) – the parent type</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an array of spa_type_info that contains the values of the type, used only for Object types</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the new type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/SpaType.html#Wp.SpaType" title="Wp.SpaType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaType</span></code></a></p>
+</dd>
+</dl>
+<p>Registers an additional type in the spa type system.</p>
+<p>This is useful to add a custom pod object type.
+Note that both <cite>name</cite> and <cite>values</cite> must be statically allocated, or otherwise guaranteed to be kept in memory until <a class="reference internal" href="#Wp.spa_dynamic_type_deinit" title="Wp.spa_dynamic_type_deinit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.spa_dynamic_type_deinit</span></code></a>() is called. No memory copy is done by this function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_find_value">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_find_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_find_value" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – the id table</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a numeric value that is contained in the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the WpSpaIdValue associated with <cite>value</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Finds a value in an SPA Id table.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_find_value_from_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_find_value_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_find_value_from_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – the id table</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the full name of a value that is contained in the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the WpSpaIdValue associated with <cite>name</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Finds a named value in an SPA Id table.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_find_value_from_short_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_find_value_from_short_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_find_value_from_short_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – the id table</p></li>
+<li><p><strong>short_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the short name of a value that is contained in the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the WpSpaIdValue associated with <cite>short_name</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Finds a short named value in an SPA Id table.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_from_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_from_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the full name of an id table</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the associated table, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Finds a WpSpaIdTable given its name.</p>
+<p>This name can either be the full type name of an object type, or the name of an enum (which is (!!) a type). For example, “Spa:Pod:Object:Param:Format” and “Spa:Enum:ParamId” are both valid table names.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_get_type">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_get_type" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_table_new_iterator">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_table_new_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_table_new_iterator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – the id table</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a <a class="reference internal" href="classes/Iterator.html#Wp.Iterator" title="Wp.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Iterator</span></code></a> that iterates over WpSpaIdValue items</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/Iterator.html#Wp.Iterator" title="Wp.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Iterator</span></code></a></p>
+</dd>
+</dl>
+<p>This function returns an iterator that allows you to iterate through the values associated with this table.</p>
+<p>The items in the iterator are of type WpSpaIdValue.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_array_get_item_type">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_array_get_item_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_array_get_item_type" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>the type that is allowed in the array, if <cite>id</cite> represents an object field that takes an array as value</p>
+<dl class="field-list simple">
+<dt class="field-odd">table<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the associated WpSpaIdTable</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="classes/SpaType.html#Wp.SpaType" title="Wp.SpaType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaType</span></code></a>, <strong>table</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>)</p>
+</dd>
+</dl>
+<p>If the value type of <cite>id</cite> is SPA_TYPE_Array, this function returns the type that is allowed to be contained inside the array.</p>
+<p>When the returned type is (or is derived from) SPA_TYPE_Id or SPA_TYPE_Object, <cite>table</cite> is set to point to the WpSpaIdTable that contains the possible Id values / object fields.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_from_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_from_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the full name of an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the id value for <cite>name</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no such id value was found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd>
+</dl>
+<p>Looks up an id value (enum, flag or object field) directly from its full name.</p>
+<p>For instance, “Spa:Enum:Direction:Input” will resolve to the id value that represents “Input” in the “Spa:Enum:Direction” enum.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_from_number">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_from_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_from_number" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the WpSpaIdTable to look up the value in</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the numeric representation of the value to look up</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the id value or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if it was not found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd>
+</dl>
+<p>Looks up an id value given its container <cite>table_name</cite> and its numeric representation, <cite>id</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_from_short_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_from_short_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_from_short_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the WpSpaIdTable to look up the value in</p></li>
+<li><p><strong>short_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the short name of the value to look up</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the id value or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if it was not found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd>
+</dl>
+<p>Looks up an id value given its container <cite>table_name</cite> and its <cite>short_name</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_get_type">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_get_type" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_get_value_type">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_get_value_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_get_value_type" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>the value type associated with <cite>id</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">table<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the associated WpSpaIdTable</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="classes/SpaType.html#Wp.SpaType" title="Wp.SpaType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaType</span></code></a>, <strong>table</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>)</p>
+</dd>
+</dl>
+<p>Returns the value type associated with this WpSpaIdValue.</p>
+<p>This information is useful when <cite>id</cite> represents an object field, which can take a value of an arbitrary type.
+When the returned type is (or is derived from) SPA_TYPE_Id or SPA_TYPE_Object, <cite>table</cite> is set to point to the WpSpaIdTable that contains the possible Id values / object fields.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the full name of this id value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Gets the name of an id value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_number">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_number" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the numeric representation of this id value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+<p>Gets the numeric value of an id value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_id_value_short_name">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_id_value_short_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_id_value_short_name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – an id value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the short name of this id value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Gets the short name of an id value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Wp.spa_log_get_instance">
+<span class="sig-prename descclassname"><span class="pre">Wp.</span></span><span class="sig-name descname"><span class="pre">spa_log_get_instance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.spa_log_get_instance" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>WirePlumber’s instance of spa_log, which can be used to redirect PipeWire’s log messages to the currently installed <a class="reference external" href="../GLib-2.0/callbacks.html#GLib.LogWriterFunc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.LogWriterFunc</span></code></a>. This is installed automatically when you call <a class="reference internal" href="#Wp.init" title="Wp.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.init</span></code></a>() with <a class="reference internal" href="flags.html#Wp.InitFlags.SET_PW_LOG" title="Wp.InitFlags.SET_PW_LOG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.InitFlags.SET_PW_LOG</span></code></a> set in the flags</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Gets WirePlumber’s instance of spa_log</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div> 
+
+</body>
+</html>

@@ -475,6 +475,7 @@ together with <a class="reference internal" href="AudioBaseSink.html#GstAudio.Au
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Close the device.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -485,6 +486,8 @@ together with <a class="reference internal" href="AudioBaseSink.html#GstAudio.Au
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
+<p>Return how many frames are still in the device. Participates in
+computing the time for audio clocks and drives the synchronisation.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -495,12 +498,20 @@ together with <a class="reference internal" href="AudioBaseSink.html#GstAudio.Au
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Open the device. No configuration needs to be done at this point.
+This function is also used to check if the device is available.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_pause">
 <span class="sig-name descname"><span class="pre">do_pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GstAudio.AudioSink.do_pause" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Pause the device and unblock write as fast as possible.
+For retro compatibility, the audio sink will fallback
+to calling reset if this vmethod is not provided.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.18.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_prepare">
@@ -513,22 +524,37 @@ together with <a class="reference internal" href="AudioBaseSink.html#GstAudio.Au
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Prepare the device to operate with the specified parameters.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_reset">
 <span class="sig-name descname"><span class="pre">do_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GstAudio.AudioSink.do_reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns as quickly as possible from a write and flush any pending
+samples from the device.
+This vmethod is deprecated. Please provide pause and stop instead.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_resume">
 <span class="sig-name descname"><span class="pre">do_resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GstAudio.AudioSink.do_resume" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Resume the device.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.18.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_stop">
 <span class="sig-name descname"><span class="pre">do_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GstAudio.AudioSink.do_stop" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Stop the device and unblock write as fast as possible.
+Pending samples are flushed from the device.
+For retro compatibility, the audio sink will fallback
+to calling reset if this vmethod is not provided.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.18.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GstAudio.AudioSink.do_unprepare">
@@ -538,6 +564,7 @@ together with <a class="reference internal" href="AudioBaseSink.html#GstAudio.Au
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Undo operations done in prepare.</p>
 </dd></dl>
 
 <dl class="py method">

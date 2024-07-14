@@ -560,9 +560,7 @@
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#GES.Project.signals.missing_uri" title="GES.Project.signals.missing_uri"><code class="xref py py-func docutils literal notranslate"><span class="pre">missing-uri</span></code></a></p></td>
-<td><blockquote>
-<div></div></blockquote>
-</td>
+<td><p>```c static <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> source_moved_cb (<a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> *project, <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error, <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> *asset_with_error) { return <a class="reference external" href="../../GLib-2.0/functions.html#GLib.strdup" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strdup</span></code></a> (“file:///the/new/uri.ogg”); }  static int main (int argc, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> ** argv) { <a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a> *timeline; <a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> *project = <a class="reference internal" href="#GES.Project.new" title="GES.Project.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project.new</span></code></a> (“file:///some/uri.xges”);  g_signal_connect (project, “missing-uri”, source_moved_cb, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>); timeline = <a class="reference internal" href="Asset.html#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a> (GES_ASSET (project)); } ```</p></td>
 </tr>
 </tbody>
 </table>
@@ -616,18 +614,15 @@
 <p>The <a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> is used to control a set of <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> and is a
 <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> with <code class="docutils literal notranslate"><span class="pre">GES_TYPE_TIMELINE</span></code> as <cite>extractable_type</cite> itself. That
 means that you can extract <a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a> from a project as followed:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GESProject *project;
-GESTimeline *timeline;
-
-project = ges_project_new (&quot;file:///path/to/a/valid/project/uri&quot;);
-
-// Here you can connect to the various signal to get more infos about
+<p>```c
+<a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> *project;
+<a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a> *timeline;</p>
+<p>project = <a class="reference internal" href="#GES.Project.new" title="GES.Project.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project.new</span></code></a> (“file:///path/to/a/valid/project/uri”);</p>
+<p>// Here you can connect to the various signal to get more infos about
 // what is happening and recover from errors if possible
-...
-
-timeline = ges_asset_extract (GES_ASSET (project));
-</pre></div>
-</div>
+…</p>
+<p>timeline = <a class="reference internal" href="Asset.html#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a> (GES_ASSET (project));
+```</p>
 <p>The <a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> class offers a higher level API to handle <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>-s.
 It lets you request new asset, and it informs you about new assets through
 a set of signals. Also it handles problem such as missing files/missing
@@ -650,13 +645,15 @@ extract the timeline with <a class="reference internal" href="Asset.html#GES.Ass
 the same temporary location.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1257"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The uri to be set after creating the project.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A newly created <a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a></p>
+<dd class="field-even"><p><p>A newly created <a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a></p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a></p>
@@ -671,14 +668,16 @@ the URI it will keep refering to.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.add_asset">
-<span class="sig-name descname"><span class="pre">add_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L947"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_asset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1026"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_asset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>asset</strong> (<a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>) – A <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> to add to <cite>self</cite></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset could be added <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> it was already
-in the project</p>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset could be added <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> it was already
+in the project.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -690,33 +689,35 @@ in the project</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.add_encoding_profile">
-<span class="sig-name descname"><span class="pre">add_encoding_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_encoding_profile" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_encoding_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1345"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_encoding_profile" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>profile</strong> (<a class="reference external" href="../../GstPbutils-1.0/classes/EncodingProfile.html#GstPbutils.EncodingProfile" title="(in GstPbutils 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstPbutils.EncodingProfile</span></code></a>) – A <a class="reference external" href="../../GstPbutils-1.0/classes/EncodingProfile.html#GstPbutils.EncodingProfile" title="(in GstPbutils 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstPbutils.EncodingProfile</span></code></a> to add to the project. If a profile with
-the same name already exists, it will be replaced</p>
+the same name already exists, it will be replaced.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>profile</cite> could be added, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwize</p>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>profile</cite> could be added, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Adds <cite>profile</cite> to the project. It lets you save in what format
-the project has been renders and keep a reference to those formats.
-Also, those formats will be saves to the project file when possible.</p>
+the project will be rendered and keep a reference to those formats.
+Also, those formats will be saved to the project file when possible.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.add_formatter">
-<span class="sig-name descname"><span class="pre">add_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formatter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L158"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_formatter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formatter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L166"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.add_formatter" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>formatter</strong> (<a class="reference internal" href="Formatter.html#GES.Formatter" title="GES.Formatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Formatter</span></code></a>) – A formatter used by <cite>self</cite></p>
 </dd>
 </dl>
-<p>Adds a formatter as used to load <cite>self</cite></p>
+<p>Adds a formatter to be used to load <cite>self</cite></p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.18.</span></p>
 </div>
@@ -724,7 +725,7 @@ Also, those formats will be saves to the project file when possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.create_asset">
-<span class="sig-name descname"><span class="pre">create_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.create_asset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L877"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.create_asset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -733,8 +734,10 @@ Also, those formats will be saves to the project file when possible.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset started to be added <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> it was already
-in the project</p>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset was added and started loading, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> it was
+already in the project.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -747,7 +750,7 @@ in the project</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.create_asset_sync">
-<span class="sig-name descname"><span class="pre">create_asset_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L858"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.create_asset_sync" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">create_asset_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L925"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.create_asset_sync" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -759,7 +762,9 @@ in the project</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The newly created <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<dd class="field-odd"><p><p>The newly created <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -772,7 +777,7 @@ in the project</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.get_asset">
-<span class="sig-name descname"><span class="pre">get_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1004"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_asset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractable_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1092"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_asset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -782,8 +787,10 @@ to retrieve from <cite>object</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> with
+<dd class="field-even"><p><p>The <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> with
 <cite>id</cite> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if no asset with <cite>id</cite> as an ID</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -793,12 +800,14 @@ to retrieve from <cite>object</cite></p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.get_loading_assets">
-<span class="sig-name descname"><span class="pre">get_loading_assets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1290"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_loading_assets" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_loading_assets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1407"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_loading_assets" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A set of loading asset
+<dd class="field-odd"><p><p>A set of loading asset
 that will be added to <cite>self</cite>. Note that those Asset are *not* loaded yet,
-and thus can not be used</p>
+and thus can not be used.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>]</p>
@@ -809,10 +818,12 @@ and thus can not be used</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.get_uri">
-<span class="sig-name descname"><span class="pre">get_uri</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1206"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_uri" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uri</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1315"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.get_uri" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly allocated string representing uri.</p>
+<dd class="field-odd"><p><p>a newly allocated string representing uri.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -823,15 +834,17 @@ and thus can not be used</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.list_assets">
-<span class="sig-name descname"><span class="pre">list_assets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1037"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.list_assets" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_assets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.list_assets" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – Type of assets to list, <code class="docutils literal notranslate"><span class="pre">GES_TYPE_EXTRACTABLE</span></code> will list
 all assets</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The list of
+<dd class="field-even"><p><p>The list of
 <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> the object contains</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>[<a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>]</p>
@@ -844,7 +857,7 @@ in time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.list_encoding_profiles">
-<span class="sig-name descname"><span class="pre">list_encoding_profiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.list_encoding_profiles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_encoding_profiles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1387"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.list_encoding_profiles" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The
@@ -860,7 +873,7 @@ is the latest added.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.load" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>timeline</strong> (<a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a>) – A blank timeline to load <cite>self</cite> into</p>
@@ -869,7 +882,9 @@ is the latest added.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the project could be loaded <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwize.</p>
+<dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the project could be loaded <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -880,24 +895,26 @@ is the latest added.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.remove_asset">
-<span class="sig-name descname"><span class="pre">remove_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L977"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.remove_asset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_asset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.remove_asset" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>asset</strong> (<a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a>) – A <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> to remove from <cite>self</cite></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset could be removed <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the asset could be removed <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>remove a <cite>asset</cite> to from <cite>self</cite>.</p>
+<p>Remove <cite>asset</cite> from <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GES.Project.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter_asset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.22.9/ges/ges-project.c#L1078"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter_asset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.freedesktop.org/gstreamer/gst-editing-services/blob/1.24.5/ges/ges-project.c#L1174"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GES.Project.save" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -914,7 +931,9 @@ as defined in <a class="reference internal" href="../functions.html#GES.find_for
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the project could be save, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwize</p>
+<dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the project could be save, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<p>MT safe.</p>
+</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1193,23 +1212,21 @@ only to find out what the new location is.</p></li>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>static gchar
-source_moved_cb (GESProject *project, GError *error, GESAsset *asset_with_error)
+<p>```c
+static <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>
+source_moved_cb (<a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> *project, <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error, <a class="reference internal" href="Asset.html#GES.Asset" title="GES.Asset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset</span></code></a> *asset_with_error)
 {
-  return g_strdup (&quot;file:///the/new/uri.ogg&quot;);
-}
-
-static int
-main (int argc, gchar ** argv)
+return <a class="reference external" href="../../GLib-2.0/functions.html#GLib.strdup" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strdup</span></code></a> (“file:///the/new/uri.ogg”);
+}</p>
+<p>static int
+main (int argc, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> ** argv)
 {
-  GESTimeline *timeline;
-  GESProject *project = ges_project_new (&quot;file:///some/uri.xges&quot;);
-
-  g_signal_connect (project, &quot;missing-uri&quot;, source_moved_cb, NULL);
-  timeline = ges_asset_extract (GES_ASSET (project));
+<a class="reference internal" href="Timeline.html#GES.Timeline" title="GES.Timeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Timeline</span></code></a> *timeline;
+<a class="reference internal" href="#GES.Project" title="GES.Project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project</span></code></a> *project = <a class="reference internal" href="#GES.Project.new" title="GES.Project.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Project.new</span></code></a> (“file:///some/uri.xges”);</p>
+<p>g_signal_connect (project, “missing-uri”, source_moved_cb, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);
+timeline = <a class="reference internal" href="Asset.html#GES.Asset.extract" title="GES.Asset.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GES.Asset.extract</span></code></a> (GES_ASSET (project));
 }
-</pre></div>
-</div>
+```</p>
 </dd></dl>
 
 </section>

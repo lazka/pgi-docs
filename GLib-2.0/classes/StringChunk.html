@@ -235,11 +235,25 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.StringChunk">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">StringChunk</span></span><a class="headerlink" href="#GLib.StringChunk" title="Permalink to this definition">¶</a></dt>
-<dd><p>An opaque data structure representing String Chunks.
-It should only be accessed by using the following functions.</p>
+<dd><p><code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code> provides efficient storage of groups of strings</p>
+<p>String chunks are used to store groups of strings. Memory is
+allocated in blocks, and as strings are added to the <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code>
+they are copied into the next free position in a block. When a block
+is full a new block is allocated.</p>
+<p>When storing a large number of strings, string chunks are more
+efficient than using [func`GLib`.strdup] since fewer calls to <code class="docutils literal notranslate"><span class="pre">malloc()</span></code>
+are needed, and less memory is wasted in memory allocation overheads.</p>
+<p>By adding strings with [method`GLib`.StringChunk.insert_const] it is also
+possible to remove duplicates.</p>
+<p>To create a new <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code> use [func`GLib`.StringChunk.new].</p>
+<p>To add strings to a <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code> use [method`GLib`.StringChunk.insert].</p>
+<p>To add strings to a <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code>, but without duplicating strings
+which are already in the <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code>, use [method`GLib`.StringChunk.insert_const].</p>
+<p>To free the entire <code class="docutils literal notranslate"><span class="pre">GStringChunk</span></code> use [method`GLib`.StringChunk.free].
+It is not possible to free individual strings.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.StringChunk.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstringchunk.c#L149"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstringchunk.c#L142"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees all strings contained within the <a class="reference internal" href="#GLib.StringChunk" title="GLib.StringChunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.StringChunk</span></code></a>.
 After calling <a class="reference internal" href="#GLib.StringChunk.clear" title="GLib.StringChunk.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.StringChunk.clear</span></code></a>() it is not safe to
 access any of the strings which were contained within it.</p>
@@ -250,7 +264,7 @@ access any of the strings which were contained within it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.StringChunk.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstringchunk.c#L125"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstringchunk.c#L118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees all memory allocated by the <a class="reference internal" href="#GLib.StringChunk" title="GLib.StringChunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.StringChunk</span></code></a>.
 After calling <a class="reference internal" href="#GLib.StringChunk.free" title="GLib.StringChunk.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.StringChunk.free</span></code></a>() it is not safe to
 access any of the strings which were contained within it.</p>
@@ -258,7 +272,7 @@ access any of the strings which were contained within it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.StringChunk.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstringchunk.c#L188"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstringchunk.c#L181"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the string to add</p>
@@ -285,7 +299,7 @@ duplicates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.StringChunk.insert_const">
-<span class="sig-name descname"><span class="pre">insert_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstringchunk.c#L219"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert_const" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstringchunk.c#L212"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert_const" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the string to add</p>
@@ -313,7 +327,7 @@ if they do match.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.StringChunk.insert_len">
-<span class="sig-name descname"><span class="pre">insert_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gstringchunk.c#L263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert_len" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gstringchunk.c#L256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.StringChunk.insert_len" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

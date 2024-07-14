@@ -545,18 +545,27 @@
 </dd>
 </dl>
 <p>The base object type.</p>
-<p>All the fields in the <code class="docutils literal notranslate"><span class="pre">GObject</span></code> structure are private to the implementation
-and should never be accessed directly.</p>
-<p>Since GLib 2.72, all <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Objects</span></code></a> are guaranteed to be aligned to at least the
-alignment of the largest basic GLib type (typically this is #guint64 or
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>). If you need larger alignment for an element in a <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, you
-should allocate it on the heap (aligned), or arrange for your <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> to be
-appropriately padded. This guarantee applies to the <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> (or derived)
-struct, the <a class="reference internal" href="ObjectClass.html#GObject.ObjectClass" title="GObject.ObjectClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ObjectClass</span></code></a> (or derived) struct, and any private data allocated
-by G_ADD_PRIVATE().</p>
+<p><code class="docutils literal notranslate"><span class="pre">GObject</span></code> is the fundamental type providing the common attributes and
+methods for all object types in GTK, Pango and other libraries
+based on <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>. The <code class="docutils literal notranslate"><span class="pre">GObject</span></code> class provides methods for object
+construction and destruction, property access methods, and signal
+support. Signals are described in detail <a class="reference external" href="https://developer.gnome.org/gobject/stable/gobject-Signals.html#gobject-Signals">here</a>.</p>
+<p>For a tutorial on implementing a new <code class="docutils literal notranslate"><span class="pre">GObject</span></code> class, see <a class="reference external" href="tutorial.html#how-to-define-and-implement-a-new-gobject">How to define and
+implement a new GObject</a>.
+For a list of naming conventions for GObjects and their methods, see the
+<a class="reference external" href="concepts.html#conventions">GType conventions</a>. For the high-level concepts
+behind <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>, read
+<a class="reference external" href="concepts.html#instantiatable-classed-types-objects">Instantiatable classed types: Objects</a>.</p>
+<p>Since GLib 2.72, all <code class="docutils literal notranslate"><span class="pre">GObject``s</span> <span class="pre">are</span> <span class="pre">guaranteed</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">aligned</span> <span class="pre">to</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">the</span>
+<span class="pre">alignment</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">largest</span> <span class="pre">basic</span> <span class="pre">GLib</span> <span class="pre">type</span> <span class="pre">(typically</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">``guint64</span></code> or
+<code class="docutils literal notranslate"><span class="pre">gdouble</span></code>). If you need larger alignment for an element in a <code class="docutils literal notranslate"><span class="pre">GObject</span></code>, you
+should allocate it on the heap (aligned), or arrange for your <code class="docutils literal notranslate"><span class="pre">GObject</span></code> to be
+appropriately padded. This guarantee applies to the <code class="docutils literal notranslate"><span class="pre">GObject</span></code> (or derived)
+struct, the <code class="docutils literal notranslate"><span class="pre">GObjectClass</span></code> (or derived) struct, and any private data allocated
+by <code class="docutils literal notranslate"><span class="pre">G_ADD_PRIVATE()</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.compat_control">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compat_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.compat_control" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compat_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L5372"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.compat_control" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -623,13 +632,13 @@ class initialization:</p>
 <span class="w">  </span><span class="n">GObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">gobject_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">G_OBJECT_CLASS</span><span class="w"> </span><span class="p">(</span><span class="n">klass</span><span class="p">);</span>
 
 <span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
 <span class="w">                      </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">G_MAXINT</span><span class="p">,</span>
 <span class="w">                      </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">                      </span><span class="n">G_PARAM_READWRITE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">G_PARAM_STATIC_STRINGS</span><span class="p">);</span>
 
 <span class="w">  </span><span class="n">obj_properties</span><span class="p">[</span><span class="n">PROP_BAR</span><span class="p">]</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="n">g_param_spec_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bar&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">g_param_spec_string</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
 <span class="w">                         </span><span class="nb">NULL</span><span class="p">,</span>
 <span class="w">                         </span><span class="n">G_PARAM_READWRITE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">G_PARAM_STATIC_STRINGS</span><span class="p">);</span>
 
@@ -681,7 +690,7 @@ e.g. to change the range of allowed values or the default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.interface_find_property">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_find_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.interface_find_property" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_find_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1475"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.interface_find_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -711,7 +720,7 @@ if you know the interface has already been loaded,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.interface_install_property">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_install_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.interface_install_property" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_install_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1403"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.interface_install_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -743,7 +752,7 @@ been called for any object types implementing this interface.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.interface_list_properties">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_list_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.interface_list_properties" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interface_list_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g_iface</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.interface_list_properties" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>g_iface</strong> (<a class="reference internal" href="TypeInterface.html#GObject.TypeInterface" title="GObject.TypeInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeInterface</span></code></a>) – any interface vtable for the
@@ -786,7 +795,7 @@ already been loaded, <a class="reference internal" href="../functions.html#GObje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.newv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">newv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.newv" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">newv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L2798"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.newv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -844,7 +853,7 @@ need to get the overridden property, you can call
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.bind_property">
-<span class="sig-name descname"><span class="pre">bind_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.bind_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bind_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1420"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.bind_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -892,7 +901,7 @@ use <a class="reference internal" href="Binding.html#GObject.Binding.unbind" tit
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.bind_property_full">
-<span class="sig-name descname"><span class="pre">bind_property_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_from</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.bind_property_full" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bind_property_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_from</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gbinding.c#L1571"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.bind_property_full" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -928,7 +937,7 @@ function pointers.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">handler_id:</span> <span class="pre">int</span></span></span><a class="headerlink" href="#GObject.Object.connect" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">handler_id:</span> <span class="pre">int</span></span></span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>The connect() method adds a function or method (handler) to the end
 of the list of signal handlers for the named detailed_signal but
 before the default class signal handler. An optional set of
@@ -965,7 +974,7 @@ definition and invocation are the same.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.disconnect" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3585"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.disconnect" title="Permalink to this definition">¶</a></dt>
 <dd><p>A convenience function to disconnect multiple signals at once.</p>
 <p>The signal specs expected by this function have the form
 “any_signal”, which means to disconnect any signal with matching
@@ -985,7 +994,7 @@ signal is of type <code class="docutils literal notranslate"><span class="pre">(
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.force_floating">
-<span class="sig-name descname"><span class="pre">force_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.force_floating" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">force_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3939"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.force_floating" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is intended for <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> implementations to re-enforce
 a <a class="reference external" href="https://developer.gnome.org/gobject/stable/gobject-The-Base-Object-Type.html#floating-ref">floating</a> object reference. Doing this is seldom
 required: all <a class="reference internal" href="InitiallyUnowned.html#GObject.InitiallyUnowned" title="GObject.InitiallyUnowned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.InitiallyUnowneds</span></code></a> are created with a floating reference
@@ -997,7 +1006,7 @@ which usually just needs to be sunken by calling <a class="reference internal" h
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.freeze_notify">
-<span class="sig-name descname"><span class="pre">freeze_notify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#GObject.Object.freeze_notify" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">freeze_notify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1871"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.freeze_notify" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method freezes all the “notify::” signals (which are emitted
 when any property is changed) until the <a class="reference internal" href="#GObject.Object.thaw_notify" title="GObject.Object.thaw_notify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">thaw_notify()</span></code></a> method
 is called.</p>
@@ -1013,7 +1022,7 @@ is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.get_data">
-<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.get_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4749"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – name of the key for that association</p>
@@ -1031,13 +1040,13 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.get_property">
-<span class="sig-name descname"><span class="pre">get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#GObject.Object.get_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a></span></span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3412"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.get_property" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves a property value.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.get_qdata">
-<span class="sig-name descname"><span class="pre">get_qdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.get_qdata" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_qdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quark</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4539"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.get_qdata" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>quark</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A #GQuark, naming the user data pointer</p>
@@ -1055,7 +1064,7 @@ g_object_set_qdata().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.getv">
-<span class="sig-name descname"><span class="pre">getv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.getv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">getv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.getv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1104,7 +1113,7 @@ implicitly at the end of the block:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.is_floating">
-<span class="sig-name descname"><span class="pre">is_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.is_floating" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3830"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.is_floating" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> has a floating reference</p>
@@ -1121,7 +1130,7 @@ implicitly at the end of the block:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.notify">
-<span class="sig-name descname"><span class="pre">notify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.notify" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">notify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1952"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.notify" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of a property installed on the class of <cite>self</cite>.</p>
@@ -1139,7 +1148,7 @@ called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.notify_by_pspec">
-<span class="sig-name descname"><span class="pre">notify_by_pspec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.notify_by_pspec" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">notify_by_pspec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pspec</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L2024"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.notify_by_pspec" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pspec</strong> (<a class="reference internal" href="ParamSpec.html#GObject.ParamSpec" title="GObject.ParamSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpec</span></code></a>) – the <a class="reference internal" href="ParamSpec.html#GObject.ParamSpec" title="GObject.ParamSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpec</span></code></a> of a property installed on the class of <cite>self</cite>.</p>
@@ -1163,7 +1172,7 @@ instead, is to store the <a class="reference internal" href="ParamSpec.html#GObj
 <span class="k">static</span><span class="w"> </span><span class="kt">void</span>
 <span class="nf">my_object_class_init</span><span class="w"> </span><span class="p">(</span><span class="n">MyObjectClass</span><span class="w"> </span><span class="o">*</span><span class="n">klass</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;The foo&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">properties</span><span class="p">[</span><span class="n">PROP_FOO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_param_spec_int</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
 <span class="w">                                           </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
 <span class="w">                                           </span><span class="mi">50</span><span class="p">,</span>
 <span class="w">                                           </span><span class="n">G_PARAM_READWRITE</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">G_PARAM_STATIC_STRINGS</span><span class="p">);</span>
@@ -1182,7 +1191,7 @@ instead, is to store the <a class="reference internal" href="ParamSpec.html#GObj
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the same <cite>self</cite></p>
@@ -1200,7 +1209,7 @@ explicit.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.ref_sink">
-<span class="sig-name descname"><span class="pre">ref_sink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.ref_sink" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref_sink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3858"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.ref_sink" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>self</cite></p>
@@ -1225,7 +1234,7 @@ under the same conditions as for <a class="reference internal" href="#GObject.Ob
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.run_dispose">
-<span class="sig-name descname"><span class="pre">run_dispose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.run_dispose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">run_dispose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L1832"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.run_dispose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Releases all references to other objects. This can be used to break
 reference cycles.</p>
 <p>This function should only be called from object system implementations.</p>
@@ -1233,7 +1242,7 @@ reference cycles.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.set_data">
-<span class="sig-name descname"><span class="pre">set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.set_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4777"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.set_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1254,13 +1263,13 @@ for <cite>key</cite> in your program, to avoid the #GQuark storage growing unbou
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.set_property">
-<span class="sig-name descname"><span class="pre">set_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.set_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L3381"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.set_property" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set property <em>property_name</em> to <em>value</em>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.steal_data">
-<span class="sig-name descname"><span class="pre">steal_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.steal_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">steal_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4915"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.steal_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – name of the key</p>
@@ -1279,7 +1288,7 @@ without invoking the association’s destroy handler.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.steal_qdata">
-<span class="sig-name descname"><span class="pre">steal_qdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.steal_qdata" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">steal_qdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quark</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4729"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.steal_qdata" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>quark</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A #GQuark, naming the user data pointer</p>
@@ -1330,7 +1339,7 @@ g_object_set_qdata_full().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.thaw_notify">
-<span class="sig-name descname"><span class="pre">thaw_notify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#GObject.Object.thaw_notify" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">thaw_notify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L2048"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.thaw_notify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Thaw all the “notify::” signals which were thawed by
 <a class="reference internal" href="#GObject.Object.freeze_notify" title="GObject.Object.freeze_notify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">freeze_notify()</span></code></a>.</p>
 <p>It is recommended to not call <a class="reference internal" href="#GObject.Object.thaw_notify" title="GObject.Object.thaw_notify"><code class="xref py py-meth docutils literal notranslate"><span class="pre">thaw_notify()</span></code></a> explicitly but use
@@ -1339,7 +1348,7 @@ g_object_set_qdata_full().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L4316"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases the reference count of <cite>self</cite>. When its reference count
 drops to 0, the object is finalized (i.e. its memory is freed).</p>
 <p>If the pointer to the <a class="reference internal" href="#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> may be reused in future (for example, if it is
@@ -1350,7 +1359,7 @@ invalid <a class="reference internal" href="#GObject.Object" title="GObject.Obje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.watch_closure">
-<span class="sig-name descname"><span class="pre">watch_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.Object.watch_closure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">watch_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closure</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gobject.c#L5249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.Object.watch_closure" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>closure</strong> (<a class="reference internal" href="Closure.html#GObject.Closure" title="GObject.Closure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure</span></code></a>) – <a class="reference internal" href="Closure.html#GObject.Closure" title="GObject.Closure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Closure</span></code></a> to watch</p>
@@ -1370,7 +1379,14 @@ use this <cite>self</cite> as closure data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.do_constructed">
 <span class="sig-name descname"><span class="pre">do_constructed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GObject.Object.do_constructed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>the <cite>constructed</cite> function is called by g_object_new() as the
+final step of the object creation process.  At the point of the call, all
+construction properties have been set on the object.  The purpose of this
+call is to allow for object initialisation steps that can only be performed
+after construction properties have been set.  <cite>constructed</cite> implementors
+should chain up to the <cite>constructed</cite> call of their parent class to allow it
+to complete its initialisation.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.do_dispatch_properties_changed">
@@ -1383,17 +1399,28 @@ use this <cite>self</cite> as closure data.</p>
 </ul>
 </dd>
 </dl>
+<p>emits property change notification for a bunch
+of properties. Overriding <cite>dispatch_properties_changed</cite> should be rarely
+needed.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.do_dispose">
 <span class="sig-name descname"><span class="pre">do_dispose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GObject.Object.do_dispose" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>the <cite>dispose</cite> function is supposed to drop all references to other
+objects, but keep the instance otherwise intact, so that client method
+invocations still work. It may be run multiple times (due to reference
+loops). Before returning, <cite>dispose</cite> should chain up to the <cite>dispose</cite> method
+of the parent class.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.do_finalize">
 <span class="sig-name descname"><span class="pre">do_finalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#GObject.Object.do_finalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>instance finalization function, should finish the finalization of
+the instance begun in <cite>dispose</cite> and chain up to the <cite>finalize</cite> method of the
+parent class.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.Object.do_get_property">
@@ -1407,6 +1434,8 @@ use this <cite>self</cite> as closure data.</p>
 </ul>
 </dd>
 </dl>
+<p>the generic getter for all properties of this type. Should be
+overridden for every type with properties.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1439,6 +1468,11 @@ called.</p>
 </ul>
 </dd>
 </dl>
+<p>the generic setter for all properties of this type. Should be
+overridden for every type with properties. If implementations of
+<cite>set_property</cite> don’t emit property change notification explicitly, this will
+be done implicitly by the type system. However, if the notify signal is
+emitted explicitly, the type system will not emit it a second time.</p>
 </dd></dl>
 
 </dd></dl>

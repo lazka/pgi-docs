@@ -120,8 +120,10 @@
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Tracker.Batch"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch</span></code></a><ul>
+<li><a class="reference internal" href="#Tracker.Batch.add_rdf"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_rdf()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.add_resource"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_resource()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.add_sparql"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_sparql()</span></code></a></li>
+<li><a class="reference internal" href="#Tracker.Batch.add_statement"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_statement()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute_async"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute_async()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute_finish"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute_finish()</span></code></a></li>
@@ -182,8 +184,10 @@
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Tracker.Batch"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch</span></code></a><ul>
+<li><a class="reference internal" href="#Tracker.Batch.add_rdf"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_rdf()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.add_resource"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_resource()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.add_sparql"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_sparql()</span></code></a></li>
+<li><a class="reference internal" href="#Tracker.Batch.add_statement"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.add_statement()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute_async"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute_async()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.Batch.execute_finish"><code class="docutils literal notranslate"><span class="pre">Tracker.Batch.execute_finish()</span></code></a></li>
@@ -270,10 +274,16 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Tracker.Batch.add_resource" title="Tracker.Batch.add_resource"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_resource</span></code></a> (graph, resource)</p></td>
+<td><p><a class="reference internal" href="#Tracker.Batch.add_rdf" title="Tracker.Batch.add_rdf"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_rdf</span></code></a> (flags, format, default_graph, stream)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Tracker.Batch.add_resource" title="Tracker.Batch.add_resource"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_resource</span></code></a> (graph, resource)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Tracker.Batch.add_sparql" title="Tracker.Batch.add_sparql"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_sparql</span></code></a> (sparql)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Tracker.Batch.add_statement" title="Tracker.Batch.add_statement"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_statement</span></code></a> (stmt, variable_names, values)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Tracker.Batch.execute" title="Tracker.Batch.execute"><code class="xref py py-func docutils literal notranslate"><span class="pre">execute</span></code></a> (cancellable)</p></td>
@@ -377,6 +387,47 @@
 <dd class="field-odd"><p><a class="reference internal" href="BatchClass.html#Tracker.BatchClass" title="Tracker.BatchClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tracker.BatchClass</span></code></a></p>
 </dd>
 </dl>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerBatch</span></code> executes a series of SPARQL updates and RDF data
+insertions within a transaction.</p>
+<p>A batch is created with [method`Tracker`.SparqlConnection.create_batch].
+To add resources use [method`Tracker`.Batch.add_resource],
+[method`Tracker`.Batch.add_sparql] or [method`Batch`.add_statement].</p>
+<p>When a batch is ready for execution, use [method`Tracker`.Batch.execute]
+or [method`Tracker`.Batch.execute_async]. The batch is executed as a single
+transaction, it will succeed or fail entirely.</p>
+<p>This object has a single use, after the batch is executed it can
+only be finished and freed.</p>
+<p>The mapping of blank node labels is global in a <code class="docutils literal notranslate"><span class="pre">TrackerBatch</span></code>,
+referencing the same blank node label in different operations in
+a batch will resolve to the same resource.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="Tracker.Batch.add_rdf">
+<span class="sig-name descname"><span class="pre">add_rdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.add_rdf" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> (<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags" title="Tracker.DeserializeFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags</span></code></a>) – Deserialization flags</p></li>
+<li><p><strong>format</strong> (<a class="reference internal" href="../enums.html#Tracker.RdfFormat" title="Tracker.RdfFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.RdfFormat</span></code></a>) – RDF format of data in stream</p></li>
+<li><p><strong>default_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Default graph that will receive the RDF data</p></li>
+<li><p><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a>) – Input stream with RDF data</p></li>
+</ul>
+</dd>
+</dl>
+<p>Inserts the RDF data contained in <cite>stream</cite> as part of <cite>self</cite>.</p>
+<p>The RDF data will be inserted in the given <cite>default_graph</cite> if one is provided,
+or the anonymous graph if <cite>default_graph</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. Any RDF data that has a
+graph specified (e.g. using the <code class="docutils literal notranslate"><span class="pre">GRAPH</span></code> clause in the Trig format) will
+be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
+<p>The <cite>flags</cite> argument is reserved for future expansions, currently
+<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags.NONE" title="Tracker.DeserializeFlags.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags.NONE</span></code></a> must be passed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.Batch.add_resource">
 <span class="sig-name descname"><span class="pre">add_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.add_resource" title="Permalink to this definition">¶</a></dt>
@@ -384,7 +435,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph to insert the resource to</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – a <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a></p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
 </ul>
 </dd>
 </dl>
@@ -399,7 +450,7 @@
 <span class="sig-name descname"><span class="pre">add_sparql</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparql</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.add_sparql" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a SPARQL update string</p>
+<dd class="field-odd"><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – A SPARQL update string</p>
 </dd>
 </dl>
 <p>Adds an SPARQL update string to <cite>self</cite>.</p>
@@ -409,11 +460,54 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Tracker.Batch.add_statement">
+<span class="sig-name descname"><span class="pre">add_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stmt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.add_statement" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stmt</strong> (<a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a>) – A [class`Tracker`.SparqlStatement] containing a SPARQL update</p></li>
+<li><p><strong>variable_names</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The names of each bound parameter</p></li>
+<li><p><strong>values</strong> ([<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>]) – The values of each bound parameter</p></li>
+</ul>
+</dd>
+</dl>
+<p>Adds a [class`Tracker`.SparqlStatement] containing an SPARQL update. The statement will
+be executed once in the batch, with the values bound as specified by <cite>variable_names</cite>
+and <cite>values</cite>.</p>
+<p>For example, for a statement that has a single <code class="docutils literal notranslate"><span class="pre">~name</span></code> parameter,
+it could be given a value for execution with the given code:</p>
+<p>```c
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *names = { “name” };
+const <a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> values[G_N_ELEMENTS (names)] = { 0, };</p>
+<p><a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value.init" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value.init</span></code></a> (&amp;values[0], <a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_STRING" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_STRING</span></code></a>);
+<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value.set_string" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value.set_string</span></code></a> (&amp;values[0], “John Smith”);
+<a class="reference internal" href="#Tracker.Batch.add_statement" title="Tracker.Batch.add_statement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Batch.add_statement</span></code></a> (batch, stmt,
+G_N_ELEMENTS (names),
+names, values);
+``
+<a href="#id1"><span class="problematic" id="id2">``</span></a>python
+batch.add_statement(stmt, [‘name’], [‘John Smith’]);
+``
+<a href="#id3"><span class="problematic" id="id4">``</span></a>js
+batch.add_statement(stmt, [‘name’], [‘John Smith’]);
+```</p>
+<p>A [class`Tracker`.SparqlStatement] may be used on multiple [method`Tracker`.Batch.add_statement]
+calls with the same or different values, on the same or different <code class="docutils literal notranslate"><span class="pre">TrackerBatch</span></code>
+objects.</p>
+<p>This function should only be called on [class`Tracker`.SparqlStatement] objects
+obtained through [method`Tracker`.SparqlConnection.update_statement] or
+update statements loaded through [method`Tracker`.SparqlConnection.load_statement_from_gresource].</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Tracker.Batch.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.execute" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -437,10 +531,10 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -456,7 +550,7 @@ finished <cite>callback</cite> will be executed.</p>
 <span class="sig-name descname"><span class="pre">execute_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Batch.execute_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -468,7 +562,7 @@ finished <cite>callback</cite> will be executed.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with <a class="reference internal" href="#Tracker.Batch.execute_async" title="Tracker.Batch.execute_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Batch.execute_async</span></code></a>().</p>
+<p>Finishes the operation started with [method`Tracker`.Batch.execute_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -485,7 +579,8 @@ finished <cite>callback</cite> will be executed.</p>
 <dd class="field-even"><p><a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> that this batch was created from.</p>
+<p>Returns the [class`Tracker`.SparqlConnection] that this batch was created
+from.</p>
 </dd></dl>
 
 </dd></dl>
@@ -510,7 +605,7 @@ finished <cite>callback</cite> will be executed.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> the batch belongs to.</p>
+<p>The [class`Tracker`.SparqlConnection] the batch belongs to.</p>
 </dd></dl>
 
 </section>

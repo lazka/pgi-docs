@@ -615,87 +615,91 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Variant">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Variant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.Variant" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is a variant datatype; it can contain one or more values
+<dd><p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is a variant datatype; it can contain one or more values
 along with information about the type of the values.</p>
-<p>A <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> may contain simple types, like an integer, or a boolean value;
+<p>A <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> may contain simple types, like an integer, or a boolean value;
 or complex types, like an array of two strings, or a dictionary of key
-value pairs. A <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is also immutable: once it’s been created neither
+value pairs. A <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is also immutable: once it’s been created neither
 its type nor its content can be modified further.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is useful whenever data needs to be serialized, for example when
-sending method parameters in D-Bus, or when saving settings using GSettings.</p>
-<p>When creating a new <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>, you pass the data you want to store in it
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is useful whenever data needs to be serialized, for example when
+sending method parameters in D-Bus, or when saving settings using
+<a class="reference external" href="../gio/class.Settings.html">GSettings</a>.</p>
+<p>When creating a new <code class="docutils literal notranslate"><span class="pre">GVariant</span></code>, you pass the data you want to store in it
 along with a string representing the type of data you wish to pass to it.</p>
-<p>For instance, if you want to create a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> holding an integer value you
+<p>For instance, if you want to create a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> holding an integer value you
 can use:</p>
-<p><code class="docutils literal notranslate"><span class="pre">GVariant</span> <span class="pre">*v</span> <span class="pre">=</span> <span class="pre">g_variant_new</span> <span class="pre">(&quot;u&quot;,</span> <span class="pre">40);</span></code></p>
-<p>The string “u” in the first argument tells <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> that the data passed to
-the constructor (40) is going to be an unsigned integer.</p>
-<p>More advanced examples of <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> in use can be found in documentation for
-<a class="reference external" href="https://developer.gnome.org/glib/stable/gvariant-format-strings.html#gvariant-format-strings-pointers">GVariant format strings</a>.</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>c
+GVariant <a href="#id3"><span class="problematic" id="id4">*</span></a>v = g_variant_new (“u”, 40);
+``</p>
+<p>The string <code class="docutils literal notranslate"><span class="pre">u</span></code> in the first argument tells <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> that the data passed to
+the constructor (<code class="docutils literal notranslate"><span class="pre">40</span></code>) is going to be an unsigned integer.</p>
+<p>More advanced examples of <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> in use can be found in documentation for
+<a class="reference external" href="gvariant-format-strings.html#pointers">GVariant format strings</a>.</p>
 <p>The range of possible values is determined by the type.</p>
-<p>The type system used by <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is <a class="reference internal" href="VariantType.html#GLib.VariantType" title="GLib.VariantType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantType</span></code></a>.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instances always have a type and a value (which are given
-at construction time).  The type and value of a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance
-can never change other than by the <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> itself being
-destroyed.  A <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> cannot contain a pointer.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is reference counted using <a class="reference internal" href="#GLib.Variant.ref" title="GLib.Variant.ref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.ref</span></code></a>() and
-<a class="reference internal" href="#GLib.Variant.unref" title="GLib.Variant.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.unref</span></code></a>().  <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> also has floating reference counts –
-see <a class="reference internal" href="#GLib.Variant.ref_sink" title="GLib.Variant.ref_sink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.ref_sink</span></code></a>().</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is completely threadsafe.  A <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance can be
+<p>The type system used by <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is [type`GLib`.VariantType].</p>
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instances always have a type and a value (which are given
+at construction time).  The type and value of a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instance
+can never change other than by the <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> itself being
+destroyed.  A <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> cannot contain a pointer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is reference counted using [method`GLib`.Variant.ref] and
+[method`GLib`.Variant.unref].  <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> also has floating reference counts —
+see [method`GLib`.Variant.ref_sink].</p>
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is completely threadsafe.  A <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instance can be
 concurrently accessed in any way from any number of threads without
 problems.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is heavily optimised for dealing with data in serialized
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is heavily optimised for dealing with data in serialized
 form.  It works particularly well with data located in memory-mapped
 files.  It can perform nearly all deserialization operations in a
 small constant time, usually touching only a single memory page.
-Serialized <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> data can also be sent over the network.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is largely compatible with D-Bus.  Almost all types of
-<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instances can be sent over D-Bus.  See <a class="reference internal" href="VariantType.html#GLib.VariantType" title="GLib.VariantType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantType</span></code></a> for
-exceptions.  (However, <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>'s serialization format is not the same
-as the serialization format of a D-Bus message body: use #GDBusMessage,
-in the gio library, for those.)</p>
-<p>For space-efficiency, the <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> serialization format does not
+Serialized <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> data can also be sent over the network.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is largely compatible with D-Bus.  Almost all types of
+<code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instances can be sent over D-Bus.  See [type`GLib`.VariantType] for
+exceptions.  (However, <code class="docutils literal notranslate"><span class="pre">GVariant</span></code>’s serialization format is not the same
+as the serialization format of a D-Bus message body: use
+<a class="reference external" href="../gio/class.DBusMessage.html">GDBusMessage</a>, in the GIO library, for those.)</p>
+<p>For space-efficiency, the <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> serialization format does not
 automatically include the variant’s length, type or endianness,
 which must either be implied from context (such as knowledge that a
 particular file format always contains a little-endian
-%G_VARIANT_TYPE_VARIANT which occupies the whole length of the file)
+<code class="docutils literal notranslate"><span class="pre">G_VARIANT_TYPE_VARIANT</span></code> which occupies the whole length of the file)
 or supplied out-of-band (for instance, a length, type and/or endianness
 indicator could be placed at the beginning of a file, network message
 or network stream).</p>
-<p>A <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>'s size is limited mainly by any lower level operating
-system constraints, such as the number of bits in #gsize.  For
+<p>A <code class="docutils literal notranslate"><span class="pre">GVariant</span></code>’s size is limited mainly by any lower level operating
+system constraints, such as the number of bits in <code class="docutils literal notranslate"><span class="pre">gsize</span></code>.  For
 example, it is reasonable to have a 2GB file mapped into memory
-with <a class="reference internal" href="MappedFile.html#GLib.MappedFile" title="GLib.MappedFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MappedFile</span></code></a>, and call <a class="reference internal" href="#GLib.Variant.new_from_data" title="GLib.Variant.new_from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.new_from_data</span></code></a>() on it.</p>
-<p>For convenience to C programmers, <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> features powerful
+with [struct`GLib`.MappedFile], and call [ctor`GLib`.Variant.new_from_data] on
+it.</p>
+<p>For convenience to C programmers, <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> features powerful
 varargs-based value construction and destruction.  This feature is
 designed to be embedded in other libraries.</p>
-<p>There is a Python-inspired text language for describing <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>
-values.  <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> includes a printer for this language and a parser
+<p>There is a Python-inspired text language for describing <code class="docutils literal notranslate"><span class="pre">GVariant</span></code>
+values.  <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> includes a printer for this language and a parser
 with type inferencing.</p>
 <dl class="simple">
 <dt>Memory Use</dt><dd></dd>
 </dl>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> tries to be quite efficient with respect to memory use.
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> tries to be quite efficient with respect to memory use.
 This section gives a rough idea of how much memory is used by the
 current implementation.  The information here is subject to change
 in the future.</p>
-<p>The memory allocated by <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> can be grouped into 4 broad
+<p>The memory allocated by <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> can be grouped into 4 broad
 purposes: memory for serialized data, memory for the type
 information cache, buffer management memory and memory for the
-<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> structure itself.</p>
+<code class="docutils literal notranslate"><span class="pre">GVariant</span></code> structure itself.</p>
 <dl class="simple">
 <dt>Serialized Data Memory</dt><dd></dd>
 </dl>
-<p>This is the memory that is used for storing <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> data in
+<p>This is the memory that is used for storing <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> data in
 serialized form.  This is what would be sent over the network or
 what would end up on disk, not counting any indicator of the
 endianness, or of the length or type of the top-level variant.</p>
 <p>The amount of memory required to store a boolean is 1 byte. 16,
 32 and 64 bit integers and double precision floating point numbers
-use their “natural” size.  Strings (including object path and
+use their ‘natural’ size.  Strings (including object path and
 signature strings) are stored with a nul terminator, and as such
 use the length of the string plus 1 byte.</p>
-<p>Maybe types use no space at all to represent the null value and
+<p>‘Maybe’ types use no space at all to represent the null value and
 use the same amount of space (sometimes plus one byte) as the
 equivalent non-maybe-typed value to represent the non-null case.</p>
 <p>Arrays use the amount of space required to store each of their
@@ -716,14 +720,14 @@ item inside the variant.</p>
 <p>As an example, consider a dictionary mapping strings to variants.
 In the case that the dictionary is empty, 0 bytes are required for
 the serialization.</p>
-<p>If we add an item “width” that maps to the int32 value of 500 then
-we will use 4 byte to store the int32 (so 6 for the variant
+<p>If we add an item ‘width’ that maps to the int32 value of 500 then
+we will use 4 bytes to store the int32 (so 6 for the variant
 containing it) and 6 bytes for the string.  The variant must be
 aligned to 8 after the 6 bytes of the string, so that’s 2 extra
 bytes.  6 (string) + 2 (padding) + 6 (variant) is 14 bytes used
 for the dictionary entry.  An additional 1 byte is added to the
 array as a framing offset making a total of 15 bytes.</p>
-<p>If we add another entry, “title” that maps to a nullable string
+<p>If we add another entry, ‘title’ that maps to a nullable string
 that happens to have a value of null, then we use 0 bytes for the
 null value (and 3 bytes for the variant to contain it along with
 its type string) plus 6 bytes for the string.  Again, we need 2
@@ -736,35 +740,35 @@ dictionary.</p>
 <dl class="simple">
 <dt>Type Information Cache</dt><dd></dd>
 </dl>
-<p>For each <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> type that currently exists in the program a type
+<p>For each <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> type that currently exists in the program a type
 information structure is kept in the type information cache.  The
 type information structure is required for rapid deserialization.</p>
-<p>Continuing with the above example, if a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> exists with the
-type “a{sv}” then a type information struct will exist for
-“a{sv}”, “{sv}”, “s”, and “v”.  Multiple uses of the same type
+<p>Continuing with the above example, if a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> exists with the
+type <code class="docutils literal notranslate"><span class="pre">a{sv}</span></code> then a type information struct will exist for
+<code class="docutils literal notranslate"><span class="pre">a{sv}</span></code>, <code class="docutils literal notranslate"><span class="pre">{sv}</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, and <code class="docutils literal notranslate"><span class="pre">v</span></code>.  Multiple uses of the same type
 will share the same type information.  Additionally, all
 single-digit types are stored in read-only static memory and do
 not contribute to the writable memory footprint of a program using
-<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">GVariant</span></code>.</p>
 <p>Aside from the type information structures stored in read-only
 memory, there are two forms of type information.  One is used for
 container types where there is a single element type: arrays and
 maybe types.  The other is used for container types where there
 are multiple element types: tuples and dictionary entries.</p>
-<p>Array type info structures are 6 * sizeof (void *), plus the
+<p>Array type info structures are <code class="docutils literal notranslate"><span class="pre">6</span> <span class="pre">*</span> <span class="pre">sizeof</span> <span class="pre">(void</span> <span class="pre">*)</span></code>, plus the
 memory required to store the type string itself.  This means that
-on 32-bit systems, the cache entry for “a{sv}” would require 30
-bytes of memory (plus malloc overhead).</p>
-<p>Tuple type info structures are 6 * sizeof (void *), plus 4 *
-sizeof (void *) for each item in the tuple, plus the memory
+on 32-bit systems, the cache entry for <code class="docutils literal notranslate"><span class="pre">a{sv}</span></code> would require 30
+bytes of memory (plus allocation overhead).</p>
+<p>Tuple type info structures are <code class="docutils literal notranslate"><span class="pre">6</span> <span class="pre">*</span> <span class="pre">sizeof</span> <span class="pre">(void</span> <span class="pre">*)</span></code>, plus <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">*</span>
+<span class="pre">sizeof</span> <span class="pre">(void</span> <span class="pre">*)</span></code> for each item in the tuple, plus the memory
 required to store the type string itself.  A 2-item tuple, for
 example, would have a type information structure that consumed
-writable memory in the size of 14 * sizeof (void *) (plus type
+writable memory in the size of <code class="docutils literal notranslate"><span class="pre">14</span> <span class="pre">*</span> <span class="pre">sizeof</span> <span class="pre">(void</span> <span class="pre">*)</span></code> (plus type
 string)  This means that on 32-bit systems, the cache entry for
-“{sv}” would require 61 bytes of memory (plus malloc overhead).</p>
-<p>This means that in total, for our “a{sv}” example, 91 bytes of
+<code class="docutils literal notranslate"><span class="pre">{sv}</span></code> would require 61 bytes of memory (plus allocation overhead).</p>
+<p>This means that in total, for our <code class="docutils literal notranslate"><span class="pre">a{sv}</span></code> example, 91 bytes of
 type information would be allocated.</p>
-<p>The type information cache, additionally, uses a <a class="reference internal" href="HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a> to
+<p>The type information cache, additionally, uses a [struct`GLib`.HashTable] to
 store and look up the cached items and stores a pointer to this
 hash table in static storage.  The hash table is freed when there
 are zero items in the type cache.</p>
@@ -775,31 +779,31 @@ structure is required for many different values of the same type.</p>
 <dl class="simple">
 <dt>Buffer Management Memory</dt><dd></dd>
 </dl>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> uses an internal buffer management structure to deal
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> uses an internal buffer management structure to deal
 with the various different possible sources of serialized data
 that it uses.  The buffer is responsible for ensuring that the
 correct call is made when the data is no longer in use by
-<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>.  This may involve a <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>() or a g_slice_free() or
-even <a class="reference internal" href="MappedFile.html#GLib.MappedFile.unref" title="GLib.MappedFile.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MappedFile.unref</span></code></a>().</p>
+<code class="docutils literal notranslate"><span class="pre">GVariant</span></code>.  This may involve a [func`GLib`.free] or
+even [method`GLib`.MappedFile.unref].</p>
 <p>One buffer management structure is used for each chunk of
 serialized data.  The size of the buffer management structure
-is 4 * (void *).  On 32-bit systems, that’s 16 bytes.</p>
+is <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">*</span> <span class="pre">(void</span> <span class="pre">*)</span></code>.  On 32-bit systems, that’s 16 bytes.</p>
 <dl class="simple">
 <dt><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> structure</dt><dd></dd>
 </dl>
-<p>The size of a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> structure is 6 * (void *).  On 32-bit
+<p>The size of a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> structure is <code class="docutils literal notranslate"><span class="pre">6</span> <span class="pre">*</span> <span class="pre">(void</span> <span class="pre">*)</span></code>.  On 32-bit
 systems, that’s 24 bytes.</p>
-<p><a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> structures only exist if they are explicitly created
-with API calls.  For example, if a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is constructed out of
+<p><code class="docutils literal notranslate"><span class="pre">GVariant</span></code> structures only exist if they are explicitly created
+with API calls.  For example, if a <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is constructed out of
 serialized data for the example given above (with the dictionary)
 then although there are 9 individual values that comprise the
 entire dictionary (two keys, two values, two variants containing
 the values, two dictionary entries, plus the dictionary itself),
-only 1 <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance exists – the one referring to the
+only 1 <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instance exists — the one referring to the
 dictionary.</p>
 <p>If calls are made to start accessing the other values then
-<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instances will exist for those values only for as long
-as they are in use (ie: until you call <a class="reference internal" href="#GLib.Variant.unref" title="GLib.Variant.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.unref</span></code></a>()).  The
+<code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instances will exist for those values only for as long
+as they are in use (ie: until you call [method`GLib`.Variant.unref]).  The
 type information is shared.  The serialized data and the buffer
 management structure for that serialized data is shared by the
 child.</p>
@@ -810,9 +814,9 @@ child.</p>
 strings to variants (with two entries, as given above), we are
 using 91 bytes of memory for type information, 29 bytes of memory
 for the serialized data, 16 bytes for buffer management and 24
-bytes for the <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance, or a total of 160 bytes, plus
-malloc overhead.  If we were to use <a class="reference internal" href="#GLib.Variant.get_child_value" title="GLib.Variant.get_child_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.get_child_value</span></code></a>() to
-access the two dictionary entries, we would use an additional 48
+bytes for the <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> instance, or a total of 160 bytes, plus
+allocation overhead.  If we were to use [method`GLib`.Variant.get_child_value]
+to access the two dictionary entries, we would use an additional 48
 bytes.  If we were to have other dictionaries of the same type, we
 would use more memory for the serialized data and buffer
 management for those dictionaries, but the type information would
@@ -822,7 +826,7 @@ be shared.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_object_path">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_object_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1391"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_object_path" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_object_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1392"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_object_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a normal C nul-terminated string</p>
@@ -848,7 +852,7 @@ must contain only the characters <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_signature">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1435"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_signature" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1436"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_signature" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a normal C nul-terminated string</p>
@@ -872,7 +876,7 @@ strings in sequence.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_array">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L782"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_array" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L783"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -906,7 +910,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_boolean">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L344"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_boolean" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L345"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> value</p>
@@ -926,7 +930,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_byte">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_byte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L415"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_byte" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_byte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L416"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_byte" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #guint8 value</p>
@@ -946,7 +950,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_bytestring">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_bytestring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1838"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_bytestring" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_bytestring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_bytestring" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – a normal
@@ -971,7 +975,7 @@ the array.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_bytestring_array">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_bytestring_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1943"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_bytestring_array" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_bytestring_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1944"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_bytestring_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>strv</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – an array of strings</p>
@@ -993,7 +997,7 @@ strings.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_dict_entry">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_dict_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L929"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_dict_entry" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_dict_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L930"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_dict_entry" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1019,7 +1023,7 @@ the new instance takes ownership of them as if via <a class="reference internal"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_double">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L623"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_double" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L624"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> floating point value</p>
@@ -1039,7 +1043,7 @@ the new instance takes ownership of them as if via <a class="reference internal"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_fixed_array">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_fixed_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1215"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_fixed_array" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_fixed_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1216"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_fixed_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1073,7 +1077,7 @@ expectation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_from_bytes">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L603"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_from_bytes" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L595"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1103,7 +1107,7 @@ GLib 2.60) or (in older versions) fail and exit the process.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_from_data">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L6212"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_from_data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L6217"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_from_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1151,7 +1155,7 @@ process.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_handle">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L598"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_handle" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_handle" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #gint32 value</p>
@@ -1174,7 +1178,7 @@ with D-Bus, you probably don’t need them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_int16">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int16" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int16" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #gint16 value</p>
@@ -1194,7 +1198,7 @@ with D-Bus, you probably don’t need them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_int32">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L490"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int32" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L491"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #gint32 value</p>
@@ -1214,7 +1218,7 @@ with D-Bus, you probably don’t need them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_int64">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L540"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int64" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L541"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #gint64 value</p>
@@ -1234,7 +1238,7 @@ with D-Bus, you probably don’t need them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_maybe">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_maybe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L649"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_maybe" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_maybe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L650"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_maybe" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1264,7 +1268,7 @@ instance takes ownership of <cite>child</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_object_path">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_object_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_object_path" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_object_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1366"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_object_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>object_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a normal C nul-terminated string</p>
@@ -1286,7 +1290,7 @@ instance takes ownership of <cite>child</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_objv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_objv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1702"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_objv" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_objv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1703"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_objv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>strv</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – an array of strings</p>
@@ -1310,7 +1314,7 @@ strings.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_signature">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signature</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1411"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_signature" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signature</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1412"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_signature" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>signature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a normal C nul-terminated string</p>
@@ -1332,7 +1336,7 @@ strings.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1267"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1268"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a normal UTF-8 nul-terminated string</p>
@@ -1355,7 +1359,7 @@ potentially-<a class="reference external" href="https://docs.python.org/3/librar
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_strv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_strv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_strv" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_strv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strv</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_strv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>strv</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – an array of strings</p>
@@ -1377,7 +1381,7 @@ strings.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_tuple">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">children</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L869"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_tuple" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">children</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L870"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_tuple" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>children</strong> ([<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>]) – the items to make the tuple out of</p>
@@ -1402,7 +1406,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_uint16">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L465"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint16" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L466"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint16" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #guint16 value</p>
@@ -1422,7 +1426,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_uint32">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L515"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint32" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L516"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #guint32 value</p>
@@ -1442,7 +1446,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_uint64">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint64" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #guint64 value</p>
@@ -1462,7 +1466,7 @@ new instance takes ownership of them as if via <a class="reference internal" hre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.new_variant">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_variant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L722"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_variant" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_variant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L723"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.new_variant" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>) – a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance</p>
@@ -1485,7 +1489,7 @@ instance takes ownership of <cite>child</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.parse">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endptr</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-parser.c#L2518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endptr</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-parser.c#L2519"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1507,7 +1511,7 @@ instance takes ownership of <cite>child</cite>.</p>
 </dl>
 <p>Parses a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> from a text representation.</p>
 <p>A single <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is parsed from the content of <cite>text</cite>.</p>
-<p>The format is described <a class="reference external" href="https://developer.gnome.org/glib/stable/gvariant-text.html#gvariant-text">here</a>.</p>
+<p>The format is described <a class="reference external" href="gvariant-text-format.html">here</a>.</p>
 <p>The memory at <cite>limit</cite> will never be accessed and the parser behaves as
 if the character at <cite>limit</cite> is the nul terminator.  This has the
 effect of bounding <cite>text</cite>.</p>
@@ -1523,11 +1527,12 @@ errors (in the case that the type would have been ambiguous, such as
 with empty arrays).</p>
 <p>In the event that the parsing is successful, the resulting <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>
 is returned. It is never floating, and must be freed with
-<a class="reference internal" href="#GLib.Variant.unref" title="GLib.Variant.unref"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.unref</span></code></a>().</p>
+[method`GLib`.Variant.unref].</p>
 <p>In case of any error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.  If <cite>error</cite> is non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
 then it will be set to reflect the error that occurred.</p>
 <p>Officially, the language understood by the parser is “any string
-produced by <a class="reference internal" href="#GLib.Variant.print_" title="GLib.Variant.print_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.print_</span></code></a>()”.</p>
+produced by [method`GLib`.Variant.print]”. This explicitly includes
+<code class="docutils literal notranslate"><span class="pre">g_variant_print()</span></code>’s annotated types like <code class="docutils literal notranslate"><span class="pre">int64</span> <span class="pre">-1000</span></code>.</p>
 <p>There may be implementation specific restrictions on deeply nested values,
 which would result in a <a class="reference internal" href="../enums.html#GLib.VariantParseError.RECURSION" title="GLib.VariantParseError.RECURSION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantParseError.RECURSION</span></code></a> error. <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> is
 guaranteed to handle nesting up to at least 64 levels.</p>
@@ -1535,7 +1540,7 @@ guaranteed to handle nesting up to at least 64 levels.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.parse_error_print_context">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_error_print_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-parser.c#L2876"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse_error_print_context" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_error_print_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-parser.c#L2877"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse_error_print_context" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1579,7 +1584,7 @@ function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.parse_error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-parser.c#L76"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse_error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-parser.c#L76"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parse_error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -1589,7 +1594,7 @@ function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.parser_get_error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parser_get_error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-parser.c#L87"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parser_get_error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parser_get_error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-parser.c#L87"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.parser_get_error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -1613,7 +1618,7 @@ passed as a single Variant.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.byteswap">
-<span class="sig-name descname"><span class="pre">byteswap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L6119"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.byteswap" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">byteswap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L6124"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.byteswap" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the byteswapped form of <cite>self</cite></p>
@@ -1643,7 +1648,7 @@ A full, not floating, reference is returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.check_format_string">
-<span class="sig-name descname"><span class="pre">check_format_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_only</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L4514"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.check_format_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_format_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_only</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L4519"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.check_format_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1677,7 +1682,7 @@ g_variant_lookup() or g_menu_model_get_item_attribute()).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.classify">
-<span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2185"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.classify" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.classify" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <a class="reference internal" href="../enums.html#GLib.VariantClass" title="GLib.VariantClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantClass</span></code></a> of <cite>self</cite></p>
@@ -1694,7 +1699,7 @@ g_variant_lookup() or g_menu_model_get_item_attribute()).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.compare">
-<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2850"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.compare" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2851"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.compare" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>two</strong> (<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>) – a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance of the same type</p>
@@ -1730,7 +1735,7 @@ general.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.dup_bytestring">
-<span class="sig-name descname"><span class="pre">dup_bytestring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1910"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_bytestring" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_bytestring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1911"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_bytestring" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a newly allocated string</p>
@@ -1749,7 +1754,7 @@ returning a constant string, the string is duplicated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.dup_bytestring_array">
-<span class="sig-name descname"><span class="pre">dup_bytestring_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2034"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_bytestring_array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_bytestring_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2035"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_bytestring_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of strings</p>
@@ -1773,7 +1778,7 @@ stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.dup_objv">
-<span class="sig-name descname"><span class="pre">dup_objv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1793"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_objv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_objv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1794"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_objv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of strings</p>
@@ -1797,7 +1802,7 @@ is stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.dup_string">
-<span class="sig-name descname"><span class="pre">dup_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1544"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1545"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>a newly allocated string, UTF-8 encoded</p>
@@ -1823,7 +1828,7 @@ a constant string, the string is duplicated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.dup_strv">
-<span class="sig-name descname"><span class="pre">dup_strv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1656"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_strv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_strv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1657"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.dup_strv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of strings</p>
@@ -1847,7 +1852,7 @@ is stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.equal">
-<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2764"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.equal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">two</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2765"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.equal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>two</strong> (<a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>) – a <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> instance</p>
@@ -1869,7 +1874,7 @@ this function with <a class="reference internal" href="HashTable.html#GLib.HashT
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_boolean">
-<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L366"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></p>
@@ -1888,7 +1893,7 @@ other than %G_VARIANT_TYPE_BOOLEAN.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_byte">
-<span class="sig-name descname"><span class="pre">get_byte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L415"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_byte" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_byte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L416"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_byte" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #guint8</p>
@@ -1907,7 +1912,7 @@ other than %G_VARIANT_TYPE_BYTE.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_bytestring">
-<span class="sig-name descname"><span class="pre">get_bytestring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1875"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_bytestring" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_bytestring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1876"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_bytestring" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the constant string</p>
@@ -1936,7 +1941,7 @@ array of bytes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_bytestring_array">
-<span class="sig-name descname"><span class="pre">get_bytestring_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1984"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_bytestring_array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_bytestring_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1985"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_bytestring_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of constant strings</p>
@@ -1960,7 +1965,7 @@ stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_child_value">
-<span class="sig-name descname"><span class="pre">get_child_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_child_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_child_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1150"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_child_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the index of the child to fetch</p>
@@ -1997,7 +2002,7 @@ nesting up to at least 64 levels.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_data">
-<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1027"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1025"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the serialized form of <cite>self</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -2035,7 +2040,7 @@ serialized data).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_data_as_bytes">
-<span class="sig-name descname"><span class="pre">get_data_as_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1050"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_data_as_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_data_as_bytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1048"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_data_as_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A new <a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> representing the variant data</p>
@@ -2055,7 +2060,7 @@ a reference to the variant data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_double">
-<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L623"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_double" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L624"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
@@ -2074,7 +2079,7 @@ other than %G_VARIANT_TYPE_DOUBLE.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_handle">
-<span class="sig-name descname"><span class="pre">get_handle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L598"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_handle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_handle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_handle" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #gint32</p>
@@ -2096,7 +2101,7 @@ with D-Bus, you probably don’t need them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_int16">
-<span class="sig-name descname"><span class="pre">get_int16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int16" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_int16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int16" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #gint16</p>
@@ -2115,7 +2120,7 @@ other than %G_VARIANT_TYPE_INT16.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_int32">
-<span class="sig-name descname"><span class="pre">get_int32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L490"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_int32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L491"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #gint32</p>
@@ -2134,7 +2139,7 @@ other than %G_VARIANT_TYPE_INT32.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_int64">
-<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L540"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L541"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #gint64</p>
@@ -2153,7 +2158,7 @@ other than %G_VARIANT_TYPE_INT64.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_maybe">
-<span class="sig-name descname"><span class="pre">get_maybe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L697"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_maybe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_maybe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L698"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_maybe" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the contents of <cite>self</cite>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -2171,7 +2176,7 @@ value is Nothing, then this function returns <a class="reference external" href=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_normal_form">
-<span class="sig-name descname"><span class="pre">get_normal_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L6079"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_normal_form" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_normal_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L6084"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_normal_form" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a trusted <a class="reference internal" href="#GLib.Variant" title="GLib.Variant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
@@ -2207,7 +2212,7 @@ reference to it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_objv">
-<span class="sig-name descname"><span class="pre">get_objv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1743"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_objv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_objv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1744"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_objv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of constant strings</p>
@@ -2231,7 +2236,7 @@ is stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_size">
-<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L983"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_size" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L981"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the serialized size of <cite>self</cite></p>
@@ -2256,7 +2261,7 @@ involved.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_string">
-<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1473"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1474"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>the constant string, UTF-8 encoded</p>
@@ -2293,7 +2298,7 @@ other than those three.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_strv">
-<span class="sig-name descname"><span class="pre">get_strv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1606"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_strv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_strv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1607"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_strv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an array of constant strings</p>
@@ -2317,7 +2322,7 @@ is stored there.  In any case, the resulting array will be
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_type">
-<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2077"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2078"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="VariantType.html#GLib.VariantType" title="GLib.VariantType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantType</span></code></a></p>
@@ -2336,7 +2341,7 @@ be freed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_type_string">
-<span class="sig-name descname"><span class="pre">get_type_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_type_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_type_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_type_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the type string for the type of <cite>self</cite></p>
@@ -2355,7 +2360,7 @@ string belongs to <a class="reference internal" href="#GLib.Variant" title="GLib
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_uint16">
-<span class="sig-name descname"><span class="pre">get_uint16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L465"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint16" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uint16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L466"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint16" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #guint16</p>
@@ -2374,7 +2379,7 @@ other than %G_VARIANT_TYPE_UINT16.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_uint32">
-<span class="sig-name descname"><span class="pre">get_uint32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L515"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uint32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L516"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #guint32</p>
@@ -2393,7 +2398,7 @@ other than %G_VARIANT_TYPE_UINT32.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_uint64">
-<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L565"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #guint64</p>
@@ -2412,7 +2417,7 @@ other than %G_VARIANT_TYPE_UINT64.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.get_variant">
-<span class="sig-name descname"><span class="pre">get_variant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_variant" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_variant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L746"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.get_variant" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the item contained in the variant</p>
@@ -2430,7 +2435,7 @@ contained in <cite>self</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.hash">
-<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2680"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.hash" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2681"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.hash" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a hash value corresponding to <cite>self</cite></p>
@@ -2453,7 +2458,7 @@ function with <a class="reference internal" href="HashTable.html#GLib.HashTable"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_container">
-<span class="sig-name descname"><span class="pre">is_container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_container" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2142"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_container" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is a container</p>
@@ -2470,7 +2475,7 @@ function with <a class="reference internal" href="HashTable.html#GLib.HashTable"
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_floating">
-<span class="sig-name descname"><span class="pre">is_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L955"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_floating" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_floating</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L953"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_floating" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>whether <cite>self</cite> is floating</p>
@@ -2493,7 +2498,7 @@ counts.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_normal_form">
-<span class="sig-name descname"><span class="pre">is_normal_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1357"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_normal_form" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_normal_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1355"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_normal_form" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is in normal form</p>
@@ -2519,7 +2524,7 @@ this function will immediately return <a class="reference external" href="https:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.is_of_type">
-<span class="sig-name descname"><span class="pre">is_of_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2125"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_of_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_of_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.is_of_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>type</strong> (<a class="reference internal" href="VariantType.html#GLib.VariantType" title="GLib.VariantType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantType</span></code></a>) – a <a class="reference internal" href="VariantType.html#GLib.VariantType" title="GLib.VariantType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.VariantType</span></code></a></p>
@@ -2544,7 +2549,7 @@ this function will immediately return <a class="reference external" href="https:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.lookup_value">
-<span class="sig-name descname"><span class="pre">lookup_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L1043"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.lookup_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">lookup_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L1044"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.lookup_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2582,7 +2587,7 @@ plan to do many lookups then <a class="reference internal" href="VariantDict.htm
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.n_children">
-<span class="sig-name descname"><span class="pre">n_children</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.n_children" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">n_children</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1098"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.n_children" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of children in the container</p>
@@ -2607,7 +2612,7 @@ only on the type).  For dictionary entries, it is always 2</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.print_">
-<span class="sig-name descname"><span class="pre">print_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_annotate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant.c#L2654"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.print_" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">print_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_annotate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant.c#L2655"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.print_" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>type_annotate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if type information should be included in
@@ -2631,7 +2636,7 @@ the output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L823"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L821"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the same <cite>self</cite></p>
@@ -2648,7 +2653,7 @@ the output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.ref_sink">
-<span class="sig-name descname"><span class="pre">ref_sink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L866"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.ref_sink" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref_sink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L864"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.ref_sink" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the same <cite>self</cite></p>
@@ -2683,7 +2688,7 @@ are not floating.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.store">
-<span class="sig-name descname"><span class="pre">store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L1317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.store" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L1315"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.store" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>) – the location to store the serialized data at</p>
@@ -2705,7 +2710,7 @@ machine might be different) its endianness must also be available.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.take_ref">
-<span class="sig-name descname"><span class="pre">take_ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L925"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.take_ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">take_ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L923"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.take_ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the same <cite>self</cite></p>
@@ -2751,7 +2756,7 @@ avoid this situation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Variant.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gvariant-core.c#L786"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gvariant-core.c#L784"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Variant.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases the reference count of <cite>self</cite>.  When its reference count
 drops to 0, the memory used by the variant is freed.</p>
 <div class="versionadded">

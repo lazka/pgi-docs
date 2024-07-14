@@ -546,23 +546,27 @@
 <dd class="field-odd"><p><a class="reference internal" href="OutputStreamClass.html#Gio.OutputStreamClass" title="Gio.OutputStreamClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.OutputStreamClass</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> has functions to write to a stream (<a class="reference internal" href="#Gio.OutputStream.write" title="Gio.OutputStream.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.write</span></code></a>()),
-to close a stream (<a class="reference internal" href="#Gio.OutputStream.close" title="Gio.OutputStream.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.close</span></code></a>()) and to flush pending writes
-(<a class="reference internal" href="#Gio.OutputStream.flush" title="Gio.OutputStream.flush"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.flush</span></code></a>()).</p>
+<p><code class="docutils literal notranslate"><span class="pre">GOutputStream</span></code> is a base class for implementing streaming output.</p>
+<p>It has functions to write to a stream ([method`Gio`.OutputStream.write]),
+to close a stream ([method`Gio`.OutputStream.close]) and to flush pending
+writes ([method`Gio`.OutputStream.flush]).</p>
 <p>To copy the content of an input stream to an output stream without
-manually handling the reads and writes, use <a class="reference internal" href="#Gio.OutputStream.splice" title="Gio.OutputStream.splice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream.splice</span></code></a>().</p>
-<p>See the documentation for <a class="reference internal" href="IOStream.html#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> for details of thread safety of
-streaming APIs.</p>
+manually handling the reads and writes, use [method`Gio`.OutputStream.splice].</p>
+<p>See the documentation for [class`Gio`.IOStream] for details of thread safety
+of streaming APIs.</p>
 <p>All of these functions have async variants too.</p>
+<p>All classes derived from <code class="docutils literal notranslate"><span class="pre">GOutputStream</span></code> *should* implement synchronous
+writing, splicing, flushing and closing streams, but *may* implement
+asynchronous versions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.clear_pending">
-<span class="sig-name descname"><span class="pre">clear_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.clear_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.clear_pending" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears the pending flag on <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – optional cancellable object</p>
@@ -604,7 +608,7 @@ data will reach the target.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.close_async">
-<span class="sig-name descname"><span class="pre">close_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -628,7 +632,7 @@ classes. However, if you override one you must override all.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.close_finish">
-<span class="sig-name descname"><span class="pre">close_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.close_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -648,7 +652,7 @@ classes. However, if you override one you must override all.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.flush">
-<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L676"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L676"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – optional cancellable object</p>
@@ -674,7 +678,7 @@ was cancelled, the error <a class="reference internal" href="../enums.html#Gio.I
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.flush_async">
-<span class="sig-name descname"><span class="pre">flush_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1866"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">flush_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1866"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -696,7 +700,7 @@ result of the operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.flush_finish">
-<span class="sig-name descname"><span class="pre">flush_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1913"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">flush_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1913"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.flush_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -716,7 +720,7 @@ result of the operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.has_pending">
-<span class="sig-name descname"><span class="pre">has_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2180"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.has_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2180"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.has_pending" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> has pending actions.</p>
@@ -730,7 +734,7 @@ result of the operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.is_closed">
-<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2143"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.is_closed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2143"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.is_closed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is closed. <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -744,7 +748,7 @@ result of the operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.is_closing">
-<span class="sig-name descname"><span class="pre">is_closing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2164"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.is_closing" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_closing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2164"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.is_closing" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> is being closed. <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -764,7 +768,7 @@ the closing operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.set_pending">
-<span class="sig-name descname"><span class="pre">set_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2201"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.set_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2201"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.set_pending" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -783,7 +787,7 @@ already set or <cite>self</cite> is closed, it will return <a class="reference e
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.splice">
-<span class="sig-name descname"><span class="pre">splice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L727"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">splice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L727"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -811,7 +815,7 @@ of bytes spliced.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.splice_async">
-<span class="sig-name descname"><span class="pre">splice_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1751"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">splice_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1751"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -835,7 +839,7 @@ result of the operation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.splice_finish">
-<span class="sig-name descname"><span class="pre">splice_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1804"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">splice_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1804"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.splice_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -858,7 +862,7 @@ number of bytes spliced.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L211"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -896,7 +900,7 @@ partial result will be returned, without an error.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_all">
-<span class="sig-name descname"><span class="pre">write_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L292"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L294"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -940,7 +944,7 @@ language then you must write your own loop around
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_all_async">
-<span class="sig-name descname"><span class="pre">write_all_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1206"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_all_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1206"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -971,7 +975,7 @@ until <cite>callback</cite> is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_all_finish">
-<span class="sig-name descname"><span class="pre">write_all_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_all_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_all_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
@@ -1008,7 +1012,7 @@ language then you must write your own loop around
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_async">
-<span class="sig-name descname"><span class="pre">write_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1052,7 +1056,7 @@ the contents (without copying) for the duration of the call.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_bytes">
-<span class="sig-name descname"><span class="pre">write_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L642"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L642"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1084,7 +1088,7 @@ data in the output stream.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_bytes_async">
-<span class="sig-name descname"><span class="pre">write_bytes_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1654"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_bytes_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1654"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1112,7 +1116,7 @@ data in the output stream.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_bytes_finish">
-<span class="sig-name descname"><span class="pre">write_bytes_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_bytes_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_bytes_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -1132,7 +1136,7 @@ data in the output stream.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.write_finish">
-<span class="sig-name descname"><span class="pre">write_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1085"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1085"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.write_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -1152,7 +1156,7 @@ data in the output stream.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev">
-<span class="sig-name descname"><span class="pre">writev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L368"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L368"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1203,7 +1207,7 @@ the aggregate buffer size must not exceed <a class="reference external" href="..
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev_all">
-<span class="sig-name descname"><span class="pre">writev_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L454"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L454"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1252,7 +1256,7 @@ function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev_all_async">
-<span class="sig-name descname"><span class="pre">writev_all_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1513"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev_all_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1513"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1284,7 +1288,7 @@ of <cite>vectors</cite> might be changed by this function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev_all_finish">
-<span class="sig-name descname"><span class="pre">writev_all_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1586"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev_all_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1586"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_all_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
@@ -1321,7 +1325,7 @@ language then you must write your own loop around
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev_async">
-<span class="sig-name descname"><span class="pre">writev_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L2725"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vectors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L2725"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1364,7 +1368,7 @@ until <cite>callback</cite> is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.OutputStream.writev_finish">
-<span class="sig-name descname"><span class="pre">writev_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/goutputstream.c#L1365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">writev_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/goutputstream.c#L1365"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.OutputStream.writev_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>

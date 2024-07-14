@@ -206,27 +206,27 @@
 <tr class="row-even"><td><p>aggregate</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Mandatory. Called when buffers are queued on all sinkpads. Classes should iterate the <a class="reference external" href="../../Gst-1.0/classes/Element.html#Gst.Element" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Element</span></code></a>-&gt;sinkpads and peek or steal buffers from the <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPads</span></code></a>. If the subclass returns <a class="reference external" href="../../Gst-1.0/enums.html#Gst.FlowReturn.EOS" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.FlowReturn.EOS</span></code></a>, sending of the eos event will be taken care of. Once / if a buffer has been constructed from the aggregated buffers, the subclass should call _finish_buffer.</p></td>
 </tr>
 <tr class="row-odd"><td><p>clip</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a buffer is received on a sink pad, the task of clipping it and translating it to the current segment falls on the subclass. The function should use the segment of data and the negotiated media type on the pad to perform clipping of input buffer. This function takes ownership of buf and should output a buffer or return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> in if the buffer should be dropped.</p></td>
 </tr>
 <tr class="row-even"><td><p>create_new_pad</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a new pad needs to be created. Allows subclass that don’t have a single sink pad template to provide a pad based on the provided information.</p></td>
 </tr>
 <tr class="row-odd"><td><p>decide_allocation</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Allows the subclass to influence the allocation choices. Setup the allocation parameters for allocating output buffers. The passed in query contains the result of the downstream allocation query.</p></td>
 </tr>
 <tr class="row-even"><td><p>finish_buffer</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a subclass calls <a class="reference internal" href="Aggregator.html#GstBase.Aggregator.finish_buffer" title="GstBase.Aggregator.finish_buffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.Aggregator.finish_buffer</span></code></a>() from their aggregate function to push out a buffer. Subclasses can override this to modify or decorate buffers before they get pushed out. This function takes ownership of the buffer passed. Subclasses that override this method should always chain up to the parent class virtual method.</p></td>
 </tr>
 <tr class="row-odd"><td><p>finish_buffer_list</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
@@ -236,27 +236,27 @@
 <tr class="row-even"><td><p>fixate_src_caps</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Fixate and return the src pad caps provided.  The function takes ownership of <cite>caps</cite> and returns a fixated version of <cite>caps</cite>. <cite>caps</cite> is not guaranteed to be writable.</p></td>
 </tr>
 <tr class="row-odd"><td><p>flush</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called after a successful flushing seek, once all the flush stops have been received. Flush pad-specific data in <a class="reference internal" href="AggregatorPad.html#GstBase.AggregatorPad" title="GstBase.AggregatorPad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstBase.AggregatorPad</span></code></a>-&gt;flush.</p></td>
 </tr>
 <tr class="row-even"><td><p>get_next_time</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when the element needs to know the running time of the next rendered buffer for live pipelines. This causes deadline based aggregation to occur. Defaults to returning <a class="reference external" href="../../Gst-1.0/constants.html#Gst.CLOCK_TIME_NONE" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.CLOCK_TIME_NONE</span></code></a> causing the element to wait for buffers on all sink pads before aggregating.</p></td>
 </tr>
 <tr class="row-odd"><td><p>negotiate</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Negotiate the caps with the peer</p></td>
 </tr>
 <tr class="row-even"><td><p>negotiated_src_caps</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Notifies subclasses what caps format has been negotiated</p></td>
 </tr>
 <tr class="row-odd"><td><p>parent_class</p></td>
 <td><p><a class="reference external" href="../../Gst-1.0/classes/ElementClass.html#Gst.ElementClass" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.ElementClass</span></code></a></p></td>
@@ -271,57 +271,57 @@
 <tr class="row-odd"><td><p>propose_allocation</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Allows the subclass to handle the allocation query from upstream.</p></td>
 </tr>
 <tr class="row-even"><td><p>sink_event</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when an event is received on a sink pad, the subclass should always chain up.</p></td>
 </tr>
 <tr class="row-odd"><td><p>sink_event_pre_queue</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when an event is received on a sink pad before queueing up serialized events. The subclass should always chain up</p></td>
 </tr>
 <tr class="row-even"><td><p>sink_query</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a query is received on a sink pad, the subclass should always chain up.</p></td>
 </tr>
 <tr class="row-odd"><td><p>sink_query_pre_queue</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a query is received on a sink pad before queueing up serialized queries. The subclass should always chain up</p></td>
 </tr>
 <tr class="row-even"><td><p>src_activate</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when the src pad is activated, it will start/stop its pad task right after that call.</p></td>
 </tr>
 <tr class="row-odd"><td><p>src_event</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when an event is received on the src pad, the subclass should always chain up.</p></td>
 </tr>
 <tr class="row-even"><td><p>src_query</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when a query is received on the src pad, the subclass should always chain up.</p></td>
 </tr>
 <tr class="row-odd"><td><p>start</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when the element goes from READY to PAUSED. The subclass should get ready to process aggregated buffers.</p></td>
 </tr>
 <tr class="row-even"><td><p>stop</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Optional. Called when the element goes from PAUSED to READY. The subclass should free all resources and reset its state.</p></td>
 </tr>
 <tr class="row-odd"><td><p>update_src_caps</p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p></td>
 <td><p>r</p></td>
-<td></td>
+<td><p>Lets subclasses update the <a class="reference external" href="../../Gst-1.0/classes/Caps.html#Gst.Caps" title="(in Gst 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gst.Caps</span></code></a> representing the src pad caps before usage.  The result should end up in <cite>ret</cite>. Return %GST_AGGREGATOR_FLOW_NEED_DATA to indicate that the element needs more information (caps, a buffer, etc) to choose the correct caps. Should return ANY caps if the stream has not caps at all.</p></td>
 </tr>
 </tbody>
 </table>

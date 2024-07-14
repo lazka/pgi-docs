@@ -306,12 +306,29 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.ThreadPool">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">ThreadPool</span></span><a class="headerlink" href="#GLib.ThreadPool" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#GLib.ThreadPool" title="GLib.ThreadPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ThreadPool</span></code></a> struct represents a thread pool. It has three
-public read-only members, but the underlying struct is bigger,
-so you must not copy this struct.</p>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">GThreadPool</span></code> struct represents a thread pool.</p>
+<p>A thread pool is useful when you wish to asynchronously fork out the execution of work
+and continue working in your own thread. If that will happen often, the overhead of starting
+and destroying a thread each time might be too high. In such cases reusing already started
+threads seems like a good idea. And it indeed is, but implementing this can be tedious
+and error-prone.</p>
+<p>Therefore GLib provides thread pools for your convenience. An added advantage is, that the
+threads can be shared between the different subsystems of your program, when they are using GLib.</p>
+<p>To create a new thread pool, you use [func`GLib`.ThreadPool.new].
+It is destroyed by [method`GLib`.ThreadPool.free].</p>
+<p>If you want to execute a certain task within a thread pool, use [method`GLib`.ThreadPool.push].</p>
+<p>To get the current number of running threads you call [method`GLib`.ThreadPool.get_num_threads].
+To get the number of still unprocessed tasks you call [method`GLib`.ThreadPool.unprocessed].
+To control the maximum number of threads for a thread pool, you use
+[method`GLib`.ThreadPool.get_max_threads]. and [method`GLib`.ThreadPool.set_max_threads].</p>
+<p>Finally you can control the number of unused threads, that are kept alive by GLib for future use.
+The current number can be fetched with [func`GLib`.ThreadPool.get_num_unused_threads].
+The maximum number can be controlled by [func`GLib`.ThreadPool.get_max_unused_threads] and
+[func`GLib`.ThreadPool.set_max_unused_threads]. All currently unused threads
+can be stopped by calling [func`GLib`.ThreadPool.stop_unused_threads].</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.get_max_idle_time">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_idle_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_idle_time" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_idle_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1199"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_idle_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the maximum <cite>interval</cite> (milliseconds) to wait
@@ -334,7 +351,7 @@ pool for new work are not stopped.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.get_max_unused_threads">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1041"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_unused_threads" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1027"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_unused_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the maximal number of unused threads</p>
@@ -348,7 +365,7 @@ pool for new work are not stopped.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.get_num_unused_threads">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_num_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1054"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_num_unused_threads" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_num_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1040"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_num_unused_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of currently unused threads</p>
@@ -362,7 +379,7 @@ pool for new work are not stopped.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.set_max_idle_time">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_max_idle_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1173"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_idle_time" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_max_idle_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1159"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_idle_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the maximum <cite>interval</cite> (in milliseconds)
@@ -383,7 +400,7 @@ except this is done on a per thread basis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.set_max_unused_threads">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_max_unused_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_threads</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1005"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_unused_threads" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_max_unused_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_threads</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L991"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_unused_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>max_threads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – maximal number of unused threads</p>
@@ -397,7 +414,7 @@ of unused threads.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.stop_unused_threads">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1067"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.stop_unused_threads" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop_unused_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1053"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.stop_unused_threads" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stops all currently unused threads. This does not change the
 maximal number of unused threads. This function can be used to
 regularly stop all unused threads e.g. from <a class="reference internal" href="../functions.html#GLib.timeout_add" title="GLib.timeout_add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.timeout_add</span></code></a>().</p>
@@ -405,7 +422,7 @@ regularly stop all unused threads e.g. from <a class="reference internal" href="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">immediate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L905"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">immediate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L891"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.free" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -429,7 +446,7 @@ Otherwise this function returns immediately.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.get_max_threads">
-<span class="sig-name descname"><span class="pre">get_max_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L814"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_threads" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_max_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L800"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_max_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the maximal number of threads</p>
@@ -443,7 +460,7 @@ Otherwise this function returns immediately.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.get_num_threads">
-<span class="sig-name descname"><span class="pre">get_num_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L840"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_num_threads" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_num_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L826"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.get_num_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of threads currently running</p>
@@ -457,7 +474,7 @@ Otherwise this function returns immediately.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.move_to_front">
-<span class="sig-name descname"><span class="pre">move_to_front</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L1139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.move_to_front" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">move_to_front</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L1125"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.move_to_front" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an unprocessed item in the pool</p>
@@ -478,7 +495,7 @@ items, so that it will be processed next.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.push">
-<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L699"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.push" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L685"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.push" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a new task for <cite>self</cite></p>
@@ -508,7 +525,7 @@ work to do.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.set_max_threads">
-<span class="sig-name descname"><span class="pre">set_max_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_threads</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L764"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_threads" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_max_threads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_threads</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L750"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.set_max_threads" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>max_threads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a new maximal number of threads for <cite>self</cite>,
@@ -544,7 +561,7 @@ created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.ThreadPool.unprocessed">
-<span class="sig-name descname"><span class="pre">unprocessed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gthreadpool.c#L866"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.unprocessed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unprocessed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gthreadpool.c#L852"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.ThreadPool.unprocessed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the number of unprocessed tasks</p>

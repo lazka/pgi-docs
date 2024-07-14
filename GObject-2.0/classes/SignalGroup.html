@@ -340,12 +340,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#GObject.SignalGroup.props.target" title="GObject.SignalGroup.props.target"><code class="xref py py-data docutils literal notranslate"><span class="pre">target</span></code></a></p></td>
 <td><p><a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p></td>
 <td><p>r/w/en</p></td>
-<td><p>The target instance used when connecting signals.</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#GObject.SignalGroup.props.target_type" title="GObject.SignalGroup.props.target_type"><code class="xref py py-data docutils literal notranslate"><span class="pre">target-type</span></code></a></p></td>
 <td><p><a class="reference internal" href="GType.html#GObject.GType" title="GObject.GType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The <a class="reference internal" href="GType.html#GObject.GType" title="GObject.GType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> of the target property.</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -398,9 +398,9 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#GObject.SignalGroup" title="GObject.SignalGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.SignalGroup</span></code></a> manages to simplify the process of connecting
-many signals to a <a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> as a group. As such there is no API
-to disconnect a signal from the group.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSignalGroup</span></code> manages a collection of signals on a <code class="docutils literal notranslate"><span class="pre">GObject</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GSignalGroup</span></code> simplifies the process of connecting  many signals to a <code class="docutils literal notranslate"><span class="pre">GObject</span></code>
+as a group. As such there is no API to disconnect a signal from the group.</p>
 <p>In particular, this allows you to:</p>
 <ul class="simple">
 <li><p>Change the target instance, which automatically causes disconnection
@@ -408,19 +408,19 @@ of the signals from the old instance and connecting to the new instance.</p></li
 <li><p>Block and unblock signals as a group</p></li>
 <li><p>Ensuring that blocked state transfers across target instances.</p></li>
 </ul>
-<p>One place you might want to use such a structure is with #GtkTextView and
-#GtkTextBuffer. Often times, you’ll need to connect to many signals on
-#GtkTextBuffer from a #GtkTextView subclass. This allows you to create a
+<p>One place you might want to use such a structure is with <code class="docutils literal notranslate"><span class="pre">GtkTextView</span></code> and
+<code class="docutils literal notranslate"><span class="pre">GtkTextBuffer</span></code>. Often times, you’ll need to connect to many signals on
+<code class="docutils literal notranslate"><span class="pre">GtkTextBuffer</span></code> from a <code class="docutils literal notranslate"><span class="pre">GtkTextView</span></code> subclass. This allows you to create a
 signal group during instance construction, simply bind the
-#GtkTextView:buffer property to <a class="reference internal" href="#GObject.SignalGroup" title="GObject.SignalGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.SignalGroup</span></code></a> <a class="reference internal" href="#GObject.SignalGroup.props.target" title="GObject.SignalGroup.props.target"><code class="xref py py-data docutils literal notranslate"><span class="pre">:target</span></code></a> and connect
-all the signals you need. When the #GtkTextView:buffer property changes
+<code class="docutils literal notranslate"><span class="pre">GtkTextView:buffer</span></code> property to <code class="docutils literal notranslate"><span class="pre">GSignalGroup:target</span></code> and connect
+all the signals you need. When the <code class="docutils literal notranslate"><span class="pre">GtkTextView:buffer</span></code> property changes
 all of the signals will be transitioned correctly.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.72.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L694"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>target_type</strong> (<a class="reference internal" href="GType.html#GObject.GType" title="GObject.GType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – the <a class="reference internal" href="GType.html#GObject.GType" title="GObject.GType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> of the target instance.</p>
@@ -440,7 +440,7 @@ all of the signals will be transitioned correctly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.block">
-<span class="sig-name descname"><span class="pre">block</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.block" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">block</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L333"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.block" title="Permalink to this definition">¶</a></dt>
 <dd><p>Blocks all signal handlers managed by <cite>self</cite> so they will not
 be called during any signal emissions. Must be unblocked exactly
 the same number of times it has been blocked to become active again.</p>
@@ -452,7 +452,7 @@ the same number of times it has been blocked to become active again.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.connect_closure">
-<span class="sig-name descname"><span class="pre">connect_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.connect_closure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connect_closure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L778"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.connect_closure" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -472,7 +472,7 @@ default handler of the signal.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.connect_data">
-<span class="sig-name descname"><span class="pre">connect_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_handler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.connect_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connect_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_handler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L871"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.connect_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -493,7 +493,7 @@ on the target instance of <cite>self</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.connect_swapped">
-<span class="sig-name descname"><span class="pre">connect_swapped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.connect_swapped" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connect_swapped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L948"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.connect_swapped" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -515,7 +515,7 @@ will be swapped when calling <cite>c_handler</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.dup_target">
-<span class="sig-name descname"><span class="pre">dup_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.dup_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L425"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.dup_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The target instance</p>
@@ -532,7 +532,7 @@ will be swapped when calling <cite>c_handler</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.set_target">
-<span class="sig-name descname"><span class="pre">set_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.set_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L455"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.set_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>target</strong> (<a class="reference internal" href="Object.html#GObject.Object" title="GObject.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The target instance used
@@ -551,7 +551,7 @@ disconnected from that object prior to connecting to <cite>target</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.SignalGroup.unblock">
-<span class="sig-name descname"><span class="pre">unblock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.SignalGroup.unblock" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unblock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gsignalgroup.c#L380"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.SignalGroup.unblock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unblocks all signal handlers managed by <cite>self</cite> so they will be
 called again during any signal emissions unless it is blocked
 again. Must be unblocked exactly the same number of times it

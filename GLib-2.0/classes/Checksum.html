@@ -73,8 +73,8 @@
   </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="GLib.Cond" href="Cond.html" />
-    <link rel="prev" title="GLib.Bytes" href="Bytes.html" /> 
+    <link rel="next" title="GLib.Completion" href="Completion.html" />
+    <link rel="prev" title="GLib.Cache" href="Cache.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,11 +100,11 @@
 
 
 
-<td><a accesskey="p" href="Bytes.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="Cache.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
-<td><a accesskey="n" href="Cond.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="Completion.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -156,11 +156,11 @@
 
 
 
-<td><a accesskey="p" href="Bytes.html"><i class="fa fa-chevron-left"></i></a></td>
+<td><a accesskey="p" href="Cache.html"><i class="fa fa-chevron-left"></i></a></td>
 
 
 
-<td><a accesskey="n" href="Cond.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="Completion.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -245,15 +245,26 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Checksum">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Checksum</span></span><a class="headerlink" href="#GLib.Checksum" title="Permalink to this definition">¶</a></dt>
-<dd><p>An opaque structure representing a checksumming operation.</p>
-<p>To create a new <a class="reference internal" href="#GLib.Checksum" title="GLib.Checksum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Checksum</span></code></a>, use <a class="reference internal" href="#GLib.Checksum.new" title="GLib.Checksum.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Checksum.new</span></code></a>(). To free
-a <a class="reference internal" href="#GLib.Checksum" title="GLib.Checksum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Checksum</span></code></a>, use <a class="reference internal" href="#GLib.Checksum.free" title="GLib.Checksum.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Checksum.free</span></code></a>().</p>
+<dd><p>GLib provides a generic API for computing checksums (or ‘digests’)
+for a sequence of arbitrary bytes, using various hashing algorithms
+like MD5, SHA-1 and SHA-256. Checksums are commonly used in various
+environments and specifications.</p>
+<p>To create a new <code class="docutils literal notranslate"><span class="pre">GChecksum</span></code>, use [ctor`GLib`.Checksum.new]. To free
+a <code class="docutils literal notranslate"><span class="pre">GChecksum</span></code>, use [method`GLib`.Checksum.free].</p>
+<p>GLib supports incremental checksums using the <code class="docutils literal notranslate"><span class="pre">GChecksum</span></code> data
+structure, by calling [method`GLib`.Checksum.update] as long as there’s data
+available and then using [method`GLib`.Checksum.get_string] or
+[method`GLib`.Checksum.get_digest] to compute the checksum and return it
+either as a string in hexadecimal form, or as a raw sequence of bytes. To
+compute the checksum for binary blobs and nul-terminated strings in
+one go, use the convenience functions [func`GLib`.compute_checksum_for_data]
+and [func`GLib`.compute_checksum_for_string], respectively.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.16.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checksum_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1472"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checksum_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1473"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>checksum_type</strong> (<a class="reference internal" href="../enums.html#GLib.ChecksumType" title="GLib.ChecksumType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ChecksumType</span></code></a>) – the desired type of checksum</p>
@@ -285,7 +296,7 @@ on it anymore.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.type_get_length">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type_get_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checksum_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.type_get_length" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type_get_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checksum_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1420"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.type_get_length" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>checksum_type</strong> (<a class="reference internal" href="../enums.html#GLib.ChecksumType" title="GLib.ChecksumType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ChecksumType</span></code></a>) – a <a class="reference internal" href="../enums.html#GLib.ChecksumType" title="GLib.ChecksumType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ChecksumType</span></code></a></p>
@@ -306,7 +317,7 @@ not supported.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1540"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1541"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.copy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the copy of the passed <a class="reference internal" href="#GLib.Checksum" title="GLib.Checksum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Checksum</span></code></a>. Use
@@ -326,7 +337,7 @@ checksum will be closed as well.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.free">
-<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.free" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">free</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1564"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frees the memory allocated for <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.16.</span></p>
@@ -335,7 +346,7 @@ checksum will be closed as well.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.get_string">
-<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1643"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.get_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1644"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.get_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the hexadecimal representation of the checksum. The
@@ -357,7 +368,7 @@ updated with <a class="reference internal" href="#GLib.Checksum.update" title="G
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1496"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.reset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1497"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resets the state of the <cite>self</cite> back to its initial state.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.18.</span></p>
@@ -366,7 +377,7 @@ updated with <a class="reference internal" href="#GLib.Checksum.update" title="G
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Checksum.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gchecksum.c#L1588"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.update" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gchecksum.c#L1589"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Checksum.update" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) – buffer used to compute the checksum</p>

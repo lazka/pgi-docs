@@ -245,11 +245,54 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Gio.</span></span><span class="sig-name descname"><span class="pre">IOExtensionPoint</span></span><a class="headerlink" href="#Gio.IOExtensionPoint" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#Gio.IOExtensionPoint" title="Gio.IOExtensionPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOExtensionPoint</span></code></a> is an opaque data structure and can only be accessed
-using the following functions.</p>
+<dd><p><code class="docutils literal notranslate"><span class="pre">GIOExtensionPoint</span></code> provides a mechanism for modules to extend the
+functionality of the library or application that loaded it in an
+organized fashion.</p>
+<p>An extension point is identified by a name, and it may optionally
+require that any implementation must be of a certain type (or derived
+thereof). Use [func`Gio`.IOExtensionPoint.register] to register an
+extension point, and [method`Gio`.IOExtensionPoint.set_required_type] to
+set a required type.</p>
+<p>A module can implement an extension point by specifying the
+[type`GObject`.Type] that implements the functionality. Additionally, each
+implementation of an extension point has a name, and a priority. Use
+[func`Gio`.IOExtensionPoint.implement] to implement an extension point.</p>
+<p>```c
+<a class="reference internal" href="#Gio.IOExtensionPoint" title="Gio.IOExtensionPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOExtensionPoint</span></code></a> *ep;</p>
+<p>// Register an extension point
+ep = <a class="reference internal" href="#Gio.IOExtensionPoint.register" title="Gio.IOExtensionPoint.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOExtensionPoint.register</span></code></a> (“my-extension-point”);
+<a class="reference internal" href="#Gio.IOExtensionPoint.set_required_type" title="Gio.IOExtensionPoint.set_required_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOExtensionPoint.set_required_type</span></code></a> (ep, MY_TYPE_EXAMPLE);
+```</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>c
+// Implement an extension point
+G_DEFINE_TYPE (MyExampleImpl, my_example_impl, MY_TYPE_EXAMPLE)
+g_io_extension_point_implement (“my-extension-point”,</p>
+<blockquote>
+<div><p>my_example_impl_get_type (),
+“my-example”,
+10);</p>
+</div></blockquote>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a></p>
+<p>It is up to the code that registered the extension point how
+it uses the implementations that have been associated with it.
+Depending on the use case, it may use all implementations, or
+only the one with the highest priority, or pick a specific
+one by name.</p>
+<p>To avoid opening all modules just to find out what extension
+points they implement, GIO makes use of a caching mechanism,
+see <a class="reference external" href="gio-querymodules.html">gio-querymodules</a>.
+You are expected to run this command after installing a
+GIO module.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GIO_EXTRA_MODULES</span></code> environment variable can be used to
+specify additional directories to automatically load modules
+from. This environment variable has the same syntax as the
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code>. If two modules have the same base name in different
+directories, then the latter one will be ignored. If additional
+directories are specified GIO will load modules from the built-in
+directory last.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.implement">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">implement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1613"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.implement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">implement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension_point_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1601"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.implement" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -274,7 +317,7 @@ extension point, the existing <a class="reference internal" href="IOExtension.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.lookup">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1462"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.lookup" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1450"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.lookup" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the extension point</p>
@@ -292,7 +335,7 @@ is no registered extension point with the given name.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.register">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.register" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1412"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.register" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the extension point</p>
@@ -310,7 +353,7 @@ owned by GIO and should not be freed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.get_extension_by_name">
-<span class="sig-name descname"><span class="pre">get_extension_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1560"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_extension_by_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extension_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1548"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_extension_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the extension to get</p>
@@ -328,7 +371,7 @@ given name, or <a class="reference external" href="https://docs.python.org/3/lib
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.get_extensions">
-<span class="sig-name descname"><span class="pre">get_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1540"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_extensions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1528"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_extensions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference external" href="../../GLib-2.0/classes/List.html#GLib.List" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.List</span></code></a> of
@@ -345,7 +388,7 @@ The list is sorted by priority, beginning with the highest priority.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.get_required_type">
-<span class="sig-name descname"><span class="pre">get_required_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_required_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_required_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1490"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.get_required_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> that all implementations must have,
@@ -360,7 +403,7 @@ or <a class="reference external" href="../../GObject-2.0/constants.html#GObject.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOExtensionPoint.set_required_type">
-<span class="sig-name descname"><span class="pre">set_required_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giomodule.c#L1487"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.set_required_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_required_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giomodule.c#L1475"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOExtensionPoint.set_required_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>type</strong> (<a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a>) – the <a class="reference external" href="../../GObject-2.0/classes/GType.html#GObject.GType" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.GType</span></code></a> to require</p>

@@ -154,6 +154,7 @@
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource_async"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource_async()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource_finish"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource_finish()</span></code></a></li>
+<li><a class="reference internal" href="#Tracker.SparqlConnection.update_statement"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_statement()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -240,6 +241,7 @@
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource_async"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource_async()</span></code></a></li>
 <li><a class="reference internal" href="#Tracker.SparqlConnection.update_resource_finish"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource_finish()</span></code></a></li>
+<li><a class="reference internal" href="#Tracker.SparqlConnection.update_statement"><code class="docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_statement()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -419,6 +421,9 @@
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Tracker.SparqlConnection.update_resource_finish" title="Tracker.SparqlConnection.update_resource_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_resource_finish</span></code></a> (res)</p></td>
 </tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Tracker.SparqlConnection.update_statement" title="Tracker.SparqlConnection.update_statement"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_statement</span></code></a> (sparql, cancellable)</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -488,35 +493,89 @@
 <dd class="field-odd"><p><a class="reference internal" href="SparqlConnectionClass.html#Tracker.SparqlConnectionClass" title="Tracker.SparqlConnectionClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionClass</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> object represents a
-SPARQL connection.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> holds a connection to a RDF triple store.</p>
+<p>This triple store may be of three types:</p>
+<ul class="simple">
+<li><p>Local to the process, created through [ctor`Tracker`.SparqlConnection.new].</p></li>
+<li><p>A HTTP SPARQL endpoint over the network, created through
+[ctor`Tracker`.SparqlConnection.remote_new]</p></li>
+<li><p>A DBus SPARQL endpoint owned by another process in the same machine, created
+through [ctor`Tracker`.SparqlConnection.bus_new]</p></li>
+</ul>
+<p>When creating a local triple store, it is required to give details about its
+structure. This is done by passing a location to an ontology, see more
+on how are <a class="reference external" href="ontologies.html">ontologies defined</a>. A local database may be
+stored in a filesystem location, or it may reside in memory.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> is private to the calling process, it can be
+exposed to other hosts/processes via a [class`Tracker`.Endpoint], see
+[ctor`Tracker`.EndpointDBus.new] and [ctor`Tracker`.EndpointHttp.new].</p>
+<p>When issuing SPARQL queries and updates, it is recommended that these are
+created through [class`Tracker`.SparqlStatement] to avoid the SPARQL
+injection class of bugs, see [method`Tracker`.SparqlConnection.query_statement]
+and [method`Tracker`.SparqlConnection.update_statement]. For SPARQL updates
+it is also possible to use a “builder” approach to generate RDF data, see
+[class`Tracker`.Resource]. It is also possible to create [class`Tracker`.SparqlStatement]
+objects for SPARQL queries and updates from SPARQL strings embedded in a
+[struct`Gio`.Resource], see [method`Tracker`.SparqlConnection.load_statement_from_gresource].</p>
+<p>To get the best performance, it is recommended that SPARQL updates are clustered
+through [class`Tracker`.Batch].</p>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> also offers a number of methods for the simple cases,
+[method`Tracker`.SparqlConnection.query] may be used when there is a SPARQL
+query string directly available, and the [method`Tracker`.SparqlConnection.update]
+family of functions may be used for one-off updates. All functions have asynchronous
+variants.</p>
+<p>When a SPARQL query is executed, a [class`Tracker`.SparqlCursor] will be obtained
+to iterate over the query results.</p>
+<p>Depending on the ontology definition, <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> may emit
+notifications whenever resources of certain types get insert, modified or
+deleted from the triple store (see <a class="reference external" href="nrl-ontology.html#nrl:notify">nrl:notify</a>.
+These notifications can be handled via a [class`Tracker`.Notifier] obtained with
+[method`Tracker`.SparqlConnection.create_notifier].</p>
+<p>After done with a connection, it is recommended to call [method`Tracker`.SparqlConnection.close]
+or [method`Tracker`.SparqlConnection.close_async] explicitly to cleanly close the
+connection and prevent consistency checks on future runs. The triple store
+connection will be implicitly closed when the <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> object
+is disposed.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> may be used from multiple threads, asynchronous
+updates are executed sequentially on arrival order, asynchronous
+queries are dispatched in a thread pool.</p>
+<p>If you ever have the need to procedurally compose SPARQL query strings, consider
+the use of [func`Tracker`.sparql_escape_string] for literal strings and
+the [func`Tracker`.sparql_escape_uri] family of functions for URIs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.SparqlConnection.bus_new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbus_connection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.bus_new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>service_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the D-Bus service to connect to.</p></li>
+<li><p><strong>service_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p></li>
 <li><p><strong>object_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The path to the object, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the default.</p></li>
-<li><p><strong>dbus_connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> to use, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the session bus</p></li>
+<li><p><strong>dbus_connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The [type`Gio`.DBusConnection] to use, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the session bus</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>. Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the
-object when no longer used.</p>
+<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Connects to a database owned by another process on the
-local machine.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p><cite>service_name</cite> (nullable): The name of the D-Bus service to connect to, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not using a message bus.
+Connects to a database owned by another process on the
+local machine via DBus.</p>
+<p>When using a message bus (session/system), the <cite>service_name</cite> argument will
+be used to describe the remote endpoint, either by unique or well-known D-Bus
+names. If not using a message bus (e.g. peer-to-peer D-Bus connections) the
+<cite>service_name</cite> may be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>The D-Bus object path of the remote endpoint will be given through
+<cite>object_path</cite>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> may be used to use the default
+<code class="docutils literal notranslate"><span class="pre">/org/freedesktop/Tracker3/Endpoint</span></code> path.</p>
+<p>The D-Bus connection used to set up the connection may be given through
+the <cite>dbus_connection</cite> argument. Using <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will resort to the default session
+bus.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -527,15 +586,16 @@ local machine.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>service_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the D-Bus service to connect to.</p></li>
 <li><p><strong>object_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The path to the object, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the default.</p></li>
-<li><p><strong>dbus_connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The <a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> to use, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the session bus</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> called when the operation completes</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data passed to <cite>callback</cite></p></li>
+<li><p><strong>dbus_connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The [class`Gio`.DBusConnection] to use, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to use the session bus</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Connects to a database owned by another process on the
-local machine. This is an asynchronous operation.</p>
+<p>Connects asynchronously to a database owned by another process on the
+local machine via DBus.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -546,20 +606,19 @@ local machine. This is an asynchronous operation.</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_new_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.bus_new_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
+<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>. Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the
-object when no longer used.</p>
+<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Completion function for <a class="reference internal" href="#Tracker.SparqlConnection.bus_new_async" title="Tracker.SparqlConnection.bus_new_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.bus_new_async</span></code></a>().</p>
+<p>Finishes the operation started with [func`Tracker`.SparqlConnection.bus_new_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -571,43 +630,57 @@ object when no longer used.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a>) – values from <a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a></p></li>
-<li><p><strong>store</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the directory that contains the database as a <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>ontology</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the directory that contains the database schemas as a <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a>) – Connection flags to define the SPARQL connection behavior</p></li>
+<li><p><strong>store</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The directory that contains the database as a [iface`Gio`.File], or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>ontology</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The directory that contains the database schemas as a [iface`Gio`.File], or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>. Call
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the object when no longer used.</p>
+<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Creates or opens a database.</p>
+<p>Creates or opens a process-local database.</p>
 <p>This method should only be used for databases owned by the current process.
 To connect to databases managed by other processes, use
-<a class="reference internal" href="#Tracker.SparqlConnection.bus_new" title="Tracker.SparqlConnection.bus_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.bus_new</span></code></a>().</p>
+[ctor`Tracker`.SparqlConnection.bus_new].</p>
 <p>If <cite>store</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the database will be created in memory.</p>
-<p>The <cite>ontologies</cite> parameter must point to a location containing suitable
-<code class="docutils literal notranslate"><span class="pre">.ontology</span></code> files in Turtle format. These control the database schema that
-is used. You can use the default Nepomuk ontologies by calling
-<a class="reference internal" href="../functions.html#Tracker.sparql_get_ontology_nepomuk" title="Tracker.sparql_get_ontology_nepomuk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.sparql_get_ontology_nepomuk</span></code></a> ().</p>
-<p>If you open an existing database using a different <cite>ontology</cite> to the one it
-was created with, Tracker will attempt to migrate the existing data to the
-new schema. This may raise an error. In particular, not all migrations are
-possible without causing data loss and Tracker will refuse to delete data
-during a migration.</p>
-<p>You can also pass <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for <cite>ontologies</cite> to mean “use the ontologies that the
-database was created with”. This will fail if the database doesn’t already
-exist.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>If defined, the <cite>ontology</cite> argument must point to a location containing
+suitable <code class="docutils literal notranslate"><span class="pre">.ontology</span></code> files in Turtle format. These define the structure of
+the triple store. You can learn more about <a class="reference external" href="ontologies.html">ontologies</a>,
+or you can use the stock Nepomuk ontologies by calling
+[func`Tracker`.sparql_get_ontology_nepomuk].</p>
+<p>If opening an existing database, it is possible to pass <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> as the
+<cite>ontology</cite> location, the ontology will be introspected from the database.
+Passing a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <cite>ontology</cite> will raise an error if the database does not exist.</p>
+<p>If a database is opened without the #TRACKER_SPARQL_CONNECTION_FLAG_READONLY
+flag enabled, and the given <cite>ontology</cite> holds differences with the current
+data layout, migration to the new structure will be attempted. This operation
+may raise an error. In particular, not all migrations are possible without
+causing data loss and Tracker will refuse to delete data during a migration.
+The database is always left in a consistent state, either prior or posterior
+to migration.</p>
+<p>Operations on a [class`Tracker`.SparqlConnection] resulting on a
+[error`Tracker`.SparqlError.CORRUPT] error will have the event recorded
+persistently through a <code class="docutils literal notranslate"><span class="pre">.meta.corrupted</span></code> file alongside the database files.
+If the database is opened without the [flags`Tracker`.SparqlConnectionFlags.READONLY]
+flag and the file is found, this constructor will attempt to repair the
+database. In that situation, this constructor will either return a valid
+[class`Tracker`.SparqlConnection] if the database was repaired successfully, or
+raise a [error`Tracker`.SparqlError.CORRUPT] error if the database remains
+corrupted.</p>
+<p>It is considered a developer error to ship ontologies that contain format
+errors, or that fail at migrations.</p>
+<p>It is encouraged to use <code class="docutils literal notranslate"><span class="pre">resource:///</span></code> URI locations for <cite>ontology</cite> wherever
+possible, so the triple store structure is tied to the executable binary,
+and in order to minimize disk seeks during <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code>
+initialization.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -616,19 +689,18 @@ exist.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a>) – values from <a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a></p></li>
-<li><p><strong>store</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the directory that contains the database as a <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>ontology</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the directory that contains the database schemas as a <a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> called when the operation completes</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data passed to <cite>callback</cite></p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags" title="Tracker.SparqlConnectionFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags</span></code></a>) – Connection flags to define the SPARQL connection behavior</p></li>
+<li><p><strong>store</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The directory that contains the database as a [iface`Gio`.File], or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>ontology</strong> (<a class="reference external" href="../../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The directory that contains the database schemas as a [iface`Gio`.File], or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Asynchronous version of <a class="reference internal" href="#Tracker.SparqlConnection.new" title="Tracker.SparqlConnection.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.new</span></code></a>().</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>Creates or opens a process-local database asynchronously.</p>
+<p>See [ctor`Tracker`.SparqlConnection.new] for more information.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -636,7 +708,7 @@ exist.</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.new_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
+<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -645,10 +717,7 @@ exist.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Completion function for <a class="reference internal" href="#Tracker.SparqlConnection.new_async" title="Tracker.SparqlConnection.new_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.new_async</span></code></a>().</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>Finishes the operation started with [func`Tracker`.SparqlConnection.new_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -659,28 +728,25 @@ exist.</p>
 <dd class="field-odd"><p><strong>uri_base</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Base URI of the remote connection</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a new remote <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>. Call
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the object when no longer used.</p>
+<dd class="field-even"><p>a new remote <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Connects to a remote SPARQL endpoint. The connection is made using the libsoup
-HTTP library. The connection will normally use the http:// or https:// protocol.</p>
+<p>Creates a connection to a remote HTTP SPARQL endpoint.</p>
+<p>The connection is made using the libsoup HTTP library. The connection will
+normally use the <code class="docutils literal notranslate"><span class="pre">https://</span></code> or <code class="docutils literal notranslate"><span class="pre">http://</span></code> protocols.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.SparqlConnection.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes a SPARQL connection. No other API calls than <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>()
-should happen after this call.</p>
+<dd><p>Closes a SPARQL connection.</p>
+<p>No other API calls than <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() should happen after this call.</p>
 <p>This call is blocking. All pending updates will be flushed, and the
 store databases will be closed orderly. All ongoing SELECT queries
 will be cancelled. Notifiers will no longer emit events.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -689,19 +755,15 @@ will be cancelled. Notifiers will no longer emit events.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Closes a connection asynchronously. No other API calls than <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>()
-should happen after this call. See <a class="reference internal" href="#Tracker.SparqlConnection.close" title="Tracker.SparqlConnection.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.close</span></code></a>() for more
-information.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>Closes a SPARQL connection asynchronously.</p>
+<p>No other API calls than <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() should happen after this call.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -709,7 +771,7 @@ information.</p>
 <span class="sig-name descname"><span class="pre">close_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.close_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -721,10 +783,7 @@ information.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the asynchronous connection close.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.close_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -732,14 +791,14 @@ information.</p>
 <span class="sig-name descname"><span class="pre">create_batch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.create_batch" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(nullable): A new <a class="reference internal" href="Batch.html#Tracker.Batch" title="Tracker.Batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Batch</span></code></a></p>
+<dd class="field-odd"><p>(nullable): A new [class`Tracker`.Batch]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Batch.html#Tracker.Batch" title="Tracker.Batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Batch</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new batch to store and execute update commands. If the connection
-is readonly or cannot issue SPARQL updates, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
+<p>Creates a new [class`Tracker`.Batch] to store and execute SPARQL updates.</p>
+<p>If the connection is readonly or cannot issue SPARQL updates, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -747,16 +806,16 @@ is readonly or cannot issue SPARQL updates, <a class="reference external" href="
 <span class="sig-name descname"><span class="pre">create_notifier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.create_notifier" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly created notifier. Free with <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>()
-when no longer needed.</p>
+<dd class="field-odd"><p>A newly created notifier.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="Notifier.html#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="Notifier.html#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="Notifier.html#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a> to notify about changes in <cite>self</cite>.
-See <a class="reference internal" href="Notifier.html#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a> documentation for information about how to use this
+<p>Creates a new [class`Tracker`.Notifier] to receive notifications about changes in <cite>self</cite>.</p>
+<p>See [class`Tracker`.Notifier] documentation for information about how to use this
 object.</p>
+<p>Connections to HTTP endpoints will return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -765,26 +824,26 @@ object.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> (<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags" title="Tracker.DeserializeFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags</span></code></a>) – deserialization flags</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags" title="Tracker.DeserializeFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags</span></code></a>) – Deserialization flags</p></li>
 <li><p><strong>format</strong> (<a class="reference internal" href="../enums.html#Tracker.RdfFormat" title="Tracker.RdfFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.RdfFormat</span></code></a>) – RDF format of data in stream</p></li>
-<li><p><strong>default_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – default graph that will receive the RDF data</p></li>
-<li><p><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a>) – input stream with RDF data</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> called when the operation completes</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data passed to <cite>callback</cite></p></li>
+<li><p><strong>default_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Default graph that will receive the RDF data</p></li>
+<li><p><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a>) – Input stream with RDF data</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Incorporates the contents of the RDF data contained in <cite>stream</cite> into the
-data stored by <cite>self</cite>. This is an asynchronous operation,
-<cite>callback</cite> will be invoked when the data has been fully inserted to
-<cite>self</cite>.</p>
-<p>RDF data will be inserted in the given <cite>default_graph</cite> if one is provided,
-or the default graph if <cite>default_graph</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. Any RDF data that has a
+<p>Loads the RDF data contained in <cite>stream</cite> into the given <cite>self</cite>.</p>
+<p>This is an asynchronous operation, <cite>callback</cite> will be invoked when the
+data has been fully inserted to <cite>self</cite>.</p>
+<p>The RDF data will be inserted in the given <cite>default_graph</cite> if one is provided,
+or the anonymous graph if <cite>default_graph</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. Any RDF data that has a
 graph specified (e.g. using the <code class="docutils literal notranslate"><span class="pre">GRAPH</span></code> clause in the Trig format) will
 be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <p>The <cite>flags</cite> argument is reserved for future expansions, currently
-<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags.DESERIALIZE_FLAGS_NONE" title="Tracker.DeserializeFlags.DESERIALIZE_FLAGS_NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags.DESERIALIZE_FLAGS_NONE</span></code></a> must be passed.</p>
+<a class="reference internal" href="../enums.html#Tracker.DeserializeFlags.NONE" title="Tracker.DeserializeFlags.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.DeserializeFlags.NONE</span></code></a> must be passed.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.4.</span></p>
 </div>
@@ -795,7 +854,7 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <span class="sig-name descname"><span class="pre">deserialize_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.deserialize_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
+<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -807,8 +866,7 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes a <a class="reference internal" href="#Tracker.SparqlConnection.deserialize_async" title="Tracker.SparqlConnection.deserialize_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.deserialize_async</span></code></a>() operation.
-In case of error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned and <cite>error</cite> will be set.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.deserialize_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.4.</span></p>
 </div>
@@ -819,14 +877,13 @@ In case of error, <a class="reference external" href="https://docs.python.org/3/
 <span class="sig-name descname"><span class="pre">get_namespace_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.get_namespace_manager" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference internal" href="NamespaceManager.html#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> for this
-connection. This object is owned by <cite>self</cite> and must not be freed.</p>
+<dd class="field-odd"><p>a [class`Tracker`.NamespaceManager] with the prefixes of <cite>self</cite>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="NamespaceManager.html#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves a <a class="reference internal" href="NamespaceManager.html#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a> that contains all
+<p>Returns a [class`Tracker`.NamespaceManager] that contains all
 prefixes in the ontology of <cite>self</cite>.</p>
 </dd></dl>
 
@@ -836,22 +893,25 @@ prefixes in the ontology of <cite>self</cite>.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resource_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the resource path of the file to parse.</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>resource_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The resource path of the file to parse.</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a prepared statement</p>
+<dd class="field-odd"><p>A prepared statement</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Prepares a <a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> for the SPARQL query contained as a resource
-file at <cite>resource_path</cite>. SPARQL Query files typically have the .rq extension.</p>
+<p>Prepares a [class`Tracker`.SparqlStatement] for the SPARQL contained as a [struct`Gio`.Resource]
+file at <cite>resource_path</cite>.</p>
+<p>SPARQL Query files typically have the .rq extension. This will use
+[method`Tracker`.SparqlConnection.query_statement] or [method`Tracker`.SparqlConnection.update_statement]
+underneath to indistinctly return SPARQL query or update statements.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -863,15 +923,22 @@ file at <cite>resource_path</cite>. SPARQL Query files typically have the .rq ex
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>handle_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – handle name for <cite>service_connection</cite></p></li>
-<li><p><strong>service_connection</strong> (<a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>) – a <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> to use from <cite>self</cite></p></li>
+<li><p><strong>handle_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Handle name for <cite>service_connection</cite></p></li>
+<li><p><strong>service_connection</strong> (<a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> to use from <cite>self</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Maps <cite>service_connection</cite> so it is available as a “private:<cite>handle_name</cite>&quot; URI
-in <cite>self</cite>. This can be accessed via the SERVICE SPARQL syntax in
+<p>Maps a <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> onto another through a <code class="docutils literal notranslate"><span class="pre">private:&#64;handle_name</span></code> URI.</p>
+<p>This can be accessed via the SERVICE SPARQL syntax in
 queries from <cite>self</cite>. E.g.:</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>sparql
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>c
+tracker_sparql_connection_map_connection (connection,</p>
+<blockquote>
+<div><p>“other-connection”,
+other_connection);</p>
+</div></blockquote>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a></p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>sparql
 SELECT ?u {</p>
 <blockquote>
 <div><dl class="simple">
@@ -880,13 +947,13 @@ SELECT ?u {</p>
 </dl>
 <p>}</p>
 </div></blockquote>
-<section id="id3">
-<h3>}<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<section id="id7">
+<h3>}<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <p>This is useful to interrelate data from multiple
-<a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> instances maintained by the same process,
+<code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> instances maintained by the same process,
 without creating a public endpoint for <cite>service_connection</cite>.</p>
-<p><cite>self</cite> may only be a <a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> created via
-<a class="reference internal" href="#Tracker.SparqlConnection.new" title="Tracker.SparqlConnection.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.new</span></code></a>() and <a class="reference internal" href="#Tracker.SparqlConnection.new_async" title="Tracker.SparqlConnection.new_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.new_async</span></code></a>().</p>
+<p><cite>self</cite> may only be a <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> created via
+[ctor`Tracker`.SparqlConnection.new] and [func`Tracker`.SparqlConnection.new_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -899,27 +966,30 @@ without creating a public endpoint for <cite>service_connection</cite>.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a> if results were found.
-On error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and the <cite>error</cite> is set accordingly.
-Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the returned cursor when no longer needed.</p>
+<dd class="field-odd"><p>a [class`Tracker`.SparqlCursor] with the results.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a></p>
 </dd>
 </dl>
-<p>Executes a SPARQL query on. The API call is completely synchronous, so
-it may block.</p>
-<p>The <cite>sparql</cite> query should be built with <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>, or
-its parts correctly escaped using <a class="reference internal" href="../functions.html#Tracker.sparql_escape_string" title="Tracker.sparql_escape_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.sparql_escape_string</span></code></a>(),
-otherwise SPARQL injection is possible.</p>
+<p>Executes a SPARQL query on <cite>self</cite>.</p>
+<p>This method is synchronous and will block until the query
+is executed. See [method`Tracker`.SparqlConnection.query_async]
+for an asynchronous variant.</p>
+<p>If the query is partially built from user input or other
+untrusted sources, special care is required about possible
+SPARQL injection. In order to avoid it entirely, it is recommended
+to use [class`Tracker`.SparqlStatement]. The function
+[func`Tracker`.sparql_escape_string] exists as a last resort,
+but its use is not recommended.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -928,15 +998,21 @@ otherwise SPARQL injection is possible.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Executes asynchronously a SPARQL query.</p>
+<p>Executes asynchronously a SPARQL query on <cite>self</cite></p>
+<p>If the query is partially built from user input or other
+untrusted sources, special care is required about possible
+SPARQL injection. In order to avoid it entirely, it is recommended
+to use [class`Tracker`.SparqlStatement]. The function
+[func`Tracker`.sparql_escape_string] exists as a last resort,
+but its use is not recommended.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -944,21 +1020,19 @@ asynchronous operation is finished.</p></li>
 <span class="sig-name descname"><span class="pre">query_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.query_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a> if results were found.
-On error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and the <cite>error</cite> is set accordingly.
-Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on the returned cursor when no longer needed.</p>
+<dd class="field-odd"><p>a [class`Tracker`.SparqlCursor] with the results.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the asynchronous SPARQL query operation.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.query_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -967,21 +1041,24 @@ Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#G
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the SPARQL query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The SPARQL query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a prepared statement</p>
+<dd class="field-odd"><p>A prepared statement</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Prepares the given <cite>sparql</cite> as a <a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a>.</p>
+<p>Prepares the given <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>/<code class="docutils literal notranslate"><span class="pre">ASK</span></code>/<code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>/<code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> SPARQL query as a
+[class`Tracker`.SparqlStatement].</p>
+<p>This prepared statement can be executed through [method`Tracker`.SparqlStatement.execute]
+or [method`Tracker`.SparqlStatement.serialize_async] families of functions.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -990,22 +1067,23 @@ Call <a class="reference external" href="../../GObject-2.0/classes/Object.html#G
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> (<a class="reference internal" href="../enums.html#Tracker.SerializeFlags" title="Tracker.SerializeFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SerializeFlags</span></code></a>) – serialization flags</p></li>
-<li><p><strong>format</strong> (<a class="reference internal" href="../enums.html#Tracker.RdfFormat" title="Tracker.RdfFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.RdfFormat</span></code></a>) – output RDF format</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../enums.html#Tracker.SerializeFlags" title="Tracker.SerializeFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SerializeFlags</span></code></a>) – Serialization flags</p></li>
+<li><p><strong>format</strong> (<a class="reference internal" href="../enums.html#Tracker.RdfFormat" title="Tracker.RdfFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.RdfFormat</span></code></a>) – Output RDF format</p></li>
 <li><p><strong>query</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – SPARQL query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> called when the operation completes</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data passed to <cite>callback</cite></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Serializes data into the specified RDF format. <cite>query</cite> must be either a
-<code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> or <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> query. This is an asynchronous operation,
-<cite>callback</cite> will be invoked when the data is available for reading.</p>
+<p>Serializes a <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> or <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> query into the specified RDF format.</p>
+<p>This is an asynchronous operation, <cite>callback</cite> will be invoked when
+the data is available for reading.</p>
 <p>The SPARQL endpoint may not support the specified format, in that case
 an error will be raised.</p>
 <p>The <cite>flags</cite> argument is reserved for future expansions, currently
-<a class="reference internal" href="../enums.html#Tracker.SerializeFlags.SERIALIZE_FLAGS_NONE" title="Tracker.SerializeFlags.SERIALIZE_FLAGS_NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SerializeFlags.SERIALIZE_FLAGS_NONE</span></code></a> must be passed.</p>
+<a class="reference internal" href="../enums.html#Tracker.SerializeFlags.NONE" title="Tracker.SerializeFlags.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SerializeFlags.NONE</span></code></a> must be passed.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -1016,20 +1094,19 @@ an error will be raised.</p>
 <span class="sig-name descname"><span class="pre">serialize_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.serialize_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
+<dd class="field-odd"><p><strong>result</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> to read RDF content.</p>
+<dd class="field-odd"><p>A [class`Gio`.InputStream] to read RDF content.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes a <a class="reference internal" href="#Tracker.SparqlConnection.serialize_async" title="Tracker.SparqlConnection.serialize_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.serialize_async</span></code></a>() operation.
-In case of error, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned and <cite>error</cite> will be set.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.serialize_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -1041,19 +1118,28 @@ In case of error, <a class="reference external" href="https://docs.python.org/3/
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL update query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL update query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 </dl>
-<p>Executes a SPARQL update. The API call is completely
-synchronous, so it may block.</p>
-<p>The <cite>sparql</cite> query should be built with <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>, or
-its parts correctly escaped using <a class="reference internal" href="../functions.html#Tracker.sparql_escape_string" title="Tracker.sparql_escape_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.sparql_escape_string</span></code></a>(),
-otherwise SPARQL injection is possible.</p>
+<p>Executes a SPARQL update on <cite>self</cite>.</p>
+<p>This method is synchronous and will block until the update
+is finished. See [method`Tracker`.SparqlConnection.update_async]
+for an asynchronous variant.</p>
+<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+to cluster database updates. Frequent isolated SPARQL updates
+through this method will have a degraded performance in comparison.</p>
+<p>If the query is partially built from user input or other
+untrusted sources, special care is required about possible
+SPARQL injection. In order to avoid it entirely, it is recommended
+to use [class`Tracker`.SparqlStatement], or to build the SPARQL
+input through [class`Tracker`.Resource]. The function
+[func`Tracker`.sparql_escape_string] exists as a last resort,
+but its use is not recommended.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1062,17 +1148,24 @@ otherwise SPARQL injection is possible.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an array of strings containing the SPARQL update queries</p></li>
-<li><p><strong>sparql_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the amount of strings you pass as <cite>sparql</cite></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – An array of strings containing the SPARQL update queries</p></li>
+<li><p><strong>sparql_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The amount of strings you pass as <cite>sparql</cite></p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
 <p>Executes asynchronously an array of SPARQL updates. All updates in the
 array are handled within a single transaction.</p>
+<p>If the query is partially built from user input or other
+untrusted sources, special care is required about possible
+SPARQL injection. In order to avoid it entirely, it is recommended
+to use [class`Tracker`.SparqlStatement], or to build the SPARQL
+input through [class`Tracker`.Resource]. The function
+[func`Tracker`.sparql_escape_string] exists as a last resort,
+but its use is not recommended.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1080,7 +1173,7 @@ array are handled within a single transaction.</p>
 <span class="sig-name descname"><span class="pre">update_array_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.update_array_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1092,7 +1185,7 @@ array are handled within a single transaction.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the asynchronous SPARQL update_array operation.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_array_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1101,15 +1194,25 @@ array are handled within a single transaction.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL update query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL update query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
 <p>Executes asynchronously a SPARQL update.</p>
+<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+to cluster database updates. Frequent isolated SPARQL updates
+through this method will have a degraded performance in comparison.</p>
+<p>If the query is partially built from user input or other
+untrusted sources, special care is required about possible
+SPARQL injection. In order to avoid it entirely, it is recommended
+to use [class`Tracker`.SparqlStatement], or to build the SPARQL
+input through [class`Tracker`.Resource]. The function
+[func`Tracker`.sparql_escape_string] exists as a last resort,
+but its use is not recommended.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1118,25 +1221,26 @@ asynchronous operation is finished.</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL update query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL update query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> with the generated URNs, which should be freed with
-<a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant.unref" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.unref</span></code></a>() when no longer used.</p>
+<dd class="field-odd"><p>a [type`GLib`.Variant] with the generated URNs.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
 </dd>
 </dl>
-<p>Executes a SPARQL update and returns the URNs of the generated nodes,
-if any. The API call is completely synchronous, so it may block.</p>
-<p>The <cite>sparql</cite> query should be built with <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>, or
-its parts correctly escaped using <a class="reference internal" href="../functions.html#Tracker.sparql_escape_string" title="Tracker.sparql_escape_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.sparql_escape_string</span></code></a>(),
+<p>Executes a SPARQL update and returns the names of the generated blank nodes.</p>
+<p>This method is synchronous and will block until the update
+is finished. See [method`Tracker`.SparqlConnection.update_blank_async]
+for an asynchronous variant.</p>
+<p>The <cite>sparql</cite> query should be built with [class`Tracker`.Resource], or
+its parts correctly escaped using [func`Tracker`.sparql_escape_string],
 otherwise SPARQL injection is possible.</p>
 <p>The format string of the <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is <code class="docutils literal notranslate"><span class="pre">aaa{ss}</span></code> (an array of an array
 of dictionaries). The first array represents each INSERT that may exist in
@@ -1144,6 +1248,9 @@ the SPARQL string. The second array represents each new node for a given
 WHERE clause. The last array holds a string pair with the blank node name
 (e.g. <code class="docutils literal notranslate"><span class="pre">foo</span></code> for the blank node <code class="docutils literal notranslate"><span class="pre">_:foo</span></code>) and the URN that was generated for
 it. For most updates the first two outer arrays will only contain one item.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>This function makes the expectation that blank nodes have a durable name that persist. The SPARQL and RDF specs define a much more reduced scope for blank node labels. This function advises a behavior that goes against that reduced scope, and will directly make the returned values meaningless if the <a class="reference internal" href="../flags.html#Tracker.SparqlConnectionFlags.ANONYMOUS_BNODES" title="Tracker.SparqlConnectionFlags.ANONYMOUS_BNODES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnectionFlags.ANONYMOUS_BNODES</span></code></a> flag is defined in the connection.  Users that want names generated for them, should look for other methods (e.g. IRIs containing UUIDv4 strings).</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1152,17 +1259,20 @@ it. For most updates the first two outer arrays will only contain one item.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – string containing the SPARQL update query</p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> used to cancel the operation</p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to be called when
-asynchronous operation is finished.</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user-defined data to be passed to <cite>callback</cite></p></li>
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – String containing the SPARQL update query</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Executes asynchronously a SPARQL update with blank nodes. See
-the <a class="reference internal" href="#Tracker.SparqlConnection.update_blank" title="Tracker.SparqlConnection.update_blank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_blank</span></code></a>() documentation to
-see the differences with <a class="reference internal" href="#Tracker.SparqlConnection.update" title="Tracker.SparqlConnection.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update</span></code></a>().</p>
+<p>Executes asynchronously a SPARQL update and returns the names of the generated blank nodes.</p>
+<p>See the [method`Tracker`.SparqlConnection.update_blank] documentation to
+learn the differences with [method`Tracker`.SparqlConnection.update].</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`Tracker`.SparqlConnection.update_blank].</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1170,23 +1280,25 @@ see the differences with <a class="reference internal" href="#Tracker.SparqlConn
 <span class="sig-name descname"><span class="pre">update_blank_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.update_blank_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a> with the generated URNs, which should be freed with
-<a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant.unref" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant.unref</span></code></a>() when no longer used.</p>
+<dd class="field-odd"><p>a [type`GLib`.Variant] with the generated URNs.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the asynchronous SPARQL update operation, and returns
-the URNs of the generated nodes, if any. See the
-<a class="reference internal" href="#Tracker.SparqlConnection.update_blank" title="Tracker.SparqlConnection.update_blank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_blank</span></code></a>() documentation for the interpretation
-of the returned <a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a>.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_blank_async].</p>
+<p>This method returns the URNs of the generated nodes, if any. See the
+[method`Tracker`.SparqlConnection.update_blank] documentation for the interpretation
+of the returned [type`GLib`.Variant].</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`Tracker`.SparqlConnection.update_blank].</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1194,13 +1306,13 @@ of the returned <a class="reference external" href="../../GLib-2.0/classes/Varia
 <span class="sig-name descname"><span class="pre">update_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.update_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the asynchronous SPARQL update operation.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1210,8 +1322,8 @@ of the returned <a class="reference external" href="../../GLib-2.0/classes/Varia
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph where the resource should be inserted/updated, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the default graph</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – a <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -1224,8 +1336,13 @@ of the returned <a class="reference external" href="../../GLib-2.0/classes/Varia
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Inserts a resource as described by <cite>resource</cite>, on the graph described by <cite>graph</cite>.
-This operation blocks until done.</p>
+<p>Inserts a resource as described by <cite>resource</cite> on the given <cite>graph</cite>.</p>
+<p>This method is synchronous and will block until the update
+is finished. See [method`Tracker`.SparqlConnection.update_resource_async]
+for an asynchronous variant.</p>
+<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+to cluster database updates. Frequent isolated SPARQL updates
+through this method will have a degraded performance in comparison.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -1238,16 +1355,18 @@ This operation blocks until done.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph where the resource should be inserted/updated, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the default graph</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – a <a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> called when the operation completes</p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data passed to <cite>callback</cite></p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
+the asynchronous operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined data to be passed to <cite>callback</cite></p></li>
 </ul>
 </dd>
 </dl>
-<p>Inserts a resource as described by <cite>resource</cite>, on the graph described by <cite>graph</cite>.
-This operation is executed asynchronously, when finished <cite>callback</cite> will be
-executed.</p>
+<p>Inserts asynchronously a resource as described by <cite>resource</cite> on the given <cite>graph</cite>.</p>
+<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+to cluster database updates. Frequent isolated SPARQL updates
+through this method will have a degraded performance in comparison.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -1258,7 +1377,7 @@ executed.</p>
 <span class="sig-name descname"><span class="pre">update_resource_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.update_resource_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a> with the result of the operation</p>
+<dd class="field-odd"><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – A [type`Gio`.AsyncResult] with the result of the operation</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1270,9 +1389,37 @@ executed.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes a <a class="reference internal" href="#Tracker.SparqlConnection.update_resource_async" title="Tracker.SparqlConnection.update_resource_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.update_resource_async</span></code></a>() operation.</p>
+<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_resource_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Tracker.SparqlConnection.update_statement">
+<span class="sig-name descname"><span class="pre">update_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.update_statement" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sparql</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The SPARQL update</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A prepared statement</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Prepares the given <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> SPARQL as a [class`Tracker`.SparqlStatement].</p>
+<p>This prepared statement can be executed through
+the [method`Tracker`.SparqlStatement.update] family of functions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>
 </dd></dl>
 

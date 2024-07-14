@@ -380,17 +380,17 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.IOStream.props.closed" title="Gio.IOStream.props.closed"><code class="xref py py-data docutils literal notranslate"><span class="pre">closed</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>Is the stream closed</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gio.IOStream.props.input_stream" title="Gio.IOStream.props.input_stream"><code class="xref py py-data docutils literal notranslate"><span class="pre">input-stream</span></code></a></p></td>
 <td><p><a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>The <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> to read from</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gio.IOStream.props.output_stream" title="Gio.IOStream.props.output_stream"><code class="xref py py-data docutils literal notranslate"><span class="pre">output-stream</span></code></a></p></td>
 <td><p><a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>The <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> to write to</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -449,51 +449,53 @@
 <dd class="field-odd"><p><a class="reference internal" href="IOStreamClass.html#Gio.IOStreamClass" title="Gio.IOStreamClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.IOStreamClass</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> represents an object that has both read and write streams.
+<p><code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> represents an object that has both read and write streams.
 Generally the two streams act as separate input and output streams,
 but they share some common resources and state. For instance, for
 seekable streams, both streams may use the same position.</p>
-<p>Examples of <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> objects are <a class="reference internal" href="SocketConnection.html#Gio.SocketConnection" title="Gio.SocketConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketConnection</span></code></a>, which represents
-a two-way network connection; and <a class="reference internal" href="FileIOStream.html#Gio.FileIOStream" title="Gio.FileIOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileIOStream</span></code></a>, which represents a
+<p>Examples of <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> objects are [class`Gio`.SocketConnection], which represents
+a two-way network connection; and [class`Gio`.FileIOStream], which represents a
 file handle opened in read-write mode.</p>
 <p>To do the actual reading and writing you need to get the substreams
-with <a class="reference internal" href="#Gio.IOStream.get_input_stream" title="Gio.IOStream.get_input_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream.get_input_stream</span></code></a>() and <a class="reference internal" href="#Gio.IOStream.get_output_stream" title="Gio.IOStream.get_output_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream.get_output_stream</span></code></a>().</p>
-<p>The <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> object owns the input and the output streams, not the other
-way around, so keeping the substreams alive will not keep the <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>
-object alive. If the <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> object is freed it will be closed, thus
+with [method`Gio`.IOStream.get_input_stream] and
+[method`Gio`.IOStream.get_output_stream].</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> object owns the input and the output streams, not the other
+way around, so keeping the substreams alive will not keep the <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code>
+object alive. If the <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> object is freed it will be closed, thus
 closing the substreams, so even if the substreams stay alive they will
-always return <a class="reference internal" href="../enums.html#Gio.IOErrorEnum.CLOSED" title="Gio.IOErrorEnum.CLOSED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.CLOSED</span></code></a> for all operations.</p>
-<p>To close a stream use <a class="reference internal" href="#Gio.IOStream.close" title="Gio.IOStream.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream.close</span></code></a>() which will close the common
+always return <code class="docutils literal notranslate"><span class="pre">G_IO_ERROR_CLOSED</span></code> for all operations.</p>
+<p>To close a stream use [method`Gio`.IOStream.close] which will close the common
 stream object and also the individual substreams. You can also close
 the substreams themselves. In most cases this only marks the
 substream as closed, so further I/O on it fails but common state in the
-<a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> may still be open. However, some streams may support
-“half-closed” states where one direction of the stream is actually shut down.</p>
-<p>Operations on <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStreams</span></code></a> cannot be started while another operation on the
-<a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> or its substreams is in progress. Specifically, an application can
-read from the <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> and write to the <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> simultaneously
-(either in separate threads, or as asynchronous operations in the same
-thread), but an application cannot start any <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> operation while there
-is a <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>, <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> or <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> operation in progress, and
-an application can’t start any <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> or <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> operation
-while there is a <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> operation in progress.</p>
+<code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> may still be open. However, some streams may support
+‘half-closed’ states where one direction of the stream is actually shut down.</p>
+<p>Operations on <code class="docutils literal notranslate"><span class="pre">GIOStream``s</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">started</span> <span class="pre">while</span> <span class="pre">another</span> <span class="pre">operation</span> <span class="pre">on</span> <span class="pre">the</span>
+<span class="pre">``GIOStream</span></code> or its substreams is in progress. Specifically, an application can
+read from the [class`Gio`.InputStream] and write to the
+[class`Gio`.OutputStream] simultaneously (either in separate threads, or as
+asynchronous operations in the same thread), but an application cannot start
+any <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code> operation while there is a <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code>, <code class="docutils literal notranslate"><span class="pre">GInputStream</span></code> or
+<code class="docutils literal notranslate"><span class="pre">GOutputStream</span></code> operation in progress, and an application can’t start any
+<code class="docutils literal notranslate"><span class="pre">GInputStream</span></code> or <code class="docutils literal notranslate"><span class="pre">GOutputStream</span></code> operation while there is a <code class="docutils literal notranslate"><span class="pre">GIOStream</span></code>
+operation in progress.</p>
 <p>This is a product of individual stream operations being associated with a
-given <a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a> (the thread-default context at the time the operation was
-started), rather than entire streams being associated with a single
-<a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.</p>
-<p>GIO may run operations on <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStreams</span></code></a> from other (worker) threads, and this
+given [type`GLib`.MainContext] (the thread-default context at the time the
+operation was started), rather than entire streams being associated with a
+single <code class="docutils literal notranslate"><span class="pre">GMainContext</span></code>.</p>
+<p>GIO may run operations on <a href="#id1"><span class="problematic" id="id2">``</span></a>GIOStream``s from other (worker) threads, and this
 may be exposed to application code in the behaviour of wrapper streams, such
-as <a class="reference internal" href="BufferedInputStream.html#Gio.BufferedInputStream" title="Gio.BufferedInputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.BufferedInputStream</span></code></a> or <a class="reference internal" href="TlsConnection.html#Gio.TlsConnection" title="Gio.TlsConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsConnection</span></code></a>. With such wrapper APIs,
-application code may only run operations on the base (wrapped) stream when
-the wrapper stream is idle. Note that the semantics of such operations may
-not be well-defined due to the state the wrapper stream leaves the base
-stream in (though they are guaranteed not to crash).</p>
+as [class`Gio`.BufferedInputStream] or [class`Gio`.TlsConnection]. With such
+wrapper APIs, application code may only run operations on the base (wrapped)
+stream when the wrapper stream is idle. Note that the semantics of such
+operations may not be well-defined due to the state the wrapper stream leaves
+the base stream in (though they are guaranteed not to crash).</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.22.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.splice_finish">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">splice_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L919"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.splice_finish" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">splice_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L934"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.splice_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p>
@@ -516,7 +518,7 @@ stream in (though they are guaranteed not to crash).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.clear_pending">
-<span class="sig-name descname"><span class="pre">clear_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L329"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.clear_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L344"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.clear_pending" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears the pending flag on <cite>self</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.22.</span></p>
@@ -525,7 +527,7 @@ stream in (though they are guaranteed not to crash).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L404"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – optional <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to ignore</p>
@@ -573,7 +575,7 @@ individual input/output streams.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.close_async">
-<span class="sig-name descname"><span class="pre">close_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L489"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L504"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -600,7 +602,7 @@ classes. However, if you override one you must override all.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.close_finish">
-<span class="sig-name descname"><span class="pre">close_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L536"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close_finish" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">close_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L551"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.close_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>result</strong> (<a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference internal" href="AsyncResult.html#Gio.AsyncResult" title="Gio.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a></p>
@@ -623,7 +625,7 @@ classes. However, if you override one you must override all.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.get_input_stream">
-<span class="sig-name descname"><span class="pre">get_input_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L227"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.get_input_stream" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_input_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L242"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.get_input_stream" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a>, owned by the <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>.
@@ -642,7 +644,7 @@ for reading.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.get_output_stream">
-<span class="sig-name descname"><span class="pre">get_output_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L251"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.get_output_stream" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_output_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L266"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.get_output_stream" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a>, owned by the <a class="reference internal" href="#Gio.IOStream" title="Gio.IOStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>.
@@ -661,7 +663,7 @@ writing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.has_pending">
-<span class="sig-name descname"><span class="pre">has_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.has_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L287"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.has_pending" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> has pending actions.</p>
@@ -678,7 +680,7 @@ writing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.is_closed">
-<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L207"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.is_closed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_closed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L222"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.is_closed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the stream is closed.</p>
@@ -695,7 +697,7 @@ writing.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.set_pending">
-<span class="sig-name descname"><span class="pre">set_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L295"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.set_pending" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_pending</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.set_pending" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -717,7 +719,7 @@ already set or <cite>self</cite> is closed, it will return <a class="reference e
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.IOStream.splice_async">
-<span class="sig-name descname"><span class="pre">splice_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/giostream.c#L854"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.splice_async" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">splice_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io_priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/giostream.c#L869"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.IOStream.splice_async" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -862,7 +864,10 @@ writing.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></p>
 </dd>
 </dl>
-<p>Is the stream closed</p>
+<p>Whether the stream is closed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.22.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py data">
@@ -882,7 +887,10 @@ writing.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="InputStream.html#Gio.InputStream" title="Gio.InputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> to read from</p>
+<p>The [class`Gio`.InputStream] to read from.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.22.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py data">
@@ -902,7 +910,10 @@ writing.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="OutputStream.html#Gio.OutputStream" title="Gio.OutputStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.OutputStream</span></code></a> to write to</p>
+<p>The [class`Gio`.OutputStream] to write to.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.22.</span></p>
+</div>
 </dd></dl>
 
 </section>

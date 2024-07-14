@@ -295,25 +295,25 @@
 <dd class="field-even"><p><a class="reference internal" href="InitableIface.html#Gio.InitableIface" title="Gio.InitableIface"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.InitableIface</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Gio.Initable" title="Gio.Initable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Initable</span></code></a> is implemented by objects that can fail during
+<p><code class="docutils literal notranslate"><span class="pre">GInitable</span></code> is implemented by objects that can fail during
 initialization. If an object implements this interface then
 it must be initialized as the first thing after construction,
-either via <a class="reference internal" href="#Gio.Initable.init" title="Gio.Initable.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Initable.init</span></code></a>() or <a class="reference internal" href="AsyncInitable.html#Gio.AsyncInitable.init_async" title="Gio.AsyncInitable.init_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncInitable.init_async</span></code></a>()
-(the latter is only available if it also implements <a class="reference internal" href="AsyncInitable.html#Gio.AsyncInitable" title="Gio.AsyncInitable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncInitable</span></code></a>).</p>
+either via [method`Gio`.Initable.init] or [method`Gio`.AsyncInitable.init_async]
+(the latter is only available if it also implements [iface`Gio`.AsyncInitable]).</p>
 <p>If the object is not initialized, or initialization returns with an
-error, then all operations on the object except <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.ref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.ref</span></code></a>() and
-<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() are considered to be invalid, and have undefined
-behaviour. They will often fail with g_critical() or g_warning(), but
-this must not be relied on.</p>
+error, then all operations on the object except <code class="docutils literal notranslate"><span class="pre">g_object_ref()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">g_object_unref()</span></code> are considered to be invalid, and have undefined
+behaviour. They will often fail with [func`GLib`.critical] or
+[func`GLib`.warning], but this must not be relied on.</p>
 <p>Users of objects implementing this are not intended to use
 the interface method directly, instead it will be used automatically
 in various ways. For C applications you generally just call
-g_initable_new() directly, or indirectly via a foo_thing_new() wrapper.
-This will call <a class="reference internal" href="#Gio.Initable.init" title="Gio.Initable.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Initable.init</span></code></a>() under the cover, returning <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and
-setting a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> on failure (at which point the instance is
+[func`Gio`.Initable.new] directly, or indirectly via a <code class="docutils literal notranslate"><span class="pre">foo_thing_new()</span></code> wrapper.
+This will call [method`Gio`.Initable.init] under the cover, returning <code class="docutils literal notranslate"><span class="pre">NULL</span></code>
+and setting a <code class="docutils literal notranslate"><span class="pre">GError</span></code> on failure (at which point the instance is
 unreferenced).</p>
 <p>For bindings in languages where the native constructor supports
-exceptions the binding could check for objects implementing <a class="reference internal" href="#Gio.Initable" title="Gio.Initable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Initable</span></code></a>
+exceptions the binding could check for objects implementing <code class="docutils literal notranslate"><span class="pre">GInitable</span></code>
 during normal construction and automatically initialize them, throwing
 an exception on failure.</p>
 <div class="versionadded">
@@ -321,7 +321,7 @@ an exception on failure.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Initable.newv">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">newv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/ginitable.c#L198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Initable.newv" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">newv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/ginitable.c#L197"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Initable.newv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -354,7 +354,7 @@ and returns <a class="reference external" href="https://docs.python.org/3/librar
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.Initable.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/ginitable.c#L122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Initable.init" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/ginitable.c#L121"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.Initable.init" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cancellable</strong> (<a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – optional <a class="reference internal" href="Cancellable.html#Gio.Cancellable" title="Gio.Cancellable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to ignore.</p>

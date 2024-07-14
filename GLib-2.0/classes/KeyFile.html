@@ -445,50 +445,45 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.KeyFile">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">KeyFile</span></span><a class="headerlink" href="#GLib.KeyFile" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a> lets you parse, edit or create files containing groups of
+<dd><p><code class="docutils literal notranslate"><span class="pre">GKeyFile</span></code> parses .ini-like config files.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GKeyFile</span></code> lets you parse, edit or create files containing groups of
 key-value pairs, which we call “key files” for lack of a better name.
 Several freedesktop.org specifications use key files now, e.g the
 <a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>
-and the
-<a class="reference external" href="http://freedesktop.org/Standards/icon-theme-spec">Icon Theme Specification</a>.</p>
+and the <a class="reference external" href="http://freedesktop.org/Standards/icon-theme-spec">Icon Theme Specification</a>.</p>
 <p>The syntax of key files is described in detail in the
 <a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>,
-here is a quick summary: Key files
-consists of groups of key-value pairs, interspersed with comments.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># this is just an example
-# there can be comments before the first group
-
-[First Group]
-
-Name=Key File Example\tthis value shows\nescaping
-
-# localized strings are stored in multiple key-value pairs
-Welcome=Hello
+here is a quick summary: Key files consists of groups of key-value pairs, interspersed
+with comments.</p>
+<p>```txt</p>
+<dl class="simple">
+<dt>this is just an example</dt><dd></dd>
+<dt>there can be comments before the first group</dt><dd></dd>
+</dl>
+<p>[First Group]</p>
+<p>Name=Key File Example\tthis value shows\nescaping</p>
+<dl class="simple">
+<dt>localized strings are stored in multiple key-value pairs</dt><dd></dd>
+</dl>
+<p>Welcome=Hello
 Welcome[de]=Hallo
 Welcome[fr_FR]=Bonjour
-Welcome[it]=Ciao
-Welcome[be@latin]=Hello
-
-[Another Group]
-
-Numbers=2;20;-200;0
-
-Booleans=true;false;true;true
-</pre></div>
-</div>
+Welcome[it]=Ciao</p>
+<p>[Another Group]</p>
+<p>Numbers=2;20;-200;0</p>
+<p>Booleans=true;false;true;true
+```</p>
 <p>Lines beginning with a ‘#’ and blank lines are considered comments.</p>
 <p>Groups are started by a header line containing the group name enclosed
 in ‘[’ and ‘]’, and ended implicitly by the start of the next group or
 the end of the file. Each key-value pair must be contained in a group.</p>
-<p>Key-value pairs generally have the form <code class="docutils literal notranslate"><span class="pre">key=value</span></code>, with the
-exception of localized strings, which have the form
-<code class="docutils literal notranslate"><span class="pre">key[locale]=value</span></code>, with a locale identifier of the
-form <code class="docutils literal notranslate"><span class="pre">lang_COUNTRY&#64;MODIFIER</span></code> where <code class="docutils literal notranslate"><span class="pre">COUNTRY</span></code> and <code class="docutils literal notranslate"><span class="pre">MODIFIER</span></code>
-are optional.
-Space before and after the ‘=’ character are ignored. Newline, tab,
-carriage return and backslash characters in value are escaped as \n,
-\t, \r, and \\\\, respectively. To preserve leading spaces in values,
-these can also be escaped as \s.</p>
+<p>Key-value pairs generally have the form <code class="docutils literal notranslate"><span class="pre">key=value</span></code>, with the exception
+of localized strings, which have the form <code class="docutils literal notranslate"><span class="pre">key[locale]=value</span></code>, with a
+locale identifier of the form <code class="docutils literal notranslate"><span class="pre">lang_COUNTRY&#64;MODIFIER</span></code> where <code class="docutils literal notranslate"><span class="pre">COUNTRY</span></code>
+and <code class="docutils literal notranslate"><span class="pre">MODIFIER</span></code> are optional. Space before and after the ‘=’ character
+are ignored. Newline, tab, carriage return and backslash characters in
+value are escaped as <code class="docutils literal notranslate"><span class="pre">\n</span></code>, <code class="docutils literal notranslate"><span class="pre">\t</span></code>, <code class="docutils literal notranslate"><span class="pre">\r</span></code>, and <code class="docutils literal notranslate"><span class="pre">\\\\</span></code>, respectively. To preserve
+leading spaces in values, these can also be escaped as <code class="docutils literal notranslate"><span class="pre">\s</span></code>.</p>
 <p>Key files can store strings (possibly with localized variants), integers,
 booleans and lists of these. Lists are separated by a separator character,
 typically ‘;’ or ‘,’. To use the list separator character in a value in
@@ -509,64 +504,58 @@ true and false (in lower case) are allowed.</p></li>
 </ul>
 <p>Note that in contrast to the
 <a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>,
-groups in key files may contain the same
-key multiple times; the last entry wins. Key files may also contain
-multiple groups with the same name; they are merged together.
-Another difference is that keys and group names in key files are not
+groups in key files may contain the same key multiple times; the last entry wins.
+Key files may also contain multiple groups with the same name; they are merged
+together. Another difference is that keys and group names in key files are not
 restricted to ASCII characters.</p>
 <p>Here is an example of loading a key file and reading a value:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">g_autoptr</span><span class="p">(</span><span class="n">GError</span><span class="p">)</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="n">g_autoptr</span><span class="p">(</span><span class="n">GKeyFile</span><span class="p">)</span><span class="w"> </span><span class="n">key_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_key_file_new</span><span class="w"> </span><span class="p">();</span>
-
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_key_file_load_from_file</span><span class="w"> </span><span class="p">(</span><span class="n">key_file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key-file.ini&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">))</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">g_error_matches</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">G_FILE_ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">G_FILE_ERROR_NOENT</span><span class="p">))</span>
-<span class="w">      </span><span class="n">g_warning</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Error loading key file: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-<span class="w">    </span><span class="k">return</span><span class="p">;</span>
-<span class="w">  </span><span class="p">}</span>
-
-<span class="n">g_autofree</span><span class="w"> </span><span class="n">gchar</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_key_file_get_string</span><span class="w"> </span><span class="p">(</span><span class="n">key_file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Group Name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SomeKey&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">&amp;&amp;</span>
-<span class="w">    </span><span class="o">!</span><span class="n">g_error_matches</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">G_KEY_FILE_ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">G_KEY_FILE_ERROR_KEY_NOT_FOUND</span><span class="p">))</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="n">g_warning</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Error finding key in key file: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">);</span>
-<span class="w">    </span><span class="k">return</span><span class="p">;</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Fall back to a default value.</span>
-<span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g_strdup</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;default-value&quot;</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-</pre></div>
-</div>
+<p>```c
+g_autoptr(<a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) error = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;
+g_autoptr(<a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>) key_file = <a class="reference internal" href="#GLib.KeyFile.new" title="GLib.KeyFile.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.new</span></code></a> ();</p>
+<p>if (!:obj:<cite>GLib.KeyFile.load_from_file</cite> (key_file, “key-file.ini”, flags, &amp;error))
+{
+if (!:obj:<cite>GLib.Error.matches</cite> (error, G_FILE_ERROR, <a class="reference internal" href="../enums.html#GLib.FileError.NOENT" title="GLib.FileError.NOENT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileError.NOENT</span></code></a>))
+g_warning (“Error loading key file: %s”, error-&gt;message);
+return;
+}</p>
+<p>g_autofree <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *val = <a class="reference internal" href="#GLib.KeyFile.get_string" title="GLib.KeyFile.get_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_string</span></code></a> (key_file, “Group Name”, “SomeKey”, &amp;error);
+if (val == <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> &amp;&amp;
+!:obj:<cite>GLib.Error.matches</cite> (error, G_KEY_FILE_ERROR, <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>))
+{
+g_warning (“Error finding key in key file: %s”, error-&gt;message);
+return;
+}
+else if (val == <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)
+{
+// Fall back to a default value.
+val = <a class="reference internal" href="../functions.html#GLib.strdup" title="GLib.strdup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strdup</span></code></a> (“default-value”);
+}
+```</p>
 <p>Here is an example of creating and saving a key file:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>g_autoptr(GKeyFile) key_file = g_key_file_new ();
-const gchar *val = …;
-g_autoptr(GError) error = NULL;
-
-g_key_file_set_string (key_file, &quot;Group Name&quot;, &quot;SomeKey&quot;, val);
-
-// Save as a file.
-if (!g_key_file_save_to_file (key_file, &quot;key-file.ini&quot;, &amp;error))
-  {
-    g_warning (&quot;Error saving key file: %s&quot;, error-&gt;message);
-    return;
-  }
-
-// Or store to a GBytes for use elsewhere.
+<p>```c
+g_autoptr(<a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>) key_file = <a class="reference internal" href="#GLib.KeyFile.new" title="GLib.KeyFile.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.new</span></code></a> ();
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *val = …;
+g_autoptr(<a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) error = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<p><a class="reference internal" href="#GLib.KeyFile.set_string" title="GLib.KeyFile.set_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.set_string</span></code></a> (key_file, “Group Name”, “SomeKey”, val);</p>
+<p>// Save as a file.
+if (!:obj:<cite>GLib.KeyFile.save_to_file</cite> (key_file, “key-file.ini”, &amp;error))
+{
+g_warning (“Error saving key file: %s”, error-&gt;message);
+return;
+}</p>
+<p>// Or store to a <a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> for use elsewhere.
 gsize data_len;
-g_autofree guint8 *data = (guint8 *) g_key_file_to_data (key_file, &amp;data_len, &amp;error);
-if (data == NULL)
-  {
-    g_warning (&quot;Error saving key file: %s&quot;, error-&gt;message);
-    return;
-  }
-g_autoptr(GBytes) bytes = g_bytes_new_take (g_steal_pointer (&amp;data), data_len);
-</pre></div>
-</div>
+g_autofree guint8 *data = (guint8 *) <a class="reference internal" href="#GLib.KeyFile.to_data" title="GLib.KeyFile.to_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.to_data</span></code></a> (key_file, &amp;data_len, &amp;error);
+if (data == <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)
+{
+g_warning (“Error saving key file: %s”, error-&gt;message);
+return;
+}
+g_autoptr(<a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) bytes = <a class="reference internal" href="Bytes.html#GLib.Bytes.new_take" title="GLib.Bytes.new_take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.new_take</span></code></a> (g_steal_pointer (&amp;data), data_len);
+```</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L649"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L638"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -576,7 +565,7 @@ g_autoptr(GBytes) bytes = g_bytes_new_take (g_steal_pointer (&amp;data), data_le
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L720"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L709"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>an empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>.</p>
@@ -596,7 +585,7 @@ read an existing key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_boolean">
-<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2616"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2605"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -628,7 +617,7 @@ is returned and <cite>error</cite> is set to <a class="reference internal" href=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_boolean_list">
-<span class="sig-name descname"><span class="pre">get_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2712"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2701"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -661,7 +650,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_comment">
-<span class="sig-name descname"><span class="pre">get_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3791"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -693,7 +682,7 @@ the line breaks between lines, but does not include the final line break.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_double">
-<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -725,7 +714,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_double_list">
-<span class="sig-name descname"><span class="pre">get_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3296"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3285"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -758,7 +747,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_groups">
-<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1803"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_groups" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1792"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_groups" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>a newly-allocated <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of strings.
@@ -784,7 +773,7 @@ The array of returned groups will be <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_int64">
-<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2920"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2909"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -813,7 +802,7 @@ The array of returned groups will be <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_integer">
-<span class="sig-name descname"><span class="pre">get_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2829"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2818"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -846,7 +835,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_integer_list">
-<span class="sig-name descname"><span class="pre">get_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3083"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3072"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -880,7 +869,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_keys">
-<span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1711"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1700"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_keys" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
@@ -914,7 +903,7 @@ be found, <a class="reference external" href="https://docs.python.org/3/library/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_for_key">
-<span class="sig-name descname"><span class="pre">get_locale_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_for_key" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2413"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_for_key" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -946,7 +935,7 @@ this function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_string">
-<span class="sig-name descname"><span class="pre">get_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2287"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2276"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -983,7 +972,7 @@ be found then the untranslated value is returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_string_list">
-<span class="sig-name descname"><span class="pre">get_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2499"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2488"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1023,7 +1012,7 @@ be <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_start_group">
-<span class="sig-name descname"><span class="pre">get_start_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1778"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_start_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_start_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1767"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_start_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The start group of the key file.</p>
@@ -1040,7 +1029,7 @@ be <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_string">
-<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1993"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1982"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1073,7 +1062,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_string_list">
-<span class="sig-name descname"><span class="pre">get_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2106"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2095"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1104,7 +1093,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_uint64">
-<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2997"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2986"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1133,7 +1122,7 @@ large positive results without truncation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_value">
-<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1884"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1873"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1165,7 +1154,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.has_group">
-<span class="sig-name descname"><span class="pre">has_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3849"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.has_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3838"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.has_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
@@ -1186,7 +1175,7 @@ otherwise.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_bytes">
-<span class="sig-name descname"><span class="pre">load_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1072"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1213,7 +1202,7 @@ If the object cannot be created then %error is set to a <a class="reference inte
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_data">
-<span class="sig-name descname"><span class="pre">load_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1003"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L992"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1241,7 +1230,7 @@ If the object cannot be created then %error is set to a <a class="reference inte
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_data_dirs">
-<span class="sig-name descname"><span class="pre">load_from_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1186"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data_dirs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1278,7 +1267,7 @@ set to either a <a class="reference internal" href="../enums.html#GLib.FileError
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_dirs">
-<span class="sig-name descname"><span class="pre">load_from_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_dirs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1319,7 +1308,7 @@ file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_file">
-<span class="sig-name descname"><span class="pre">load_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L951"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L940"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1350,7 +1339,7 @@ file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_comment">
-<span class="sig-name descname"><span class="pre">remove_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3824"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3813"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1379,7 +1368,7 @@ be removed above the first group in the file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_group">
-<span class="sig-name descname"><span class="pre">remove_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L4116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L4105"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
@@ -1403,7 +1392,7 @@ from the key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_key">
-<span class="sig-name descname"><span class="pre">remove_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L4187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_key" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L4176"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_key" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1429,7 +1418,7 @@ from the key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.save_to_file">
-<span class="sig-name descname"><span class="pre">save_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L4826"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.save_to_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L4800"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.save_to_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the file to write to</p>
@@ -1457,7 +1446,7 @@ the written file than are provided by <a class="reference internal" href="../fun
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_boolean">
-<span class="sig-name descname"><span class="pre">set_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2674"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1476,7 +1465,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_boolean_list">
-<span class="sig-name descname"><span class="pre">set_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2781"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2770"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1496,7 +1485,7 @@ If <cite>group_name</cite> is <a class="reference external" href="https://docs.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_comment">
-<span class="sig-name descname"><span class="pre">set_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3555"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1528,7 +1517,7 @@ each line of <cite>comment</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_double">
-<span class="sig-name descname"><span class="pre">set_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3258"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1547,7 +1536,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_double_list">
-<span class="sig-name descname"><span class="pre">set_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3362"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3351"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1566,7 +1555,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_int64">
-<span class="sig-name descname"><span class="pre">set_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2966"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2955"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1585,7 +1574,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_integer">
-<span class="sig-name descname"><span class="pre">set_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2889"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2878"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1604,7 +1593,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_integer_list">
-<span class="sig-name descname"><span class="pre">set_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3149"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1623,7 +1612,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_list_separator">
-<span class="sig-name descname"><span class="pre">set_list_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">separator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L744"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_list_separator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_list_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">separator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L733"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_list_separator" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>separator</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the separator</p>
@@ -1639,7 +1628,7 @@ as separators. The default list separator is ‘;’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_locale_string">
-<span class="sig-name descname"><span class="pre">set_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2240"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2229"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1659,7 +1648,7 @@ If the translation for <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_locale_string_list">
-<span class="sig-name descname"><span class="pre">set_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2552"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1680,7 +1669,7 @@ it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_string">
-<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2068"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2057"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1702,7 +1691,7 @@ that need escaping, such as newlines.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_string_list">
-<span class="sig-name descname"><span class="pre">set_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L2198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L2187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1722,7 +1711,7 @@ If <cite>group_name</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_uint64">
-<span class="sig-name descname"><span class="pre">set_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L3043"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L3032"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1741,7 +1730,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_value">
-<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1935"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1924"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1763,7 +1752,7 @@ characters that need escaping (such as newlines or spaces), use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.to_data">
-<span class="sig-name descname"><span class="pre">to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1648"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.to_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1637"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.to_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
@@ -1793,7 +1782,7 @@ so it is safe to pass <a class="reference external" href="https://docs.python.or
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/glib/gkeyfile.c#L1274"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/glib/gkeyfile.c#L1263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decreases the reference count of <cite>self</cite> by 1. If the reference count
 reaches zero, frees the key file and all its allocated memory.</p>
 <div class="versionadded">

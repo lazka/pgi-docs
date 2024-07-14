@@ -811,17 +811,23 @@ once the connection has moved to the CONNECTED state.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_connected">
 <span class="sig-name descname"><span class="pre">do_connected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#TelepathyGLib.BaseConnection.do_connected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If set by subclasses, will be called just after the state
+changes to CONNECTED. May be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if nothing special needs to happen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_connecting">
 <span class="sig-name descname"><span class="pre">do_connecting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#TelepathyGLib.BaseConnection.do_connecting" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If set by subclasses, will be called just after the state
+changes to CONNECTING. May be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if nothing special needs to happen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_disconnected">
 <span class="sig-name descname"><span class="pre">do_disconnected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#TelepathyGLib.BaseConnection.do_disconnected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If set by subclasses, will be called just after the state
+changes to DISCONNECTED. May be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if nothing special needs to happen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_get_unique_connection_name">
@@ -836,12 +842,22 @@ free with <a class="reference external" href="../../GLib-2.0/functions.html#GLib
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
+<p>Construct a unique name for this connection
+(for example using the protocol’s format for usernames). If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> (the
+default), a unique name will be generated. Subclasses should usually
+override this to get more obvious names, to aid debugging and prevent
+multiple connections to the same account.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_shut_down">
 <span class="sig-name descname"><span class="pre">do_shut_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#TelepathyGLib.BaseConnection.do_shut_down" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Called after disconnected() is called, to clean up the
+connection. Must start the shutdown process for the underlying
+network connection, and arrange for tp_base_connection_finish_shutdown()
+to be called after the underlying connection has been closed. May not
+be left as <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TelepathyGLib.BaseConnection.do_start_connecting">
@@ -854,6 +870,9 @@ free with <a class="reference external" href="../../GLib-2.0/functions.html#GLib
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Asynchronously start connecting - called to implement
+the Connect D-Bus method. See <a class="reference internal" href="../callbacks.html#TelepathyGLib.BaseConnectionStartConnectingImpl" title="TelepathyGLib.BaseConnectionStartConnectingImpl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TelepathyGLib.BaseConnectionStartConnectingImpl</span></code></a> for
+details. May not be left as <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd></dl>
 
 </dd></dl>

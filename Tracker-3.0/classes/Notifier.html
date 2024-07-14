@@ -381,18 +381,41 @@
 <dd class="field-odd"><p><a class="reference internal" href="NotifierClass.html#Tracker.NotifierClass" title="Tracker.NotifierClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tracker.NotifierClass</span></code></a></p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a> object allows subscribing
-to changes in the stored data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerNotifier</span></code> allows receiving notification on changes
+in the data stored by a [class`Tracker`.SparqlConnection].</p>
+<p>This object may be created through [method`Tracker`.SparqlConnection.create_notifier],
+events can then be listened for by connecting to the
+[signal`Tracker`.Notifier::events] signal.</p>
+<p>Not every change is notified, only RDF resources with a
+class that has the <a class="reference external" href="nrl-ontology.html#nrl:notify">nrl:notify</a>
+property defined by the ontology will be notified upon changes.</p>
+<p>Database changes are communicated through [struct`Tracker`.NotifierEvent] events on
+individual graph/resource pairs. The event type obtained through
+[method`Tracker`.NotifierEvent.get_event_type] will determine the type of event.
+Insertion of new resources is notified through
+<a class="reference internal" href="../enums.html#Tracker.NotifierEventType.CREATE" title="Tracker.NotifierEventType.CREATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEventType.CREATE</span></code></a> events, deletion of
+resources is notified through <a class="reference internal" href="../enums.html#Tracker.NotifierEventType.DELETE" title="Tracker.NotifierEventType.DELETE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEventType.DELETE</span></code></a>
+events, and changes on any property of the resource is notified
+through <a class="reference internal" href="../enums.html#Tracker.NotifierEventType.UPDATE" title="Tracker.NotifierEventType.UPDATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEventType.UPDATE</span></code></a> events.</p>
+<p>The events happen in reaction to database changes, after a <code class="docutils literal notranslate"><span class="pre">TrackerNotifier</span></code>
+received an event of type <a class="reference internal" href="../enums.html#Tracker.NotifierEventType.DELETE" title="Tracker.NotifierEventType.DELETE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEventType.DELETE</span></code></a>, the resource will
+not exist anymore and only the information in the [struct`Tracker`.NotifierEvent]
+will remain.</p>
+<p>Similarly, when receiving an event of type <a class="reference internal" href="../enums.html#Tracker.NotifierEventType.UPDATE" title="Tracker.NotifierEventType.UPDATE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEventType.UPDATE</span></code></a>,
+the resource will have already changed, so the data previous to the update is
+no longer available.</p>
+<p>The [signal`Tracker`.Notifier::events] signal is emitted in the thread-default
+main context of the thread where the <code class="docutils literal notranslate"><span class="pre">TrackerNotifier</span></code> instance was created.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.Notifier.signal_subscribe">
 <span class="sig-name descname"><span class="pre">signal_subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Notifier.signal_subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a></p></li>
-<li><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – DBus service name to subscribe to events for</p></li>
+<li><p><strong>connection</strong> (<a class="reference external" href="../../Gio-2.0/classes/DBusConnection.html#Gio.DBusConnection" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.DBusConnection</span></code></a>) – A [class`Gio`.DBusConnection]</p></li>
+<li><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – DBus service name to subscribe to events for, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
 <li><p><strong>object_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – DBus object path to subscribe to events for, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – graph to listen events for, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Graph to listen events for, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -402,15 +425,18 @@ to changes in the stored data.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Listens to notification events from a remote SPARQL endpoint as a DBus
-service (see <a class="reference internal" href="EndpointDBus.html#Tracker.EndpointDBus" title="Tracker.EndpointDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.EndpointDBus</span></code></a>). If the <cite>object_path</cite> argument is
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the default “/org/freedesktop/Tracker3/Endpoint” path will be
+<p>Listens to notification events from a remote DBus SPARQL endpoint.</p>
+<p>If <cite>connection</cite> refers to a message bus (system/session), <cite>service</cite> must refer
+to a D-Bus name (either unique or well-known). If <cite>connection</cite> is a non-message
+bus (e.g. a peer-to-peer D-Bus connection) the <cite>service</cite> argument may be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>If the <cite>object_path</cite> argument is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the default
+<code class="docutils literal notranslate"><span class="pre">/org/freedesktop/Tracker3/Endpoint</span></code> path will be
 used. If <cite>graph</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all graphs will be listened for.</p>
 <p>The signal subscription can be removed with
-<a class="reference internal" href="#Tracker.Notifier.signal_unsubscribe" title="Tracker.Notifier.signal_unsubscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier.signal_unsubscribe</span></code></a>().</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+[method`Tracker`.Notifier.signal_unsubscribe].</p>
+<p>Note that this call is not necessary to receive notifications on
+a connection obtained through [ctor`Tracker`.SparqlConnection.bus_new],
+only to listen to update notifications from additional DBus endpoints.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -418,14 +444,11 @@ used. If <cite>graph</cite> is <a class="reference external" href="https://docs.
 <span class="sig-name descname"><span class="pre">signal_unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Notifier.signal_unsubscribe" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>handler_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a handler ID obtained with <a class="reference internal" href="#Tracker.Notifier.signal_subscribe" title="Tracker.Notifier.signal_subscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier.signal_subscribe</span></code></a>()</p>
+<dd class="field-odd"><p><strong>handler_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A signal subscription handler ID</p>
 </dd>
 </dl>
-<p>Undoes a DBus signal subscription, the <cite>handler_id</cite> argument was previously
-obtained with a <a class="reference internal" href="#Tracker.Notifier.signal_subscribe" title="Tracker.Notifier.signal_subscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier.signal_subscribe</span></code></a>() call.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.0.</span></p>
-</div>
+<p>Undoes a signal subscription done through [method`Tracker`.Notifier.signal_subscribe].</p>
+<p>The <cite>handler_id</cite> argument was previously obtained during signal subscription creation.</p>
 </dd></dl>
 
 </dd></dl>
@@ -447,7 +470,7 @@ obtained with a <a class="reference internal" href="#Tracker.Notifier.signal_sub
 <li><p><strong>notifier</strong> (<a class="reference internal" href="#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a>) – The object which received the signal</p></li>
 <li><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The SPARQL service that originated the events, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the local store</p></li>
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The graph where the events happened on, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the default anonymous graph</p></li>
-<li><p><strong>events</strong> ([<a class="reference internal" href="NotifierEvent.html#Tracker.NotifierEvent" title="Tracker.NotifierEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEvent</span></code></a>]) – A <a class="reference external" href="../../GLib-2.0/classes/PtrArray.html#GLib.PtrArray" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PtrArray</span></code></a> of <a class="reference internal" href="NotifierEvent.html#Tracker.NotifierEvent" title="Tracker.NotifierEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEvent</span></code></a></p></li>
+<li><p><strong>events</strong> ([<a class="reference internal" href="NotifierEvent.html#Tracker.NotifierEvent" title="Tracker.NotifierEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NotifierEvent</span></code></a>]) – A [type`GLib`.PtrArray] of [struct`Tracker`.NotifierEvent]</p></li>
 </ul>
 </dd>
 </dl>

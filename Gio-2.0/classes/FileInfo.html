@@ -651,36 +651,37 @@
 <dd class="field-odd"><p><a class="reference internal" href="FileInfoClass.html#Gio.FileInfoClass" title="Gio.FileInfoClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gio.FileInfoClass</span></code></a></p>
 </dd>
 </dl>
-<p>Functionality for manipulating basic metadata for files. <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>
+<p>Stores information about a file system object referenced by a [iface`Gio`.File].</p>
+<p>Functionality for manipulating basic metadata for files. <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code>
 implements methods for getting information that all files should
 contain, and allows for manipulation of extended attributes.</p>
-<p>See <a class="reference external" href="https://developer.gnome.org/gio/stable/gio-GFileAttribute.html#gio-GFileAttribute">GFileAttribute</a> for more information on how
-GIO handles file attributes.</p>
-<p>To obtain a <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> for a <a class="reference internal" href="File.html#Gio.File" title="Gio.File"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>, use <a class="reference internal" href="File.html#Gio.File.query_info" title="Gio.File.query_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.query_info</span></code></a>() (or its
-async variant). To obtain a <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> for a file input or output
-stream, use <a class="reference internal" href="FileInputStream.html#Gio.FileInputStream.query_info" title="Gio.FileInputStream.query_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInputStream.query_info</span></code></a>() or
-<a class="reference internal" href="FileOutputStream.html#Gio.FileOutputStream.query_info" title="Gio.FileOutputStream.query_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileOutputStream.query_info</span></code></a>() (or their async variants).</p>
+<p>See <a class="reference external" href="fileattributes">file-attributes.html</a> for more information on how GIO
+handles file attributes.</p>
+<p>To obtain a <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code> for a [iface`Gio`.File], use
+[method`Gio`.File.query_info] (or its async variant). To obtain a <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code>
+for a file input or output stream, use [method`Gio`.FileInputStream.query_info]
+or [method`Gio`.FileOutputStream.query_info] (or their async variants).</p>
 <p>To change the actual attributes of a file, you should then set the
-attribute in the <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> and call <a class="reference internal" href="File.html#Gio.File.set_attributes_from_info" title="Gio.File.set_attributes_from_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.set_attributes_from_info</span></code></a>()
-or <a class="reference internal" href="File.html#Gio.File.set_attributes_async" title="Gio.File.set_attributes_async"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.set_attributes_async</span></code></a>() on a <a class="reference internal" href="File.html#Gio.File" title="Gio.File"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>.</p>
+attribute in the <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code> and call [method`Gio`.File.set_attributes_from_info]
+or [method`Gio`.File.set_attributes_async] on a <code class="docutils literal notranslate"><span class="pre">GFile</span></code>.</p>
 <p>However, not all attributes can be changed in the file. For instance,
-the actual size of a file cannot be changed via <a class="reference internal" href="#Gio.FileInfo.set_size" title="Gio.FileInfo.set_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.set_size</span></code></a>().
-You may call <a class="reference internal" href="File.html#Gio.File.query_settable_attributes" title="Gio.File.query_settable_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.query_settable_attributes</span></code></a>() and
-<a class="reference internal" href="File.html#Gio.File.query_writable_namespaces" title="Gio.File.query_writable_namespaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File.query_writable_namespaces</span></code></a>() to discover the settable attributes
+the actual size of a file cannot be changed via [method`Gio`.FileInfo.set_size].
+You may call [method`Gio`.File.query_settable_attributes] and
+[method`Gio`.File.query_writable_namespaces] to discover the settable attributes
 of a particular file at runtime.</p>
-<p>The direct accessors, such as <a class="reference internal" href="#Gio.FileInfo.get_name" title="Gio.FileInfo.get_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.get_name</span></code></a>(), are slightly more
+<p>The direct accessors, such as [method`Gio`.FileInfo.get_name], are slightly more
 optimized than the generic attribute accessors, such as
-<a class="reference internal" href="#Gio.FileInfo.get_attribute_byte_string" title="Gio.FileInfo.get_attribute_byte_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.get_attribute_byte_string</span></code></a>().This optimization will matter
+[method`Gio`.FileInfo.get_attribute_byte_string].This optimization will matter
 only if calling the API in a tight loop.</p>
 <p>It is an error to call these accessors without specifying their required file
-attributes when creating the <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>. Use <a class="reference internal" href="#Gio.FileInfo.has_attribute" title="Gio.FileInfo.has_attribute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.has_attribute</span></code></a>() or
-<a class="reference internal" href="#Gio.FileInfo.list_attributes" title="Gio.FileInfo.list_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.list_attributes</span></code></a>() to check what attributes are specified for a
-<a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>.</p>
-<p><a class="reference internal" href="FileAttributeMatcher.html#Gio.FileAttributeMatcher" title="Gio.FileAttributeMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileAttributeMatcher</span></code></a> allows for searching through a <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> for
-attributes.</p>
+attributes when creating the <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code>. Use
+[method`Gio`.FileInfo.has_attribute] or [method`Gio`.FileInfo.list_attributes]
+to check what attributes are specified for a <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code>.</p>
+<p>[struct`Gio`.FileAttributeMatcher] allows for searching through a <code class="docutils literal notranslate"><span class="pre">GFileInfo</span></code>
+for attributes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L389"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L388"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>.</p>
@@ -694,13 +695,13 @@ attributes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.clear_status">
-<span class="sig-name descname"><span class="pre">clear_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L519"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.clear_status" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.clear_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears the status information from <cite>self</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.copy_into">
-<span class="sig-name descname"><span class="pre">copy_into</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_info</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L404"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.copy_into" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy_into</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest_info</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L403"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.copy_into" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dest_info</strong> (<a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>) – destination to copy attributes to.</p>
@@ -712,7 +713,7 @@ and then copies all of the file attributes from <cite>self</cite> to <cite>dest_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.dup">
-<span class="sig-name descname"><span class="pre">dup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L447"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.dup" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L446"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.dup" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a duplicate <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> of <cite>self</cite>.</p>
@@ -726,7 +727,7 @@ and then copies all of the file attributes from <cite>self</cite> to <cite>dest_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_access_date_time">
-<span class="sig-name descname"><span class="pre">get_access_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1965"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_access_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_access_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1964"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_access_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>access time, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if unknown</p>
@@ -750,7 +751,7 @@ be queried separately using <a class="reference internal" href="#Gio.FileInfo.ge
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_as_string">
-<span class="sig-name descname"><span class="pre">get_attribute_as_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L887"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_as_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_as_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L886"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_as_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -771,7 +772,7 @@ UTF-8.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_boolean">
-<span class="sig-name descname"><span class="pre">get_attribute_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1031"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1030"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -789,7 +790,7 @@ contain a boolean value, <a class="reference external" href="https://docs.python
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_byte_string">
-<span class="sig-name descname"><span class="pre">get_attribute_byte_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L958"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_byte_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_byte_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L957"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_byte_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -808,7 +809,7 @@ not contain a byte string, <a class="reference external" href="https://docs.pyth
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_data">
-<span class="sig-name descname"><span class="pre">get_attribute_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L774"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L773"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key</p>
@@ -839,7 +840,7 @@ attribute value, or <a class="reference external" href="https://docs.python.org/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_file_path">
-<span class="sig-name descname"><span class="pre">get_attribute_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L988"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_file_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L987"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_file_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -863,7 +864,7 @@ handling for Unix paths.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_int32">
-<span class="sig-name descname"><span class="pre">get_attribute_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1079"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_int32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1078"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_int32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -882,7 +883,7 @@ attribute does not contain a signed 32-bit integer, or is invalid,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_int64">
-<span class="sig-name descname"><span class="pre">get_attribute_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1127"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -901,7 +902,7 @@ attribute does not contain a signed 64-bit integer, or is invalid,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_object">
-<span class="sig-name descname"><span class="pre">get_attribute_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L910"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L909"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -920,7 +921,7 @@ not contain a <a class="reference external" href="../../GObject-2.0/classes/Obje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_status">
-<span class="sig-name descname"><span class="pre">get_attribute_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_status" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L809"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_status" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key</p>
@@ -938,7 +939,7 @@ not contain a <a class="reference external" href="../../GObject-2.0/classes/Obje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_string">
-<span class="sig-name descname"><span class="pre">get_attribute_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L934"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L933"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -957,7 +958,7 @@ not contain a string, <a class="reference external" href="https://docs.python.or
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_stringv">
-<span class="sig-name descname"><span class="pre">get_attribute_stringv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1008"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_stringv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_stringv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1007"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_stringv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -979,7 +980,7 @@ not contain a stringv, <a class="reference external" href="https://docs.python.o
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_type">
-<span class="sig-name descname"><span class="pre">get_attribute_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L698"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L697"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -997,7 +998,7 @@ not contain a stringv, <a class="reference external" href="https://docs.python.o
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_uint32">
-<span class="sig-name descname"><span class="pre">get_attribute_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1055"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_uint32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1054"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_uint32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -1016,7 +1017,7 @@ attribute does not contain an unsigned 32-bit integer, or is invalid,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_attribute_uint64">
-<span class="sig-name descname"><span class="pre">get_attribute_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_attribute_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -1035,7 +1036,7 @@ attribute does not contain an unsigned 64-bit integer, or is invalid,
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_content_type">
-<span class="sig-name descname"><span class="pre">get_content_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1816"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_content_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_content_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_content_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the file’s content type,
@@ -1052,7 +1053,7 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_creation_date_time">
-<span class="sig-name descname"><span class="pre">get_creation_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2014"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_creation_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_creation_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2013"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_creation_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>creation time, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if unknown</p>
@@ -1076,7 +1077,7 @@ be queried separately using <a class="reference internal" href="#Gio.FileInfo.ge
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_deletion_date">
-<span class="sig-name descname"><span class="pre">get_deletion_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1567"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_deletion_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_deletion_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1566"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_deletion_date" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
@@ -1095,7 +1096,7 @@ available in <a class="reference internal" href="../constants.html#Gio.FILE_ATTR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_display_name">
-<span class="sig-name descname"><span class="pre">get_display_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1715"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_display_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_display_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1714"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_display_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the display name.</p>
@@ -1111,7 +1112,7 @@ available in <a class="reference internal" href="../constants.html#Gio.FILE_ATTR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_edit_name">
-<span class="sig-name descname"><span class="pre">get_edit_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1737"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_edit_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_edit_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1736"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_edit_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the edit name.</p>
@@ -1127,7 +1128,7 @@ available in <a class="reference internal" href="../constants.html#Gio.FILE_ATTR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_etag">
-<span class="sig-name descname"><span class="pre">get_etag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2079"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_etag" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_etag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2078"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_etag" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the value of the “etag:value” attribute.</p>
@@ -1136,7 +1137,7 @@ available in <a class="reference internal" href="../constants.html#Gio.FILE_ATTR
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the <a class="reference external" href="https://developer.gnome.org/gio/stable/GFile.html#gfile-etag">entity tag</a> for a given
+<p>Gets the <a class="reference external" href="iface.File.html#entity-tags">entity tag</a> for a given
 <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a>. See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_ETAG_VALUE" title="Gio.FILE_ATTRIBUTE_ETAG_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_ETAG_VALUE</span></code></a>.</p>
 <p>It is an error to call this if the <a class="reference internal" href="#Gio.FileInfo" title="Gio.FileInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo</span></code></a> does not contain
 <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_ETAG_VALUE" title="Gio.FILE_ATTRIBUTE_ETAG_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_ETAG_VALUE</span></code></a>.</p>
@@ -1144,7 +1145,7 @@ available in <a class="reference internal" href="../constants.html#Gio.FILE_ATTR
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_file_type">
-<span class="sig-name descname"><span class="pre">get_file_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1605"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_file_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_file_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1604"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_file_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference internal" href="../enums.html#Gio.FileType" title="Gio.FileType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileType</span></code></a> for the given file.</p>
@@ -1161,7 +1162,7 @@ This is different from the file’s content type, see <a class="reference intern
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_icon">
-<span class="sig-name descname"><span class="pre">get_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1759"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1758"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a> for the given <cite>self</cite>.</p>
@@ -1177,7 +1178,7 @@ This is different from the file’s content type, see <a class="reference intern
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_is_backup">
-<span class="sig-name descname"><span class="pre">get_is_backup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1649"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_backup" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_is_backup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1648"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_backup" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if file is a backup file, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -1193,7 +1194,7 @@ This is different from the file’s content type, see <a class="reference intern
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_is_hidden">
-<span class="sig-name descname"><span class="pre">get_is_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1627"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_hidden" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_is_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1626"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_hidden" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the file is a hidden file, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
@@ -1209,7 +1210,7 @@ This is different from the file’s content type, see <a class="reference intern
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_is_symlink">
-<span class="sig-name descname"><span class="pre">get_is_symlink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1671"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_symlink" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_is_symlink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1670"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_is_symlink" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the given <cite>self</cite> is a symlink.</p>
@@ -1225,7 +1226,7 @@ This is different from the file’s content type, see <a class="reference intern
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_modification_date_time">
-<span class="sig-name descname"><span class="pre">get_modification_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1916"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_modification_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_modification_date_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1915"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_modification_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>modification time, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if unknown</p>
@@ -1249,7 +1250,7 @@ be queried separately using <a class="reference internal" href="#Gio.FileInfo.ge
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_modification_time">
-<span class="sig-name descname"><span class="pre">get_modification_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1868"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_modification_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_modification_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1867"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_modification_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a <a class="reference external" href="../../GLib-2.0/classes/TimeVal.html#GLib.TimeVal" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a>.</p>
@@ -1270,7 +1271,7 @@ provided it will be used too.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_name">
-<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1693"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1692"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the file name.</p>
@@ -1286,7 +1287,7 @@ provided it will be used too.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_size">
-<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1840"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_size" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #goffset containing the file’s size (in bytes).</p>
@@ -1304,7 +1305,7 @@ from #guint64 to #goffset before returning the result.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_sort_order">
-<span class="sig-name descname"><span class="pre">get_sort_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_sort_order" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_sort_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_sort_order" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a #gint32 containing the value of the “standard::sort_order” attribute.</p>
@@ -1321,7 +1322,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_symbolic_icon">
-<span class="sig-name descname"><span class="pre">get_symbolic_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1788"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_symbolic_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_symbolic_icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1787"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_symbolic_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a> for the given <cite>self</cite>.</p>
@@ -1340,7 +1341,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.get_symlink_target">
-<span class="sig-name descname"><span class="pre">get_symlink_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2056"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_symlink_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_symlink_target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2055"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.get_symlink_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a string containing the symlink target.</p>
@@ -1356,7 +1357,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.has_attribute">
-<span class="sig-name descname"><span class="pre">has_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.has_attribute" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.has_attribute" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -1374,7 +1375,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.has_namespace">
-<span class="sig-name descname"><span class="pre">has_namespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_space</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L626"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.has_namespace" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_namespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_space</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L625"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.has_namespace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute namespace.</p>
@@ -1396,7 +1397,7 @@ specified <cite>name_space</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.list_attributes">
-<span class="sig-name descname"><span class="pre">list_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_space</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L661"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.list_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_space</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L660"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.list_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a file attribute key’s namespace, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to list
@@ -1416,7 +1417,7 @@ types for the given <cite>name_space</cite>, or <a class="reference external" hr
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.remove_attribute">
-<span class="sig-name descname"><span class="pre">remove_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L743"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.remove_attribute" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L742"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.remove_attribute" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a file attribute key.</p>
@@ -1427,7 +1428,7 @@ types for the given <cite>name_space</cite>, or <a class="reference external" hr
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_access_date_time">
-<span class="sig-name descname"><span class="pre">set_access_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2471"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_access_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_access_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2470"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_access_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>atime</strong> (<a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>.</p>
@@ -1444,7 +1445,7 @@ given date/time value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute">
-<span class="sig-name descname"><span class="pre">set_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1194"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_p</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1193"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1460,7 +1461,7 @@ attribute, use <a class="reference internal" href="../enums.html#Gio.FileAttribu
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_boolean">
-<span class="sig-name descname"><span class="pre">set_attribute_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1391"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1390"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1475,7 +1476,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_byte_string">
-<span class="sig-name descname"><span class="pre">set_attribute_byte_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1334"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_byte_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_byte_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1333"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_byte_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1490,7 +1491,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_file_path">
-<span class="sig-name descname"><span class="pre">set_attribute_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1362"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_file_path" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1361"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_file_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1510,7 +1511,7 @@ handling for Unix paths.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_int32">
-<span class="sig-name descname"><span class="pre">set_attribute_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1459"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_int32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_int32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1458"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_int32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1525,7 +1526,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_int64">
-<span class="sig-name descname"><span class="pre">set_attribute_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1528"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1540,7 +1541,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_mask">
-<span class="sig-name descname"><span class="pre">set_attribute_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L467"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_mask" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L466"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_mask" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mask</strong> (<a class="reference internal" href="FileAttributeMatcher.html#Gio.FileAttributeMatcher" title="Gio.FileAttributeMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileAttributeMatcher</span></code></a>) – a <a class="reference internal" href="FileAttributeMatcher.html#Gio.FileAttributeMatcher" title="Gio.FileAttributeMatcher"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileAttributeMatcher</span></code></a>.</p>
@@ -1551,7 +1552,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_object">
-<span class="sig-name descname"><span class="pre">set_attribute_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1226"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_object" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1225"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_object" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1566,7 +1567,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_status">
-<span class="sig-name descname"><span class="pre">set_attribute_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L844"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_status" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L843"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_status" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1593,7 +1594,7 @@ is returned and <cite>self</cite> is unchanged.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_string">
-<span class="sig-name descname"><span class="pre">set_attribute_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1299"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1298"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1608,7 +1609,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_stringv">
-<span class="sig-name descname"><span class="pre">set_attribute_stringv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1264"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_stringv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_stringv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_stringv" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1625,7 +1626,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_uint32">
-<span class="sig-name descname"><span class="pre">set_attribute_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1425"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_uint32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_uint32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1424"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_uint32" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1640,7 +1641,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_attribute_uint64">
-<span class="sig-name descname"><span class="pre">set_attribute_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L1493"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attribute_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L1492"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_attribute_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1655,7 +1656,7 @@ if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_content_type">
-<span class="sig-name descname"><span class="pre">set_content_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2330"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_content_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_content_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2329"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_content_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a content type. See <a class="reference external" href="https://developer.gnome.org/gio/stable/gio-GContentType.html#gio-GContentType">GContentType</a></p>
@@ -1667,7 +1668,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_creation_date_time">
-<span class="sig-name descname"><span class="pre">set_creation_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creation_time</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2512"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_creation_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_creation_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creation_time</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2511"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_creation_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>creation_time</strong> (<a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>.</p>
@@ -1684,7 +1685,7 @@ given date/time value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_display_name">
-<span class="sig-name descname"><span class="pre">set_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_display_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2223"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_display_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>display_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string containing a display name.</p>
@@ -1696,7 +1697,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_edit_name">
-<span class="sig-name descname"><span class="pre">set_edit_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edit_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2250"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_edit_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_edit_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edit_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_edit_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>edit_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string containing an edit name.</p>
@@ -1708,7 +1709,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_file_type">
-<span class="sig-name descname"><span class="pre">set_file_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2123"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_file_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_file_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_file_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>type</strong> (<a class="reference internal" href="../enums.html#Gio.FileType" title="Gio.FileType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileType</span></code></a>) – a <a class="reference internal" href="../enums.html#Gio.FileType" title="Gio.FileType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileType</span></code></a>.</p>
@@ -1720,7 +1721,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_icon">
-<span class="sig-name descname"><span class="pre">set_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2276"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2275"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>icon</strong> (<a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>) – a <a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>.</p>
@@ -1732,7 +1733,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_is_hidden">
-<span class="sig-name descname"><span class="pre">set_is_hidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_hidden</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2148"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_is_hidden" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_is_hidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_hidden</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_is_hidden" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>is_hidden</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>.</p>
@@ -1744,7 +1745,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_is_symlink">
-<span class="sig-name descname"><span class="pre">set_is_symlink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_symlink</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2173"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_is_symlink" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_is_symlink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_symlink</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2172"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_is_symlink" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>is_symlink</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>.</p>
@@ -1756,7 +1757,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_modification_date_time">
-<span class="sig-name descname"><span class="pre">set_modification_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2430"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_modification_date_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_modification_date_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2429"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_modification_date_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mtime</strong> (<a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/DateTime.html#GLib.DateTime" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DateTime</span></code></a>.</p>
@@ -1773,7 +1774,7 @@ given date/time value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_modification_time">
-<span class="sig-name descname"><span class="pre">set_modification_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2388"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_modification_time" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_modification_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtime</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2387"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_modification_time" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mtime</strong> (<a class="reference external" href="../../GLib-2.0/classes/TimeVal.html#GLib.TimeVal" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/TimeVal.html#GLib.TimeVal" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.TimeVal</span></code></a>.</p>
@@ -1790,7 +1791,7 @@ given time value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_name">
-<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_name" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2197"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string containing a name.</p>
@@ -1802,7 +1803,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_size">
-<span class="sig-name descname"><span class="pre">set_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2356"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_size" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2355"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a #goffset containing the file’s size.</p>
@@ -1814,7 +1815,7 @@ to the given size.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_sort_order">
-<span class="sig-name descname"><span class="pre">set_sort_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_order</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2574"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_sort_order" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_sort_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sort_order</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2573"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_sort_order" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sort_order</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a sort order integer.</p>
@@ -1826,7 +1827,7 @@ to the given size.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_symbolic_icon">
-<span class="sig-name descname"><span class="pre">set_symbolic_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2304"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_symbolic_icon" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_symbolic_icon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2303"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_symbolic_icon" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>icon</strong> (<a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>) – a <a class="reference internal" href="Icon.html#Gio.Icon" title="Gio.Icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Icon</span></code></a>.</p>
@@ -1841,7 +1842,7 @@ See <a class="reference internal" href="../constants.html#Gio.FILE_ATTRIBUTE_STA
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.set_symlink_target">
-<span class="sig-name descname"><span class="pre">set_symlink_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symlink_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L2548"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_symlink_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_symlink_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symlink_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L2547"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.set_symlink_target" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>symlink_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a static string containing a path to a symlink target.</p>
@@ -1853,7 +1854,7 @@ to the given symlink target.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gio.FileInfo.unset_attribute_mask">
-<span class="sig-name descname"><span class="pre">unset_attribute_mask</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.78.3/gio/gfileinfo.c#L503"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.unset_attribute_mask" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unset_attribute_mask</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gio/gfileinfo.c#L502"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gio.FileInfo.unset_attribute_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unsets a mask set by <a class="reference internal" href="#Gio.FileInfo.set_attribute_mask" title="Gio.FileInfo.set_attribute_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FileInfo.set_attribute_mask</span></code></a>(), if one
 is set.</p>
 </dd></dl>

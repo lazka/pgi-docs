@@ -281,10 +281,34 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GObject.ValueArray">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GObject.</span></span><span class="sig-name descname"><span class="pre">ValueArray</span></span><a class="headerlink" href="#GObject.ValueArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>A <a class="reference internal" href="#GObject.ValueArray" title="GObject.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ValueArray</span></code></a> contains an array of <a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> elements.</p>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">GValueArray</span></code> is a container structure to hold an array of generic values.</p>
+<p>The prime purpose of a <code class="docutils literal notranslate"><span class="pre">GValueArray</span></code> is for it to be used as an
+object property that holds an array of values. A <code class="docutils literal notranslate"><span class="pre">GValueArray</span></code> wraps
+an array of <code class="docutils literal notranslate"><span class="pre">GValue</span></code> elements in order for it to be used as a boxed
+type through <code class="docutils literal notranslate"><span class="pre">G_TYPE_VALUE_ARRAY</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GValueArray</span></code> is deprecated in favour of <code class="docutils literal notranslate"><span class="pre">GArray</span></code> since GLib 2.32.
+It is possible to create a <code class="docutils literal notranslate"><span class="pre">GArray</span></code> that behaves like a <code class="docutils literal notranslate"><span class="pre">GValueArray</span></code>
+by using the size of <code class="docutils literal notranslate"><span class="pre">GValue</span></code> as the element size, and by setting
+[method`GObject`.Value.unset] as the clear function using
+[func`GLib`.Array.set_clear_func], for instance, the following code:</p>
+<dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">``</span></a>c</dt><dd><p>GValueArray <a href="#id3"><span class="problematic" id="id4">*</span></a>array = g_value_array_new (10);</p>
+</dd>
+</dl>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a></p>
+<p>can be replaced by:</p>
+<dl class="simple">
+<dt><a href="#id7"><span class="problematic" id="id8">``</span></a>c</dt><dd><p>GArray <a href="#id9"><span class="problematic" id="id10">*</span></a>array = g_array_sized_new (FALSE, TRUE, sizeof (GValue), 10);
+g_array_set_clear_func (array, (GDestroyNotify) g_value_unset);</p>
+</dd>
+</dl>
+<p><a href="#id11"><span class="problematic" id="id12">``</span></a></p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.32: </span>Use <code class="docutils literal notranslate"><span class="pre">GArray</span></code> instead, if possible for the given use case, as described above.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_prealloced</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_prealloced</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L124"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_prealloced</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of values to preallocate space for</p>
@@ -306,7 +330,7 @@ regardless of the value of <cite>n_prealloced</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.append" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L236"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.append" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – <a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> to copy into <a class="reference internal" href="#GObject.ValueArray" title="GObject.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ValueArray</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -327,7 +351,7 @@ regardless of the value of <cite>n_prealloced</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.copy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Newly allocated copy of <a class="reference internal" href="#GObject.ValueArray" title="GObject.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ValueArray</span></code></a></p>
@@ -345,7 +369,7 @@ contents.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.get_nth">
-<span class="sig-name descname"><span class="pre">get_nth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.get_nth" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_nth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L82"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.get_nth" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – index of the value of interest</p>
@@ -365,7 +389,7 @@ contents.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.insert" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L261"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.insert" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -389,7 +413,7 @@ is <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.prepend">
-<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.prepend" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.prepend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – <a class="reference internal" href="Value.html#GObject.Value" title="GObject.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a> to copy into <a class="reference internal" href="#GObject.ValueArray" title="GObject.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ValueArray</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -410,7 +434,7 @@ is <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.remove" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L296"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.remove" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – position of value to remove, which must be less than
@@ -431,7 +455,7 @@ is <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GObject.ValueArray.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GObject.ValueArray.sort" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.80.4/gobject/gvaluearray.c#L361"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GObject.ValueArray.sort" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

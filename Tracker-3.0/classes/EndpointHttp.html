@@ -302,7 +302,7 @@
 <span id="tracker-endpointhttp-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Endpoint.html#tracker-endpoint-methods"><span class="std std-ref">Tracker.Endpoint (1)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/Initable.html#gio-initable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.Initable (2)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Endpoint.html#tracker-endpoint-methods"><span class="std std-ref">Tracker.Endpoint (7)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Gio-2.0/classes/Initable.html#gio-initable-methods" title="(in Gio 2.0 v2.0)"><span class="xref std std-ref">Gio.Initable (2)</span></a></p>
 </dd>
 <dt class="field-even">Structs<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -332,7 +332,7 @@
 <span id="tracker-endpointhttp-props"></span><h2>Properties<a class="headerlink" href="#properties" title="Permalink to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Endpoint.html#tracker-endpoint-props"><span class="std std-ref">Tracker.Endpoint (1)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Endpoint.html#tracker-endpoint-props"><span class="std std-ref">Tracker.Endpoint (4)</span></a></p>
 </dd>
 </dl>
 <table class="docutils align-default">
@@ -408,25 +408,58 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p>The <a class="reference internal" href="#Tracker.EndpointHttp" title="Tracker.EndpointHttp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.EndpointHttp</span></code></a> object represents a public
-connection to a <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a> on a HTTP port.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TrackerEndpointHttp</span></code> makes the RDF data in a [class`Tracker`.SparqlConnection]
+accessible to other hosts via HTTP.</p>
+<p>This object is a [class`Tracker`.Endpoint] subclass that exports
+a [class`Tracker`.SparqlConnection] so its RDF data is accessible via HTTP
+requests on the given port. This endpoint implementation is compliant
+with the <a class="reference external" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">SPARQL protocol specifications</a>
+and may interoperate with other implementations.</p>
+<p>```c
+// This host has “example.local” hostname
+endpoint = <a class="reference internal" href="#Tracker.EndpointHttp.new" title="Tracker.EndpointHttp.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.EndpointHttp.new</span></code></a> (sparql_connection,
+8080,
+tls_certificate,
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
+&amp;error);</p>
+<p>// From another host
+connection = <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection.remote_new" title="Tracker.SparqlConnection.remote_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection.remote_new</span></code></a> (“http://example.local:8080/sparql”);
+```</p>
+<p>Access to HTTP endpoints may be managed via the
+[signal`Tracker`.EndpointHttp::block-remote-address] signal, the boolean
+return value expressing whether the connection is blocked or not.
+Inspection of the requester address is left up to the user. The
+default value allows all requests independently of their provenance,
+users are encouraged to add a handler.</p>
+<p>If the provided [class`Gio`.TlsCertificate] is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the endpoint will allow
+plain HTTP connections. Users are encouraged to provide a certificate
+in order to use HTTPS.</p>
+<p>As a security measure, and in compliance specifications,
+the HTTP endpoint does not handle database updates or modifications in any
+way. The database content is considered to be entirely managed by the
+process that creates the HTTP endpoint and owns the [class`Tracker`.SparqlConnection].</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">TrackerEndpointHttp</span></code> may be created on a different thread/main
+context from the one that created [class`Tracker`.SparqlConnection].</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.EndpointHttp.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparql_connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">certificate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.EndpointHttp.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sparql_connection</strong> (<a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>) – a <a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – HTTP port to listen to</p></li>
-<li><p><strong>certificate</strong> (<a class="reference external" href="../../Gio-2.0/classes/TlsCertificate.html#Gio.TlsCertificate" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsCertificate</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – certificate to use for encription, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>sparql_connection</strong> (<a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a>) – The [class`Tracker`.SparqlConnection] being made public</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – HTTP port to handle incoming requests</p></li>
+<li><p><strong>certificate</strong> (<a class="reference external" href="../../Gio-2.0/classes/TlsCertificate.html#Gio.TlsCertificate" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.TlsCertificate</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.TlsCertificate] to use for encription</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference internal" href="EndpointDBus.html#Tracker.EndpointDBus" title="Tracker.EndpointDBus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.EndpointDBus</span></code></a> object.</p>
+<dd class="field-odd"><p>a <code class="docutils literal notranslate"><span class="pre">TrackerEndpointHttp</span></code> object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.EndpointHttp" title="Tracker.EndpointHttp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.EndpointHttp</span></code></a></p>
@@ -491,7 +524,7 @@ handlers connected is <a class="reference external" href="https://docs.python.or
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
 </dd>
 </dl>
-<p>HTTP certificate</p>
+<p>[class`Gio`.TlsCertificate] to encrypt the communication.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -511,7 +544,7 @@ handlers connected is <a class="reference external" href="https://docs.python.or
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
 </dd>
 </dl>
-<p>HTTP Port</p>
+<p>HTTP port used to listen requests.</p>
 </dd></dl>
 
 </section>

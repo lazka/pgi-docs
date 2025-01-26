@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>
+    Callbacks -
+    
+    Gimp 3.0
+  </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
+  
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interfaces" href="interfaces.html" />
+    <link rel="prev" title="Functions" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+<div class="non-fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Gimp-3.0/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Gimp 3.0</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gimp.BatchFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.BatchFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ExportGetCapabilitiesFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ExportGetCapabilitiesFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ExtractVectorFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ExtractVectorFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ModuleQueryFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ModuleQueryFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ModuleRegisterFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ModuleRegisterFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableEndFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableEndFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableGetWindowFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableGetWindowFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtablePulseFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtablePulseFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableSetTextFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableSetTextFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableSetValueFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableSetValueFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableStartFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableStartFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.PutPixelFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.PutPixelFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RenderFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RenderFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunExportFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunExportFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunImageFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunImageFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunLoadFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunLoadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunThumbnailFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunThumbnailFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunVectorLoadFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunVectorLoadFunc()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+<div class="fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#Gimp-3.0/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Gimp 3.0</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gimp.BatchFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.BatchFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ExportGetCapabilitiesFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ExportGetCapabilitiesFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ExtractVectorFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ExtractVectorFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ModuleQueryFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ModuleQueryFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ModuleRegisterFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ModuleRegisterFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableEndFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableEndFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableGetWindowFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableGetWindowFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtablePulseFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtablePulseFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableSetTextFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableSetTextFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableSetValueFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableSetValueFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.ProgressVtableStartFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.ProgressVtableStartFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.PutPixelFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.PutPixelFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RenderFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RenderFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunExportFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunExportFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunImageFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunImageFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunLoadFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunLoadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunThumbnailFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunThumbnailFunc()</span></code></a></li>
+<li><a class="reference internal" href="#Gimp.RunVectorLoadFunc"><code class="docutils literal notranslate"><span class="pre">Gimp.RunVectorLoadFunc()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="main">
+            
+  <section id="callbacks">
+<h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this heading">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1.0%" />
+<col style="width: 99.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.BatchFunc" title="Gimp.BatchFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">BatchFunc</span></code></a> (procedure, run_mode, command, config, *run_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ExportGetCapabilitiesFunc" title="Gimp.ExportGetCapabilitiesFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ExportGetCapabilitiesFunc</span></code></a> (procedure, config, options, *get_capabilities_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ExtractVectorFunc" title="Gimp.ExtractVectorFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ExtractVectorFunc</span></code></a> (procedure, run_mode, file, metadata, config, *extract_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ModuleQueryFunc" title="Gimp.ModuleQueryFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ModuleQueryFunc</span></code></a> (module)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ModuleRegisterFunc" title="Gimp.ModuleRegisterFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ModuleRegisterFunc</span></code></a> (module)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressFunc" title="Gimp.ProgressFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressFunc</span></code></a> (min, max, current, *data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtableEndFunc" title="Gimp.ProgressVtableEndFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtableEndFunc</span></code></a> (*user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtableGetWindowFunc" title="Gimp.ProgressVtableGetWindowFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtableGetWindowFunc</span></code></a> (*user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtablePulseFunc" title="Gimp.ProgressVtablePulseFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtablePulseFunc</span></code></a> (*user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtableSetTextFunc" title="Gimp.ProgressVtableSetTextFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtableSetTextFunc</span></code></a> (message, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtableSetValueFunc" title="Gimp.ProgressVtableSetValueFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtableSetValueFunc</span></code></a> (percentage, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.ProgressVtableStartFunc" title="Gimp.ProgressVtableStartFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ProgressVtableStartFunc</span></code></a> (message, cancelable, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.PutPixelFunc" title="Gimp.PutPixelFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PutPixelFunc</span></code></a> (x, y, color, *data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RenderFunc" title="Gimp.RenderFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RenderFunc</span></code></a> (x, y, *data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunExportFunc" title="Gimp.RunExportFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunExportFunc</span></code></a> (procedure, run_mode, image, file, options, metadata, config, *run_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunFunc" title="Gimp.RunFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunFunc</span></code></a> (procedure, config, *run_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunImageFunc" title="Gimp.RunImageFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunImageFunc</span></code></a> (procedure, run_mode, image, drawables, config, *run_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunLoadFunc" title="Gimp.RunLoadFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunLoadFunc</span></code></a> (procedure, run_mode, file, metadata, flags, config, *run_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunThumbnailFunc" title="Gimp.RunThumbnailFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunThumbnailFunc</span></code></a> (procedure, file, size, config, *run_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gimp.RunVectorLoadFunc" title="Gimp.RunVectorLoadFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">RunVectorLoadFunc</span></code></a> (procedure, run_mode, file, width, height, extracted_data, metadata, flags, config, data_from_extract, *run_data)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.BatchFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">BatchFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.BatchFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the <a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>.</p></li>
+<li><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/BatchProcedure.html#Gimp.BatchProcedure.new" title="Gimp.BatchProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.BatchProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the <cite>procedure</cite>'s return values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a></p>
+</dd>
+</dl>
+<p>The batch function is run during the lifetime of the GIMP session,
+each time a plug-in batch procedure is called.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ExportGetCapabilitiesFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ExportGetCapabilitiesFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">get_capabilities_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ExportGetCapabilitiesFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="classes/ExportOptions.html#Gimp.ExportOptions" title="Gimp.ExportOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportOptions</span></code></a>) – the <cite>GimpExportOptions</cite> object to update.</p></li>
+<li><p><strong>get_capabilities_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <cite>get_capabilities_data</cite> argument
+given to [method`Gimp`.ExportProcedure.set_capabilities].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a bitfield of the capabilities you want when preparing the
+image for exporting.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="flags.html#Gimp.ExportCapabilities" title="Gimp.ExportCapabilities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportCapabilities</span></code></a></p>
+</dd>
+</dl>
+<p>This function returns the capabilities requested by your export
+procedure, depending on <cite>config</cite> or <cite>options</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ExtractVectorFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ExtractVectorFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">extract_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ExtractVectorFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the [class`Gimp`.Procedure].</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the [enum`RunMode`].</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – the [iface`Gio`.File] to load from.</p></li>
+<li><p><strong>metadata</strong> (<a class="reference internal" href="classes/Metadata.html#Gimp.Metadata" title="Gimp.Metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Metadata</span></code></a>) – the [class`Gimp`.Metadata] which will be added to the new image.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>extract_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the <cite>extract_data</cite> given in [ctor`VectorLoadProcedure`.new].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if any information could be extracted from <cite>file</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">extracted_data<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dimensions and pixel density extracted from <cite>file</cite>.</p>
+</dd>
+<dt class="field-even">data_for_run<span class="colon">:</span></dt>
+<dd class="field-even"><p>will be passed as <cite>data_from_extract</cite> in [callback`RunVectorLoadFunc`].</p>
+</dd>
+<dt class="field-odd">data_for_run_destroy<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the free function for <cite>data_for_run</cite>.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>extracted_data</strong>: <a class="reference internal" href="classes/VectorLoadData.html#Gimp.VectorLoadData" title="Gimp.VectorLoadData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.VectorLoadData</span></code></a>, <strong>data_for_run</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>, <strong>data_for_run_destroy</strong>: <a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a>)</p>
+</dd>
+</dl>
+<p>Loading a vector image happens in 2 steps:</p>
+<p>this function is first run to determine which size should be actually requested.</p>
+<p>[callback`RunVectorLoadFunc`] is called with the suggested <cite>width</cite> and <cite>height</cite>.</p>
+<p>This function is run during the lifetime of the GIMP session, as the first
+step above. It should extract the maximum of information from the source
+document to help GIMP take appropriate decisions for default values and also
+for displaying relevant information in the load dialog (if necessary).</p>
+<p>The best case scenario is to be able to extract proper dimensions (<cite>width</cite> and
+<cite>height</cite>) with valid units supported by GIMP. If not possible, returning
+already processed dimensions then setting <cite>exact_width</cite> and <cite>exact_height</cite> to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> in <cite>extracted_data</cite> is also an option. If all you can get are no-unit
+dimensions, set them with <a class="reference internal" href="enums.html#Gimp.UnitID.PIXEL" title="Gimp.UnitID.PIXEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.UnitID.PIXEL</span></code></a> and %correct_ratio to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to at
+least give a valid ratio as a default.</p>
+<p>If there is no way to extract any valid default dimensions, not even a ratio,
+then return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> but leave %error as <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. [callback`RunVectorLoadFunc`]
+will still be called but default values might be bogus.
+If the return value is <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and %error is set, it means that the file is
+invalid and cannot even be loaded. Thus [callback`RunVectorLoadFunc`] won’t be
+run and %error is passed as the main run error.</p>
+<p>Note: when <cite>procedure</cite> is run, the original arguments will be passed as
+<cite>config</cite>. Nevertheless it may happen that this function is called with a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+<cite>config</cite>, in particular when [method`VectorLoadProcedure`.extract_dimensions] is
+called. In such a case, the callback is expected to return whatever can be
+considered “best judgement” defaults.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ModuleQueryFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ModuleQueryFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ModuleQueryFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>module</strong> (<a class="reference external" href="../GObject-2.0/classes/TypeModule.html#GObject.TypeModule" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a>) – The module responsible for this loadable module.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The info struct describing the module.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ModuleInfo.html#Gimp.ModuleInfo" title="Gimp.ModuleInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ModuleInfo</span></code></a></p>
+</dd>
+</dl>
+<p>The signature of the query function a loadable GIMP module must
+implement. In the module, the function must be called [func`Module`.query].</p>
+<p>[class`Module`] will copy the returned [struct`ModuleInfo`], so the
+module doesn’t need to keep these values around (however in most
+cases the module will just return a pointer to a constant
+structure).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ModuleRegisterFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ModuleRegisterFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ModuleRegisterFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>module</strong> (<a class="reference external" href="../GObject-2.0/classes/TypeModule.html#GObject.TypeModule" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TypeModule</span></code></a>) – The module responsible for this loadable module.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the registration was succesfull</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>The signature of the register function a loadable GIMP module must
+implement.  In the module, the function must be called
+[func`Module`.register].</p>
+<p>When this function is called, the module should register all the types
+it implements with the passed <cite>module</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>max</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>current</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtableEndFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtableEndFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtableEndFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p>
+</dd>
+</dl>
+<p>Ends the progress</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtableGetWindowFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtableGetWindowFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtableGetWindowFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the handle of the window where the progress is displayed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtablePulseFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtablePulseFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtablePulseFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p>
+</dd>
+</dl>
+<p>Makes the progress pulse</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtableSetTextFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtableSetTextFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtableSetTextFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The new text</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p></li>
+</ul>
+</dd>
+</dl>
+<p>Sets a new text on the progress.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtableSetValueFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtableSetValueFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percentage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtableSetValueFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>percentage</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – The progress in percent</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p></li>
+</ul>
+</dd>
+</dl>
+<p>Sets a new percentage on the progress.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.ProgressVtableStartFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">ProgressVtableStartFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancelable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.ProgressVtableStartFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The message to show</p></li>
+<li><p><strong>cancelable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether the procedure is cancelable</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User data</p></li>
+</ul>
+</dd>
+</dl>
+<p>Starts the progress</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.PutPixelFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">PutPixelFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.PutPixelFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>color</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – </p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RenderFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RenderFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RenderFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – </p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – </p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The rendered pixel as RGB</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunExportFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunExportFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunExportFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the <a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>.</p></li>
+<li><p><strong>image</strong> (<a class="reference internal" href="classes/Image.html#Gimp.Image" title="Gimp.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Image</span></code></a>) – the image to export.</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – the <a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> to export to.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="classes/ExportOptions.html#Gimp.ExportOptions" title="Gimp.ExportOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportOptions</span></code></a>) – the <a class="reference internal" href="classes/ExportOptions.html#Gimp.ExportOptions" title="Gimp.ExportOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportOptions</span></code></a> settings.</p></li>
+<li><p><strong>metadata</strong> (<a class="reference internal" href="classes/Metadata.html#Gimp.Metadata" title="Gimp.Metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Metadata</span></code></a>) – metadata object prepared for the mimetype passed in
+<a class="reference internal" href="classes/FileProcedure.html#Gimp.FileProcedure.set_mime_types" title="Gimp.FileProcedure.set_mime_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.FileProcedure.set_mime_types</span></code></a>() if export_metadata
+argument was set in <a class="reference internal" href="classes/ExportProcedure.html#Gimp.ExportProcedure.new" title="Gimp.ExportProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportProcedure.new</span></code></a>().</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/ExportProcedure.html#Gimp.ExportProcedure.new" title="Gimp.ExportProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the <cite>procedure</cite>'s return values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a></p>
+</dd>
+</dl>
+<p>The export function is run during the lifetime of the GIMP session,
+each time a plug-in export procedure is called.</p>
+<p>If a MimeType was passed in <a class="reference internal" href="classes/ExportProcedure.html#Gimp.ExportProcedure.new" title="Gimp.ExportProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ExportProcedure.new</span></code></a>(), then <cite>metadata</cite> will be
+non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and can be tweaked by the run() function if needed. Otherwise you
+can let it as-is and it will be stored back into the exported <cite>file</cite> according
+to rules on metadata export shared across formats.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s arguments in a config object.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure.new" title="Gimp.Procedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the <cite>procedure</cite>'s return values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a></p>
+</dd>
+</dl>
+<p>The run function is run during the lifetime of the GIMP session,
+each time a plug-in procedure is called.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunImageFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunImageFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drawables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunImageFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the <a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>.</p></li>
+<li><p><strong>image</strong> (<a class="reference internal" href="classes/Image.html#Gimp.Image" title="Gimp.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Image</span></code></a>) – the <a class="reference internal" href="classes/Image.html#Gimp.Image" title="Gimp.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Image</span></code></a>.</p></li>
+<li><p><strong>drawables</strong> ([<a class="reference internal" href="classes/Drawable.html#Gimp.Drawable" title="Gimp.Drawable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Drawable</span></code></a>]) – the input <a class="reference internal" href="classes/Drawable.html#Gimp.Drawable" title="Gimp.Drawable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Drawable</span></code></a>-s.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/ImageProcedure.html#Gimp.ImageProcedure.new" title="Gimp.ImageProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ImageProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the <cite>procedure</cite>'s return values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a></p>
+</dd>
+</dl>
+<p>The image function is run during the lifetime of the GIMP session,
+each time a plug-in image procedure is called.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunLoadFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunLoadFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunLoadFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the [class`Gimp`.Procedure] that runs.</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the [enum`RunMode`].</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – the [iface`Gio`.File] to load from.</p></li>
+<li><p><strong>metadata</strong> (<a class="reference internal" href="classes/Metadata.html#Gimp.Metadata" title="Gimp.Metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Metadata</span></code></a>) – the [class`Gimp`.Metadata] which will be added to the new image.</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="flags.html#Gimp.MetadataLoadFlags" title="Gimp.MetadataLoadFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.MetadataLoadFlags</span></code></a>) – flags to filter which metadata will be added..</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/LoadProcedure.html#Gimp.LoadProcedure.new" title="Gimp.LoadProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.LoadProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>the <cite>procedure</cite>'s return values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">flags<span class="colon">:</span></dt>
+<dd class="field-odd"><p>flags to filter which metadata will be added..</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a>, <strong>flags</strong>: <a class="reference internal" href="flags.html#Gimp.MetadataLoadFlags" title="Gimp.MetadataLoadFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.MetadataLoadFlags</span></code></a>)</p>
+</dd>
+</dl>
+<p>The load function is run during the lifetime of the GIMP session, each time a
+plug-in load procedure is called.</p>
+<p>You are expected to read <cite>file</cite> and create a [class`Gimp`.Image] out of its
+data. This image will be the first return value.
+<cite>metadata</cite> will be filled from metadata from <cite>file</cite> if our infrastructure
+supports this format. You may tweak this object, for instance adding metadata
+specific to the format. You can also edit <cite>flags</cite> if you need to filter out
+some specific common fields. For instance, it is customary to remove a
+colorspace field with [flags`MetadataLoadFlags`] when a profile was added.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunThumbnailFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunThumbnailFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunThumbnailFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the <a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a> that runs.</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – the <a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a> to load the thumbnail from.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the requested thumbnail size.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the run_data given in <a class="reference internal" href="classes/ThumbnailProcedure.html#Gimp.ThumbnailProcedure.new" title="Gimp.ThumbnailProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ThumbnailProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the <cite>procedure</cite>'s return values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a></p>
+</dd>
+</dl>
+<p>The thumbnail function is run during the lifetime of the GIMP session,
+each time a plug-in thumbnail procedure is called.</p>
+<p>[class`ThumbnailProcedure`] are always run non-interactively.</p>
+<p>On success, the returned array must contain:</p>
+<p>a [class`Image`]: this is the only mandatory return value. It should
+ideally be a simple image whose dimensions are closest to <cite>size</cite> and meant
+to be displayed as a small static image.</p>
+<p>(optional) the full image’s width (not the thumbnail’s image’s), or 0 if
+unknown.</p>
+<p>(optional) the full image’s height, or 0 if unknown.</p>
+<p>(optional) the [enum`ImageType`] of the full image.</p>
+<p>(optional) the number of layers in the full image.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Gimp.RunVectorLoadFunc">
+<span class="sig-prename descclassname"><span class="pre">Gimp.</span></span><span class="sig-name descname"><span class="pre">RunVectorLoadFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extracted_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_from_extract</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">run_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.RunVectorLoadFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>procedure</strong> (<a class="reference internal" href="classes/Procedure.html#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>) – the [class`Gimp`.Procedure] that runs.</p></li>
+<li><p><strong>run_mode</strong> (<a class="reference internal" href="enums.html#Gimp.RunMode" title="Gimp.RunMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.RunMode</span></code></a>) – the [enum`RunMode`].</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – the [iface`Gio`.File] to load from.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the desired width in pixel for the created image.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the desired height in pixel for the created image.</p></li>
+<li><p><strong>extracted_data</strong> (<a class="reference internal" href="classes/VectorLoadData.html#Gimp.VectorLoadData" title="Gimp.VectorLoadData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.VectorLoadData</span></code></a>) – dimensions returned by [callback`ExtractVectorFunc`].</p></li>
+<li><p><strong>metadata</strong> (<a class="reference internal" href="classes/Metadata.html#Gimp.Metadata" title="Gimp.Metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Metadata</span></code></a>) – the [class`Gimp`.Metadata] which will be added to the new image.</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="flags.html#Gimp.MetadataLoadFlags" title="Gimp.MetadataLoadFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.MetadataLoadFlags</span></code></a>) – flags to filter which metadata will be added..</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="classes/ProcedureConfig.html#Gimp.ProcedureConfig" title="Gimp.ProcedureConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ProcedureConfig</span></code></a>) – the <cite>procedure</cite>'s remaining arguments.</p></li>
+<li><p><strong>data_from_extract</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – <cite>data_for_run</cite> returned by [callback`ExtractVectorFunc`].</p></li>
+<li><p><strong>run_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – <cite>run_data</cite> given in <a class="reference internal" href="classes/VectorLoadProcedure.html#Gimp.VectorLoadProcedure.new" title="Gimp.VectorLoadProcedure.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.VectorLoadProcedure.new</span></code></a>().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>the <cite>procedure</cite>'s return values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">flags<span class="colon">:</span></dt>
+<dd class="field-odd"><p>flags to filter which metadata will be added..</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="classes/ValueArray.html#Gimp.ValueArray" title="Gimp.ValueArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ValueArray</span></code></a>, <strong>flags</strong>: <a class="reference internal" href="flags.html#Gimp.MetadataLoadFlags" title="Gimp.MetadataLoadFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.MetadataLoadFlags</span></code></a>)</p>
+</dd>
+</dl>
+<p>The load function is run during the lifetime of the GIMP session, each time a
+plug-in load procedure is called.</p>
+<p>You are expected to read <cite>file</cite> and create a [class`Gimp`.Image] out of its
+data. This image will be the first return value.
+<cite>metadata</cite> will be filled from metadata from <cite>file</cite> if our infrastructure
+supports this format. You may tweak this object, for instance adding metadata
+specific to the format. You can also edit <cite>flags</cite> if you need to filter out
+some specific common fields. For instance, it is customary to remove a
+colorspace field with [flags`MetadataLoadFlags`] when a profile was added.</p>
+<p>Regarding returned image dimensions:</p>
+<p>If <cite>width</cite> or <cite>height</cite> is 0 or negative, the actual value will be computed
+so that ratio is preserved. If <cite>prefer_native_dimension</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, at
+least one of the 2 dimensions should be strictly positive.</p>
+<p>If <cite>preserve_ratio</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, then <cite>width</cite> and <cite>height</cite> are considered as a
+max size in their respective dimension. I.e. that the resulting image will
+be at most <cite>widthx</cite> <cite>height</cite> while preserving original ratio. <cite>preserve_ratio</cite>
+is implied when any of the dimension is 0 or negative.</p>
+<p>If <cite>prefer_native_dimension</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, and if the image has some kind of
+native size (if the format has such metadata or it can be computed), it
+will be used rather than <cite>widthx</cite> <cite>height</cite>. Note that if both dimensions are
+0 or negative, even if <cite>prefer_native_dimension</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> yet the procedure
+cannot determine native dimensions, then maybe a dialog could be popped
+up (if implemented), unless the <cite>run_mode</cite> is
+[enum`Gimp`.RunMode.NONINTERACTIVE].</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div> 
+
+</body>
+</html>

@@ -320,6 +320,13 @@
 <dd class="field-even"><p><a class="reference internal" href="DeviceSourceInterface.html#RB.DeviceSourceInterface" title="RB.DeviceSourceInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">RB.DeviceSourceInterface</span></code></a></p>
 </dd>
 </dl>
+<p>Sources that represent physical devices should implement this interface.
+It exposes the ability to eject the device, and also can be used to
+implement some <a class="reference internal" href="Source.html#RB.Source" title="RB.Source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Source</span></code></a> methods by using details from a <a class="reference external" href="../../Gio-2.0/classes/Volume.html#Gio.Volume" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Volume</span></code></a> or
+<a class="reference external" href="../../Gio-2.0/classes/Mount.html#Gio.Mount" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> accessed via ‘volume’ and ‘mount’ properties on the source object.
+Devices that are not based on a <a class="reference external" href="../../Gio-2.0/classes/Volume.html#Gio.Volume" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Volume</span></code></a> or <a class="reference external" href="../../Gio-2.0/classes/Mount.html#Gio.Mount" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Mount</span></code></a> can still use the
+interface, but they must provide implementations of the <cite>can_eject</cite> and
+<cite>eject</cite> methods.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="RB.DeviceSource.uri_is_source">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">uri_is_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#RB.DeviceSource.uri_is_source" title="Permalink to this definition">¶</a></dt>
@@ -327,17 +334,17 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source</strong> (<a class="reference internal" href="Source.html#RB.Source" title="RB.Source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Source</span></code></a>) – a <a class="reference internal" href="#RB.DeviceSource" title="RB.DeviceSource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.DeviceSource</span></code></a></p></li>
-<li><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a URI to check</p></li>
+<li><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a URI to check</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>uri</cite> matches <cite>source</cite></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>uri</cite> matches <cite>source</cite></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>uri</cite> matches <cite>source</cite>.  This should be
+<p>Returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>uri</cite> matches <cite>source</cite>.  This should be
 used to implement the uri_is_source <a class="reference internal" href="Source.html#RB.Source" title="RB.Source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Source</span></code></a> method.</p>
 </dd></dl>
 
@@ -348,14 +355,14 @@ used to implement the uri_is_source <a class="reference internal" href="Source.h
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source</strong> (<a class="reference internal" href="Source.html#RB.Source" title="RB.Source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.Source</span></code></a>) – a <a class="reference internal" href="#RB.DeviceSource" title="RB.DeviceSource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RB.DeviceSource</span></code></a></p></li>
-<li><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a URI to consider</p></li>
+<li><p><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a URI to consider</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>URI match strength</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Checks whether <cite>uri</cite> identifies a path underneath the
@@ -368,7 +375,7 @@ the <a class="reference internal" href="Source.html#RB.Source" title="RB.Source"
 <span class="sig-name descname"><span class="pre">can_eject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RB.DeviceSource.can_eject" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -400,7 +407,7 @@ be called in the source’s constructed method.</p>
 <span class="sig-name descname"><span class="pre">do_can_eject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#RB.DeviceSource.do_can_eject" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

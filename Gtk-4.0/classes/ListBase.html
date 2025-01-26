@@ -377,7 +377,7 @@
 <span id="gtk-listbase-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (181)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="Accessible.html#gtk-accessible-methods"><span class="std std-ref">Gtk.Accessible (15)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (1)</span></a>,     <a class="reference internal" href="Orientable.html#gtk-orientable-methods"><span class="std std-ref">Gtk.Orientable (2)</span></a>,     <a class="reference internal" href="Scrollable.html#gtk-scrollable-methods"><span class="std std-ref">Gtk.Scrollable (9)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Widget.html#gtk-widget-methods"><span class="std std-ref">Gtk.Widget (181)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference internal" href="Accessible.html#gtk-accessible-methods"><span class="std std-ref">Gtk.Accessible (16)</span></a>,     <a class="reference internal" href="Buildable.html#gtk-buildable-methods"><span class="std std-ref">Gtk.Buildable (1)</span></a>,     <a class="reference internal" href="Orientable.html#gtk-orientable-methods"><span class="std std-ref">Gtk.Orientable (2)</span></a>,     <a class="reference internal" href="Scrollable.html#gtk-scrollable-methods"><span class="std std-ref">Gtk.Scrollable (9)</span></a></p>
 </dd>
 <dt class="field-even">Structs<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="WidgetClass.html#gtk-widgetclass-methods"><span class="std std-ref">Gtk.WidgetClass (18)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -433,6 +433,51 @@
 </dd>
 </dl>
 <p><code class="docutils literal notranslate"><span class="pre">GtkListBase</span></code> is the abstract base class for GTK’s list widgets.</p>
+<dl class="simple">
+<dt>Shortcuts and Gestures</dt><dd></dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">GtkListBase</span></code> supports the following keyboard shortcuts:</p>
+<ul class="simple">
+<li><p>&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;A&lt;/kbd&gt; or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;&amp;sol;&lt;/kbd&gt;
+selects all items.</p></li>
+<li><p>&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;A&lt;/kbd&gt; or
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;&amp;bsol;&lt;/kbd&gt; unselects all items.</p></li>
+</ul>
+<p>The focused item is controlled by the navigation keys below, combined
+with the &lt;kbd&gt;Ctrl&lt;/kbd&gt; modifier to prevent moving the selection,
+and the &lt;kbd&gt;Shift&lt;/kbd&gt; modifier to extend the current selection.</p>
+<ul class="simple">
+<li><p>&lt;kbd&gt;←&lt;/kbd&gt;, &lt;kbd&gt;→&lt;/kbd&gt;, &lt;kbd&gt;↑&lt;/kbd&gt;, &lt;kbd&gt;↓&lt;/kbd&gt; move the focus
+on the next item in the designed direction.</p></li>
+<li><p>&lt;kbd&gt;Home&lt;/kbd&gt; and &lt;kbd&gt;End&lt;/kbd&gt; focus the first or last item.</p></li>
+<li><p>&lt;kbd&gt;PgUp&lt;/kbd&gt; and &lt;kbd&gt;PgDn&lt;/kbd&gt; move the focus one page up or down.</p></li>
+</ul>
+<p>List item widgets support the following keyboard shortcuts:</p>
+<ul class="simple">
+<li><p>&lt;kbd&gt;Enter&lt;/kbd&gt; activates the item.</p></li>
+<li><p>&lt;kbd&gt;␣&lt;/kbd&gt; selects the item, with the same &lt;kbd&gt;Ctrl&lt;/kbd&gt; and
+&lt;kbd&gt;Shift&lt;/kbd&gt; modifiers combinations as the navigation keys.</p></li>
+</ul>
+<dl class="simple">
+<dt>Actions</dt><dd></dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">GtkListBase</span></code> defines a set of built-in actions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">list.scroll-to-item</span></code> moves the visible area to the item at given position
+with the minimum amount of scrolling required. If the item is already
+visible, nothing happens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list.select-item</span></code> changes the selection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list.select-all</span></code> selects all items in the model, if the selection model
+supports it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list.unselect-all</span></code> unselects all items in the model, if the selection
+model supports it.</p></li>
+</ul>
+<p>List item widgets install the following actions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">listitem.select</span></code> changes selection if the item is selectable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">listitem.scroll-to</span></code> moves the visible area of the list to this item with
+the minimum amount of scrolling required.</p></li>
+</ul>
 </dd></dl>
 
 </section>

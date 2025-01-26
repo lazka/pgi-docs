@@ -335,10 +335,10 @@
 <span class="sig-name descname"><span class="pre">scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_pages</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Poppler.FontInfo.scan" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>n_pages</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of pages to scan</p>
+<dd class="field-odd"><p><strong>n_pages</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – number of pages to scan</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, if there are more fonts left to scan</p>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, if fonts were found</p>
 <dl class="field-list simple">
 <dt class="field-odd">iter<span class="colon">:</span></dt>
 <dd class="field-odd"><p>return location for a <a class="reference internal" href="FontsIter.html#Poppler.FontsIter" title="Poppler.FontsIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontsIter</span></code></a></p>
@@ -347,7 +347,7 @@
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>iter</strong>: <a class="reference internal" href="FontsIter.html#Poppler.FontsIter" title="Poppler.FontsIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontsIter</span></code></a>)</p>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>iter</strong>: <a class="reference internal" href="FontsIter.html#Poppler.FontsIter" title="Poppler.FontsIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontsIter</span></code></a>)</p>
 </dd>
 </dl>
 <p>Scans the document associated with <cite>self</cite> for fonts. At most
@@ -356,7 +356,10 @@ point to the first font scanned.</p>
 <p>Here is a simple example of code to scan fonts in a document</p>
 <p>&lt;informalexample&gt;&lt;programlisting&gt;
 font_info = <a class="reference internal" href="#Poppler.FontInfo.new" title="Poppler.FontInfo.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontInfo.new</span></code></a> (document);
-while (<a class="reference internal" href="#Poppler.FontInfo.scan" title="Poppler.FontInfo.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontInfo.scan</span></code></a> (font_info, 20, &amp;fonts_iter)) {
+scanned_pages = 0;
+while (scanned_pages &lt;= <a class="reference internal" href="Document.html#Poppler.Document.get_n_pages" title="Poppler.Document.get_n_pages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Document.get_n_pages</span></code></a>(document)) {
+<a class="reference internal" href="#Poppler.FontInfo.scan" title="Poppler.FontInfo.scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.FontInfo.scan</span></code></a> (font_info, 20, &amp;fonts_iter);
+scanned_pages += 20;
 if (!fonts_iter)
 continue; /&lt;!– –&gt;* No fonts found in these 20 pages *&lt;!– –&gt;/
 do {

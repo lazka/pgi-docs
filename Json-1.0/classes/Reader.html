@@ -454,23 +454,38 @@
 </dl>
 <p><code class="docutils literal notranslate"><span class="pre">JsonReader</span></code> provides a simple, cursor-based API for parsing a JSON DOM.</p>
 <p>It is similar, in spirit, to the XML Reader API.</p>
+<p>The cursor is moved by the <code class="docutils literal notranslate"><span class="pre">json_reader_read_*</span></code> and the <code class="docutils literal notranslate"><span class="pre">json_reader_end_*</span></code>
+functions. You can enter a JSON object using [method`Json`.Reader.read_member]
+with the name of the object member, access the value at that position, and
+move the cursor back one level using [method`Json`.Reader.end_member]; arrays
+work in a similar way, using [method`Json`.Reader.read_element] with the
+index of the element, and using [method`Json`.Reader.end_element] to move
+the cursor back.</p>
 <dl class="simple">
 <dt>Using <a class="reference internal" href="#Json.Reader" title="Json.Reader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader</span></code></a></dt><dd></dd>
 </dl>
 <p>```c
 g_autoptr(<a class="reference internal" href="Parser.html#Json.Parser" title="Json.Parser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Parser</span></code></a>) parser = <a class="reference internal" href="Parser.html#Json.Parser.new" title="Json.Parser.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Parser.new</span></code></a> ();</p>
-<p>// str is defined elsewhere
-<a class="reference internal" href="Parser.html#Json.Parser.load_from_data" title="Json.Parser.load_from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Parser.load_from_data</span></code></a> (parser, str, -1, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
+<p>// str is defined elsewhere and contains:
+// { “url” : “http://www.gnome.org/img/flash/two-thirty.png”, “size” : [ 652, 242 ] }
+<a class="reference internal" href="Parser.html#Json.Parser.load_from_data" title="Json.Parser.load_from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Parser.load_from_data</span></code></a> (parser, str, -1, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>);</p>
 <p>g_autoptr(<a class="reference internal" href="#Json.Reader" title="Json.Reader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader</span></code></a>) reader = <a class="reference internal" href="#Json.Reader.new" title="Json.Reader.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.new</span></code></a> (<a class="reference internal" href="Parser.html#Json.Parser.get_root" title="Json.Parser.get_root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Parser.get_root</span></code></a> (parser));</p>
-<p><a class="reference internal" href="#Json.Reader.read_member" title="Json.Reader.read_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_member</span></code></a> (reader, “url”);
-const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *url = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
+<p>// Enter the “url” member of the object
+<a class="reference internal" href="#Json.Reader.read_member" title="Json.Reader.read_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_member</span></code></a> (reader, “url”);
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *url = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
+// url now contains “http://www.gnome.org/img/flash/two-thirty.png”
 <a class="reference internal" href="#Json.Reader.end_member" title="Json.Reader.end_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_member</span></code></a> (reader);</p>
-<p><a class="reference internal" href="#Json.Reader.read_member" title="Json.Reader.read_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_member</span></code></a> (reader, “size”);
+<p>// Enter the “size” member of the object
+<a class="reference internal" href="#Json.Reader.read_member" title="Json.Reader.read_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_member</span></code></a> (reader, “size”);
+// Enter the first element of the array
 <a class="reference internal" href="#Json.Reader.read_element" title="Json.Reader.read_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_element</span></code></a> (reader, 0);
 int width = <a class="reference internal" href="#Json.Reader.get_int_value" title="Json.Reader.get_int_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_int_value</span></code></a> (reader);
+// width now contains 652
 <a class="reference internal" href="#Json.Reader.end_element" title="Json.Reader.end_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_element</span></code></a> (reader);
+// Enter the second element of the array
 <a class="reference internal" href="#Json.Reader.read_element" title="Json.Reader.read_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_element</span></code></a> (reader, 1);
 int height = <a class="reference internal" href="#Json.Reader.get_int_value" title="Json.Reader.get_int_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_int_value</span></code></a> (reader);
+// height now contains 242
 <a class="reference internal" href="#Json.Reader.end_element" title="Json.Reader.end_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_element</span></code></a> (reader);
 <a class="reference internal" href="#Json.Reader.end_member" title="Json.Reader.end_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_member</span></code></a> (reader);
 ```</p>
@@ -484,7 +499,7 @@ called, e.g.:</p>
 // ask for the 7th element; if the element does not exist, the
 // reader will be put in an error state
 <a class="reference internal" href="#Json.Reader.read_element" title="Json.Reader.read_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_element</span></code></a> (reader, 6);</p>
-<p>// in case of error, this will return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, otherwise it will
+<p>// in case of error, this will return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, otherwise it will
 // return the value of the element
 str = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (value);</p>
 <p>// this function resets the error state if any was set
@@ -513,7 +528,7 @@ g_print (“Unable to read the element: %s”, error-&gt;message);</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Json.Reader.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the root node</p>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the root node</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the newly created reader</p>
@@ -538,7 +553,7 @@ from the given node.</p>
 <dd class="field-odd"><p>the number of elements, or -1.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Counts the elements of the current position, if the reader is
@@ -557,7 +572,7 @@ positioned on an array.</p>
 <dd class="field-odd"><p>the number of members, or -1</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Counts the members of the current position, if the reader is
@@ -598,7 +613,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the boolean value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the boolean value of the current position of the reader.</p>
@@ -616,7 +631,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the current node of the reader</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the reader node at the current position.</p>
@@ -633,7 +648,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the floating point value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the floating point value of the current position of the reader.</p>
@@ -651,7 +666,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the current error</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the error currently set on the reader.</p>
@@ -668,7 +683,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the integer value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the integer value of the current position of the reader.</p>
@@ -686,7 +701,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the name of the member</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the name of the current member.</p>
@@ -704,7 +719,7 @@ inside an object.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if <code class="docutils literal notranslate"><span class="pre">null</span></code> is set, and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Checks whether the value of the current position of the reader is <code class="docutils literal notranslate"><span class="pre">null</span></code>.</p>
@@ -722,7 +737,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the string value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the string value of the current position of the reader.</p>
@@ -740,7 +755,7 @@ inside an object.</p>
 <dd class="field-odd"><p>the current value node</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Retrieves the value node at the current position of the reader.</p>
@@ -759,7 +774,7 @@ is set to an error state.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the reader is on an array</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Checks whether the reader is currently on an array.</p>
@@ -776,7 +791,7 @@ is set to an error state.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the reader is on an object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Checks whether the reader is currently on an object.</p>
@@ -793,7 +808,7 @@ is set to an error state.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the reader is on a value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Checks whether the reader is currently on a value.</p>
@@ -811,7 +826,7 @@ is set to an error state.</p>
 the object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+<dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 <p>Retrieves a list of member names from the current position, if the reader
@@ -827,13 +842,13 @@ is positioned on an object.</p>
 <span class="sig-name descname"><span class="pre">read_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Json.Reader.read_element" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the index of the element</p>
+<dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the index of the element</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> on success, and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> otherwise</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Advances the cursor of the reader to the element of the array or
@@ -848,7 +863,7 @@ int_value = json_reader_get_int_value (reader);
 <p>After reading the value, you should call [method`Json`.Reader.end_element]
 to reposition the cursor inside the reader, e.g.:</p>
 <p>```c
-const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
 <p><a class="reference internal" href="#Json.Reader.read_element" title="Json.Reader.read_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.read_element</span></code></a> (reader, 1);
 str_value = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
 <a class="reference internal" href="#Json.Reader.end_element" title="Json.Reader.end_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_element</span></code></a> (reader);</p>
@@ -866,14 +881,14 @@ if (!:obj:<cite>Json.Reader.read_element</cite> (reader, 1))
 {
 <a class="reference external" href="../../GLib-2.0/functions.html#GLib.propagate_error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.propagate_error</span></code></a> (error, <a class="reference internal" href="#Json.Reader.get_error" title="Json.Reader.get_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_error</span></code></a> (reader));
 <a class="reference internal" href="#Json.Reader.end_element" title="Json.Reader.end_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_element</span></code></a> (reader);
-return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
+return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
 }
 else
 {
-const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
 <a class="reference internal" href="#Json.Reader.end_element" title="Json.Reader.end_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_element</span></code></a> (reader);</p>
 <p>// use str_value</p>
-<p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
+<p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
 }
 ```c</p>
 <div class="versionadded">
@@ -886,13 +901,13 @@ const <a class="reference external" href="https://docs.python.org/3/library/stdt
 <span class="sig-name descname"><span class="pre">read_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Json.Reader.read_member" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>member_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the member to read</p>
+<dd class="field-odd"><p><strong>member_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the member to read</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> on success, and <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> otherwise</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Advances the cursor of the reader to the <code class="docutils literal notranslate"><span class="pre">member_name</span></code> of the object at
@@ -922,14 +937,14 @@ if (!:obj:<cite>Json.Reader.read_member</cite> (reader, “title”))
 {
 <a class="reference external" href="../../GLib-2.0/functions.html#GLib.propagate_error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.propagate_error</span></code></a> (error, <a class="reference internal" href="#Json.Reader.get_error" title="Json.Reader.get_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_error</span></code></a> (reader));
 <a class="reference internal" href="#Json.Reader.end_member" title="Json.Reader.end_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_member</span></code></a> (reader);
-return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
+return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
 }
 else
 {
-const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
+const <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> *str_value = <a class="reference internal" href="#Json.Reader.get_string_value" title="Json.Reader.get_string_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.get_string_value</span></code></a> (reader);
 <a class="reference internal" href="#Json.Reader.end_member" title="Json.Reader.end_member"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Reader.end_member</span></code></a> (reader);</p>
 <p>// use str_value</p>
-<p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
+<p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>;
 }
 ```</p>
 <div class="versionadded">
@@ -942,7 +957,7 @@ const <a class="reference external" href="https://docs.python.org/3/library/stdt
 <span class="sig-name descname"><span class="pre">set_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Json.Reader.set_root" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the root node</p>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the root node</p>
 </dd>
 </dl>
 <p>Sets the root node of the JSON tree to be read by <cite>self</cite>.</p>
@@ -968,7 +983,7 @@ const <a class="reference external" href="https://docs.python.org/3/library/stdt
 <dd class="field-even"><p><a class="reference internal" href="Node.html#Json.Node" title="Json.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Json.Node</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a></p>

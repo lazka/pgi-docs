@@ -464,7 +464,7 @@ display the print dialog with <a class="reference internal" href="#WebKit2.Print
 </dd>
 </dl>
 <p>Return the current page setup of <cite>self</cite>.</p>
-<p>It returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> until
+<p>It returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> until
 either <a class="reference internal" href="#WebKit2.PrintOperation.set_page_setup" title="WebKit2.PrintOperation.set_page_setup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation.set_page_setup</span></code></a>() or <a class="reference internal" href="#WebKit2.PrintOperation.run_dialog" title="WebKit2.PrintOperation.run_dialog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation.run_dialog</span></code></a>()
 have been called.</p>
 </dd></dl>
@@ -481,7 +481,7 @@ have been called.</p>
 </dd>
 </dl>
 <p>Return the current print settings of <cite>self</cite>.</p>
-<p>It returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> until
+<p>It returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> until
 either <a class="reference internal" href="#WebKit2.PrintOperation.set_print_settings" title="WebKit2.PrintOperation.set_print_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation.set_print_settings</span></code></a>() or <a class="reference internal" href="#WebKit2.PrintOperation.run_dialog" title="WebKit2.PrintOperation.run_dialog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation.run_dialog</span></code></a>()
 have been called.</p>
 </dd></dl>
@@ -498,9 +498,10 @@ and the print job will be sent to the default printer.
 The <a class="reference internal" href="#WebKit2.PrintOperation" title="WebKit2.PrintOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation</span></code></a> <a class="reference internal" href="#WebKit2.PrintOperation.signals.finished" title="WebKit2.PrintOperation.signals.finished"><code class="xref py py-func docutils literal notranslate"><span class="pre">::finished</span></code></a> signal is emitted when the printing
 operation finishes. If an error occurs while printing the signal
 <a class="reference internal" href="#WebKit2.PrintOperation" title="WebKit2.PrintOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation</span></code></a> <a class="reference internal" href="#WebKit2.PrintOperation.signals.failed" title="WebKit2.PrintOperation.signals.failed"><code class="xref py py-func docutils literal notranslate"><span class="pre">::failed</span></code></a> is emitted before <a class="reference internal" href="#WebKit2.PrintOperation" title="WebKit2.PrintOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperation</span></code></a> <a class="reference internal" href="#WebKit2.PrintOperation.signals.finished" title="WebKit2.PrintOperation.signals.finished"><code class="xref py py-func docutils literal notranslate"><span class="pre">::finished</span></code></a>.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 2.46.: </span>This function does nothing if the app is sandboxed.</p>
-</div>
+<p>If the app is running in a sandbox, this function only works if printing to
+a file that is in a location accessible to the sandbox, usually acquired
+through the File Chooser portal. This function will not work for physical
+printers when running in a sandbox.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -508,7 +509,7 @@ operation finishes. If an error occurs while printing the signal
 <span class="sig-name descname"><span class="pre">run_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WebKit2.PrintOperation.run_dialog" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>parent</strong> (<a class="reference external" href="../../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – transient parent of the print dialog</p>
+<dd class="field-odd"><p><strong>parent</strong> (<a class="reference external" href="../../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – transient parent of the print dialog</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the <a class="reference internal" href="../enums.html#WebKit2.PrintOperationResponse" title="WebKit2.PrintOperationResponse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.PrintOperationResponse</span></code></a> of the print dialog</p>
@@ -649,7 +650,7 @@ required for printing.</p>
 <dd class="field-even"><p><a class="reference external" href="../../Gtk-3.0/classes/PageSetup.html#Gtk.PageSetup" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PageSetup</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
@@ -669,7 +670,7 @@ required for printing.</p>
 <dd class="field-even"><p><a class="reference external" href="../../Gtk-3.0/classes/PrintSettings.html#Gtk.PrintSettings" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintSettings</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
@@ -689,7 +690,7 @@ required for printing.</p>
 <dd class="field-even"><p><a class="reference internal" href="WebView.html#WebKit2.WebView" title="WebKit2.WebView"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKit2.WebView</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>

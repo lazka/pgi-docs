@@ -307,14 +307,14 @@ previous lines indentation.</p>
 <p>This can be changed by implementing <code class="docutils literal notranslate"><span class="pre">GtkSourceIndenter</span></code> and setting the
 [property`View`:py:data:<cite>:indenter&lt;GtkSource.Indenter.props.indenter&gt;</cite>] property.</p>
 <p>Implementors of this interface should implement both
-[vfunc`Indenter`.is_trigger] and [vfunc`Indenter`.indent].</p>
-<p>[vfunc`Indenter`.is_trigger] is called upon key-press to
+[vfunc`GtkSource`.Indenter.is_trigger] and [vfunc`GtkSource`.Indenter.indent].</p>
+<p>[vfunc`GtkSource`.Indenter.is_trigger] is called upon key-press to
 determine of the key press should trigger an indentation.  The default
 implementation of the interface checks to see if the key was
 [const`Gdk`.KEY_Return] or [const`Gdk`.KEY_KP_Enter] without <a class="reference external" href="../../Gdk-4.0/flags.html#Gdk.ModifierType.SHIFT_MASK" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.ModifierType.SHIFT_MASK</span></code></a> set.</p>
-<p>[vfunc`Indenter`.indent] is called after text has been
+<p>[vfunc`GtkSource`.Indenter.indent] is called after text has been
 inserted into [class`Buffer`] when
-[vfunc`Indenter`.is_trigger] returned <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The [struct`Gtk`.TextIter]
+[vfunc`GtkSource`.Indenter.is_trigger] returned <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The [struct`Gtk`.TextIter]
 is placed directly after the inserted character or characters.</p>
 <p>It may be beneficial to move the insertion mark using
 [method`Gtk`.TextBuffer.select_range] depending on how the indenter changes
@@ -344,7 +344,7 @@ within the view.</p>
 <p><cite>iter</cite> is the location where the indentation was requested. This typically
 is after having just inserted a newline (\n) character but can be other
 situations such as a manually requested indentation or reformatting.</p>
-<p>See [iface`Indenter`.is_trigger] for how to trigger indentation on
+<p>See [vfunc`GtkSource`.Indenter.is_trigger] for how to trigger indentation on
 various characters inserted into the buffer.</p>
 <p>The implementor of this function is expected to keep <cite>iter</cite> valid across
 calls to the function and should contain the location of the insert mark
@@ -362,15 +362,15 @@ indentation of the previous line.</p>
 <li><p><strong>view</strong> (<a class="reference internal" href="View.html#GtkSource.View" title="GtkSource.View"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.View</span></code></a>) – a <a class="reference internal" href="View.html#GtkSource.View" title="GtkSource.View"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.View</span></code></a></p></li>
 <li><p><strong>location</strong> (<a class="reference external" href="../../Gtk-4.0/classes/TextIter.html#Gtk.TextIter" title="(in Gtk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.TextIter</span></code></a>) – the location where <cite>ch</cite> is to be inserted</p></li>
 <li><p><strong>state</strong> (<a class="reference external" href="../../Gdk-4.0/flags.html#Gdk.ModifierType" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.ModifierType</span></code></a>) – modifier state for the insertion</p></li>
-<li><p><strong>keyval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the keyval pressed such as [const`Gdk`.KEY_Return]</p></li>
+<li><p><strong>keyval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the keyval pressed such as [const`Gdk`.KEY_Return]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if indentation should be automatically triggered;
-otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and no indentation will be performed.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if indentation should be automatically triggered;
+otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and no indentation will be performed.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>This function is used to determine if a key pressed should cause the
@@ -405,7 +405,7 @@ within the view.</p>
 <p><cite>iter</cite> is the location where the indentation was requested. This typically
 is after having just inserted a newline (\n) character but can be other
 situations such as a manually requested indentation or reformatting.</p>
-<p>See [iface`Indenter`.is_trigger] for how to trigger indentation on
+<p>See [vfunc`GtkSource`.Indenter.is_trigger] for how to trigger indentation on
 various characters inserted into the buffer.</p>
 <p>The implementor of this function is expected to keep <cite>iter</cite> valid across
 calls to the function and should contain the location of the insert mark
@@ -423,15 +423,15 @@ indentation of the previous line.</p>
 <li><p><strong>view</strong> (<a class="reference internal" href="View.html#GtkSource.View" title="GtkSource.View"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.View</span></code></a>) – a <a class="reference internal" href="View.html#GtkSource.View" title="GtkSource.View"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.View</span></code></a></p></li>
 <li><p><strong>location</strong> (<a class="reference external" href="../../Gtk-4.0/classes/TextIter.html#Gtk.TextIter" title="(in Gtk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.TextIter</span></code></a>) – the location where <cite>ch</cite> is to be inserted</p></li>
 <li><p><strong>state</strong> (<a class="reference external" href="../../Gdk-4.0/flags.html#Gdk.ModifierType" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.ModifierType</span></code></a>) – modifier state for the insertion</p></li>
-<li><p><strong>keyval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the keyval pressed such as [const`Gdk`.KEY_Return]</p></li>
+<li><p><strong>keyval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the keyval pressed such as [const`Gdk`.KEY_Return]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if indentation should be automatically triggered;
-otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and no indentation will be performed.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if indentation should be automatically triggered;
+otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and no indentation will be performed.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>This function is used to determine if a key pressed should cause the

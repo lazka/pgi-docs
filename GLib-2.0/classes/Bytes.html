@@ -275,45 +275,51 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="GLib.Bytes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">Bytes</span></span><a class="headerlink" href="#GLib.Bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>A simple refcounted data type representing an immutable sequence of zero or
-more bytes from an unspecified origin.</p>
-<p>The purpose of a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> is to keep the memory region that it holds
+<dd><p>A simple reference counted data type representing an immutable sequence of
+zero or more bytes from an unspecified origin.</p>
+<p>The purpose of a <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> is to keep the memory region that it holds
 alive for as long as anyone holds a reference to the bytes.  When
 the last reference count is dropped, the memory is released. Multiple
-unrelated callers can use byte data in the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> without coordinating
+unrelated callers can use byte data in the <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> without coordinating
 their activities, resting assured that the byte data will not change or
 move while they hold a reference.</p>
-<p>A <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> can come from many different origins that may have
+<p>A <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> can come from many different origins that may have
 different procedures for freeing the memory region.  Examples are
-memory from <a class="reference internal" href="../functions.html#GLib.malloc" title="GLib.malloc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.malloc</span></code></a>(), from memory slices, from a <a class="reference internal" href="MappedFile.html#GLib.MappedFile" title="GLib.MappedFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MappedFile</span></code></a> or
-memory from other allocators.</p>
-<p><a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> work well as keys in <a class="reference internal" href="HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a>. Use <a class="reference internal" href="#GLib.Bytes.equal" title="GLib.Bytes.equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.equal</span></code></a>() and
-<a class="reference internal" href="#GLib.Bytes.hash" title="GLib.Bytes.hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.hash</span></code></a>() as parameters to g_hash_table_new() or g_hash_table_new_full().
-<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> can also be used as keys in a <a class="reference internal" href="Tree.html#GLib.Tree" title="GLib.Tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Tree</span></code></a> by passing the <a class="reference internal" href="#GLib.Bytes.compare" title="GLib.Bytes.compare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.compare</span></code></a>()
-function to g_tree_new().</p>
+memory from [func`GLib`.malloc], from memory slices, from a
+[struct`GLib`.MappedFile] or memory from other allocators.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GBytes</span></code> work well as keys in [struct`GLib`.HashTable]. Use
+[method`GLib`.Bytes.equal] and [method`GLib`.Bytes.hash] as parameters to
+[func`GLib`.HashTable.new] or [func`GLib`.HashTable.new_full].
+<code class="docutils literal notranslate"><span class="pre">GBytes</span></code> can also be used as keys in a [struct`GLib`.Tree] by passing the
+[method`GLib`.Bytes.compare] function to [ctor`GLib`.Tree.new].</p>
 <p>The data pointed to by this bytes must not be modified. For a mutable
-array of bytes see <a class="reference internal" href="ByteArray.html#GLib.ByteArray" title="GLib.ByteArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray</span></code></a>. Use <a class="reference internal" href="#GLib.Bytes.unref_to_array" title="GLib.Bytes.unref_to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.unref_to_array</span></code></a>() to create a
-mutable array for a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> sequence. To create an immutable <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> from
-a mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" title="GLib.ByteArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray</span></code></a>, use the <a class="reference internal" href="ByteArray.html#GLib.ByteArray.free_to_bytes" title="GLib.ByteArray.free_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray.free_to_bytes</span></code></a>() function.</p>
+array of bytes see [struct`GLib`.ByteArray]. Use
+[method`GLib`.Bytes.unref_to_array] to create a mutable array for a <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>
+sequence. To create an immutable <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> from a mutable
+[struct`GLib`.ByteArray], use the [func`GLib`.ByteArray.free_to_bytes]
+function.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L96"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the data to be used for the bytes</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a new <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
+<dd class="field-even"><p>a new [struct`GLib`.Bytes]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> from <cite>data</cite>.</p>
-<p><cite>data</cite> is copied. If <cite>size</cite> is 0, <cite>data</cite> may be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>Creates a new [struct`GLib`.Bytes] from <cite>data</cite>.</p>
+<p><cite>data</cite> is copied. If <cite>size</cite> is 0, <cite>data</cite> may be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+<p>As an optimization, [ctor`GLib`.Bytes.new] may avoid an extra allocation by
+copying the data within the resulting bytes structure if sufficiently small
+(since GLib 2.84).</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -321,25 +327,25 @@ a mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" tit
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.new_take">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_take</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new_take" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_take</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L167"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new_take" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the data to be used for the bytes</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a new <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
+<dd class="field-even"><p>a new [struct`GLib`.Bytes]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> from <cite>data</cite>.</p>
-<p>After this call, <cite>data</cite> belongs to the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> and may no longer be
+<p>Creates a new [struct`GLib`.Bytes] from <cite>data</cite>.</p>
+<p>After this call, <cite>data</cite> belongs to the <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> and may no longer be
 modified by the caller. The memory of <cite>data</cite> has to be dynamically
-allocated and will eventually be freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>().</p>
-<p>For creating <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> with memory from other allocators, see
-g_bytes_new_with_free_func().</p>
-<p><cite>data</cite> may be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if <cite>size</cite> is 0.</p>
+allocated and will eventually be freed with [func`GLib`.free].</p>
+<p>For creating <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> with memory from other allocators, see
+[ctor`GLib`.Bytes.new_with_free_func].</p>
+<p><cite>data</cite> may be <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if <cite>size</cite> is 0.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -347,22 +353,22 @@ g_bytes_new_with_free_func().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.compare">
-<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L423"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.compare" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L461"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.compare" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>bytes2</strong> (<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a pointer to a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> to compare with <cite>self</cite></p>
+<dd class="field-odd"><p><strong>bytes2</strong> (<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a pointer to a [struct`GLib`.Bytes] to compare with <cite>self</cite></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a negative value if <cite>self</cite> is less than <cite>bytes2</cite>, a positive value
-if <cite>self</cite> is greater than <cite>bytes2</cite>, and zero if <cite>self</cite> is equal to
-<cite>bytes2</cite></p>
+if <cite>self</cite> is greater than <cite>bytes2</cite>, and zero if <cite>self</cite> is equal to <cite>bytes2</cite></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Compares the two <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> values.</p>
-<p>This function can be used to sort <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> instances in lexicographical order.</p>
+<p>Compares the two [struct`GLib`.Bytes] values.</p>
+<p>This function can be used to sort <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> instances in lexicographical
+order.</p>
 <p>If <cite>self</cite> and <cite>bytes2</cite> have different length but the shorter one is a
 prefix of the longer one then the shorter one is considered to be less than
 the longer one. Otherwise the first byte where both differ is used for
@@ -375,22 +381,23 @@ considered less, otherwise greater than <cite>bytes2</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.equal">
-<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.equal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L399"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.equal" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>bytes2</strong> (<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a pointer to a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> to compare with <cite>self</cite></p>
+<dd class="field-odd"><p><strong>bytes2</strong> (<a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a pointer to a [struct`GLib`.Bytes] to compare with <cite>self</cite></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the two keys match.</p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the two keys match.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Compares the two <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> values being pointed to and returns
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if they are equal.</p>
-<p>This function can be passed to g_hash_table_new() as the <cite>key_equal_func</cite>
-parameter, when using non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> pointers as keys in a <a class="reference internal" href="HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a>.</p>
+<p>Compares the two [struct`GLib`.Bytes] values being pointed to and returns
+<code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if they are equal.</p>
+<p>This function can be passed to [func`GLib`.HashTable.new] as the
+<cite>key_equal_func</cite> parameter, when using non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> pointers as keys in
+a [struct`GLib`.HashTable].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -398,20 +405,21 @@ parameter, when using non-<a class="reference external" href="https://docs.pytho
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.get_data">
-<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L271"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L311"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a pointer to the byte data, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p>a pointer to the byte data</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Get the byte data in the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>. This data should not be modified.</p>
-<p>This function will always return the same pointer for a given <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>.</p>
-<p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> may be returned if <cite>size</cite> is 0. This is not guaranteed, as the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>
-may represent an empty string with <cite>data</cite> non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and <cite>size</cite> as 0. <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will
-not be returned if <cite>size</cite> is non-zero.</p>
+<p>Get the byte data in the [struct`GLib`.Bytes].</p>
+<p>This data should not be modified.</p>
+<p>This function will always return the same pointer for a given <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NULL</span></code> may be returned if <cite>size</cite> is 0. This is not guaranteed, as the <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>
+may represent an empty string with <cite>data</cite> non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> and <cite>size</cite> as 0. <code class="docutils literal notranslate"><span class="pre">NULL</span></code>
+will not be returned if <cite>size</cite> is non-zero.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -419,7 +427,7 @@ not be returned if <cite>size</cite> is non-zero.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.get_region">
-<span class="sig-name descname"><span class="pre">get_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L578"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_region" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L618"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_region" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -429,7 +437,7 @@ not be returned if <cite>size</cite> is non-zero.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the requested region, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> in case of an error</p>
+<dd class="field-even"><p>the requested region, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> in case of an error</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -439,18 +447,18 @@ not be returned if <cite>size</cite> is non-zero.</p>
 <p>The region starts at <cite>offset</cite> many bytes from the start of the data
 and contains <cite>n_elements</cite> many elements of <cite>element_size</cite> size.</p>
 <p><cite>n_elements</cite> may be zero, but <cite>element_size</cite> must always be non-zero.
-Ideally, <cite>element_size</cite> is a static constant (eg: sizeof a struct).</p>
+Ideally, <cite>element_size</cite> is a static constant (eg: <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> a struct).</p>
 <p>This function does careful bounds checking (including checking for
-arithmetic overflows) and returns a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> pointer if the
+arithmetic overflows) and returns a non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> pointer if the
 specified region lies entirely within the <cite>self</cite>. If the region is
-in some way out of range, or if an overflow has occurred, then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+in some way out of range, or if an overflow has occurred, then <code class="docutils literal notranslate"><span class="pre">NULL</span></code>
 is returned.</p>
 <p>Note: it is possible to have a valid zero-size region. In this case,
 the returned pointer will be equal to the base pointer of the data of
-<cite>self</cite>, plus <cite>offset</cite>.  This will be non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> except for the case
+<cite>self</cite>, plus <cite>offset</cite>.  This will be non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> except for the case
 where <cite>self</cite> itself was a zero-sized region.  Since it is unlikely
 that you will be using this function to check for a zero-sized region
-in a zero-sized <cite>self</cite>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> effectively always means “error”.</p>
+in a zero-sized <cite>self</cite>, <code class="docutils literal notranslate"><span class="pre">NULL</span></code> effectively always means ‘error’.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.70.</span></p>
 </div>
@@ -458,7 +466,7 @@ in a zero-sized <cite>self</cite>, <a class="reference external" href="https://d
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.get_size">
-<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L292"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_size" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L331"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.get_size" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the size</p>
@@ -467,8 +475,8 @@ in a zero-sized <cite>self</cite>, <a class="reference external" href="https://d
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Get the size of the byte data in the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>.</p>
-<p>This function will always return the same value for a given <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>.</p>
+<p>Get the size of the byte data in the [struct`GLib`.Bytes].</p>
+<p>This function will always return the same value for a given <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -476,7 +484,7 @@ in a zero-sized <cite>self</cite>, <a class="reference external" href="https://d
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.hash">
-<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L385"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.hash" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L425"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.hash" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a hash value corresponding to the key.</p>
@@ -485,9 +493,10 @@ in a zero-sized <cite>self</cite>, <a class="reference external" href="https://d
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Creates an integer hash code for the byte data in the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>.</p>
-<p>This function can be passed to g_hash_table_new() as the <cite>key_hash_func</cite>
-parameter, when using non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> pointers as keys in a <a class="reference internal" href="HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a>.</p>
+<p>Creates an integer hash code for the byte data in the [struct`GLib`.Bytes].</p>
+<p>This function can be passed to [func`GLib`.HashTable.new] as the
+<cite>key_hash_func</cite> parameter, when using non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> pointers as keys in
+a [struct`GLib`.HashTable].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -495,7 +504,7 @@ parameter, when using non-<a class="reference external" href="https://docs.pytho
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.new_from_bytes">
-<span class="sig-name descname"><span class="pre">new_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L221"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new_from_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">new_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L260"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.new_from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -504,21 +513,21 @@ parameter, when using non-<a class="reference external" href="https://docs.pytho
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a new <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
+<dd class="field-even"><p>a new [struct`GLib`.Bytes]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> which is a subsection of another <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>. The <cite>offset</cite> +
-<cite>length</cite> may not be longer than the size of <cite>self</cite>.</p>
-<p>A reference to <cite>self</cite> will be held by the newly created <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> until
+<p>Creates a [struct`GLib`.Bytes] which is a subsection of another <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>.</p>
+<p>The <cite>offset</cite> + <cite>length</cite> may not be longer than the size of <cite>self</cite>.</p>
+<p>A reference to <cite>self</cite> will be held by the newly created <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> until
 the byte data is no longer needed.</p>
 <p>Since 2.56, if <cite>offset</cite> is 0 and <cite>length</cite> matches the size of <cite>self</cite>, then
 <cite>self</cite> will be returned with the reference count incremented by 1. If <cite>self</cite>
-is a slice of another <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>, then the resulting <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> will reference
-the same <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> instead of <cite>self</cite>. This allows consumers to simplify the
-usage of <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> when asynchronously writing to streams.</p>
+is a slice of another <code class="docutils literal notranslate"><span class="pre">GBytes</span></code>, then the resulting <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> will reference
+the same <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> instead of <cite>self</cite>. This allows consumers to simplify the
+usage of <code class="docutils literal notranslate"><span class="pre">GBytes</span></code> when asynchronously writing to streams.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -526,10 +535,10 @@ usage of <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L310"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L348"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
+<dd class="field-odd"><p>the [struct`GLib`.Bytes]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p>
@@ -543,9 +552,10 @@ usage of <a class="reference internal" href="#GLib.Bytes" title="GLib.Bytes"><co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L329"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref" title="Permalink to this definition">¶</a></dt>
-<dd><p>Releases a reference on <cite>self</cite>.  This may result in the bytes being
-freed. If <cite>self</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, it will return immediately.</p>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L369"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Releases a reference on <cite>self</cite>.</p>
+<p>This may result in the bytes being freed. If <cite>self</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, it will
+return immediately.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -553,24 +563,27 @@ freed. If <cite>self</cite> is <a class="reference external" href="https://docs.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.unref_to_array">
-<span class="sig-name descname"><span class="pre">unref_to_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L531"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref_to_array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref_to_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L572"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref_to_array" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" title="GLib.ByteArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray</span></code></a> containing the same byte data</p>
+<dd class="field-odd"><p>a new mutable [struct`GLib`.ByteArray] containing
+the same byte data</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
 </dd>
 </dl>
-<p>Unreferences the bytes, and returns a new mutable <a class="reference internal" href="ByteArray.html#GLib.ByteArray" title="GLib.ByteArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray</span></code></a> containing
-the same byte data.</p>
+<p>Unreferences the bytes, and returns a new mutable [struct`GLib`.ByteArray]
+containing the same byte data.</p>
 <p>As an optimization, the byte data is transferred to the array without copying
-if this was the last reference to bytes and bytes was created with
-<a class="reference internal" href="#GLib.Bytes.new" title="GLib.Bytes.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.new</span></code></a>(), <a class="reference internal" href="#GLib.Bytes.new_take" title="GLib.Bytes.new_take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.new_take</span></code></a>() or <a class="reference internal" href="ByteArray.html#GLib.ByteArray.free_to_bytes" title="GLib.ByteArray.free_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray.free_to_bytes</span></code></a>(). In all
-other cases the data is copied.</p>
+if this was the last reference to <cite>self</cite> and <cite>self</cite> was created with
+[ctor`GLib`.Bytes.new], [ctor`GLib`.Bytes.new_take] or
+[func`GLib`.ByteArray.free_to_bytes] and the buffer was larger than the size
+[struct`GLib`.Bytes] may internalize within its allocation. In all other cases
+the data is copied.</p>
 <p>Do not use it if <cite>self</cite> contains more than %G_MAXUINT
-bytes. <a class="reference internal" href="ByteArray.html#GLib.ByteArray" title="GLib.ByteArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray</span></code></a> stores the length of its data in <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, which
-may be shorter than #gsize, that <cite>self</cite> is using.</p>
+bytes. [struct`GLib`.ByteArray] stores the length of its data in <code class="docutils literal notranslate"><span class="pre">guint</span></code>,
+which may be shorter than <code class="docutils literal notranslate"><span class="pre">gsize</span></code>, that <cite>self</cite> is using.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>
@@ -578,11 +591,10 @@ may be shorter than #gsize, that <cite>self</cite> is using.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.Bytes.unref_to_data">
-<span class="sig-name descname"><span class="pre">unref_to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.82.4/glib/gbytes.c#L483"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref_to_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref_to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gbytes.c#L522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.Bytes.unref_to_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a pointer to the same byte data, which should be
-freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>()</p>
+<dd class="field-odd"><p>a pointer to the same byte data, which should be freed with [func`GLib`.free]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
@@ -591,9 +603,11 @@ freed with <a class="reference internal" href="../functions.html#GLib.free" titl
 <p>Unreferences the bytes, and returns a pointer the same byte data
 contents.</p>
 <p>As an optimization, the byte data is returned without copying if this was
-the last reference to bytes and bytes was created with <a class="reference internal" href="#GLib.Bytes.new" title="GLib.Bytes.new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.new</span></code></a>(),
-<a class="reference internal" href="#GLib.Bytes.new_take" title="GLib.Bytes.new_take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes.new_take</span></code></a>() or <a class="reference internal" href="ByteArray.html#GLib.ByteArray.free_to_bytes" title="GLib.ByteArray.free_to_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.ByteArray.free_to_bytes</span></code></a>(). In all other cases the
-data is copied.</p>
+the last reference to <cite>self</cite> and <cite>self</cite> was created with
+[ctor`GLib`.Bytes.new], [ctor`GLib`.Bytes.new_take] or
+[func`GLib`.ByteArray.free_to_bytes] and the buffer was larger than the size
+[struct`GLib`.Bytes] may internalize within its allocation. In all other cases
+the data is copied.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>

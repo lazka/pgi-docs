@@ -806,7 +806,7 @@
 <td><p>Emitted when the user initiates the insertion of a fixed string at the cursor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gtk.Text.signals.insert_emoji" title="Gtk.Text.signals.insert_emoji"><code class="xref py py-func docutils literal notranslate"><span class="pre">insert-emoji</span></code></a></p></td>
-<td><p>Emitted to present the Emoji chooser for the widget.</p></td>
+<td><p>Emitted to present the Emoji chooser.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gtk.Text.signals.move_cursor" title="Gtk.Text.signals.move_cursor"><code class="xref py py-func docutils literal notranslate"><span class="pre">move-cursor</span></code></a></p></td>
 <td><p>Emitted when the user initiates a cursor movement.</p></td>
@@ -818,7 +818,7 @@
 <td><p>Emitted when the preedit text changes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gtk.Text.signals.toggle_overwrite" title="Gtk.Text.signals.toggle_overwrite"><code class="xref py py-func docutils literal notranslate"><span class="pre">toggle-overwrite</span></code></a></p></td>
-<td><p>Emitted to toggle the overwrite mode of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p></td>
+<td><p>Emitted to toggle the overwrite mode.</p></td>
 </tr>
 </tbody>
 </table>
@@ -866,24 +866,24 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p>The <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> widget is a single-line text entry widget.</p>
+<p>A single-line text entry.</p>
 <p><code class="docutils literal notranslate"><span class="pre">GtkText</span></code> is the common implementation of single-line text editing
 that is shared between [class`Gtk`.Entry], [class`Gtk`.PasswordEntry],
-[class`Gtk`.SpinButton], and other widgets. In all of these, <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> is
-used as the delegate for the [iface`Gtk`.Editable] implementation.</p>
-<p>A fairly large set of key bindings are supported by default. If the
-entered text is longer than the allocation of the widget, the widget
-will scroll so that the cursor position is visible.</p>
+[class`Gtk`.SpinButton], and other widgets. In all of these, a <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>
+instance is used as the delegate for the [iface`Gtk`.Editable] implementation.</p>
+<p>A large number of key bindings s supported by default. If the entered
+text is longer than the allocation of the widget, the widget will scroll
+so that the cursor position is visible.</p>
 <p>When using an entry for passwords and other sensitive information,
 it can be put into “password mode” using [method`Gtk`.Text.set_visibility].
-In this mode, entered text is displayed using a “invisible” character.
+In this mode, entered text is displayed using an “invisible” character.
 By default, GTK picks the best invisible character that is available
 in the current font, but it can be changed with
 [method`Gtk`.Text.set_invisible_char].</p>
-<p>If you are looking to add icons or progress display in an entry, look
-at [class`Gtk`.Entry]. There other alternatives for more specialized use
-cases, such as [class`Gtk`.SearchEntry].</p>
-<p>If you need multi-line editable text, look at [class`Gtk`.TextView].</p>
+<p>If you want to add icons or progress display in an entry, look at
+[class`Gtk`.Entry]. There are other alternatives for more specialized
+use cases, such as [class`Gtk`.SearchEntry].</p>
+<p>If you need multi-line editable text, use [class`Gtk`.TextView].</p>
 <dl class="simple">
 <dt>Shortcuts and Gestures</dt><dd></dd>
 </dl>
@@ -897,6 +897,7 @@ selects all the text.</p></li>
 <li><p>&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Z&lt;/kbd&gt; undoes the last modification.</p></li>
 <li><p>&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Y&lt;/kbd&gt; or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Z&lt;/kbd&gt;
 redoes the last undone modification.</p></li>
+<li><p>&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; toggles the text direction.</p></li>
 </ul>
 <p>Additionally, the following signals have default keybindings:</p>
 <ul class="simple">
@@ -922,6 +923,7 @@ the widget.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">menu.popup</span></code> opens the context menu.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">misc.insert-emoji</span></code> opens the Emoji chooser.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">misc.toggle-visibility</span></code> toggles the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code><a class="reference internal" href="#Gtk.Text.props.visibility" title="Gtk.Text.props.visibility"><code class="xref py py-data docutils literal notranslate"><span class="pre">:visibility</span></code></a> property.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">misc.toggle-direction</span></code> toggles the text direction.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">selection.delete</span></code> deletes the current selection.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">selection.select-all</span></code> selects all of the widgets content.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">text.redo</span></code> redoes the last change to the contents.</p></li>
@@ -936,7 +938,10 @@ text[.read-only]
 ├── undershoot.left
 ├── undershoot.right
 ├── [selection]
+├── [cursor-handle[.top]
+├── [cursor-handle.bottom]
 ├── [block-cursor]
+├── [cursor-handle[.top/.bottom][.insertion-cursor]]
 ╰── [window.popup]
 ``</p>
 <p><code class="docutils literal notranslate"><span class="pre">GtkText</span></code> has a main node with the name <code class="docutils literal notranslate"><span class="pre">text</span></code>. Depending on the properties
@@ -956,16 +961,16 @@ there is just a single handle for the text cursor, it gets the style class
 <dl class="simple">
 <dt>Accessibility</dt><dd></dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">GtkText</span></code> uses the <a class="reference internal" href="../enums.html#Gtk.AccessibleRole.NONE" title="Gtk.AccessibleRole.NONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessibleRole.NONE</span></code></a> role, which causes it to be
+<p><code class="docutils literal notranslate"><span class="pre">GtkText</span></code> uses the [enum`Gtk`.AccessibleRole.none] role, which causes it to be
 skipped for accessibility. This is because <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> is expected to be used
 as a delegate for a <code class="docutils literal notranslate"><span class="pre">GtkEditable</span></code> implementation that will be represented
 to accessibility.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5621"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5599"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<dd class="field-odd"><p>the new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a></p>
@@ -976,10 +981,10 @@ to accessibility.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.new_with_buffer">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_with_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5635"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.new_with_buffer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_with_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5613"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.new_with_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference internal" href="EntryBuffer.html#Gtk.EntryBuffer" title="Gtk.EntryBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.EntryBuffer</span></code></a>) – The buffer to use for the new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference internal" href="EntryBuffer.html#Gtk.EntryBuffer" title="Gtk.EntryBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.EntryBuffer</span></code></a>) – the buffer to use</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code></p>
@@ -988,12 +993,12 @@ to accessibility.</p>
 <dd class="field-odd"><p><a class="reference internal" href="Widget.html#Gtk.Widget" title="Gtk.Widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> with the specified text buffer.</p>
+<p>Creates a new <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> with the specified buffer.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.compute_cursor_extents">
-<span class="sig-name descname"><span class="pre">compute_cursor_extents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7450"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.compute_cursor_extents" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_cursor_extents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7446"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.compute_cursor_extents" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>position</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the character position</p>
@@ -1013,8 +1018,8 @@ to accessibility.</p>
 <dd class="field-odd"><p>(<strong>strong</strong>: <a class="reference external" href="../../Graphene-1.0/classes/Rect.html#Graphene.Rect" title="(in Graphene 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a>, <strong>weak</strong>: <a class="reference external" href="../../Graphene-1.0/classes/Rect.html#Graphene.Rect" title="(in Graphene 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graphene.Rect</span></code></a>)</p>
 </dd>
 </dl>
-<p>Determine the positions of the strong and weak cursors if the
-insertion point in the layout is at <cite>position</cite>.</p>
+<p>Determines the positions of the strong and weak cursors for a
+given character position.</p>
 <p>The position of each cursor is stored as a zero-width rectangle.
 The strong cursor location is the location where characters of
 the directionality equal to the base direction are inserted.
@@ -1028,23 +1033,23 @@ the directionality opposite to the base direction are inserted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_activates_default">
-<span class="sig-name descname"><span class="pre">get_activates_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6121"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_activates_default" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_activates_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6097"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_activates_default" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> will activate the default widget</p>
+<dd class="field-odd"><p>true if <cite>self</cite> will activate the default widget</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Returns whether pressing Enter will activate
-the default widget for the window containing <cite>self</cite>.</p>
+<p>Returns whether pressing &lt;kbd&gt;Enter&lt;/kbd&gt; will activate
+the default widget for the window containing the widget.</p>
 <p>See [method`Gtk`.Text.set_activates_default].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_attributes">
-<span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the attribute list</p>
@@ -1053,43 +1058,42 @@ the default widget for the window containing <cite>self</cite>.</p>
 <dd class="field-even"><p><a class="reference external" href="../../Pango-1.0/classes/AttrList.html#Pango.AttrList" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrList</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the attribute list that was set on the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Gets the attribute list that was set on the text widget.</p>
 <p>See [method`Gtk`.Text.set_attributes].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_buffer">
-<span class="sig-name descname"><span class="pre">get_buffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5668"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_buffer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_buffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5646"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> object.</p>
+<dd class="field-odd"><p>the entry buffer object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="EntryBuffer.html#Gtk.EntryBuffer" title="Gtk.EntryBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.EntryBuffer</span></code></a></p>
 </dd>
 </dl>
-<p>Get the <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> object which holds the text for
+<p>Get the entry buffer object which holds the text for
 this widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_enable_emoji_completion">
-<span class="sig-name descname"><span class="pre">get_enable_emoji_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7330"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_enable_emoji_completion" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_enable_emoji_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7328"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_enable_emoji_completion" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if Emoji completion is enabled</p>
+<dd class="field-odd"><p>true if Emoji completion is enabled</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Returns whether Emoji completion is enabled for this
-<code class="docutils literal notranslate"><span class="pre">GtkText</span></code> widget.</p>
+<p>Returns whether Emoji completion is enabled.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_extra_menu">
-<span class="sig-name descname"><span class="pre">get_extra_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7279"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_extra_menu" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_extra_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7278"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_extra_menu" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the menu model</p>
@@ -1098,13 +1102,13 @@ this widget.</p>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the menu model for extra items in the context menu.</p>
+<p>Gets the extra menu model of the text widget.</p>
 <p>See [method`Gtk`.Text.set_extra_menu].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_input_hints">
-<span class="sig-name descname"><span class="pre">get_input_hints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7073"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_input_hints" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_input_hints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7073"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_input_hints" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the input hints</p>
@@ -1113,12 +1117,12 @@ this widget.</p>
 <dd class="field-even"><p><a class="reference internal" href="../flags.html#Gtk.InputHints" title="Gtk.InputHints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputHints</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the input hints of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Gets the input hints of the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_input_purpose">
-<span class="sig-name descname"><span class="pre">get_input_purpose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7022"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_input_purpose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_input_purpose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7023"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_input_purpose" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the input purpose</p>
@@ -1127,16 +1131,16 @@ this widget.</p>
 <dd class="field-even"><p><a class="reference internal" href="../enums.html#Gtk.InputPurpose" title="Gtk.InputPurpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the input purpose of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Gets the input purpose of the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_invisible_char">
-<span class="sig-name descname"><span class="pre">get_invisible_char</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_invisible_char" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_invisible_char</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5906"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_invisible_char" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the current invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, or 0, if <cite>text</cite> does not
-show invisible text at all.</p>
+show invisible text at all</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
@@ -1150,17 +1154,17 @@ it has been explicitly set with [method`Gtk`.Text.set_invisible_char].</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_max_length">
-<span class="sig-name descname"><span class="pre">get_max_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6053"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_max_length" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_max_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6029"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_max_length" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the maximum allowed number of characters
-in <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>, or 0 if there is no maximum.</p>
+<dd class="field-odd"><p>the maximum allowed number of characters, or 0 if
+there is no limit</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves the maximum allowed length of the text in <cite>self</cite>.</p>
+<p>Retrieves the maximum allowed length of the contents.</p>
 <p>See [method`Gtk`.Text.set_max_length].</p>
 <p>This is equivalent to getting <cite>self</cite>'s <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> and
 calling [method`Gtk`.EntryBuffer.get_max_length] on it.</p>
@@ -1168,22 +1172,22 @@ calling [method`Gtk`.EntryBuffer.get_max_length] on it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_overwrite_mode">
-<span class="sig-name descname"><span class="pre">get_overwrite_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6005"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_overwrite_mode" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_overwrite_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5981"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_overwrite_mode" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>whether the text is overwritten when typing</p>
+<dd class="field-odd"><p>whether text is overwritten when typing</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Gets whether text is overwritten when typing in the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Gets whether text is overwritten when typing.</p>
 <p>See [method`Gtk`.Text.set_overwrite_mode].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_placeholder_text">
-<span class="sig-name descname"><span class="pre">get_placeholder_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6973"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_placeholder_text" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_placeholder_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6974"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_placeholder_text" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the placeholder text</p>
@@ -1192,150 +1196,149 @@ calling [method`Gtk`.EntryBuffer.get_max_length] on it.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves the text that will be displayed when
-<cite>self</cite> is empty and unfocused</p>
-<p>If no placeholder text has been set, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
+<p>Retrieves the text that will be displayed when the text widget
+is empty and unfocused</p>
+<p>See [method`Gtk`.Text.set_placeholder_text].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_propagate_text_width">
-<span class="sig-name descname"><span class="pre">get_propagate_text_width</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7374"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_propagate_text_width" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_propagate_text_width</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7372"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_propagate_text_width" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> will propagate the text width</p>
+<dd class="field-odd"><p>true if <cite>self</cite> will propagate the text width</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Returns whether the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> will grow and shrink
+<p>Returns whether the text widget will grow and shrink
 with the content.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_tabs">
-<span class="sig-name descname"><span class="pre">get_tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7178"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_tabs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7178"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_tabs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the tabstops</p>
+<dd class="field-odd"><p>the tab stops</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../Pango-1.0/classes/TabArray.html#Pango.TabArray" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.TabArray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the tabstops that were set on the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Gets the tab stops for the text widget.</p>
 <p>See [method`Gtk`.Text.set_tabs].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_text_length">
-<span class="sig-name descname"><span class="pre">get_text_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6073"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_text_length" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_text_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6048"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_text_length" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the current number of characters
-in <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>, or 0 if there are none.</p>
+<dd class="field-odd"><p>the length of the contents, in characters</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves the current length of the text in <cite>self</cite>.</p>
+<p>Retrieves the length of the contents.</p>
 <p>This is equivalent to getting <cite>self</cite>'s <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code>
 and calling [method`Gtk`.EntryBuffer.get_length] on it.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_truncate_multiline">
-<span class="sig-name descname"><span class="pre">get_truncate_multiline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7417"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_truncate_multiline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_truncate_multiline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7413"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_truncate_multiline" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>self</cite> will truncate multi-line text</p>
+<dd class="field-odd"><p>true if <cite>self</cite> will truncate pasted multi-line text</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Returns whether the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> will truncate multi-line text
-that is pasted into the widget</p>
+<p>Returns whether pasted text will be truncated to the first line.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.get_visibility">
-<span class="sig-name descname"><span class="pre">get_visibility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5871"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_visibility" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_visibility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5849"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.get_visibility" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the text is currently visible</p>
+<dd class="field-odd"><p>true if the text is visible</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves whether the text in <cite>self</cite> is visible.</p>
+<p>Retrieves whether the text is visible.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.grab_focus_without_selecting">
-<span class="sig-name descname"><span class="pre">grab_focus_without_selecting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L3491"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.grab_focus_without_selecting" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">grab_focus_without_selecting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L3505"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.grab_focus_without_selecting" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if focus is now inside <cite>self</cite></p>
+<dd class="field-odd"><p>true if focus is now inside <cite>self</cite></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Causes <cite>self</cite> to have keyboard focus.</p>
+<p>Causes the text widget to have the keyboard focus.</p>
 <p>It behaves like [method`Gtk`.Widget.grab_focus],
-except that it doesn’t select the contents of <cite>self</cite>.
-You only want to call this on some special entries
-which the user usually doesn’t want to replace all text in,
-such as search-as-you-type entries.</p>
+except that it does not select the contents of <cite>self</cite>.</p>
+<p>You only want to call this on some special entries
+which the user usually doesn’t want to replace all
+text in, such as search-as-you-type entries.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_activates_default">
-<span class="sig-name descname"><span class="pre">set_activates_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activates</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6094"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_activates_default" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_activates_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activates</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6070"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_activates_default" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>activates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to activate window’s default widget on Enter keypress</p>
+<dd class="field-odd"><p><strong>activates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true to activate window’s default widget on
+&lt;kbd&gt;Enter&lt;/kbd&gt; keypress</p>
 </dd>
 </dl>
-<p>If <cite>activates</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, pressing Enter will activate
-the default widget for the window containing <cite>self</cite>.</p>
-<p>This usually means that the dialog containing the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>
-will be closed, since the default widget is usually one of
+<p>Sets whether pressing &lt;kbd&gt;Enter&lt;/kbd&gt; will activate
+the default widget.</p>
+<p>This usually means that the dialog containing <cite>self</cite> will
+be closed, since the default widget is usually one of
 the dialog buttons.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_attributes">
-<span class="sig-name descname"><span class="pre">set_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7096"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_attributes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7096"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_attributes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>attrs</strong> (<a class="reference external" href="../../Pango-1.0/classes/AttrList.html#Pango.AttrList" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrList</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">PangoAttrList</span></code></p>
+<dd class="field-odd"><p><strong>attrs</strong> (<a class="reference external" href="../../Pango-1.0/classes/AttrList.html#Pango.AttrList" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.AttrList</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a list of style attributes</p>
 </dd>
 </dl>
-<p>Sets attributes that are applied to the text.</p>
+<p>Apply attributes to the contents of the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_buffer">
-<span class="sig-name descname"><span class="pre">set_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5685"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_buffer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference internal" href="EntryBuffer.html#Gtk.EntryBuffer" title="Gtk.EntryBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.EntryBuffer</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code></p>
+<dd class="field-odd"><p><strong>buffer</strong> (<a class="reference internal" href="EntryBuffer.html#Gtk.EntryBuffer" title="Gtk.EntryBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.EntryBuffer</span></code></a>) – an entry buffer object</p>
 </dd>
 </dl>
-<p>Set the <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> object which holds the text for
+<p>Set the entry buffer object which holds the text for
 this widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_enable_emoji_completion">
-<span class="sig-name descname"><span class="pre">set_enable_emoji_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_emoji_completion</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7301"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_enable_emoji_completion" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_enable_emoji_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_emoji_completion</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7300"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_enable_emoji_completion" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>enable_emoji_completion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to enable Emoji completion</p>
+<dd class="field-odd"><p><strong>enable_emoji_completion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true to enable Emoji completion</p>
 </dd>
 </dl>
 <p>Sets whether Emoji completion is enabled.</p>
@@ -1346,44 +1349,42 @@ keyword.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_extra_menu">
-<span class="sig-name descname"><span class="pre">set_extra_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7254"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_extra_menu" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_extra_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7253"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_extra_menu" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>model</strong> (<a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code></p>
+<dd class="field-odd"><p><strong>model</strong> (<a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a menu model</p>
 </dd>
 </dl>
-<p>Sets a menu model to add when constructing
-the context menu for <cite>self</cite>.</p>
+<p>Sets a menu model to add to the context menu of the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_input_hints">
-<span class="sig-name descname"><span class="pre">set_input_hints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hints</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7047"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_input_hints" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_input_hints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hints</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7047"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_input_hints" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>hints</strong> (<a class="reference internal" href="../flags.html#Gtk.InputHints" title="Gtk.InputHints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputHints</span></code></a>) – the hints</p>
+<dd class="field-odd"><p><strong>hints</strong> (<a class="reference internal" href="../flags.html#Gtk.InputHints" title="Gtk.InputHints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputHints</span></code></a>) – input hints</p>
 </dd>
 </dl>
-<p>Sets input hints that allow input methods
-to fine-tune their behaviour.</p>
+<p>Sets hints that allow input methods to fine-tune their behaviour.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_input_purpose">
-<span class="sig-name descname"><span class="pre">set_input_purpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">purpose</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6997"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_input_purpose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_input_purpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">purpose</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6998"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_input_purpose" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>purpose</strong> (<a class="reference internal" href="../enums.html#Gtk.InputPurpose" title="Gtk.InputPurpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose</span></code></a>) – the purpose</p>
+<dd class="field-odd"><p><strong>purpose</strong> (<a class="reference internal" href="../enums.html#Gtk.InputPurpose" title="Gtk.InputPurpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose</span></code></a>) – the input purpose</p>
 </dd>
 </dl>
-<p>Sets the input purpose of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
-<p>This can be used by on-screen keyboards and other
-input methods to adjust their behaviour.</p>
+<p>Sets the input purpose of the text widget.</p>
+<p>The input purpose can be used by on-screen keyboards
+and other input methods to adjust their behaviour.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_invisible_char">
-<span class="sig-name descname"><span class="pre">set_invisible_char</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ch</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5894"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_invisible_char" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_invisible_char</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ch</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5872"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_invisible_char" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a Unicode character</p>
@@ -1398,16 +1399,16 @@ as they type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_max_length">
-<span class="sig-name descname"><span class="pre">set_max_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6032"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_max_length" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_max_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6008"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_max_length" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the maximum length of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>, or 0 for no maximum.
+<dd class="field-odd"><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the maximum length of the text, or 0 for no maximum.
 (other than the maximum length of entries.) The value passed
-in will be clamped to the range 0-65536.</p>
+in will be clamped to the range 0-65536</p>
 </dd>
 </dl>
-<p>Sets the maximum allowed length of the contents of the widget.</p>
-<p>If the current contents are longer than the given length, then
+<p>Sets the maximum allowed length of the contents.</p>
+<p>If the current contents are longer than the given length,
 they will be truncated to fit.</p>
 <p>This is equivalent to getting <cite>self</cite>'s <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> and
 calling [method`Gtk`.EntryBuffer.set_max_length] on it.</p>
@@ -1415,92 +1416,90 @@ calling [method`Gtk`.EntryBuffer.set_max_length] on it.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_overwrite_mode">
-<span class="sig-name descname"><span class="pre">set_overwrite_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">overwrite</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5980"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_overwrite_mode" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_overwrite_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">overwrite</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5956"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_overwrite_mode" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – new value</p>
 </dd>
 </dl>
-<p>Sets whether the text is overwritten when typing
-in the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Sets whether the text is overwritten when typing.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_placeholder_text">
-<span class="sig-name descname"><span class="pre">set_placeholder_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L6933"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_placeholder_text" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_placeholder_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L6934"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_placeholder_text" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a string to be displayed when <cite>self</cite>
 is empty and unfocused</p>
 </dd>
 </dl>
-<p>Sets text to be displayed in <cite>self</cite> when it is empty.</p>
+<p>Sets the text to be displayed when the text widget is
+empty and unfocused.</p>
 <p>This can be used to give a visual hint of the expected
-contents of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+contents of the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_propagate_text_width">
-<span class="sig-name descname"><span class="pre">set_propagate_text_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">propagate_text_width</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7348"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_propagate_text_width" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_propagate_text_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">propagate_text_width</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7346"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_propagate_text_width" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>propagate_text_width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to propagate the text width</p>
+<dd class="field-odd"><p><strong>propagate_text_width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true to propagate the text width</p>
 </dd>
 </dl>
-<p>Sets whether the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> should grow and shrink with the content.</p>
+<p>Sets whether the text widget should grow and shrink with the content.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_tabs">
-<span class="sig-name descname"><span class="pre">set_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_tabs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_tabs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tabs</strong> (<a class="reference external" href="../../Pango-1.0/classes/TabArray.html#Pango.TabArray" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.TabArray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">PangoTabArray</span></code></p>
+<dd class="field-odd"><p><strong>tabs</strong> (<a class="reference external" href="../../Pango-1.0/classes/TabArray.html#Pango.TabArray" title="(in Pango 1.0 v1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pango.TabArray</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – tab stops</p>
 </dd>
 </dl>
-<p>Sets tabstops that are applied to the text.</p>
+<p>Sets tab stops for the text widget.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_truncate_multiline">
-<span class="sig-name descname"><span class="pre">set_truncate_multiline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncate_multiline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L7393"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_truncate_multiline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_truncate_multiline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truncate_multiline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L7390"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_truncate_multiline" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>truncate_multiline</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to truncate multi-line text</p>
+<dd class="field-odd"><p><strong>truncate_multiline</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true to truncate multi-line text</p>
 </dd>
 </dl>
-<p>Sets whether the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> should truncate multi-line text
-that is pasted into the widget.</p>
+<p>Sets whether pasted text should be truncated to the first line.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.set_visibility">
-<span class="sig-name descname"><span class="pre">set_visibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5839"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_visibility" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_visibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5817"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.set_visibility" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>visible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the contents of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> are displayed
-as plaintext</p>
+<dd class="field-odd"><p><strong>visible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true if the contents of the text widget are displayed
+as plain text</p>
 </dd>
 </dl>
-<p>Sets whether the contents of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code> are visible or not.</p>
-<p>When visibility is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, characters are displayed
-as the invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, and will also appear that way when
+<p>Sets whether the contents of the text widget are visible or not.</p>
+<p>When visibility is set to false, characters are displayed
+as the invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, and it will also appear that way when
 the text in the widget is copied to the clipboard.</p>
 <p>By default, GTK picks the best invisible character available
 in the current font, but it can be changed with
 [method`Gtk`.Text.set_invisible_char].</p>
 <p>Note that you probably want to set [property`Gtk`.Text:input-purpose]
-to <a class="reference internal" href="../enums.html#Gtk.InputPurpose.PASSWORD" title="Gtk.InputPurpose.PASSWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose.PASSWORD</span></code></a> or <a class="reference internal" href="../enums.html#Gtk.InputPurpose.PIN" title="Gtk.InputPurpose.PIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose.PIN</span></code></a> to
-inform input methods about the purpose of this self,
-in addition to setting visibility to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+to [enum`Gtk`.InputPurpose.password] or [enum`Gtk`.InputPurpose.pin]
+to inform input methods about the purpose of this widget, in addition
+to setting visibility to false.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Text.unset_invisible_char">
-<span class="sig-name descname"><span class="pre">unset_invisible_char</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtktext.c#L5947"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.unset_invisible_char" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unset_invisible_char</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtktext.c#L5924"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Text.unset_invisible_char" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unsets the invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>.</p>
-<p>After calling this, the default invisible
-<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> is used again.</p>
+<p>After calling this, the default invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> is used again.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1602,16 +1601,16 @@ of the &lt;kbd&gt;Enter&lt;/kbd&gt; key.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text</strong> (<a class="reference internal" href="#Gtk.Text" title="Gtk.Text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Text</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>type</strong> (<a class="reference internal" href="../enums.html#Gtk.DeleteType" title="Gtk.DeleteType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.DeleteType</span></code></a>) – the granularity of the deletion, as a <code class="docutils literal notranslate"><span class="pre">GtkDeleteType</span></code></p></li>
+<li><p><strong>type</strong> (<a class="reference internal" href="../enums.html#Gtk.DeleteType" title="Gtk.DeleteType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.DeleteType</span></code></a>) – the granularity of the deletion</p></li>
 <li><p><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the number of <cite>type</cite> units to delete</p></li>
 </ul>
 </dd>
 </dl>
 <p>Emitted when the user initiates a text deletion.</p>
 <p>This is a <a class="reference external" href="class.SignalAction.html">keybinding signal</a>.</p>
-<p>If the <cite>type</cite> is <a class="reference internal" href="../enums.html#Gtk.DeleteType.CHARS" title="Gtk.DeleteType.CHARS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.DeleteType.CHARS</span></code></a>, GTK deletes the selection
-if there is one, otherwise it deletes the requested number
-of characters.</p>
+<p>If the <cite>type</cite> is [enum`Gtk`.DeleteType.chars], GTK deletes the
+selection if there is one, otherwise it deletes the requested
+number of characters.</p>
 <p>The default bindings for this signal are &lt;kbd&gt;Delete&lt;/kbd&gt;
 for deleting a character and &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Delete&lt;/kbd&gt;
 for deleting a word.</p>
@@ -1654,7 +1653,7 @@ fixed string at the cursor.</p>
 <dd class="field-odd"><p><strong>text</strong> (<a class="reference internal" href="#Gtk.Text" title="Gtk.Text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Text</span></code></a>) – The object which received the signal</p>
 </dd>
 </dl>
-<p>Emitted to present the Emoji chooser for the widget.</p>
+<p>Emitted to present the Emoji chooser.</p>
 <p>This is a <a class="reference external" href="class.SignalAction.html">keybinding signal</a>.</p>
 <p>The default bindings for this signal are
 &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;.&lt;/kbd&gt; and
@@ -1674,9 +1673,9 @@ fixed string at the cursor.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text</strong> (<a class="reference internal" href="#Gtk.Text" title="Gtk.Text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Text</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>step</strong> (<a class="reference internal" href="../enums.html#Gtk.MovementStep" title="Gtk.MovementStep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.MovementStep</span></code></a>) – the granularity of the move, as a <code class="docutils literal notranslate"><span class="pre">GtkMovementStep</span></code></p></li>
+<li><p><strong>step</strong> (<a class="reference internal" href="../enums.html#Gtk.MovementStep" title="Gtk.MovementStep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.MovementStep</span></code></a>) – the granularity of the move</p></li>
 <li><p><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the number of <cite>step</cite> units to move</p></li>
-<li><p><strong>extend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the move should extend the selection</p></li>
+<li><p><strong>extend</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true if the move should extend the selection</p></li>
 </ul>
 </dd>
 </dl>
@@ -1685,8 +1684,8 @@ fixed string at the cursor.</p>
 the viewport to be moved instead.</p>
 <p>This is a <a class="reference external" href="class.SignalAction.html">keybinding signal</a>.</p>
 <p>Applications should not connect to it, but may emit it with
-g_signal_emit_by_name() if they need to control the cursor
-programmatically.</p>
+[func`GObject`.signal_emit_by_name] if they need to control
+the cursor programmatically.</p>
 <p>The default bindings for this signal come in two variants,
 the variant with the &lt;kbd&gt;Shift&lt;/kbd&gt; modifier extends the
 selection, the variant without it does not.
@@ -1756,7 +1755,7 @@ connect to this signal.</p>
 <dd class="field-odd"><p><strong>text</strong> (<a class="reference internal" href="#Gtk.Text" title="Gtk.Text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Text</span></code></a>) – The object which received the signal</p>
 </dd>
 </dl>
-<p>Emitted to toggle the overwrite mode of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Emitted to toggle the overwrite mode.</p>
 <p>This is a <a class="reference external" href="class.SignalAction.html">keybinding signal</a>.</p>
 <p>The default bindings for this signal is &lt;kbd&gt;Insert&lt;/kbd&gt;.</p>
 </dd></dl>
@@ -1781,7 +1780,7 @@ connect to this signal.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>Whether to activate the default widget when Enter is pressed.</p>
+<p>Whether to activate the default widget when &lt;kbd&gt;Enter&lt;/kbd&gt; is pressed.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -1801,7 +1800,7 @@ connect to this signal.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>A list of Pango attributes to apply to the text of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>A list of Pango attributes to apply to the text.</p>
 <p>This is mainly useful to change the size or weight of the text.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">PangoAttribute</span></code>’s <cite>start_index</cite> and <cite>end_index</cite> must refer to the
 <code class="docutils literal notranslate"><span class="pre">GtkEntryBuffer</span></code> text, i.e. without the preedit string.</p>
@@ -1864,8 +1863,7 @@ connect to this signal.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>A menu model whose contents will be appended to
-the context menu.</p>
+<p>A menu model whose contents will be appended to the context menu.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -1885,11 +1883,11 @@ the context menu.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>Which IM (input method) module should be used for this self.</p>
+<p>Which input method module should be used.</p>
 <p>See [class`Gtk`.IMMulticontext].</p>
-<p>Setting this to a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> value overrides the system-wide
-IM module setting. See the [property`Gtk`.Settings:gtk-im-module]
-property.</p>
+<p>Setting this to a non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> value overrides the system-wide
+input method. See the [property`Gtk`.Settings:gtk-im-module]
+setting.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -1931,10 +1929,10 @@ their behaviour.</p>
 </dd>
 </dl>
 <p>The purpose of this text field.</p>
-<p>This property can be used by on-screen keyboards and other input
+<p>This information can be used by on-screen keyboards and other input
 methods to adjust their behaviour.</p>
-<p>Note that setting the purpose to <a class="reference internal" href="../enums.html#Gtk.InputPurpose.PASSWORD" title="Gtk.InputPurpose.PASSWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose.PASSWORD</span></code></a> or
-<a class="reference internal" href="../enums.html#Gtk.InputPurpose.PIN" title="Gtk.InputPurpose.PIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.InputPurpose.PIN</span></code></a> is independent from setting
+<p>Note that setting the purpose to [enum`Gtk`.InputPurpose.password]
+or [enum`Gtk`.InputPurpose.pin] is independent from setting
 [property`Gtk`.Text:visibility].</p>
 </dd></dl>
 
@@ -1975,7 +1973,7 @@ methods to adjust their behaviour.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
 </dd>
 </dl>
-<p>Whether the invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> has been set for the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Whether the invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> has been set.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -2016,7 +2014,7 @@ methods to adjust their behaviour.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>If text is overwritten when typing in the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>If text is overwritten when typing.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -2097,7 +2095,7 @@ and unfocused.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>A list of tabstops to apply to the text of the <code class="docutils literal notranslate"><span class="pre">GtkText</span></code>.</p>
+<p>Custom tabs for this text widget.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -2117,7 +2115,7 @@ and unfocused.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>When <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, pasted multi-line text is truncated to the first line.</p>
+<p>When true, pasted multi-line text is truncated to the first line.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -2137,7 +2135,7 @@ and unfocused.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
-<p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, the text is masked with the “invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>”.</p>
+<p>If false, the text is masked with the “invisible <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>”.</p>
 </dd></dl>
 
 </section>

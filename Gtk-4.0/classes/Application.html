@@ -512,10 +512,10 @@
 <td><p>Emitted when the session manager is about to end the session.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gtk.Application.signals.window_added" title="Gtk.Application.signals.window_added"><code class="xref py py-func docutils literal notranslate"><span class="pre">window-added</span></code></a></p></td>
-<td><p>Emitted when a [class`Gtk`.Window] is added to <code class="docutils literal notranslate"><span class="pre">application</span></code> through [method`Gtk`.Application.add_window].</p></td>
+<td><p>Emitted when a window is added to an application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gtk.Application.signals.window_removed" title="Gtk.Application.signals.window_removed"><code class="xref py py-func docutils literal notranslate"><span class="pre">window-removed</span></code></a></p></td>
-<td><p>Emitted when a [class`Gtk`.Window] is removed from <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p></td>
+<td><p>Emitted when a window is removed from an application.</p></td>
 </tr>
 </tbody>
 </table>
@@ -566,16 +566,15 @@
 <dd class="field-odd"><p><a class="reference internal" href="ApplicationClass.html#Gtk.ApplicationClass" title="Gtk.ApplicationClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ApplicationClass</span></code></a></p>
 </dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> is a high-level API for writing applications.</p>
-<p>It supports many aspects of writing a GTK application in a convenient
-fashion, without enforcing a one-size-fits-all model.</p>
-<p>Currently, <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> handles GTK initialization, application
-uniqueness, session management, provides some basic scriptability and
-desktop shell integration by exporting actions and menus and manages a
-list of toplevel windows whose life-cycle is automatically tied to the
-life-cycle of your application.</p>
-<p>While <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> works fine with plain [class`Gtk`.Window]s, it is
-recommended to use it together with [class`Gtk`.ApplicationWindow].</p>
+<p>A high-level API for writing applications.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> supports many aspects of writing a GTK application
+in a convenient fashion, without enforcing a one-size-fits-all model.</p>
+<p>Currently, it handles GTK initialization, application uniqueness, session
+management, provides some basic scriptability and desktop shell integration
+by exporting actions and menus and manages a list of toplevel windows whose
+life-cycle is automatically tied to the life-cycle of your application.</p>
+<p>While <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> works fine with plain [class`Gtk`.Window]s,
+it is recommended to use it together with [class`Gtk`.ApplicationWindow].</p>
 <dl class="simple">
 <dt>Automatic resources</dt><dd></dd>
 </dl>
@@ -631,7 +630,7 @@ session while inhibitors are present.</p>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L691"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L706"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -646,52 +645,51 @@ session while inhibitors are present.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> instance.</p>
+<p>Creates a new application instance.</p>
 <p>When using <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code>, it is not necessary to call [func`Gtk`.init]
 manually. It is called as soon as the application gets registered as
 the primary instance.</p>
 <p>Concretely, [func`Gtk`.init] is called in the default handler for the
-<code class="docutils literal notranslate"><span class="pre">GApplication::startup</span></code> signal. Therefore, <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> subclasses should
-always chain up in their <code class="docutils literal notranslate"><span class="pre">GApplication::startup</span></code> handler before using any GTK
-API.</p>
+<code class="docutils literal notranslate"><span class="pre">GApplication::tartup</span></code> signal. Therefore, <code class="docutils literal notranslate"><span class="pre">GtkApplication</span></code> subclasses
+should always chain up in their [vfuncGIO.Application.startup] handler
+before using any GTK API.</p>
 <p>Note that commandline arguments are not passed to [func`Gtk`.init].</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">application_id</span></code> is not <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then it must be valid. See
-<code class="docutils literal notranslate"><span class="pre">g_application_id_is_valid()</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">application_id</span></code> is not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, then it must be valid. See
+[func`Gio`.Application.id_is_valid].</p>
 <p>If no application ID is given then some features (most notably application
 uniqueness) will be disabled.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.add_window">
-<span class="sig-name descname"><span class="pre">add_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L724"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.add_window" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L738"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.add_window" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GtkWindow</span></code></p>
+<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a window</p>
 </dd>
 </dl>
-<p>Adds a window to <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>This call can only happen after the <code class="docutils literal notranslate"><span class="pre">application</span></code> has started;
+<p>Adds a window to the application.</p>
+<p>This call can only happen after the application has started;
 typically, you should add new application windows in response
-to the emission of the <code class="docutils literal notranslate"><span class="pre">GApplication::activate</span></code> signal.</p>
+to the emission of the [signalGIO.Application::activate] signal.</p>
 <p>This call is equivalent to setting the [property`Gtk`.Window:application]
-property of <code class="docutils literal notranslate"><span class="pre">window</span></code> to <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
+property of the window to <cite>self</cite>.</p>
 <p>Normally, the connection between the application and the window
 will remain until the window is destroyed, but you can explicitly
 remove it with [method`Gtk`.Application.remove_window].</p>
-<p>GTK will keep the <code class="docutils literal notranslate"><span class="pre">application</span></code> running as long as it has
-any windows.</p>
+<p>GTK will keep the application running as long as it has any windows.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_accels_for_action">
-<span class="sig-name descname"><span class="pre">get_accels_for_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_accels_for_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_accels_for_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_accels_for_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>detailed_action_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a detailed action name, specifying an action
 and target to obtain accelerators for</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>accelerators for <code class="docutils literal notranslate"><span class="pre">detailed_action_name</span></code></p>
+<dd class="field-even"><p>accelerators for <cite>detailed_action_name</cite></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
@@ -703,19 +701,19 @@ the given action.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_actions_for_accel">
-<span class="sig-name descname"><span class="pre">get_actions_for_accel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accel</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_actions_for_accel" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_actions_for_accel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accel</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1167"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_actions_for_accel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>accel</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an accelerator that can be parsed by [func`Gtk`.accelerator_parse]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of actions for <code class="docutils literal notranslate"><span class="pre">accel</span></code></p>
+<dd class="field-even"><p>actions for <cite>accel</cite></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
-<p>Returns the list of actions (possibly empty) that <code class="docutils literal notranslate"><span class="pre">accel</span></code> maps to.</p>
+<p>Returns the list of actions (possibly empty) that the accelerator maps to.</p>
 <p>Each item in the list is a detailed action name in the usual form.</p>
 <p>This might be useful to discover if an accel already exists in
 order to prevent installation of a conflicting accelerator (from
@@ -731,7 +729,7 @@ is returned. <code class="docutils literal notranslate"><span class="pre">NULL</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_active_window">
-<span class="sig-name descname"><span class="pre">get_active_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L843"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_active_window" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_active_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L856"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_active_window" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the active window</p>
@@ -741,22 +739,22 @@ is returned. <code class="docutils literal notranslate"><span class="pre">NULL</
 </dd>
 </dl>
 <p>Gets the “active” window for the application.</p>
-<p>The active window is the one that was most recently focused (within
-the application).  This window may not have the focus at the moment
-if another application has it — this is just the most
-recently-focused window within this application.</p>
+<p>The active window is the one that was most recently focused
+(within the application). This window may not have the focus
+at the moment if another application has it — this is just
+the most recently-focused window within this application.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_menu_by_id">
-<span class="sig-name descname"><span class="pre">get_menu_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1217"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_menu_by_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_menu_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_menu_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the id of the menu to look up</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the ID of the menu to look up</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Gets the menu with the
-given id from the automatically loaded resources</p>
+given ID from the automatically loaded resources</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="../../Gio-2.0/classes/Menu.html#Gio.Menu" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Menu</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
@@ -769,51 +767,49 @@ for more information.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_menubar">
-<span class="sig-name descname"><span class="pre">get_menubar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L915"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_menubar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_menubar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L927"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_menubar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the menubar for windows of <code class="docutils literal notranslate"><span class="pre">application</span></code></p>
+<dd class="field-odd"><p>the menubar for windows of the application</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the menu model that has been set with
-[method`Gtk`.Application.set_menubar].</p>
+<p>Returns the menu model for the menu bar of the application.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_window_by_id">
-<span class="sig-name descname"><span class="pre">get_window_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L812"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_window_by_id" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_window_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L825"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_window_by_id" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an identifier number</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the window for the given <code class="docutils literal notranslate"><span class="pre">id</span></code></p>
+<dd class="field-even"><p>the window for the given ID</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the [class`Gtk`.ApplicationWindow] with the given ID.</p>
+<p>Returns the window with the given ID.</p>
 <p>The ID of a <code class="docutils literal notranslate"><span class="pre">GtkApplicationWindow</span></code> can be retrieved with
 [method`Gtk`.ApplicationWindow.get_id].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.get_windows">
-<span class="sig-name descname"><span class="pre">get_windows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L789"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_windows" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_windows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L802"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.get_windows" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <code class="docutils literal notranslate"><span class="pre">GList</span></code> of <code class="docutils literal notranslate"><span class="pre">GtkWindow</span></code>
-instances</p>
+<dd class="field-odd"><p>the list of windows</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>]</p>
 </dd>
 </dl>
-<p>Gets a list of the [class`Gtk`.Window] instances associated with <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
+<p>Gets a list of the window associated with the application.</p>
 <p>The list is sorted by most recently focused window, such that the first
 element is the currently focused window. (Useful for choosing a parent
 for a transient window.)</p>
@@ -824,33 +820,32 @@ deletion.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.inhibit">
-<span class="sig-name descname"><span class="pre">inhibit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L980"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.inhibit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">inhibit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L995"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.inhibit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GtkWindow</span></code></p></li>
+<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a window</p></li>
 <li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Gtk.ApplicationInhibitFlags" title="Gtk.ApplicationInhibitFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.ApplicationInhibitFlags</span></code></a>) – what types of actions should be inhibited</p></li>
 <li><p><strong>reason</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a short, human-readable string that explains
 why these operations are inhibited</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A non-zero cookie that is used to uniquely identify this
-request. It should be used as an argument to [method`Gtk`.Application.uninhibit]
-in order to remove the request. If the platform does not support
-inhibiting or the request failed for some reason, 0 is returned.</p>
+<dd class="field-even"><p>A non-zero cookie that is used to uniquely identify this, or
+0 if the platform does not support inhibiting or the request failed
+for some reason</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Inform the session manager that certain types of actions should be
+<p>Informs the session manager that certain types of actions should be
 inhibited.</p>
 <p>This is not guaranteed to work on all platforms and for all types of
 actions.</p>
 <p>Applications should invoke this method when they begin an operation
 that should not be interrupted, such as creating a CD or DVD. The
-types of actions that may be blocked are specified by the <code class="docutils literal notranslate"><span class="pre">flags</span></code>
+types of actions that may be blocked are specified by the <cite>flags</cite>
 parameter. When the application completes the operation it should
 call [method`Gtk`.Application.uninhibit] to remove the inhibitor. Note
 that an application can have multiple inhibitors, and all of them must
@@ -859,14 +854,17 @@ application exits.</p>
 <p>Applications should not expect that they will always be able to block
 the action. In most cases, users will be given the option to force
 the action to take place.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">reason</span></code> message should be short and to the point.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">window</span></code> is given, the session manager may point the user to
+<p>The <cite>reason</cite> message should be short and to the point.</p>
+<p>If a window is given, the session manager may point the user to
 this window to find out more about why the action is inhibited.</p>
+<p>The cookie tha tis returned by this function  should be used as an
+argument to [method`Gtk`.Application.uninhibit] in order to remove
+the request.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.list_action_descriptions">
-<span class="sig-name descname"><span class="pre">list_action_descriptions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1048"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.list_action_descriptions" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_action_descriptions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1063"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.list_action_descriptions" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the detailed action names</p>
@@ -881,23 +879,23 @@ this window to find out more about why the action is inhibited.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.remove_window">
-<span class="sig-name descname"><span class="pre">remove_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L759"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.remove_window" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L773"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.remove_window" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GtkWindow</span></code></p>
+<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a window</p>
 </dd>
 </dl>
-<p>Remove a window from <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">window</span></code> belongs to <code class="docutils literal notranslate"><span class="pre">application</span></code> then this call is equivalent to
-setting the [property`Gtk`.Window:application] property of <code class="docutils literal notranslate"><span class="pre">window</span></code> to
-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+<p>Remove a window from the application.</p>
+<p>If the window belongs to the application then this call is
+equivalent to setting the [property`Gtk`.Window:application]
+property of the window to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
 <p>The application may stop running as a result of a call to this
-function, if <code class="docutils literal notranslate"><span class="pre">window</span></code> was the last window of the <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
+function, if the window was the last window of the application.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.set_accels_for_action">
-<span class="sig-name descname"><span class="pre">set_accels_for_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accels</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1080"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.set_accels_for_action" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_accels_for_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detailed_action_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accels</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1095"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.set_accels_for_action" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -910,29 +908,29 @@ understood by [func`Gtk`.accelerator_parse]</p></li>
 </dl>
 <p>Sets zero or more keyboard accelerators that will trigger the
 given action.</p>
-<p>The first item in <code class="docutils literal notranslate"><span class="pre">accels</span></code> will be the primary accelerator, which may be
-displayed in the UI.</p>
-<p>To remove all accelerators for an action, use an empty, zero-terminated
-array for <code class="docutils literal notranslate"><span class="pre">accels</span></code>.</p>
-<p>For the <code class="docutils literal notranslate"><span class="pre">detailed_action_name</span></code>, see <code class="docutils literal notranslate"><span class="pre">g_action_parse_detailed_name()</span></code> and
-<code class="docutils literal notranslate"><span class="pre">g_action_print_detailed_name()</span></code>.</p>
+<p>The first item in <cite>accels</cite> will be the primary accelerator,
+which may be displayed in the UI.</p>
+<p>To remove all accelerators for an action, use an empty,
+zero-terminated array for <cite>accels</cite>.</p>
+<p>For the <cite>detailed_action_name</cite>, see [func`Gio`.Action.parse_detailed_name]
+and [Gio.Action.print_detailed_name].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.set_menubar">
-<span class="sig-name descname"><span class="pre">set_menubar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menubar</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L888"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.set_menubar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_menubar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menubar</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L901"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.set_menubar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>menubar</strong> (<a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code></p>
+<dd class="field-odd"><p><strong>menubar</strong> (<a class="reference external" href="../../Gio-2.0/classes/MenuModel.html#Gio.MenuModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.MenuModel</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a menu model</p>
 </dd>
 </dl>
-<p>Sets or unsets the menubar for windows of <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
+<p>Sets or unsets the menubar for windows of the application.</p>
 <p>This is a menubar in the traditional sense.</p>
 <p>This can only be done in the primary instance of the application,
-after it has been registered. <code class="docutils literal notranslate"><span class="pre">GApplication::startup</span></code> is a good place
-to call this.</p>
+after it has been registered. [vfuncGIO.Application.startup] is
+a good place to call this.</p>
 <p>Depending on the desktop environment, this may appear at the top of
-each window, or at the top of the screen.  In some environments, if
+each window, or at the top of the screen. In some environments, if
 both the application menu and the menubar are set, the application
 menu will be presented as if it were the first item of the menubar.
 Other environments treat the two as completely separate — for example,
@@ -944,7 +942,7 @@ user selecting these menu items.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Application.uninhibit">
-<span class="sig-name descname"><span class="pre">uninhibit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookie</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkapplication.c#L1004"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.uninhibit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">uninhibit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cookie</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkapplication.c#L1019"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Application.uninhibit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cookie</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a cookie that was returned by [method`Gtk`.Application.inhibit]</p>
@@ -1001,8 +999,8 @@ explicitly through <a class="reference internal" href="#Gtk.Application.remove_w
 </dl>
 <p>Emitted when the session manager is about to end the session.</p>
 <p>This signal is only emitted if [property`Gtk`.Application:register-session]
-is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>. Applications can connect to this signal and call
-[method`Gtk`.Application.inhibit] with <code class="docutils literal notranslate"><span class="pre">GTK_APPLICATION_INHIBIT_LOGOUT</span></code>
+is true. Applications can connect to this signal and call
+[method`Gtk`.Application.inhibit] with [flags`Gtk`.ApplicationInhibitFlags.logout]
 to delay the end of the session until state has been saved.</p>
 </dd></dl>
 
@@ -1019,12 +1017,12 @@ to delay the end of the session until state has been saved.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>application</strong> (<a class="reference internal" href="#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – the newly-added [class`Gtk`.Window]</p></li>
+<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – the newly-added window</p></li>
 </ul>
 </dd>
 </dl>
-<p>Emitted when a [class`Gtk`.Window] is added to <code class="docutils literal notranslate"><span class="pre">application</span></code> through
-[method`Gtk`.Application.add_window].</p>
+<p>Emitted when a window is added to an application.</p>
+<p>See [method`Gtk`.Application.add_window].</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1040,11 +1038,11 @@ to delay the end of the session until state has been saved.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>application</strong> (<a class="reference internal" href="#Gtk.Application" title="Gtk.Application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Application</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – the [class`Gtk`.Window] that is being removed</p></li>
+<li><p><strong>window</strong> (<a class="reference internal" href="Window.html#Gtk.Window" title="Gtk.Window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – the window that is being removed</p></li>
 </ul>
 </dd>
 </dl>
-<p>Emitted when a [class`Gtk`.Window] is removed from <code class="docutils literal notranslate"><span class="pre">application</span></code>.</p>
+<p>Emitted when a window is removed from an application.</p>
 <p>This can happen as a side-effect of the window being destroyed
 or explicitly through [method`Gtk`.Application.remove_window].</p>
 </dd></dl>
@@ -1089,7 +1087,7 @@ or explicitly through [method`Gtk`.Application.remove_window].</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
 </dd>
 </dl>
-<p>The <code class="docutils literal notranslate"><span class="pre">GMenuModel</span></code> to be used for the application’s menu bar.</p>
+<p>The menu model to be used for the application’s menu bar.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -1109,7 +1107,7 @@ or explicitly through [method`Gtk`.Application.remove_window].</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
 </dd>
 </dl>
-<p>Set this property to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> to register with the session manager.</p>
+<p>Set this property to true to register with the session manager.</p>
 <p>This will make GTK track the session state (such as the
 [property`Gtk`.Application:screensaver-active] property).</p>
 </dd></dl>
@@ -1131,10 +1129,10 @@ or explicitly through [method`Gtk`.Application.remove_window].</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></p>
 </dd>
 </dl>
-<p>This property is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if GTK believes that the screensaver is
-currently active.</p>
+<p>This property is true if GTK believes that the screensaver
+is currently active.</p>
 <p>GTK only tracks session state (including this) when
-[property`Gtk`.Application:register-session] is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
+[property`Gtk`.Application:register-session] is set to true.</p>
 <p>Tracking the screensaver state is currently only supported on
 Linux.</p>
 </dd></dl>

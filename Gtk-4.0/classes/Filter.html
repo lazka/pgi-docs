@@ -375,11 +375,10 @@
 <dd class="field-odd"><p><a class="reference internal" href="FilterClass.html#Gtk.FilterClass" title="Gtk.FilterClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.FilterClass</span></code></a></p>
 </dd>
 </dl>
-<p>A <code class="docutils literal notranslate"><span class="pre">GtkFilter</span></code> object describes the filtering to be performed by a
-[class`Gtk`.FilterListModel].</p>
+<p>Describes the filtering to be performed by a [class`Gtk`.FilterListModel].</p>
 <p>The model will use the filter to determine if it should include items
 or not by calling [method`Gtk`.Filter.match] for each item and only
-keeping the ones that the function returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> for.</p>
+keeping the ones that the function returns true for.</p>
 <p>Filters may change what items they match through their lifetime. In that
 case, they will emit the [signal`Gtk`.Filter::changed] signal to notify
 that previous filter results are no longer valid and that items should
@@ -391,10 +390,10 @@ various widgets to easily allow searches.</p>
 also possible to subclass <code class="docutils literal notranslate"><span class="pre">GtkFilter</span></code> and provide one’s own filter.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Filter.changed">
-<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkfilter.c#L181"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.changed" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">change</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkfilter.c#L179"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.changed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>change</strong> (<a class="reference internal" href="../enums.html#Gtk.FilterChange" title="Gtk.FilterChange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterChange</span></code></a>) – How the filter changed</p>
+<dd class="field-odd"><p><strong>change</strong> (<a class="reference internal" href="../enums.html#Gtk.FilterChange" title="Gtk.FilterChange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterChange</span></code></a>) – how the filter changed</p>
 </dd>
 </dl>
 <p>Notifies all users of the filter that it has changed.</p>
@@ -410,7 +409,7 @@ subclasses and should not be called from other functions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Filter.get_strictness">
-<span class="sig-name descname"><span class="pre">get_strictness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkfilter.c#L154"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.get_strictness" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_strictness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkfilter.c#L152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.get_strictness" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the strictness of <cite>self</cite></p>
@@ -419,24 +418,23 @@ subclasses and should not be called from other functions.</p>
 <dd class="field-even"><p><a class="reference internal" href="../enums.html#Gtk.FilterMatch" title="Gtk.FilterMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterMatch</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the known strictness of <cite>filters</cite>.</p>
-<p>If the strictness is not known, <a class="reference internal" href="../enums.html#Gtk.FilterMatch.SOME" title="Gtk.FilterMatch.SOME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterMatch.SOME</span></code></a> is returned.</p>
+<p>Gets the known strictness of a filter.</p>
+<p>If the strictness is not known, [enum`Gtk`.FilterMatch.some] is returned.</p>
 <p>This value may change after emission of the [signal`Gtk`.Filter::changed]
 signal.</p>
-<p>This function is meant purely for optimization purposes, filters can
+<p>This function is meant purely for optimization purposes. Filters can
 choose to omit implementing it, but <code class="docutils literal notranslate"><span class="pre">GtkFilterListModel</span></code> uses it.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Filter.match">
-<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.16.12/gtk/gtkfilter.c#L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.match" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkfilter.c#L127"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Filter.match" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>item</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>) – The item to check</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the filter matches the item and a filter model should
-keep it, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not.</p>
+<dd class="field-even"><p>true if the filter matches the item</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -456,11 +454,11 @@ keep it, <a class="reference external" href="https://docs.python.org/3/library/c
 <dd class="field-even"><p><a class="reference internal" href="../enums.html#Gtk.FilterMatch" title="Gtk.FilterMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterMatch</span></code></a></p>
 </dd>
 </dl>
-<p>Gets the known strictness of <cite>filters</cite>.</p>
-<p>If the strictness is not known, <a class="reference internal" href="../enums.html#Gtk.FilterMatch.SOME" title="Gtk.FilterMatch.SOME"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.FilterMatch.SOME</span></code></a> is returned.</p>
+<p>Gets the known strictness of a filter.</p>
+<p>If the strictness is not known, [enum`Gtk`.FilterMatch.some] is returned.</p>
 <p>This value may change after emission of the [signal`Gtk`.Filter::changed]
 signal.</p>
-<p>This function is meant purely for optimization purposes, filters can
+<p>This function is meant purely for optimization purposes. Filters can
 choose to omit implementing it, but <code class="docutils literal notranslate"><span class="pre">GtkFilterListModel</span></code> uses it.</p>
 </dd></dl>
 
@@ -472,8 +470,7 @@ choose to omit implementing it, but <code class="docutils literal notranslate"><
 <dd class="field-odd"><p><strong>item</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The item to check</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the filter matches the item and a filter model should
-keep it, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not.</p>
+<dd class="field-even"><p>true if the filter matches the item</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>

@@ -284,6 +284,8 @@
 <li><a class="reference internal" href="#Guestfs.Session.find0"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.find0()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.find_inode"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.find_inode()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.findfs_label"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_label()</span></code></a></li>
+<li><a class="reference internal" href="#Guestfs.Session.findfs_partlabel"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_partlabel()</span></code></a></li>
+<li><a class="reference internal" href="#Guestfs.Session.findfs_partuuid"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_partuuid()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.findfs_uuid"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_uuid()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.fsck"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.fsck()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.fstrim"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.fstrim()</span></code></a></li>
@@ -973,6 +975,8 @@
 <li><a class="reference internal" href="#Guestfs.Session.find0"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.find0()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.find_inode"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.find_inode()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.findfs_label"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_label()</span></code></a></li>
+<li><a class="reference internal" href="#Guestfs.Session.findfs_partlabel"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_partlabel()</span></code></a></li>
+<li><a class="reference internal" href="#Guestfs.Session.findfs_partuuid"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_partuuid()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.findfs_uuid"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.findfs_uuid()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.fsck"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.fsck()</span></code></a></li>
 <li><a class="reference internal" href="#Guestfs.Session.fstrim"><code class="docutils literal notranslate"><span class="pre">Guestfs.Session.fstrim()</span></code></a></li>
@@ -2014,6 +2018,12 @@
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Guestfs.Session.findfs_label" title="Guestfs.Session.findfs_label"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfs_label</span></code></a> (label)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Guestfs.Session.findfs_partlabel" title="Guestfs.Session.findfs_partlabel"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfs_partlabel</span></code></a> (label)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Guestfs.Session.findfs_partuuid" title="Guestfs.Session.findfs_partuuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfs_partuuid</span></code></a> (uuid)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Guestfs.Session.findfs_uuid" title="Guestfs.Session.findfs_uuid"><code class="xref py py-func docutils literal notranslate"><span class="pre">findfs_uuid</span></code></a> (uuid)</p></td>
@@ -3810,14 +3820,10 @@ source protocol.</p>
 <p>“protocol = “file””
 filename is interpreted as a local file or device. This is the
 default if the optional protocol parameter is omitted.</p>
-<p>“protocol = “ftp”|”ftps”|”http”|”https”|”tftp””
-Connect to a remote FTP, HTTP or TFTP server. The <cite>server</cite>
-parameter must also be supplied - see below.</p>
-<p>See also: “FTP, HTTP AND TFTP” in guestfs(3)</p>
-<p>“protocol = “gluster””
-Connect to the GlusterFS server. The <cite>server</cite> parameter must also
-be supplied - see below.</p>
-<p>See also: “GLUSTER” in guestfs(3)</p>
+<p>“protocol = “ftp”|”ftps”|”http”|”https””
+Connect to a remote FTP or HTTP server. The <cite>server</cite> parameter
+must also be supplied - see below.</p>
+<p>See also: “FTP AND HTTP” in guestfs(3)</p>
 <p>“protocol = “iscsi””
 Connect to the iSCSI server. The <cite>server</cite> parameter must also be
 supplied - see below. The <cite>username</cite> parameter may be supplied.
@@ -3833,10 +3839,6 @@ must also be supplied - see below. The <cite>username</cite> parameter may
 be supplied. See below. The <cite>secret</cite> parameter may be supplied.
 See below.</p>
 <p>See also: “CEPH” in guestfs(3).</p>
-<p>“protocol = “sheepdog””
-Connect to the Sheepdog server. The <cite>server</cite> parameter may also
-be supplied - see below.</p>
-<p>See also: “SHEEPDOG” in guestfs(3).</p>
 <p>“protocol = “ssh””
 Connect to the Secure Shell (ssh) server.</p>
 <p>The <cite>server</cite> parameter must be supplied. The <cite>username</cite> parameter
@@ -3848,12 +3850,10 @@ list of server(s).</p>
 <p>&lt;![CDATA[Protocol       Number of servers required]]&gt;</p>
 <p>&lt;![CDATA[——–       ————————–]]&gt;</p>
 <p>&lt;![CDATA[file           List must be empty or param not used at all]]&gt;</p>
-<p>&lt;![CDATA[ftp|ftps|http|https|tftp  Exactly one]]&gt;</p>
-<p>&lt;![CDATA[gluster        Exactly one]]&gt;</p>
+<p>&lt;![CDATA[ftp|ftps|http|https  Exactly one]]&gt;</p>
 <p>&lt;![CDATA[iscsi          Exactly one]]&gt;</p>
 <p>&lt;![CDATA[nbd            Exactly one]]&gt;</p>
 <p>&lt;![CDATA[rbd            Zero or more]]&gt;</p>
-<p>&lt;![CDATA[sheepdog       Zero or more]]&gt;</p>
 <p>&lt;![CDATA[ssh            Exactly one]]&gt;</p>
 <p>Each list element is a string specifying a server. The string must
 be in one of the following formats:</p>
@@ -3865,8 +3865,8 @@ be in one of the following formats:</p>
 <p>If the port number is omitted, then the standard port number for the
 protocol is used (see /etc/services).</p>
 <p><cite>username</cite>
-For the <cite>ftp</cite>, <cite>ftps</cite>, <cite>http</cite>, <cite>https</cite>, <cite>iscsi</cite>, <cite>rbd</cite>, <cite>ssh</cite> and <cite>tftp</cite>
-protocols, this specifies the remote username.</p>
+For the <cite>ftp</cite>, <cite>ftps</cite>, <cite>http</cite>, <cite>https</cite>, <cite>iscsi</cite>, <cite>rbd</cite> and <cite>ssh</cite> protocols,
+this specifies the remote username.</p>
 <p>If not given, then the local username is used for <cite>ssh</cite>, and no
 authentication is attempted for ceph. But note this sometimes may
 give unexpected results, for example if using the libvirt backend
@@ -6477,6 +6477,10 @@ which must have one of the following values:</p>
 <p><cite>crc</cite>
 Compute the cyclic redundancy check (CRC) specified by POSIX for the
 <cite>cksum</cite> command.</p>
+<p><cite>gost</cite>
+<cite>gost12</cite>
+Compute the checksum using GOST R34.11-94 or GOST R34.11-2012
+message digest.</p>
 <p><cite>md5</cite>
 Compute the MD5 hash (using the md5sum(1) program).</p>
 <p><cite>sha1</cite>
@@ -7371,6 +7375,7 @@ A Linux LUKS device.</p>
 A Windows BitLocker device.</p>
 <p>The optional <cite>readonly</cite> flag, if set to true, creates a read-only
 mapping.</p>
+<p>The optional <cite>cipher</cite> parameter allows specifying which cipher to use.</p>
 <p>If this block device contains LVM volume groups, then calling
 <a class="reference internal" href="#Guestfs.Session.lvm_scan" title="Guestfs.Session.lvm_scan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.lvm_scan</span></code></a>() with the <cite>activate</cite> parameter <cite>true</cite> will make
 them visible.</p>
@@ -8482,6 +8487,8 @@ Intel Itanium.</p>
 64 bit Power PC (big endian).</p>
 <p>“ppc64le”
 64 bit Power PC (little endian).</p>
+<p>“loongarch64”
+64 bit LoongArch64 (little endian).</p>
 <p>“riscv32”
 “riscv64”
 “riscv128”
@@ -8905,6 +8912,61 @@ given label. An error is returned if no such filesystem can be found.</p>
 <p>To find the label of a filesystem, use <a class="reference internal" href="#Guestfs.Session.vfs_label" title="Guestfs.Session.vfs_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.vfs_label</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.5.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Guestfs.Session.findfs_partlabel">
+<span class="sig-name descname"><span class="pre">findfs_partlabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Guestfs.Session.findfs_partlabel" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the returned string, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>find a partition by label</p>
+<p>This command searches the partitions and returns the one which has the
+given label. An error is returned if no such partition can be found.</p>
+<p>To find the label of a partition, use <a class="reference internal" href="#Guestfs.Session.blkid" title="Guestfs.Session.blkid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.blkid</span></code></a>()
+(PART_ENTRY_NAME).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.53.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Guestfs.Session.findfs_partuuid">
+<span class="sig-name descname"><span class="pre">findfs_partuuid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Guestfs.Session.findfs_partuuid" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uuid</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the returned string, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>find a partition by UUID</p>
+<p>This command searches the partitions and returns the one which has the
+given partition UUID. An error is returned if no such partition can be
+found.</p>
+<p>To find the UUID of a partition, use <a class="reference internal" href="#Guestfs.Session.blkid" title="Guestfs.Session.blkid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.blkid</span></code></a>()
+(PART_ENTRY_UUID).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.53.5.</span></p>
 </div>
 </dd></dl>
 
@@ -11074,6 +11136,8 @@ Arch Linux.</p>
 Buildroot-derived distro, but not one we specifically recognize.</p>
 <p>“centos”
 CentOS.</p>
+<p>“circle”
+Circle Linux.</p>
 <p>“cirros”
 Cirros.</p>
 <p>“coreos”
@@ -11110,6 +11174,8 @@ NeoKylin.</p>
 NetBSD.</p>
 <p>“openbsd”
 OpenBSD.</p>
+<p>“openeuler”
+openEuler.</p>
 <p>“openmandriva”
 OpenMandriva Lx.</p>
 <p>“opensuse”
@@ -17319,8 +17385,6 @@ bootable flag set.</p>
 <p>get the GUID of a GPT-partitioned disk</p>
 <p>Return the disk identifier (GUID) of a GPT-partitioned <cite>device</cite>.
 Behaviour is undefined for other partition types.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.33.2.</span></p>
 </div>
@@ -17349,8 +17413,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <p>get the attribute flags of a GPT partition</p>
 <p>Return the attribute flags of numbered GPT partition <cite>partnum</cite>. An error
 is returned for MBR partitions.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.21.1.</span></p>
 </div>
@@ -17378,8 +17440,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 </dl>
 <p>get the GUID of a GPT partition</p>
 <p>Return the GUID of numbered GPT partition <cite>partnum</cite>.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.29.25.</span></p>
 </div>
@@ -17407,8 +17467,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 </dl>
 <p>get the type GUID of a GPT partition</p>
 <p>Return the type GUID of numbered GPT partition <cite>partnum</cite>.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.21.1.</span></p>
 </div>
@@ -17720,8 +17778,6 @@ recognized.</p>
 <p>Set the disk identifier (GUID) of a GPT-partitioned <cite>device</cite> to <cite>guid</cite>.
 Return an error if the partition table of <cite>device</cite> isn’t GPT, or if <cite>guid</cite>
 is not a valid GUID.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.33.2.</span></p>
 </div>
@@ -17748,8 +17804,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <p>Set the disk identifier (GUID) of a GPT-partitioned <cite>device</cite> to a
 randomly generated value. Return an error if the partition table of
 <cite>device</cite> isn’t GPT.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.33.2.</span></p>
 </div>
@@ -17781,8 +17835,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <cite>attributes</cite>. Return an error if the partition table of <cite>device</cite> isn’t
 GPT.</p>
 <p>See <a class="reference external" href="https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_entries">http://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_entries</a> for a useful list of partition attributes.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.21.1.</span></p>
 </div>
@@ -17813,8 +17865,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 <p>Set the GUID of numbered GPT partition <cite>partnum</cite> to <cite>guid</cite>. Return an
 error if the partition table of <cite>device</cite> isn’t GPT, or if <cite>guid</cite> is not a
 valid GUID.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.29.25.</span></p>
 </div>
@@ -17846,8 +17896,6 @@ See also <a class="reference internal" href="#Guestfs.Session.feature_available"
 error if the partition table of <cite>device</cite> isn’t GPT, or if <cite>guid</cite> is not a
 valid GUID.</p>
 <p>See <a class="reference external" href="https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs">http://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs</a> for a useful list of type GUIDs.</p>
-<p>This function depends on the feature “gdisk”.
-See also <a class="reference internal" href="#Guestfs.Session.feature_available" title="Guestfs.Session.feature_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Guestfs.Session.feature_available</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.21.1.</span></p>
 </div>

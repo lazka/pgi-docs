@@ -447,12 +447,12 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">KeyFile</span></span><a class="headerlink" href="#GLib.KeyFile" title="Permalink to this definition">¶</a></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">GKeyFile</span></code> parses .ini-like config files.</p>
 <p><code class="docutils literal notranslate"><span class="pre">GKeyFile</span></code> lets you parse, edit or create files containing groups of
-key-value pairs, which we call “key files” for lack of a better name.
-Several freedesktop.org specifications use key files now, e.g the
-<a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>
-and the <a class="reference external" href="http://freedesktop.org/Standards/icon-theme-spec">Icon Theme Specification</a>.</p>
+key-value pairs, which we call ‘key files’ for lack of a better name.
+Several freedesktop.org specifications use key files. For example, the
+<a class="reference external" href="https://specifications.freedesktop.org/desktop-entry-spec/latest/">Desktop Entry Specification</a>
+and the <a class="reference external" href="https://specifications.freedesktop.org/icon-theme-spec/latest/">Icon Theme Specification</a>.</p>
 <p>The syntax of key files is described in detail in the
-<a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>,
+<a class="reference external" href="https://specifications.freedesktop.org/desktop-entry-spec/latest/">Desktop Entry Specification</a>,
 here is a quick summary: Key files consists of groups of key-value pairs, interspersed
 with comments.</p>
 <p>```txt</p>
@@ -473,37 +473,39 @@ Welcome[it]=Ciao</p>
 <p>Numbers=2;20;-200;0</p>
 <p>Booleans=true;false;true;true
 ```</p>
-<p>Lines beginning with a ‘#’ and blank lines are considered comments.</p>
+<p>Lines beginning with a <code class="docutils literal notranslate"><span class="pre">#</span></code> and blank lines are considered comments.</p>
 <p>Groups are started by a header line containing the group name enclosed
-in ‘[’ and ‘]’, and ended implicitly by the start of the next group or
+in <code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code>, and ended implicitly by the start of the next group or
 the end of the file. Each key-value pair must be contained in a group.</p>
 <p>Key-value pairs generally have the form <code class="docutils literal notranslate"><span class="pre">key=value</span></code>, with the exception
 of localized strings, which have the form <code class="docutils literal notranslate"><span class="pre">key[locale]=value</span></code>, with a
 locale identifier of the form <code class="docutils literal notranslate"><span class="pre">lang_COUNTRY&#64;MODIFIER</span></code> where <code class="docutils literal notranslate"><span class="pre">COUNTRY</span></code>
-and <code class="docutils literal notranslate"><span class="pre">MODIFIER</span></code> are optional. Space before and after the ‘=’ character
-are ignored. Newline, tab, carriage return and backslash characters in
-value are escaped as <code class="docutils literal notranslate"><span class="pre">\n</span></code>, <code class="docutils literal notranslate"><span class="pre">\t</span></code>, <code class="docutils literal notranslate"><span class="pre">\r</span></code>, and <code class="docutils literal notranslate"><span class="pre">\\\\</span></code>, respectively. To preserve
-leading spaces in values, these can also be escaped as <code class="docutils literal notranslate"><span class="pre">\s</span></code>.</p>
+and <code class="docutils literal notranslate"><span class="pre">MODIFIER</span></code> are optional. As a special case, the locale <code class="docutils literal notranslate"><span class="pre">C</span></code> is associated
+with the untranslated pair <code class="docutils literal notranslate"><span class="pre">key=value</span></code> (since GLib 2.84). Space before and
+after the <code class="docutils literal notranslate"><span class="pre">=</span></code> character is ignored. Newline, tab, carriage return and
+backslash characters in value are escaped as <code class="docutils literal notranslate"><span class="pre">\n</span></code>, <code class="docutils literal notranslate"><span class="pre">\t</span></code>, <code class="docutils literal notranslate"><span class="pre">\r</span></code>, and <code class="docutils literal notranslate"><span class="pre">\\\\</span></code>,
+respectively. To preserve leading spaces in values, these can also be escaped
+as <code class="docutils literal notranslate"><span class="pre">\s</span></code>.</p>
 <p>Key files can store strings (possibly with localized variants), integers,
 booleans and lists of these. Lists are separated by a separator character,
-typically ‘;’ or ‘,’. To use the list separator character in a value in
+typically <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">,</span></code>. To use the list separator character in a value in
 a list, it has to be escaped by prefixing it with a backslash.</p>
 <p>This syntax is obviously inspired by the .ini files commonly met
 on Windows, but there are some important differences:</p>
 <ul class="simple">
-<li><p>.ini files use the ‘;’ character to begin comments,
-key files use the ‘#’ character.</p></li>
+<li><p>.ini files use the <code class="docutils literal notranslate"><span class="pre">;</span></code> character to begin comments,
+key files use the <code class="docutils literal notranslate"><span class="pre">#</span></code> character.</p></li>
 <li><p>Key files do not allow for ungrouped keys meaning only
 comments can precede the first group.</p></li>
 <li><p>Key files are always encoded in UTF-8.</p></li>
 <li><p>Key and Group names are case-sensitive. For example, a group called
-[GROUP] is a different from [group].</p></li>
+<code class="docutils literal notranslate"><span class="pre">[GROUP]</span></code> is a different from <code class="docutils literal notranslate"><span class="pre">[group]</span></code>.</p></li>
 <li><p>.ini files don’t have a strongly typed boolean entry type,
-they only have GetProfileInt(). In key files, only
-true and false (in lower case) are allowed.</p></li>
+they only have <code class="docutils literal notranslate"><span class="pre">GetProfileInt()</span></code>. In key files, only
+<code class="docutils literal notranslate"><span class="pre">true</span></code> and <code class="docutils literal notranslate"><span class="pre">false</span></code> (in lower case) are allowed.</p></li>
 </ul>
 <p>Note that in contrast to the
-<a class="reference external" href="http://freedesktop.org/Standards/desktop-entry-spec">Desktop Entry Specification</a>,
+<a class="reference external" href="https://specifications.freedesktop.org/desktop-entry-spec/latest/">Desktop Entry Specification</a>,
 groups in key files may contain the same key multiple times; the last entry wins.
 Key files may also contain multiple groups with the same name; they are merged
 together. Another difference is that keys and group names in key files are not
@@ -555,7 +557,7 @@ g_autoptr(<a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib
 ```</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.error_quark">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L638"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.error_quark" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">error_quark</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L647"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.error_quark" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -565,18 +567,19 @@ g_autoptr(<a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L709"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L720"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>an empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>.</p>
+<dd class="field-odd"><p>an empty [struct`GLib`.KeyFile].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a> object. Use
-<a class="reference internal" href="#GLib.KeyFile.load_from_file" title="GLib.KeyFile.load_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.load_from_file</span></code></a>(), <a class="reference internal" href="#GLib.KeyFile.load_from_data" title="GLib.KeyFile.load_from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.load_from_data</span></code></a>(),
-<a class="reference internal" href="#GLib.KeyFile.load_from_dirs" title="GLib.KeyFile.load_from_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.load_from_dirs</span></code></a>() or <a class="reference internal" href="#GLib.KeyFile.load_from_data_dirs" title="GLib.KeyFile.load_from_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.load_from_data_dirs</span></code></a>() to
+<p>Creates a new empty [struct`GLib`.KeyFile] object.</p>
+<p>Use [method`GLib`.KeyFile.load_from_file],
+[method`GLib`.KeyFile.load_from_data], [method`GLib`.KeyFile.load_from_dirs] or
+[method`GLib`.KeyFile.load_from_data_dirs] to
 read an existing key file.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
@@ -585,7 +588,7 @@ read an existing key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_boolean">
-<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2605"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2650"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -598,7 +601,7 @@ read an existing key file.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value associated with the key as a boolean,
-or <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if the key was not found or could not be parsed.</p>
+or false if the key was not found or could not be parsed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -606,10 +609,9 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 </dl>
 <p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as a
 boolean.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> is returned and <cite>error</cite> is set
-to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the value
-associated with <cite>key</cite> cannot be interpreted as a boolean then <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>
-is returned and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the value associated with <cite>key</cite> cannot be interpreted
+as a boolean then [error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -617,7 +619,7 @@ is returned and <cite>error</cite> is set to <a class="reference internal" href=
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_boolean_list">
-<span class="sig-name descname"><span class="pre">get_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2701"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2746"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_boolean_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -629,9 +631,9 @@ is returned and <cite>error</cite> is set to <a class="reference internal" href=
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the values associated with the key as a list of booleans, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
+<dd class="field-odd"><p>the values associated with the key as a list of booleans, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the
 key was not found or could not be parsed. The returned list of booleans
-should be freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>() when no longer needed.</p>
+should be freed with [func`GLib`.free] when no longer needed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>]</p>
@@ -639,10 +641,9 @@ should be freed with <a class="reference internal" href="../functions.html#GLib.
 </dl>
 <p>Returns the values associated with <cite>key</cite> under <cite>group_name</cite> as
 booleans.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the values associated
-with <cite>key</cite> cannot be interpreted as booleans then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the values associated with <cite>key</cite> cannot be interpreted
+as booleans then [error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -650,29 +651,29 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_comment">
-<span class="sig-name descname"><span class="pre">get_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3831"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key</p></li>
+<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to get a top-level comment</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to get a group comment</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a comment that should be freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>()</p>
+<dd class="field-odd"><p>a comment that should be freed with [func`GLib`.free]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>Retrieves a comment above <cite>key</cite> from <cite>group_name</cite>.
-If <cite>key</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> then <cite>comment</cite> will be read from above
-<cite>group_name</cite>. If both <cite>key</cite> and <cite>group_name</cite> are <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then
+<p>Retrieves a comment above <cite>key</cite> from <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then <cite>comment</cite> will be read from above
+<cite>group_name</cite>. If both <cite>key</cite> and <cite>group_name</cite> are <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, then
 <cite>comment</cite> will be read from above the first group in the file.</p>
-<p>Note that the returned string does not include the ‘#’ comment markers,
+<p>Note that the returned string does not include the <code class="docutils literal notranslate"><span class="pre">#</span></code> comment markers,
 but does include any whitespace after them (on each line). It includes
 the line breaks between lines, but does not include the final line break.</p>
 <div class="versionadded">
@@ -682,7 +683,7 @@ the line breaks between lines, but does not include the final line break.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_double">
-<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3236"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -695,18 +696,16 @@ the line breaks between lines, but does not include the final line break.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value associated with the key as a double, or
-0.0 if the key was not found or could not be parsed.</p>
+<code class="docutils literal notranslate"><span class="pre">0.0</span></code> if the key was not found or could not be parsed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as a
-double. If <cite>group_name</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the start_group is used.</p>
-<p>If <cite>key</cite> cannot be found then 0.0 is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the value associated
-with <cite>key</cite> cannot be interpreted as a double then 0.0 is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as a double.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the value associated with <cite>key</cite> cannot be interpreted
+as a double then [error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.12.</span></p>
 </div>
@@ -714,7 +713,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_double_list">
-<span class="sig-name descname"><span class="pre">get_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3285"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3334"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_double_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -726,9 +725,9 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the values associated with the key as a list of doubles, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
+<dd class="field-odd"><p>the values associated with the key as a list of doubles, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the
 key was not found or could not be parsed. The returned list of doubles
-should be freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>() when no longer needed.</p>
+should be freed with [func`GLib`.free] when no longer needed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>]</p>
@@ -736,10 +735,9 @@ should be freed with <a class="reference internal" href="../functions.html#GLib.
 </dl>
 <p>Returns the values associated with <cite>key</cite> under <cite>group_name</cite> as
 doubles.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the values associated
-with <cite>key</cite> cannot be interpreted as doubles then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the values associated with <cite>key</cite> cannot be interpreted
+as doubles then [error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.12.</span></p>
 </div>
@@ -747,14 +745,15 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_groups">
-<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1792"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_groups" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1814"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_groups" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>a newly-allocated <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of strings.
-Use <a class="reference internal" href="../functions.html#GLib.strfreev" title="GLib.strfreev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strfreev</span></code></a>() to free it.</p>
+<dd class="field-odd"><p><p>a newly-allocated
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated array of strings. Use [func`GLib`.strfreev] to free it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">length<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return location for the number of returned groups, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p>return location for the number of returned groups,
+or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to ignore</p>
 </dd>
 </dl>
 </p>
@@ -763,9 +762,9 @@ Use <a class="reference internal" href="../functions.html#GLib.strfreev" title="
 <dd class="field-even"><p>([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>], <strong>length</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p>
 </dd>
 </dl>
-<p>Returns all groups in the key file loaded with <cite>self</cite>.
-The array of returned groups will be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated, so
-<cite>length</cite> may optionally be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+<p>Returns all groups in the key file loaded with <cite>self</cite>.</p>
+<p>The array of returned groups will be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated, so
+<cite>length</cite> may optionally be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -773,12 +772,12 @@ The array of returned groups will be <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_int64">
-<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2909"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2956"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> group name</p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> key</p></li>
+<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -786,14 +785,15 @@ The array of returned groups will be <a class="reference external" href="https:/
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value associated with the key as a signed 64-bit integer, or
-0 if the key was not found or could not be parsed.</p>
+<code class="docutils literal notranslate"><span class="pre">0</span></code> if the key was not found or could not be parsed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as a signed
-64-bit integer. This is similar to <a class="reference internal" href="#GLib.KeyFile.get_integer" title="GLib.KeyFile.get_integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_integer</span></code></a>() but can return
+64-bit integer.</p>
+<p>This is similar to [method`GLib`.KeyFile.get_integer] but can return
 64-bit results without truncation.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
@@ -802,7 +802,7 @@ The array of returned groups will be <a class="reference external" href="https:/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_integer">
-<span class="sig-name descname"><span class="pre">get_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2818"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2862"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -815,7 +815,7 @@ The array of returned groups will be <a class="reference external" href="https:/
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value associated with the key as an integer, or
-0 if the key was not found or could not be parsed.</p>
+<code class="docutils literal notranslate"><span class="pre">0</span></code> if the key was not found or could not be parsed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -823,11 +823,10 @@ The array of returned groups will be <a class="reference external" href="https:/
 </dl>
 <p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as an
 integer.</p>
-<p>If <cite>key</cite> cannot be found then 0 is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the value associated
-with <cite>key</cite> cannot be interpreted as an integer, or is out of range
-for a <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, then 0 is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the value associated with <cite>key</cite> cannot be interpreted
+as an integer, or is out of range for a <code class="docutils literal notranslate"><span class="pre">gint</span></code>, then
+[error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -835,7 +834,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_integer_list">
-<span class="sig-name descname"><span class="pre">get_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3072"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_integer_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -847,9 +846,9 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the values associated with the key as a list of integers, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if
+<dd class="field-odd"><p>the values associated with the key as a list of integers, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if
 the key was not found or could not be parsed. The returned list of
-integers should be freed with <a class="reference internal" href="../functions.html#GLib.free" title="GLib.free"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>() when no longer needed.</p>
+integers should be freed with [func`GLib`.free] when no longer needed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>]</p>
@@ -857,11 +856,10 @@ integers should be freed with <a class="reference internal" href="../functions.h
 </dl>
 <p>Returns the values associated with <cite>key</cite> under <cite>group_name</cite> as
 integers.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. Likewise, if the values associated
-with <cite>key</cite> cannot be interpreted as integers, or are out of range for
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.INVALID_VALUE" title="GLib.KeyFileError.INVALID_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.INVALID_VALUE</span></code></a>.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. Likewise, if the values associated with <cite>key</cite> cannot be interpreted
+as integers, or are out of range for <code class="docutils literal notranslate"><span class="pre">gint</span></code>, then
+[error`GLib`.KeyFileError.INVALID_VALUE] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -869,7 +867,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_keys">
-<span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1700"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1720"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_keys" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
@@ -878,11 +876,12 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>a newly-allocated <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of strings.
-Use <a class="reference internal" href="../functions.html#GLib.strfreev" title="GLib.strfreev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strfreev</span></code></a>() to free it.</p>
+<dd class="field-odd"><p><p>a newly-allocated
+<code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated array of strings. Use [func`GLib`.strfreev] to free it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">length<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return location for the number of keys returned, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p>return location for the number of keys returned,
+or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to ignore</p>
 </dd>
 </dl>
 </p>
@@ -891,11 +890,10 @@ Use <a class="reference internal" href="../functions.html#GLib.strfreev" title="
 <dd class="field-even"><p>([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>], <strong>length</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p>
 </dd>
 </dl>
-<p>Returns all keys for the group name <cite>group_name</cite>.  The array of
-returned keys will be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated, so <cite>length</cite> may
-optionally be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. In the event that the <cite>group_name</cite> cannot
-be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set to
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.GROUP_NOT_FOUND" title="GLib.KeyFileError.GROUP_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.GROUP_NOT_FOUND</span></code></a>.</p>
+<p>Returns all keys for the group name <cite>group_name</cite>.</p>
+<p>The array of returned keys will be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated, so <cite>length</cite> may
+optionally be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>. If the <cite>group_name</cite> cannot be found,
+[error`GLib`.KeyFileError.GROUP_NOT_FOUND] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -903,17 +901,17 @@ be found, <a class="reference external" href="https://docs.python.org/3/library/
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_for_key">
-<span class="sig-name descname"><span class="pre">get_locale_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2413"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_for_key" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2447"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_for_key" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
-<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to use the current locale</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the locale from the file, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the key was not
+<dd class="field-even"><p>the locale from the file, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the key was not
 found or the entry in the file was was untranslated</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -921,10 +919,10 @@ found or the entry in the file was was untranslated</p>
 </dd>
 </dl>
 <p>Returns the actual locale which the result of
-<a class="reference internal" href="#GLib.KeyFile.get_locale_string" title="GLib.KeyFile.get_locale_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_locale_string</span></code></a>() or <a class="reference internal" href="#GLib.KeyFile.get_locale_string_list" title="GLib.KeyFile.get_locale_string_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_locale_string_list</span></code></a>()
-came from.</p>
-<p>If calling <a class="reference internal" href="#GLib.KeyFile.get_locale_string" title="GLib.KeyFile.get_locale_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_locale_string</span></code></a>() or
-<a class="reference internal" href="#GLib.KeyFile.get_locale_string_list" title="GLib.KeyFile.get_locale_string_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_locale_string_list</span></code></a>() with exactly the same <cite>self</cite>,
+[method`GLib`.KeyFile.get_locale_string] or
+[method`GLib`.KeyFile.get_locale_string_list] came from.</p>
+<p>If calling [method`GLib`.KeyFile.get_locale_string] or
+[method`GLib`.KeyFile.get_locale_string_list] with exactly the same <cite>self</cite>,
 <cite>group_name</cite>, <cite>key</cite> and <cite>locale</cite>, the result of those functions will
 have originally been tagged with the locale that is the result of
 this function.</p>
@@ -935,20 +933,20 @@ this function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_string">
-<span class="sig-name descname"><span class="pre">get_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2276"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2307"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
-<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to use the current locale</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly allocated string or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the specified
+<dd class="field-odd"><p>a newly allocated string or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the specified
 key cannot be found.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -956,13 +954,15 @@ key cannot be found.</p>
 </dd>
 </dl>
 <p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite>
-translated in the given <cite>locale</cite> if available.  If <cite>locale</cite> is
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> then the current locale is assumed.</p>
-<p>If <cite>locale</cite> is to be non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, or if the current locale will change over
-the lifetime of the <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>, it must be loaded with
-<a class="reference internal" href="../flags.html#GLib.KeyFileFlags.KEEP_TRANSLATIONS" title="GLib.KeyFileFlags.KEEP_TRANSLATIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags.KEEP_TRANSLATIONS</span></code></a> in order to load strings for all locales.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set
-to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. If the value associated
+translated in the given <cite>locale</cite> if available.</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">C</span></code> then the untranslated value is returned (since GLib 2.84).</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then the current locale is assumed.</p>
+<p>If <cite>locale</cite> is to be non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>, or if the current locale will change over
+the lifetime of the [struct`GLib`.KeyFile], it must be loaded with
+[flags`GLib`.KeyFileFlags.KEEP_TRANSLATIONS] in order to load strings for all
+locales.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. If the value associated
 with <cite>key</cite> cannot be interpreted or no suitable translation can
 be found then the untranslated value is returned.</p>
 <div class="versionadded">
@@ -972,39 +972,40 @@ be found then the untranslated value is returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_locale_string_list">
-<span class="sig-name descname"><span class="pre">get_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2488"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2530"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_locale_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
-<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a locale identifier or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to use the current locale</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly allocated <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated string array
-or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the key isn’t found. The string array should be freed
-with <a class="reference internal" href="../functions.html#GLib.strfreev" title="GLib.strfreev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strfreev</span></code></a>().</p>
+<dd class="field-odd"><p>a newly allocated <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated string array or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the key
+isn’t found. The string array should be freed with [func`GLib`.strfreev].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 <p>Returns the values associated with <cite>key</cite> under <cite>group_name</cite>
-translated in the given <cite>locale</cite> if available.  If <cite>locale</cite> is
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> then the current locale is assumed.</p>
-<p>If <cite>locale</cite> is to be non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, or if the current locale will change over
-the lifetime of the <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a>, it must be loaded with
-<a class="reference internal" href="../flags.html#GLib.KeyFileFlags.KEEP_TRANSLATIONS" title="GLib.KeyFileFlags.KEEP_TRANSLATIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags.KEEP_TRANSLATIONS</span></code></a> in order to load strings for all locales.</p>
-<p>If <cite>key</cite> cannot be found then <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and <cite>error</cite> is set
-to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>. If the values associated
+translated in the given <cite>locale</cite> if available.</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">C</span></code> then the untranslated value is returned (since GLib 2.84).</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then the current locale is assumed.</p>
+<p>If <cite>locale</cite> is to be non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>, or if the current locale will change over
+the lifetime of the [struct`GLib`.KeyFile], it must be loaded with
+[flags`GLib`.KeyFileFlags.KEEP_TRANSLATIONS] in order to load strings for all
+locales.</p>
+<p>If <cite>key</cite> cannot be found then [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. If the values associated
 with <cite>key</cite> cannot be interpreted or no suitable translations
 can be found then the untranslated values are returned. The
-returned array is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated, so <cite>length</cite> may optionally
-be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+returned array is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated, so <cite>length</cite> may optionally
+be <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1012,7 +1013,7 @@ be <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_start_group">
-<span class="sig-name descname"><span class="pre">get_start_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1767"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_start_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_start_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1787"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_start_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The start group of the key file.</p>
@@ -1029,7 +1030,7 @@ be <a class="reference external" href="https://docs.python.org/3/library/constan
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_string">
-<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1982"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2003"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1041,20 +1042,19 @@ be <a class="reference external" href="https://docs.python.org/3/library/constan
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly allocated string or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the specified
+<dd class="field-odd"><p>a newly allocated string or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the specified
 key cannot be found.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the string value associated with <cite>key</cite> under <cite>group_name</cite>.
-Unlike <a class="reference internal" href="#GLib.KeyFile.get_value" title="GLib.KeyFile.get_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_value</span></code></a>(), this function handles escape sequences
-like \s.</p>
-<p>In the event the key cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and
-<cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>.  In the
-event that the <cite>group_name</cite> cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.GROUP_NOT_FOUND" title="GLib.KeyFileError.GROUP_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.GROUP_NOT_FOUND</span></code></a>.</p>
+<p>Returns the string value associated with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>Unlike [method`GLib`.KeyFile.get_value], this function handles escape
+sequences like <code class="docutils literal notranslate"><span class="pre">\s</span></code>.</p>
+<p>If the key cannot be found, [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. If the <cite>group_name</cite> cannot be found,
+[error`GLib`.KeyFileError.GROUP_NOT_FOUND] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1062,7 +1062,7 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_string_list">
-<span class="sig-name descname"><span class="pre">get_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2095"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1074,18 +1074,17 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated string array or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the specified
-key cannot be found. The array should be freed with <a class="reference internal" href="../functions.html#GLib.strfreev" title="GLib.strfreev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.strfreev</span></code></a>().</p>
+<dd class="field-odd"><p>a <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated string array or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the specified
+key cannot be found. The array should be freed with [func`GLib`.strfreev].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 <p>Returns the values associated with <cite>key</cite> under <cite>group_name</cite>.</p>
-<p>In the event the key cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and
-<cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>.  In the
-event that the <cite>group_name</cite> cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.GROUP_NOT_FOUND" title="GLib.KeyFileError.GROUP_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.GROUP_NOT_FOUND</span></code></a>.</p>
+<p>If the key cannot be found, [error`GLib`.KeyFileError.KEY_NOT_FOUND] is
+returned. If the <cite>group_name</cite> cannot be found,
+[error`GLib`.KeyFileError.GROUP_NOT_FOUND] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1093,12 +1092,12 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_uint64">
-<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2986"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3036"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> group name</p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a non-<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> key</p></li>
+<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -1106,14 +1105,15 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the value associated with the key as an unsigned 64-bit integer,
-or 0 if the key was not found or could not be parsed.</p>
+or <code class="docutils literal notranslate"><span class="pre">0</span></code> if the key was not found or could not be parsed.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Returns the value associated with <cite>key</cite> under <cite>group_name</cite> as an unsigned
-64-bit integer. This is similar to <a class="reference internal" href="#GLib.KeyFile.get_integer" title="GLib.KeyFile.get_integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_integer</span></code></a>() but can return
+64-bit integer.</p>
+<p>This is similar to [method`GLib`.KeyFile.get_integer] but can return
 large positive results without truncation.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
@@ -1122,7 +1122,7 @@ large positive results without truncation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.get_value">
-<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1873"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1894"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1134,19 +1134,18 @@ large positive results without truncation.</p>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a newly allocated string or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the specified
+<dd class="field-odd"><p>a newly allocated string or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if the specified
 key cannot be found.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the raw value associated with <cite>key</cite> under <cite>group_name</cite>.
-Use <a class="reference internal" href="#GLib.KeyFile.get_string" title="GLib.KeyFile.get_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.get_string</span></code></a>() to retrieve an unescaped UTF-8 string.</p>
-<p>In the event the key cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned and
-<cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.KEY_NOT_FOUND" title="GLib.KeyFileError.KEY_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.KEY_NOT_FOUND</span></code></a>.  In the
-event that the <cite>group_name</cite> cannot be found, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is returned
-and <cite>error</cite> is set to <a class="reference internal" href="../enums.html#GLib.KeyFileError.GROUP_NOT_FOUND" title="GLib.KeyFileError.GROUP_NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.GROUP_NOT_FOUND</span></code></a>.</p>
+<p>Returns the raw value associated with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>Use [method`GLib`.KeyFile.get_string] to retrieve an unescaped UTF-8 string.</p>
+<p>If the key cannot be found, [error`GLib`.KeyFileError.KEY_NOT_FOUND]
+is returned.  If the <cite>group_name</cite> cannot be found,
+[error`GLib`.KeyFileError.GROUP_NOT_FOUND] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1154,14 +1153,13 @@ and <cite>error</cite> is set to <a class="reference internal" href="../enums.ht
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.has_group">
-<span class="sig-name descname"><span class="pre">has_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3838"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.has_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3889"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.has_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>group_name</cite> is a part of <cite>self</cite>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>
-otherwise.</p>
+<dd class="field-even"><p>true if <cite>group_name</cite> is a part of <cite>self</cite>, false otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1175,26 +1173,27 @@ otherwise.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_bytes">
-<span class="sig-name descname"><span class="pre">load_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1076"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bytes</strong> (<a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a <a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a></p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from <a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a></p></li>
+<li><p><strong>bytes</strong> (<a class="reference internal" href="Bytes.html#GLib.Bytes" title="GLib.Bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – a [struct`GLib`.Bytes]</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from [flags`GLib`.KeyFileFlags]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a key file could be loaded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if a key file could be loaded, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Loads a key file from the data in <cite>bytes</cite> into an empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a> structure.
-If the object cannot be created then %error is set to a <a class="reference internal" href="../enums.html#GLib.KeyFileError" title="GLib.KeyFileError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError</span></code></a>.</p>
+<p>Loads a key file from the data in <cite>bytes</cite> into an empty [struct`GLib`.KeyFile]
+structure.</p>
+<p>If the object cannot be created then a [error`GLib`.KeyFileError] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.50.</span></p>
 </div>
@@ -1202,27 +1201,27 @@ If the object cannot be created then %error is set to a <a class="reference inte
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_data">
-<span class="sig-name descname"><span class="pre">load_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L992"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1005"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – key file loaded in memory</p></li>
-<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the length of <cite>data</cite> in bytes (or (gsize)-1 if data is nul-terminated)</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from <a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a></p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the length of <cite>data</cite> in bytes (or <code class="docutils literal notranslate"><span class="pre">(gsize)-1</span></code> if data is nul-terminated)</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from [flags`GLib`.KeyFileFlags]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a key file could be loaded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if a key file could be loaded, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Loads a key file from memory into an empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a> structure.
-If the object cannot be created then %error is set to a <a class="reference internal" href="../enums.html#GLib.KeyFileError" title="GLib.KeyFileError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError</span></code></a>.</p>
+<p>Loads a key file from memory into an empty [struct`GLib`.KeyFile] structure.</p>
+<p>If the object cannot be created then a [error`GLib`.KeyFileError is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1230,23 +1229,23 @@ If the object cannot be created then %error is set to a <a class="reference inte
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_data_dirs">
-<span class="sig-name descname"><span class="pre">load_from_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1175"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data_dirs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_data_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1192"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_data_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a relative path to a filename to open and parse</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from <a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a></p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from [flags`GLib`.KeyFileFlags]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a key file could be loaded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p><p>true if a key file could be loaded, false otherwise</p>
 <dl class="field-list simple">
 <dt class="field-odd">full_path<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return location for a string containing the full path
-of the file, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p>return location for a string
+containing the full path of the file, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to ignore</p>
 </dd>
 </dl>
 </p>
@@ -1255,11 +1254,12 @@ of the file, or <a class="reference external" href="https://docs.python.org/3/li
 <dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>full_path</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p>
 </dd>
 </dl>
-<p>This function looks for a key file named <cite>file</cite> in the paths
-returned from <a class="reference internal" href="../functions.html#GLib.get_user_data_dir" title="GLib.get_user_data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_user_data_dir</span></code></a>() and <a class="reference internal" href="../functions.html#GLib.get_system_data_dirs" title="GLib.get_system_data_dirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.get_system_data_dirs</span></code></a>(),
+<p>Looks for a key file named <cite>file</cite> in the paths returned from
+[func`GLib`.get_user_data_dir] and [func`GLib`.get_system_data_dirs],
 loads the file into <cite>self</cite> and returns the file’s full path in
-<cite>full_path</cite>.  If the file could not be loaded then an %error is
-set to either a <a class="reference internal" href="../enums.html#GLib.FileError" title="GLib.FileError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileError</span></code></a> or <a class="reference internal" href="../enums.html#GLib.KeyFileError" title="GLib.KeyFileError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError</span></code></a>.</p>
+<cite>full_path</cite>.</p>
+<p>If the file could not be loaded then either a [error`GLib`.FileError] or
+[error`GLib`.KeyFileError] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1267,24 +1267,25 @@ set to either a <a class="reference internal" href="../enums.html#GLib.FileError
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_dirs">
-<span class="sig-name descname"><span class="pre">load_from_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_dirs" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_dirs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a relative path to a filename to open and parse</p></li>
-<li><p><strong>search_dirs</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of directories to search</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from <a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a></p></li>
+<li><p><strong>search_dirs</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated
+array of directories to search</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from [flags`GLib`.KeyFileFlags]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a key file could be loaded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p><p>true if a key file could be loaded, false otherwise</p>
 <dl class="field-list simple">
 <dt class="field-odd">full_path<span class="colon">:</span></dt>
-<dd class="field-odd"><p>return location for a string containing the full path
-of the file, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p>return location for a string
+containing the full path of the file, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to ignore</p>
 </dd>
 </dl>
 </p>
@@ -1293,14 +1294,13 @@ of the file, or <a class="reference external" href="https://docs.python.org/3/li
 <dd class="field-even"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>full_path</strong>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p>
 </dd>
 </dl>
-<p>This function looks for a key file named <cite>file</cite> in the paths
-specified in <cite>search_dirs</cite>, loads the file into <cite>self</cite> and
-returns the file’s full path in <cite>full_path</cite>.</p>
+<p>Looks for a key file named <cite>file</cite> in the paths specified in <cite>search_dirs</cite>,
+loads the file into <cite>self</cite> and returns the file’s full path in <cite>full_path</cite>.</p>
 <p>If the file could not be found in any of the <cite>search_dirs</cite>,
-<a class="reference internal" href="../enums.html#GLib.KeyFileError.NOT_FOUND" title="GLib.KeyFileError.NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.NOT_FOUND</span></code></a> is returned. If
+[error`GLib`.KeyFileError.NOT_FOUND] is returned. If
 the file is found but the OS returns an error when opening or reading the
-file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
-%G_KEY_FILE_ERROR is returned.</p>
+file, a [error`GLib`.FileError] is returned. If there is a problem parsing the
+file, a [error`GLib`.KeyFileError] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.14.</span></p>
 </div>
@@ -1308,30 +1308,30 @@ file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.load_from_file">
-<span class="sig-name descname"><span class="pre">load_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L940"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L952"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.load_from_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the path of a filename to load, in the GLib filename encoding</p></li>
-<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from <a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a></p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#GLib.KeyFileFlags" title="GLib.KeyFileFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileFlags</span></code></a>) – flags from [flags`GLib`.KeyFileFlags]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if a key file could be loaded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if a key file could be loaded, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Loads a key file into an empty <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a> structure.</p>
+<p>Loads a key file into an empty [struct`GLib`.KeyFile] structure.</p>
 <p>If the OS returns an error when opening or reading the file, a
-%G_FILE_ERROR is returned. If there is a problem parsing the file, a
-%G_KEY_FILE_ERROR is returned.</p>
-<p>This function will never return a <a class="reference internal" href="../enums.html#GLib.KeyFileError.NOT_FOUND" title="GLib.KeyFileError.NOT_FOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFileError.NOT_FOUND</span></code></a> error. If the
-<cite>file</cite> is not found, <a class="reference internal" href="../enums.html#GLib.FileError.NOENT" title="GLib.FileError.NOENT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.FileError.NOENT</span></code></a> is returned.</p>
+[error`GLib`.FileError] is returned. If there is a problem parsing the file,
+a [error`GLib`.KeyFileError] is returned.</p>
+<p>This function will never return a [error`GLib`.KeyFileError.NOT_FOUND]
+error. If the <cite>file</cite> is not found, [error`GLib`.FileError.NOENT] is returned.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1339,27 +1339,27 @@ file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_comment">
-<span class="sig-name descname"><span class="pre">remove_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3813"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3865"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key</p></li>
+<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to get a top-level comment</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to get a group comment</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the comment was removed, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if the comment was removed, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Removes a comment above <cite>key</cite> from <cite>group_name</cite>.
-If <cite>key</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> then <cite>comment</cite> will be removed above <cite>group_name</cite>.
-If both <cite>key</cite> and <cite>group_name</cite> are <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then <cite>comment</cite> will
+<p>Removes a comment above <cite>key</cite> from <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then <cite>comment</cite> will be removed above <cite>group_name</cite>.
+If both <cite>key</cite> and <cite>group_name</cite> are <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, then <cite>comment</cite> will
 be removed above the first group in the file.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
@@ -1368,7 +1368,7 @@ be removed above the first group in the file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_group">
-<span class="sig-name descname"><span class="pre">remove_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L4105"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_group" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L4157"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_group" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p>
@@ -1377,7 +1377,7 @@ be removed above the first group in the file.</p>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the group was removed, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if the group was removed, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1392,7 +1392,7 @@ from the key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.remove_key">
-<span class="sig-name descname"><span class="pre">remove_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L4176"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_key" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L4228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.remove_key" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1404,7 +1404,7 @@ from the key file.</p>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the key was removed, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if the key was removed, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
@@ -1418,7 +1418,7 @@ from the key file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.save_to_file">
-<span class="sig-name descname"><span class="pre">save_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L4800"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.save_to_file" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L4855"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.save_to_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the file to write to</p>
@@ -1427,18 +1427,20 @@ from the key file.</p>
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if successful, else <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> with <cite>error</cite> set</p>
+<dd class="field-odd"><p>true if successful, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Writes the contents of <cite>self</cite> to <cite>filename</cite> using
-<a class="reference internal" href="../functions.html#GLib.file_set_contents" title="GLib.file_set_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.file_set_contents</span></code></a>(). If you need stricter guarantees about durability of
-the written file than are provided by <a class="reference internal" href="../functions.html#GLib.file_set_contents" title="GLib.file_set_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.file_set_contents</span></code></a>(), use
-<a class="reference internal" href="../functions.html#GLib.file_set_contents_full" title="GLib.file_set_contents_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.file_set_contents_full</span></code></a>() with the return value of <a class="reference internal" href="#GLib.KeyFile.to_data" title="GLib.KeyFile.to_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.to_data</span></code></a>().</p>
+[func`GLib`.file_set_contents].</p>
+<p>If you need stricter guarantees about durability of
+the written file than are provided by [func`GLib`.file_set_contents], use
+[func`GLib`.file_set_contents_full] with the return value of
+[method`GLib`.KeyFile.to_data].</p>
 <p>This function can fail for any of the reasons that
-<a class="reference internal" href="../functions.html#GLib.file_set_contents" title="GLib.file_set_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.file_set_contents</span></code></a>() may fail.</p>
+[func`GLib`.file_set_contents] may fail.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.40.</span></p>
 </div>
@@ -1446,18 +1448,18 @@ the written file than are provided by <a class="reference internal" href="../fun
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_boolean">
-<span class="sig-name descname"><span class="pre">set_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2709"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a></p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – true or false</p></li>
 </ul>
 </dd>
 </dl>
-<p>Associates a new boolean value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a new boolean value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1465,7 +1467,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_boolean_list">
-<span class="sig-name descname"><span class="pre">set_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2770"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_boolean_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_boolean_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1475,9 +1477,8 @@ If <cite>key</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a list of boolean values with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.
-If <cite>group_name</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the start_group is used.</p>
+<p>Associates a list of boolean values with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1485,12 +1486,12 @@ If <cite>group_name</cite> is <a class="reference external" href="https://docs.p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_comment">
-<span class="sig-name descname"><span class="pre">set_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3555"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_comment" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3605"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_comment" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key</p></li>
+<li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a group name, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to write a top-level comment</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a key, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to write a group comment</p></li>
 <li><p><strong>comment</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a comment</p></li>
 </ul>
 </dd>
@@ -1498,17 +1499,17 @@ If <cite>group_name</cite> is <a class="reference external" href="https://docs.p
 <dd class="field-even"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the comment was written, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise</p>
+<dd class="field-odd"><p>true if the comment was written, false otherwise</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Places a comment above <cite>key</cite> from <cite>group_name</cite>.</p>
-<p>If <cite>key</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> then <cite>comment</cite> will be written above <cite>group_name</cite>.
-If both <cite>key</cite> and <cite>group_name</cite>  are <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, then <cite>comment</cite> will be
+<p>If <cite>key</cite> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code> then <cite>comment</cite> will be written above <cite>group_name</cite>.
+If both <cite>key</cite> and <cite>group_name</cite> are <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, then <cite>comment</cite> will be
 written above the first group in the file.</p>
-<p>Note that this function prepends a ‘#’ comment marker to
+<p>Note that this function prepends a <code class="docutils literal notranslate"><span class="pre">#</span></code> comment marker to
 each line of <cite>comment</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
@@ -1517,7 +1518,7 @@ each line of <cite>comment</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_double">
-<span class="sig-name descname"><span class="pre">set_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3297"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1527,8 +1528,8 @@ each line of <cite>comment</cite>.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a new double value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a new double value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.12.</span></p>
 </div>
@@ -1536,7 +1537,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_double_list">
-<span class="sig-name descname"><span class="pre">set_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3351"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_double_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3401"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_double_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1546,8 +1547,8 @@ If <cite>key</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a list of double values with <cite>key</cite> under
-<cite>group_name</cite>.  If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a list of double values with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.12.</span></p>
 </div>
@@ -1555,7 +1556,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_int64">
-<span class="sig-name descname"><span class="pre">set_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2955"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_int64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_int64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3003"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_int64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1565,8 +1566,8 @@ If <cite>key</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
 </div>
@@ -1574,7 +1575,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_integer">
-<span class="sig-name descname"><span class="pre">set_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2878"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2923"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1584,8 +1585,8 @@ If <cite>key</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1593,7 +1594,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_integer_list">
-<span class="sig-name descname"><span class="pre">set_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_integer_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3189"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_integer_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1603,8 +1604,8 @@ If <cite>key</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a list of integer values with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a list of integer values with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1612,15 +1613,15 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_list_separator">
-<span class="sig-name descname"><span class="pre">set_list_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">separator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L733"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_list_separator" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_list_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">separator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L745"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_list_separator" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>separator</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the separator</p>
 </dd>
 </dl>
-<p>Sets the character which is used to separate
-values in lists. Typically ‘;’ or ‘,’ are used
-as separators. The default list separator is ‘;’.</p>
+<p>Sets the character which is used to separate values in lists.</p>
+<p>Typically <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">,</span></code> are used as separators. The default list separator
+is <code class="docutils literal notranslate"><span class="pre">;</span></code>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1628,7 +1629,7 @@ as separators. The default list separator is ‘;’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_locale_string">
-<span class="sig-name descname"><span class="pre">set_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2229"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_locale_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1639,8 +1640,9 @@ as separators. The default list separator is ‘;’.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a string value for <cite>key</cite> and <cite>locale</cite> under <cite>group_name</cite>.
-If the translation for <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a string value for <cite>key</cite> and <cite>locale</cite> under <cite>group_name</cite>.</p>
+<p>If the translation for <cite>key</cite> cannot be found then it is created.</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">C</span></code> then the untranslated value is set (since GLib 2.84).</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1648,20 +1650,22 @@ If the translation for <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_locale_string_list">
-<span class="sig-name descname"><span class="pre">set_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2552"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_locale_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2598"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_locale_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
 <li><p><strong>locale</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a locale identifier</p></li>
-<li><p><strong>list</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>-terminated array of locale string values</p></li>
+<li><p><strong>list</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – a <code class="docutils literal notranslate"><span class="pre">NULL</span></code>-terminated array of
+locale string values</p></li>
 </ul>
 </dd>
 </dl>
 <p>Associates a list of string values for <cite>key</cite> and <cite>locale</cite> under
-<cite>group_name</cite>.  If the translation for <cite>key</cite> cannot be found then
-it is created.</p>
+<cite>group_name</cite>.</p>
+<p>If <cite>locale</cite> is <code class="docutils literal notranslate"><span class="pre">C</span></code> then the untranslated value is set (since GLib 2.84).</p>
+<p>If the translation for <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1669,7 +1673,7 @@ it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_string">
-<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2057"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2079"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1679,10 +1683,10 @@ it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a new string value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.
+<p>Associates a new string value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.
 If <cite>group_name</cite> cannot be found then it is created.
-Unlike <a class="reference internal" href="#GLib.KeyFile.set_value" title="GLib.KeyFile.set_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.set_value</span></code></a>(), this function handles characters
+Unlike [method`GLib`.KeyFile.set_value], this function handles characters
 that need escaping, such as newlines.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
@@ -1691,18 +1695,19 @@ that need escaping, such as newlines.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_string_list">
-<span class="sig-name descname"><span class="pre">set_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L2187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string_list" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_string_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L2211"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_string_list" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>group_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a group name</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a key</p></li>
-<li><p><strong>list</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – an array of string values</p></li>
+<li><p><strong>list</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – an array
+of string values</p></li>
 </ul>
 </dd>
 </dl>
-<p>Associates a list of string values for <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.
+<p>Associates a list of string values for <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.
 If <cite>group_name</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
@@ -1711,7 +1716,7 @@ If <cite>group_name</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_uint64">
-<span class="sig-name descname"><span class="pre">set_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L3032"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_uint64" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_uint64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L3083"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_uint64" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1721,8 +1726,8 @@ If <cite>group_name</cite> cannot be found then it is created.</p>
 </ul>
 </dd>
 </dl>
-<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.
-If <cite>key</cite> cannot be found then it is created.</p>
+<p>Associates a new integer value with <cite>key</cite> under <cite>group_name</cite>.</p>
+<p>If <cite>key</cite> cannot be found then it is created.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.26.</span></p>
 </div>
@@ -1730,7 +1735,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.set_value">
-<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1924"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1945"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.set_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1744,7 +1749,7 @@ If <cite>key</cite> cannot be found then it is created.</p>
 <p>If <cite>key</cite> cannot be found then it is created. If <cite>group_name</cite> cannot
 be found then it is created. To set an UTF-8 string which may contain
 characters that need escaping (such as newlines or spaces), use
-<a class="reference internal" href="#GLib.KeyFile.set_string" title="GLib.KeyFile.set_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile.set_string</span></code></a>().</p>
+[method`GLib`.KeyFile.set_string].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1752,18 +1757,17 @@ characters that need escaping (such as newlines or spaces), use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.to_data">
-<span class="sig-name descname"><span class="pre">to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1637"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.to_data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1656"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.to_data" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="Error.html#GLib.Error" title="GLib.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p>a newly allocated string holding
-the contents of the <a class="reference internal" href="#GLib.KeyFile" title="GLib.KeyFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.KeyFile</span></code></a></p>
+<dd class="field-even"><p><p>a newly allocated string holding the contents of the key file</p>
 <dl class="field-list simple">
 <dt class="field-odd">length<span class="colon">:</span></dt>
 <dd class="field-odd"><p>return location for the length of the
-returned string, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+returned string, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> to ignore</p>
 </dd>
 </dl>
 </p>
@@ -1772,9 +1776,8 @@ returned string, or <a class="reference external" href="https://docs.python.org/
 <dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, <strong>length</strong>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p>
 </dd>
 </dl>
-<p>This function outputs <cite>self</cite> as a string.</p>
-<p>Note that this function never reports an error,
-so it is safe to pass <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> as <cite>error</cite>.</p>
+<p>Outputs <cite>self</cite> as a string.</p>
+<p>Note that this function never reports an error.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.6.</span></p>
 </div>
@@ -1782,9 +1785,10 @@ so it is safe to pass <a class="reference external" href="https://docs.python.or
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GLib.KeyFile.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.3/glib/gkeyfile.c#L1263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.unref" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decreases the reference count of <cite>self</cite> by 1. If the reference count
-reaches zero, frees the key file and all its allocated memory.</p>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/glib/blob/2.83.4/glib/gkeyfile.c#L1284"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GLib.KeyFile.unref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decreases the reference count of <cite>self</cite> by 1.</p>
+<p>If the reference count reaches zero, frees the key file and all its allocated
+memory.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.32.</span></p>
 </div>

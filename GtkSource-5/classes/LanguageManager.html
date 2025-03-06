@@ -513,6 +513,11 @@ GtkSourceLanguageManager <a href="#id5"><span class="problematic" id="id6">*</sp
 lm = gtk_source_language_manager_get_default ();
 lang = gtk_source_language_manager_guess_language (manager, filename, NULL);
 gtk_source_buffer_set_language (buffer, lang);
+``
+<a href="#id7"><span class="problematic" id="id8">``</span></a>python
+manager = GtkSource.LanguageManager.get_default()
+language = manager.guess_language(filename=filename, content_type=None)
+buffer.set_language(language=language)
 ``</p>
 <p>or</p>
 <p>```c
@@ -530,6 +535,14 @@ content_type = <a class="reference external" href="https://docs.python.org/3/lib
 lang = <a class="reference internal" href="#GtkSource.LanguageManager.guess_language" title="GtkSource.LanguageManager.guess_language"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.LanguageManager.guess_language</span></code></a> (manager, filename, content_type);
 <a class="reference internal" href="Buffer.html#GtkSource.Buffer.set_language" title="GtkSource.Buffer.set_language"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.Buffer.set_language</span></code></a> (buffer, lang);</p>
 <p><a class="reference external" href="../../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a> (content_type);
+``
+<a href="#id9"><span class="problematic" id="id10">``</span></a>python
+content_type, uncertain = Gio.content_type_guess(filename=filename, data=None)
+if uncertain:
+content_type = None</p>
+<p>manager = GtkSource.LanguageManager.get_default()
+language = manager.guess_language(filename=filename, content_type=content_type)
+buffer.set_language(language=language)
 ```</p>
 <p>etc. Use [method`Language`.get_mime_types] and [method`Language`.get_globs]
 if you need full control over file -&gt; language mapping.</p>

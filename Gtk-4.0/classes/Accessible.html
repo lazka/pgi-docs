@@ -133,6 +133,7 @@
 <li><a class="reference internal" href="#Gtk.Accessible.reset_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.reset_state()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.set_accessible_parent"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.set_accessible_parent()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_next_accessible_sibling"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_next_accessible_sibling()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.Accessible.update_platform_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_platform_state()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_property"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_property()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_relation"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_relation()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_state()</span></code></a></li>
@@ -211,6 +212,7 @@
 <li><a class="reference internal" href="#Gtk.Accessible.reset_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.reset_state()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.set_accessible_parent"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.set_accessible_parent()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_next_accessible_sibling"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_next_accessible_sibling()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.Accessible.update_platform_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_platform_state()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_property"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_property()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_relation"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_relation()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.Accessible.update_state"><code class="docutils literal notranslate"><span class="pre">Gtk.Accessible.update_state()</span></code></a></li>
@@ -333,12 +335,15 @@
 <td><p><a class="reference internal" href="#Gtk.Accessible.update_next_accessible_sibling" title="Gtk.Accessible.update_next_accessible_sibling"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_next_accessible_sibling</span></code></a> (new_sibling)</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#Gtk.Accessible.update_property" title="Gtk.Accessible.update_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_property</span></code></a> (properties, values)</p></td>
+<td><p><a class="reference internal" href="#Gtk.Accessible.update_platform_state" title="Gtk.Accessible.update_platform_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_platform_state</span></code></a> (state)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Gtk.Accessible.update_relation" title="Gtk.Accessible.update_relation"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_relation</span></code></a> (relations, values)</p></td>
+<td><p><a class="reference internal" href="#Gtk.Accessible.update_property" title="Gtk.Accessible.update_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_property</span></code></a> (properties, values)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gtk.Accessible.update_relation" title="Gtk.Accessible.update_relation"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_relation</span></code></a> (relations, values)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gtk.Accessible.update_state" title="Gtk.Accessible.update_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_state</span></code></a> (states, values)</p></td>
 </tr>
 </tbody>
@@ -423,7 +428,7 @@
 <p>Every accessible implementation has:</p>
 <ul class="simple">
 <li><p>a “role”, represented by a value of the [enum`Gtk`.AccessibleRole] enumeration</p></li>
-<li><p>an “attribute”, represented by a set of [enum`Gtk`.AccessibleState],
+<li><p>“attributes”, represented by a set of [enum`Gtk`.AccessibleState],
 [enum`Gtk`.AccessibleProperty] and [enum`Gtk`.AccessibleRelation] values</p></li>
 </ul>
 <p>The role cannot be changed after instantiating a <code class="docutils literal notranslate"><span class="pre">GtkAccessible</span></code>
@@ -436,17 +441,17 @@ state will also change to reflect the [property`Gtk`.Widget:visible] property.</
 Normally, this tree corresponds to the widget tree, but can be customized
 by reimplementing the [vfunc`Gtk`.Accessible.get_accessible_parent],
 [vfunc`Gtk`.Accessible.get_first_accessible_child] and
-[vfunc`Gtk`.Accessible.get_next_accessible_sibling] virtual functions.
-Note that you can not create a top-level accessible object as of now,
-which means that you must always have a parent accessible object.
-Also note that when an accessible object does not correspond to a widget,
+[vfunc`Gtk`.Accessible.get_next_accessible_sibling] virtual functions.</p>
+<p>Note that you can not create a top-level accessible object as of now,
+which means that you must always have a parent accessible object.</p>
+<p>Also note that when an accessible object does not correspond to a widget,
 and it has children, whose implementation you don’t control,
 it is necessary to ensure the correct shape of the a11y tree
 by calling [method`Gtk`.Accessible.set_accessible_parent] and
 updating the sibling by [method`Gtk`.Accessible.update_next_accessible_sibling].</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.announce">
-<span class="sig-name descname"><span class="pre">announce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L810"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.announce" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">announce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L812"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.announce" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -469,7 +474,7 @@ does not interrupts the user’s current screen reader output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_accessible_parent">
-<span class="sig-name descname"><span class="pre">get_accessible_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L120"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_accessible_parent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_accessible_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_accessible_parent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the accessible parent</p>
@@ -487,7 +492,7 @@ does not interrupts the user’s current screen reader output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_accessible_role">
-<span class="sig-name descname"><span class="pre">get_accessible_role</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_accessible_role" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_accessible_role</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L279"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_accessible_role" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the accessible role</p>
@@ -501,7 +506,7 @@ does not interrupts the user’s current screen reader output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_at_context">
-<span class="sig-name descname"><span class="pre">get_at_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_at_context" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_at_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_at_context" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the accessible implementation object</p>
@@ -518,7 +523,7 @@ does not interrupts the user’s current screen reader output.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_bounds">
-<span class="sig-name descname"><span class="pre">get_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L1215"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_bounds" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L1262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_bounds" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>true if the bounds are valid, and false otherwise</p>
@@ -553,7 +558,7 @@ child widget.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_first_accessible_child">
-<span class="sig-name descname"><span class="pre">get_first_accessible_child</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_first_accessible_child" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_first_accessible_child</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L230"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_first_accessible_child" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the first accessible child</p>
@@ -570,7 +575,7 @@ child widget.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_next_accessible_sibling">
-<span class="sig-name descname"><span class="pre">get_next_accessible_sibling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L246"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_next_accessible_sibling" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_accessible_sibling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L248"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_next_accessible_sibling" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the next accessible sibling</p>
@@ -587,7 +592,7 @@ child widget.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.get_platform_state">
-<span class="sig-name descname"><span class="pre">get_platform_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L1156"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_platform_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_platform_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L1161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.get_platform_state" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="../enums.html#Gtk.AccessiblePlatformState" title="Gtk.AccessiblePlatformState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessiblePlatformState</span></code></a>) – platform state to query</p>
@@ -610,7 +615,7 @@ child widget, as is the case for <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.reset_property">
-<span class="sig-name descname"><span class="pre">reset_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L588"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L590"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>property</strong> (<a class="reference internal" href="../enums.html#Gtk.AccessibleProperty" title="Gtk.AccessibleProperty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessibleProperty</span></code></a>) – the accessible property</p>
@@ -621,7 +626,7 @@ child widget, as is the case for <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.reset_relation">
-<span class="sig-name descname"><span class="pre">reset_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relation</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L774"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_relation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relation</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L776"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_relation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>relation</strong> (<a class="reference internal" href="../enums.html#Gtk.AccessibleRelation" title="Gtk.AccessibleRelation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessibleRelation</span></code></a>) – the accessible relation</p>
@@ -632,7 +637,7 @@ child widget, as is the case for <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.reset_state">
-<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L437"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L439"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.reset_state" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="../enums.html#Gtk.AccessibleState" title="Gtk.AccessibleState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessibleState</span></code></a>) – the accessible state</p>
@@ -643,7 +648,7 @@ child widget, as is the case for <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.set_accessible_parent">
-<span class="sig-name descname"><span class="pre">set_accessible_parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_sibling</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.set_accessible_parent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_accessible_parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_sibling</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L163"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.set_accessible_parent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -667,7 +672,7 @@ object is the container widget.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.update_next_accessible_sibling">
-<span class="sig-name descname"><span class="pre">update_next_accessible_sibling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_sibling</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L192"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_next_accessible_sibling" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_next_accessible_sibling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_sibling</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L194"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_next_accessible_sibling" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>new_sibling</strong> (<a class="reference internal" href="#Gtk.Accessible" title="Gtk.Accessible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Accessible</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the new next accessible sibling to set</p>
@@ -682,8 +687,25 @@ is created, and it needs to be linked to a previous child.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Gtk.Accessible.update_platform_state">
+<span class="sig-name descname"><span class="pre">update_platform_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L1183"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_platform_state" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="../enums.html#Gtk.AccessiblePlatformState" title="Gtk.AccessiblePlatformState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.AccessiblePlatformState</span></code></a>) – the platform state to update</p>
+</dd>
+</dl>
+<p>Informs ATs that the platform state has changed.</p>
+<p>This function should be used by <code class="docutils literal notranslate"><span class="pre">GtkAccessible</span></code> implementations that
+have a platform state but are not widgets. Widgets handle platform
+states automatically.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 4.18.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.update_property">
-<span class="sig-name descname"><span class="pre">update_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L543"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_property" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L545"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_property" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -700,7 +722,7 @@ property change must be communicated to assistive technologies.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.update_relation">
-<span class="sig-name descname"><span class="pre">update_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L721"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_relation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">relations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L723"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_relation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -717,7 +739,7 @@ relation change must be communicated to assistive technologies.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Accessible.update_state">
-<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.4/gtk/gtkaccessible.c#L392"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtkaccessible.c#L394"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Accessible.update_state" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

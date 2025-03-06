@@ -695,6 +695,16 @@ draw_page (<a class="reference external" href="../../Gtk-4.0/classes/PrintOperat
 context,
 page_nr);
 }
+``
+<a href="#id1"><span class="problematic" id="id2">``</span></a>python
+def on_draw_page(
+operation: Gtk.PrintOperation,
+context: Gtk.PrintContext,
+page_nr: int,
+compositor: GtkSource.PrintCompositor,
+) -&gt; None:
+“””Signal handler for draw-page that renders a single page.”””
+compositor.draw_page(context=context, page_nr=page_nr)
 ```</p>
 </dd></dl>
 
@@ -1026,6 +1036,18 @@ paginate (<a class="reference external" href="../../Gtk-4.0/classes/PrintOperati
 }</p>
 <p>return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>;
 }
+``
+<a href="#id3"><span class="problematic" id="id4">``</span></a>python
+def on_paginate(
+operation: Gtk.PrintOperation,
+context: Gtk.PrintContext,
+compositor: GtkSource.PrintCompositor,
+) -&gt; bool:
+if compositor.paginate(context=context):
+n_pages = compositor.get_n_pages()
+operation.set_n_pages(n_pages=n_pages)
+return True
+return False
 ```</p>
 <p>If you don’t need to do pagination in chunks, you can simply do it all in the
 [signal`Gtk`.PrintOperation::begin-print] handler, and set the number of pages from there, like
@@ -1044,6 +1066,18 @@ begin_print (<a class="reference external" href="../../Gtk-4.0/classes/PrintOper
 <p>n_pages = <a class="reference internal" href="#GtkSource.PrintCompositor.get_n_pages" title="GtkSource.PrintCompositor.get_n_pages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GtkSource.PrintCompositor.get_n_pages</span></code></a> (compositor);
 <a class="reference external" href="../../Gtk-4.0/classes/PrintOperation.html#Gtk.PrintOperation.set_n_pages" title="(in Gtk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.PrintOperation.set_n_pages</span></code></a> (operation, n_pages);
 }
+``
+<a href="#id5"><span class="problematic" id="id6">``</span></a>python
+def on_begin_print(
+operation: Gtk.PrintOperation,
+context: Gtk.PrintContext,
+compositor: GtkSource.PrintCompositor,
+) -&gt; None:
+# Paginate until complete
+while not compositor.paginate(context=context):
+pass</p>
+<p>n_pages = compositor.get_n_pages()
+operation.set_n_pages(n_pages=n_pages)
 ```</p>
 </dd></dl>
 

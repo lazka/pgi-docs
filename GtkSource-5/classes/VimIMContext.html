@@ -448,6 +448,28 @@ key = <a class="reference external" href="../../Gtk-4.0/classes/EventControllerK
 <a class="reference external" href="../../Gtk-4.0/classes/IMContext.html#Gtk.IMContext.set_client_widget" title="(in Gtk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.IMContext.set_client_widget</span></code></a> (im_context, view);</p>
 <p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.bind_property" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.bind_property</span></code></a> (im_context, “command-bar-text”, command_bar_label, “label”, 0);
 <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.bind_property" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.bind_property</span></code></a> (im_context, “command-text”, command_label, “label”, 0);
+``
+<a href="#id1"><span class="problematic" id="id2">``</span></a>python
+key = Gtk.EventControllerKey.new()
+im_context = GtkSource.VimIMContext.new()
+buffer = GtkSource.Buffer()
+view = GtkSource.View.new_with_buffer(buffer)</p>
+<p>key.set_im_context(im_context)
+key.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+view.add_controller(key)
+im_context.set_client_widget(view)</p>
+<p>im_context.bind_property(
+source_property=”command-text”,
+target=command_label,
+target_property=”label”,
+flags=:ref:<cite>GObject.Object.BindingFlags &lt;GObject.Object.fields&gt;</cite>.DEFAULT,
+)</p>
+<p>im_context.bind_property(
+source_property=”command-bar-text”,
+target=command_bar_label,
+target_property=”label”,
+flags=:ref:<cite>GObject.Object.BindingFlags &lt;GObject.Object.fields&gt;</cite>.DEFAULT,
+)
 ```</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 5.4.</span></p>

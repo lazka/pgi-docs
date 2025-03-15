@@ -496,43 +496,43 @@
 <p><code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> holds a connection to a RDF triple store.</p>
 <p>This triple store may be of three types:</p>
 <ul class="simple">
-<li><p>Local to the process, created through [ctor`Tracker`.SparqlConnection.new].</p></li>
+<li><p>Local to the process, created through [ctor`SparqlConnection`.new].</p></li>
 <li><p>A HTTP SPARQL endpoint over the network, created through
-[ctor`Tracker`.SparqlConnection.remote_new]</p></li>
+[ctor`SparqlConnection`.remote_new]</p></li>
 <li><p>A DBus SPARQL endpoint owned by another process in the same machine, created
-through [ctor`Tracker`.SparqlConnection.bus_new]</p></li>
+through [ctor`SparqlConnection`.bus_new]</p></li>
 </ul>
 <p>When creating a local triple store, it is required to give details about its
 structure. This is done by passing a location to an ontology, see more
 on how are <a class="reference external" href="ontologies.html">ontologies defined</a>. A local database may be
 stored in a filesystem location, or it may reside in memory.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> is private to the calling process, it can be
-exposed to other hosts/processes via a [class`Tracker`.Endpoint], see
-[ctor`Tracker`.EndpointDBus.new] and [ctor`Tracker`.EndpointHttp.new].</p>
+exposed to other hosts/processes via a [class`Endpoint`], see
+[ctor`EndpointDBus`.new] and [ctor`EndpointHttp`.new].</p>
 <p>When issuing SPARQL queries and updates, it is recommended that these are
-created through [class`Tracker`.SparqlStatement] to avoid the SPARQL
-injection class of bugs, see [method`Tracker`.SparqlConnection.query_statement]
-and [method`Tracker`.SparqlConnection.update_statement]. For SPARQL updates
+created through [class`SparqlStatement`] to avoid the SPARQL
+injection class of bugs, see [method`SparqlConnection`.query_statement]
+and [method`SparqlConnection`.update_statement]. For SPARQL updates
 it is also possible to use a “builder” approach to generate RDF data, see
-[class`Tracker`.Resource]. It is also possible to create [class`Tracker`.SparqlStatement]
+[class`Resource`]. It is also possible to create [class`SparqlStatement`]
 objects for SPARQL queries and updates from SPARQL strings embedded in a
-[struct`Gio`.Resource], see [method`Tracker`.SparqlConnection.load_statement_from_gresource].</p>
+[struct`Gio`.Resource], see [method`SparqlConnection`.load_statement_from_gresource].</p>
 <p>To get the best performance, it is recommended that SPARQL updates are clustered
-through [class`Tracker`.Batch].</p>
+through [class`Batch`].</p>
 <p><code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> also offers a number of methods for the simple cases,
-[method`Tracker`.SparqlConnection.query] may be used when there is a SPARQL
-query string directly available, and the [method`Tracker`.SparqlConnection.update]
+[method`SparqlConnection`.query] may be used when there is a SPARQL
+query string directly available, and the [method`SparqlConnection`.update]
 family of functions may be used for one-off updates. All functions have asynchronous
 variants.</p>
-<p>When a SPARQL query is executed, a [class`Tracker`.SparqlCursor] will be obtained
+<p>When a SPARQL query is executed, a [class`SparqlCursor`] will be obtained
 to iterate over the query results.</p>
 <p>Depending on the ontology definition, <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> may emit
 notifications whenever resources of certain types get insert, modified or
 deleted from the triple store (see <a class="reference external" href="nrl-ontology.html#nrl:notify">nrl:notify</a>.
-These notifications can be handled via a [class`Tracker`.Notifier] obtained with
-[method`Tracker`.SparqlConnection.create_notifier].</p>
-<p>After done with a connection, it is recommended to call [method`Tracker`.SparqlConnection.close]
-or [method`Tracker`.SparqlConnection.close_async] explicitly to cleanly close the
+These notifications can be handled via a [class`Notifier`] obtained with
+[method`SparqlConnection`.create_notifier].</p>
+<p>After done with a connection, it is recommended to call [method`SparqlConnection`.close]
+or [method`SparqlConnection`.close_async] explicitly to cleanly close the
 connection and prevent consistency checks on future runs. The triple store
 connection will be implicitly closed when the <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> object
 is disposed.</p>
@@ -540,8 +540,8 @@ is disposed.</p>
 updates are executed sequentially on arrival order, asynchronous
 queries are dispatched in a thread pool.</p>
 <p>If you ever have the need to procedurally compose SPARQL query strings, consider
-the use of [func`Tracker`.sparql_escape_string] for literal strings and
-the [func`Tracker`.sparql_escape_uri] family of functions for URIs.</p>
+the use of [func`sparql_escape_string`] for literal strings and
+the [func`sparql_escape_uri`] family of functions for URIs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.SparqlConnection.bus_new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbus_connection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.bus_new" title="Permalink to this definition">¶</a></dt>
@@ -618,7 +618,7 @@ local machine via DBus.</p>
 <dd class="field-even"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [func`Tracker`.SparqlConnection.bus_new_async].</p>
+<p>Finishes the operation started with [func`SparqlConnection`.bus_new_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -649,31 +649,31 @@ local machine via DBus.</p>
 <p>Creates or opens a process-local database.</p>
 <p>This method should only be used for databases owned by the current process.
 To connect to databases managed by other processes, use
-[ctor`Tracker`.SparqlConnection.bus_new].</p>
+[ctor`SparqlConnection`.bus_new].</p>
 <p>If <cite>store</cite> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the database will be created in memory.</p>
 <p>If defined, the <cite>ontology</cite> argument must point to a location containing
 suitable <code class="docutils literal notranslate"><span class="pre">.ontology</span></code> files in Turtle format. These define the structure of
 the triple store. You can learn more about <a class="reference external" href="ontologies.html">ontologies</a>,
 or you can use the stock Nepomuk ontologies by calling
-[func`Tracker`.sparql_get_ontology_nepomuk].</p>
+[func`sparql_get_ontology_nepomuk`].</p>
 <p>If opening an existing database, it is possible to pass <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> as the
 <cite>ontology</cite> location, the ontology will be introspected from the database.
 Passing a <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <cite>ontology</cite> will raise an error if the database does not exist.</p>
-<p>If a database is opened without the #TRACKER_SPARQL_CONNECTION_FLAG_READONLY
+<p>If a database is opened without the <code class="docutils literal notranslate"><span class="pre">READONLY</span></code> [flags`SparqlConnectionFlags`]
 flag enabled, and the given <cite>ontology</cite> holds differences with the current
 data layout, migration to the new structure will be attempted. This operation
 may raise an error. In particular, not all migrations are possible without
 causing data loss and Tracker will refuse to delete data during a migration.
 The database is always left in a consistent state, either prior or posterior
 to migration.</p>
-<p>Operations on a [class`Tracker`.SparqlConnection] resulting on a
-[error`Tracker`.SparqlError.CORRUPT] error will have the event recorded
+<p>Operations on a [class`SparqlConnection`] resulting on a
+<code class="docutils literal notranslate"><span class="pre">CORRUPT</span></code> [error`SparqlError`] will have the event recorded
 persistently through a <code class="docutils literal notranslate"><span class="pre">.meta.corrupted</span></code> file alongside the database files.
-If the database is opened without the [flags`Tracker`.SparqlConnectionFlags.READONLY]
-flag and the file is found, this constructor will attempt to repair the
+If the database is opened without the <code class="docutils literal notranslate"><span class="pre">READONLY</span></code> [flags`SparqlConnectionFlags`]
+flag enabled and the file is found, this constructor will attempt to repair the
 database. In that situation, this constructor will either return a valid
-[class`Tracker`.SparqlConnection] if the database was repaired successfully, or
-raise a [error`Tracker`.SparqlError.CORRUPT] error if the database remains
+[class`SparqlConnection`] if the database was repaired successfully, or
+raise a <code class="docutils literal notranslate"><span class="pre">CORRUPT</span></code> [error`SparqlError`] error if the database remains
 corrupted.</p>
 <p>It is considered a developer error to ship ontologies that contain format
 errors, or that fail at migrations.</p>
@@ -700,7 +700,7 @@ the asynchronous operation is finished.</p></li>
 </dd>
 </dl>
 <p>Creates or opens a process-local database asynchronously.</p>
-<p>See [ctor`Tracker`.SparqlConnection.new] for more information.</p>
+<p>See [ctor`SparqlConnection`.new] for more information.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -717,7 +717,7 @@ the asynchronous operation is finished.</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [func`Tracker`.SparqlConnection.new_async].</p>
+<p>Finishes the operation started with [func`SparqlConnection`.new_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -783,7 +783,7 @@ the asynchronous operation is finished.</p></li>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.close_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.close_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -791,13 +791,13 @@ the asynchronous operation is finished.</p></li>
 <span class="sig-name descname"><span class="pre">create_batch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.create_batch" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(nullable): A new [class`Tracker`.Batch]</p>
+<dd class="field-odd"><p>(nullable): A new [class`Batch`]</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="Batch.html#Tracker.Batch" title="Tracker.Batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Batch</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new [class`Tracker`.Batch] to store and execute SPARQL updates.</p>
+<p>Creates a new [class`Batch`] to store and execute SPARQL updates.</p>
 <p>If the connection is readonly or cannot issue SPARQL updates, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> will be returned.</p>
 </dd></dl>
 
@@ -812,8 +812,8 @@ the asynchronous operation is finished.</p></li>
 <dd class="field-even"><p><a class="reference internal" href="Notifier.html#Tracker.Notifier" title="Tracker.Notifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Notifier</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new [class`Tracker`.Notifier] to receive notifications about changes in <cite>self</cite>.</p>
-<p>See [class`Tracker`.Notifier] documentation for information about how to use this
+<p>Creates a new [class`Notifier`] to receive notifications about changes in <cite>self</cite>.</p>
+<p>See [class`Notifier`] documentation for information about how to use this
 object.</p>
 <p>Connections to HTTP endpoints will return <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd></dl>
@@ -866,7 +866,7 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.deserialize_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.deserialize_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.4.</span></p>
 </div>
@@ -877,13 +877,13 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <span class="sig-name descname"><span class="pre">get_namespace_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.SparqlConnection.get_namespace_manager" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a [class`Tracker`.NamespaceManager] with the prefixes of <cite>self</cite>.</p>
+<dd class="field-odd"><p>a [class`NamespaceManager`] with the prefixes of <cite>self</cite>.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="NamespaceManager.html#Tracker.NamespaceManager" title="Tracker.NamespaceManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.NamespaceManager</span></code></a></p>
 </dd>
 </dl>
-<p>Returns a [class`Tracker`.NamespaceManager] that contains all
+<p>Returns a [class`NamespaceManager`] that contains all
 prefixes in the ontology of <cite>self</cite>.</p>
 </dd></dl>
 
@@ -907,10 +907,10 @@ prefixes in the ontology of <cite>self</cite>.</p>
 <dd class="field-even"><p><a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Prepares a [class`Tracker`.SparqlStatement] for the SPARQL contained as a [struct`Gio`.Resource]
+<p>Prepares a [class`SparqlStatement`] for the SPARQL contained as a [struct`Gio`.Resource]
 file at <cite>resource_path</cite>.</p>
 <p>SPARQL Query files typically have the .rq extension. This will use
-[method`Tracker`.SparqlConnection.query_statement] or [method`Tracker`.SparqlConnection.update_statement]
+[method`SparqlConnection`.query_statement] or [method`SparqlConnection`.update_statement]
 underneath to indistinctly return SPARQL query or update statements.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
@@ -953,7 +953,7 @@ SELECT ?u {</p>
 <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> instances maintained by the same process,
 without creating a public endpoint for <cite>service_connection</cite>.</p>
 <p><cite>self</cite> may only be a <code class="docutils literal notranslate"><span class="pre">TrackerSparqlConnection</span></code> created via
-[ctor`Tracker`.SparqlConnection.new] and [func`Tracker`.SparqlConnection.new_async].</p>
+[ctor`SparqlConnection`.new] and [func`SparqlConnection`.new_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -974,7 +974,7 @@ without creating a public endpoint for <cite>service_connection</cite>.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a [class`Tracker`.SparqlCursor] with the results.</p>
+<dd class="field-odd"><p>a [class`SparqlCursor`] with the results.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a></p>
@@ -982,13 +982,13 @@ without creating a public endpoint for <cite>service_connection</cite>.</p>
 </dl>
 <p>Executes a SPARQL query on <cite>self</cite>.</p>
 <p>This method is synchronous and will block until the query
-is executed. See [method`Tracker`.SparqlConnection.query_async]
+is executed. See [method`SparqlConnection`.query_async]
 for an asynchronous variant.</p>
 <p>If the query is partially built from user input or other
 untrusted sources, special care is required about possible
 SPARQL injection. In order to avoid it entirely, it is recommended
-to use [class`Tracker`.SparqlStatement]. The function
-[func`Tracker`.sparql_escape_string] exists as a last resort,
+to use [class`SparqlStatement`]. The function
+[func`sparql_escape_string`] exists as a last resort,
 but its use is not recommended.</p>
 </dd></dl>
 
@@ -1010,8 +1010,8 @@ the asynchronous operation is finished.</p></li>
 <p>If the query is partially built from user input or other
 untrusted sources, special care is required about possible
 SPARQL injection. In order to avoid it entirely, it is recommended
-to use [class`Tracker`.SparqlStatement]. The function
-[func`Tracker`.sparql_escape_string] exists as a last resort,
+to use [class`SparqlStatement`]. The function
+[func`sparql_escape_string`] exists as a last resort,
 but its use is not recommended.</p>
 </dd></dl>
 
@@ -1026,13 +1026,13 @@ but its use is not recommended.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a [class`Tracker`.SparqlCursor] with the results.</p>
+<dd class="field-odd"><p>a [class`SparqlCursor`] with the results.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="SparqlCursor.html#Tracker.SparqlCursor" title="Tracker.SparqlCursor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlCursor</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.query_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.query_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1056,9 +1056,9 @@ but its use is not recommended.</p>
 </dd>
 </dl>
 <p>Prepares the given <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>/<code class="docutils literal notranslate"><span class="pre">ASK</span></code>/<code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>/<code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> SPARQL query as a
-[class`Tracker`.SparqlStatement].</p>
-<p>This prepared statement can be executed through [method`Tracker`.SparqlStatement.execute]
-or [method`Tracker`.SparqlStatement.serialize_async] families of functions.</p>
+[class`SparqlStatement`].</p>
+<p>This prepared statement can be executed through [method`SparqlStatement`.execute]
+or [method`SparqlStatement`.serialize_async] families of functions.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1106,7 +1106,7 @@ an error will be raised.</p>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.serialize_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.serialize_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -1128,17 +1128,17 @@ an error will be raised.</p>
 </dl>
 <p>Executes a SPARQL update on <cite>self</cite>.</p>
 <p>This method is synchronous and will block until the update
-is finished. See [method`Tracker`.SparqlConnection.update_async]
+is finished. See [method`SparqlConnection`.update_async]
 for an asynchronous variant.</p>
-<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+<p>It is recommented to consider the usage of [class`Batch`]
 to cluster database updates. Frequent isolated SPARQL updates
 through this method will have a degraded performance in comparison.</p>
 <p>If the query is partially built from user input or other
 untrusted sources, special care is required about possible
 SPARQL injection. In order to avoid it entirely, it is recommended
-to use [class`Tracker`.SparqlStatement], or to build the SPARQL
-input through [class`Tracker`.Resource]. The function
-[func`Tracker`.sparql_escape_string] exists as a last resort,
+to use [class`SparqlStatement`], or to build the SPARQL
+input through [class`Resource`]. The function
+[func`sparql_escape_string`] exists as a last resort,
 but its use is not recommended.</p>
 </dd></dl>
 
@@ -1162,9 +1162,9 @@ array are handled within a single transaction.</p>
 <p>If the query is partially built from user input or other
 untrusted sources, special care is required about possible
 SPARQL injection. In order to avoid it entirely, it is recommended
-to use [class`Tracker`.SparqlStatement], or to build the SPARQL
-input through [class`Tracker`.Resource]. The function
-[func`Tracker`.sparql_escape_string] exists as a last resort,
+to use [class`SparqlStatement`], or to build the SPARQL
+input through [class`Resource`]. The function
+[func`sparql_escape_string`] exists as a last resort,
 but its use is not recommended.</p>
 </dd></dl>
 
@@ -1185,7 +1185,7 @@ but its use is not recommended.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_array_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.update_array_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1203,15 +1203,15 @@ the asynchronous operation is finished.</p></li>
 </dd>
 </dl>
 <p>Executes asynchronously a SPARQL update.</p>
-<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+<p>It is recommented to consider the usage of [class`Batch`]
 to cluster database updates. Frequent isolated SPARQL updates
 through this method will have a degraded performance in comparison.</p>
 <p>If the query is partially built from user input or other
 untrusted sources, special care is required about possible
 SPARQL injection. In order to avoid it entirely, it is recommended
-to use [class`Tracker`.SparqlStatement], or to build the SPARQL
-input through [class`Tracker`.Resource]. The function
-[func`Tracker`.sparql_escape_string] exists as a last resort,
+to use [class`SparqlStatement`], or to build the SPARQL
+input through [class`Resource`]. The function
+[func`sparql_escape_string`] exists as a last resort,
 but its use is not recommended.</p>
 </dd></dl>
 
@@ -1237,10 +1237,10 @@ but its use is not recommended.</p>
 </dl>
 <p>Executes a SPARQL update and returns the names of the generated blank nodes.</p>
 <p>This method is synchronous and will block until the update
-is finished. See [method`Tracker`.SparqlConnection.update_blank_async]
+is finished. See [method`SparqlConnection`.update_blank_async]
 for an asynchronous variant.</p>
-<p>The <cite>sparql</cite> query should be built with [class`Tracker`.Resource], or
-its parts correctly escaped using [func`Tracker`.sparql_escape_string],
+<p>The <cite>sparql</cite> query should be built with [class`Resource`], or
+its parts correctly escaped using [func`sparql_escape_string`],
 otherwise SPARQL injection is possible.</p>
 <p>The format string of the <code class="docutils literal notranslate"><span class="pre">GVariant</span></code> is <code class="docutils literal notranslate"><span class="pre">aaa{ss}</span></code> (an array of an array
 of dictionaries). The first array represents each INSERT that may exist in
@@ -1268,10 +1268,10 @@ the asynchronous operation is finished.</p></li>
 </dd>
 </dl>
 <p>Executes asynchronously a SPARQL update and returns the names of the generated blank nodes.</p>
-<p>See the [method`Tracker`.SparqlConnection.update_blank] documentation to
-learn the differences with [method`Tracker`.SparqlConnection.update].</p>
+<p>See the [method`SparqlConnection`.update_blank] documentation to
+learn the differences with [method`SparqlConnection`.update].</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`Tracker`.SparqlConnection.update_blank].</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`SparqlConnection`.update_blank].</p>
 </div>
 </dd></dl>
 
@@ -1292,12 +1292,12 @@ learn the differences with [method`Tracker`.SparqlConnection.update].</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Variant.html#GLib.Variant" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Variant</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_blank_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.update_blank_async].</p>
 <p>This method returns the URNs of the generated nodes, if any. See the
-[method`Tracker`.SparqlConnection.update_blank] documentation for the interpretation
+[method`SparqlConnection`.update_blank] documentation for the interpretation
 of the returned [type`GLib`.Variant].</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`Tracker`.SparqlConnection.update_blank].</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>See [method`SparqlConnection`.update_blank].</p>
 </div>
 </dd></dl>
 
@@ -1312,7 +1312,7 @@ of the returned [type`GLib`.Variant].</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.update_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1322,7 +1322,7 @@ of the returned [type`GLib`.Variant].</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph where the resource should be inserted/updated, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the default graph</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Resource`]</p></li>
 <li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 </ul>
 </dd>
@@ -1338,9 +1338,9 @@ of the returned [type`GLib`.Variant].</p>
 </dl>
 <p>Inserts a resource as described by <cite>resource</cite> on the given <cite>graph</cite>.</p>
 <p>This method is synchronous and will block until the update
-is finished. See [method`Tracker`.SparqlConnection.update_resource_async]
+is finished. See [method`SparqlConnection`.update_resource_async]
 for an asynchronous variant.</p>
-<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+<p>It is recommented to consider the usage of [class`Batch`]
 to cluster database updates. Frequent isolated SPARQL updates
 through this method will have a degraded performance in comparison.</p>
 <div class="versionadded">
@@ -1355,7 +1355,7 @@ through this method will have a degraded performance in comparison.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph where the resource should be inserted/updated, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for the default graph</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Resource`]</p></li>
 <li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Optional [type`Gio`.Cancellable]</p></li>
 <li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – User-defined [type`Gio`.AsyncReadyCallback] to be called when
 the asynchronous operation is finished.</p></li>
@@ -1364,7 +1364,7 @@ the asynchronous operation is finished.</p></li>
 </dd>
 </dl>
 <p>Inserts asynchronously a resource as described by <cite>resource</cite> on the given <cite>graph</cite>.</p>
-<p>It is recommented to consider the usage of [class`Tracker`.Batch]
+<p>It is recommented to consider the usage of [class`Batch`]
 to cluster database updates. Frequent isolated SPARQL updates
 through this method will have a degraded performance in comparison.</p>
 <div class="versionadded">
@@ -1389,7 +1389,7 @@ through this method will have a degraded performance in comparison.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.SparqlConnection.update_resource_async].</p>
+<p>Finishes the operation started with [method`SparqlConnection`.update_resource_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -1415,9 +1415,9 @@ through this method will have a degraded performance in comparison.</p>
 <dd class="field-even"><p><a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Prepares the given <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> SPARQL as a [class`Tracker`.SparqlStatement].</p>
+<p>Prepares the given <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> SPARQL as a [class`SparqlStatement`].</p>
 <p>This prepared statement can be executed through
-the [method`Tracker`.SparqlStatement.update] family of functions.</p>
+the [method`SparqlStatement`.update] family of functions.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>

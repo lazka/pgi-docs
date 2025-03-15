@@ -442,7 +442,7 @@
 <p><code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> represents a prepared statement for a SPARQL query.</p>
 <p>The SPARQL query will be internally compiled into the format that is most
 optimal to execute the query many times. For connections created
-through [ctor`Tracker`.SparqlConnection.new] that will be a
+through [ctor`SparqlConnection`.new] that will be a
 SQLite compiled statement.</p>
 <p>The SPARQL query may contain parameterized variables expressed via the
 <code class="docutils literal notranslate"><span class="pre">~</span></code> prefix in the SPARQL syntax (e.g. <code class="docutils literal notranslate"><span class="pre">~var</span></code>), these may happen anywhere
@@ -450,17 +450,17 @@ in the SPARQL where a literal or variable would typically happen. These
 parameterized variables may be mapped to arbitrary values prior to
 execution. The <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> may be reused for future
 queries with different values.</p>
-<p>The argument bindings may be changed through the [method`Tracker`.SparqlStatement.bind_int],
-[method`Tracker`.SparqlStatement.bind_int], etc… family of functions. Those functions
+<p>The argument bindings may be changed through the [method`SparqlStatement`.bind_int],
+[method`SparqlStatement`.bind_int], etc… family of functions. Those functions
 receive a <cite>name</cite> argument corresponding for the variable name in the SPARQL query
 (eg. <code class="docutils literal notranslate"><span class="pre">&quot;var&quot;</span></code> for <code class="docutils literal notranslate"><span class="pre">~var</span></code>) and a value to map the variable to.</p>
 <p>Once all arguments have a value, the query may be executed through
-[method`Tracker`.SparqlStatement.execute_async] or [method`Tracker`.SparqlStatement.execute].</p>
+[method`SparqlStatement`.execute_async] or [method`SparqlStatement`.execute].</p>
 <p>It is possible to use any <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> from other threads than
 the one it was created from. However, binding values and executing the
 statement must only happen from one thread at a time. It is possible to reuse
-the <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> right after [method`Tracker`.SparqlStatement.execute_async]
-was called, there is no need to wait for [method`Tracker`.SparqlStatement.execute_finish].</p>
+the <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> right after [method`SparqlStatement`.execute_async]
+was called, there is no need to wait for [method`SparqlStatement`.execute_finish].</p>
 <p>In some circumstances, it is possible that the query needs to be recompiled
 from the SPARQL source. This will happen transparently.</p>
 <dl class="py method">
@@ -583,11 +583,11 @@ will be represented as a <a class="reference external" href="rdf-ontology.html#r
 <p>Executes the <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> or <code class="docutils literal notranslate"><span class="pre">ASK</span></code> SPARQL query with the currently bound values.</p>
 <p>This function also works for <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> and <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> queries that
 retrieve data from the triple store. These query forms that return
-RDF data are however more useful together with [method`Tracker`.SparqlStatement.serialize_async].</p>
+RDF data are however more useful together with [method`SparqlStatement`.serialize_async].</p>
 <p>This function should only be called on <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> objects
-obtained through [method`Tracker`.SparqlConnection.query_statement] or
+obtained through [method`SparqlConnection`.query_statement] or
 SELECT/CONSTRUCT/DESCRIBE statements loaded through
-[method`Tracker`.SparqlConnection.load_statement_from_gresource].
+[method`SparqlConnection`.load_statement_from_gresource].
 An error will be raised if this method is called on a <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> or <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>
 SPARQL query.</p>
 </dd></dl>
@@ -608,11 +608,11 @@ the asynchronous operation is finished.</p></li>
 <p>Executes asynchronously the <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> or <code class="docutils literal notranslate"><span class="pre">ASK</span></code> SPARQL query with the currently bound values.</p>
 <p>This function also works for <code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code> and <code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> queries that
 retrieve data from the triple store. These query forms that return
-RDF data are however more useful together with [method`Tracker`.SparqlStatement.serialize_async].</p>
+RDF data are however more useful together with [method`SparqlStatement`.serialize_async].</p>
 <p>This function should only be called on <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> objects
-obtained through [method`Tracker`.SparqlConnection.query_statement] or
+obtained through [method`SparqlConnection`.query_statement] or
 SELECT/CONSTRUCT/DESCRIBE statements loaded through
-[method`Tracker`.SparqlConnection.load_statement_from_gresource].
+[method`SparqlConnection`.load_statement_from_gresource].
 An error will be raised if this method is called on a <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> or <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>
 SPARQL query.</p>
 </dd></dl>
@@ -635,7 +635,7 @@ SPARQL query.</p>
 </dd>
 </dl>
 <p>Finishes the asynchronous operation started through
-[method`Tracker`.SparqlStatement.execute_async].</p>
+[method`SparqlStatement`.execute_async].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -649,7 +649,7 @@ SPARQL query.</p>
 <dd class="field-even"><p><a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the [class`Tracker`.SparqlConnection] that this statement was created for.</p>
+<p>Returns the [class`SparqlConnection`] that this statement was created for.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -713,7 +713,7 @@ an error will be raised.</p>
 </dd>
 </dl>
 <p>Finishes the asynchronous operation started through
-[method`Tracker`.SparqlStatement.serialize_async].</p>
+[method`SparqlStatement`.serialize_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.3.</span></p>
 </div>
@@ -738,9 +738,9 @@ an error will be raised.</p>
 </dl>
 <p>Executes the <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> SPARQL query series with the currently bound values.</p>
 <p>This function should only be called on <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> objects
-obtained through [method`Tracker`.SparqlConnection.update_statement] or
+obtained through [method`SparqlConnection`.update_statement] or
 <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statements loaded through
-[method`Tracker`.SparqlConnection.load_statement_from_gresource].
+[method`SparqlConnection`.load_statement_from_gresource].
 An error will be raised if this method is called on
 <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>/<code class="docutils literal notranslate"><span class="pre">ASK</span></code>/<code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>/<code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> SPARQL queries.</p>
 <div class="versionadded">
@@ -763,9 +763,9 @@ the asynchronous operation is finished.</p></li>
 </dl>
 <p>Executes asynchronously the <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> SPARQL query series with the currently bound values.</p>
 <p>This function should only be called on <code class="docutils literal notranslate"><span class="pre">TrackerSparqlStatement</span></code> objects
-obtained through [method`Tracker`.SparqlConnection.update_statement] or
+obtained through [method`SparqlConnection`.update_statement] or
 <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>/<code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statements loaded through
-[method`Tracker`.SparqlConnection.load_statement_from_gresource].
+[method`SparqlConnection`.load_statement_from_gresource].
 An error will be raised if this method is called on
 <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>/<code class="docutils literal notranslate"><span class="pre">ASK</span></code>/<code class="docutils literal notranslate"><span class="pre">DESCRIBE</span></code>/<code class="docutils literal notranslate"><span class="pre">CONSTRUCT</span></code> SPARQL queries.</p>
 <div class="versionadded">
@@ -791,7 +791,7 @@ An error will be raised if this method is called on
 </dd>
 </dl>
 <p>Finishes the asynchronous update started through
-[method`Tracker`.SparqlStatement.update_async].</p>
+[method`SparqlStatement`.update_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>
@@ -819,7 +819,7 @@ An error will be raised if this method is called on
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
 </dd>
 </dl>
-<p>The [class`Tracker`.SparqlConnection] the statement was created for.</p>
+<p>The [class`SparqlConnection`] the statement was created for.</p>
 </dd></dl>
 
 <dl class="py data">

@@ -555,26 +555,26 @@
 <p><code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> is an in-memory representation of RDF data about a given resource.</p>
 <p>This object keeps track of a set of properties for a given resource, and can
 also link to other <code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> objects to form trees or graphs of RDF
-data. See [method`Tracker`.Resource.set_relation] and [method`Tracker`.Resource.set_uri]
+data. See [method`Resource`.set_relation] and [method`Resource`.set_uri]
 on how to link a <code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> to other RDF data.</p>
 <p><code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> may also hold data about literal values, added through
-the specialized [method`Tracker`.Resource.set_int64], [method`Tracker`.Resource.set_string],
-etc family of functions, or the generic [method`Tracker`.Resource.set_gvalue] method.</p>
+the specialized [method`Resource`.set_int64], [method`Resource`.set_string],
+etc family of functions, or the generic [method`Resource`.set_gvalue] method.</p>
 <p>Since RDF properties may be multi-valued, for every <code class="docutils literal notranslate"><span class="pre">set</span></code> call there exists
-another <code class="docutils literal notranslate"><span class="pre">add</span></code> call (e.g. [method`Tracker`.Resource.add_int64], [method`Tracker`.Resource.add_string]
+another <code class="docutils literal notranslate"><span class="pre">add</span></code> call (e.g. [method`Resource`.add_int64], [method`Resource`.add_string]
 and so on). The <code class="docutils literal notranslate"><span class="pre">set</span></code> methods do also reset any previously value the
 property might hold for the given resource.</p>
-<p>Resources may have an IRI set at creation through [ctor`Tracker`.Resource.new],
-or set afterwards through [method`Tracker`.Resource.set_identifier]. Resources
+<p>Resources may have an IRI set at creation through [ctor`Resource`.new],
+or set afterwards through [method`Resource`.set_identifier]. Resources
 without a name will represent a blank node, and will be dealt with as such
 during database insertions.</p>
 <p><code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> performs no validation on the data being coherent as per
 any ontology. Errors will be found out at the time of using the <a class="reference internal" href="#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>
 for e.g. database updates.</p>
 <p>Once the RDF data is built in memory, the (tree of) <code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> may be
-converted to a RDF format through [method`Tracker`.Resource.print_rdf], or
-directly inserted into a database through [method`Tracker`.Batch.add_resource]
-or [method`Tracker`.SparqlConnection.update_resource].</p>
+converted to a RDF format through [method`Resource`.print_rdf], or
+directly inserted into a database through [method`Batch`.add_resource]
+or [method`SparqlConnection`.update_resource].</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tracker.Resource.deserialize">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variant</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tracker.Resource.deserialize" title="Permalink to this definition">¶</a></dt>
@@ -591,8 +591,8 @@ deserialization fails.</p>
 </dd>
 </dl>
 <p>Deserializes a <code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> previously serialized with
-[method`Tracker`.Resource.serialize]. It is implied that both ends
-use a common [class`Tracker`.NamespaceManager].</p>
+[method`Resource`.serialize]. It is implied that both ends
+use a common [class`NamespaceManager`].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -736,7 +736,7 @@ types (string, int, etc.).</p>
 <p>This method applies to properties with a <a class="reference external" href="rdf-ontology.html#rdfs:range">rdfs:range</a>
 that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
-<p>This method produces similar RDF to [method`Tracker`.Resource.add_uri],
+<p>This method produces similar RDF to [method`Resource`.add_uri],
 although in this function the URI will depend on the identifier
 set on <cite>resource</cite>.</p>
 </dd></dl>
@@ -776,7 +776,7 @@ Takes ownership on the given <cite>resource</cite>.</p>
 <p>This method applies to properties with a <a class="reference external" href="rdf-ontology.html#rdfs:range">rdfs:range</a>
 that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
-<p>This function produces similar RDF to [method`Tracker`.Resource.add_uri],
+<p>This function produces similar RDF to [method`Resource`.add_uri],
 although in this function the URI will depend on the identifier
 set on <cite>resource</cite>. This function takes ownership of <cite>resource</cite>.</p>
 </dd></dl>
@@ -798,7 +798,7 @@ that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
 <p>This method is meant for RDF properties allowing multiple values, see
 <a class="reference external" href="nrl-ontology.html#nrl:maxCardinality">nrl:maxCardinality</a>.</p>
-<p>This function produces similar RDF to [method`Tracker`.Resource.add_relation], although
+<p>This function produces similar RDF to [method`Resource`.add_relation], although
 it requires that the URI is previously known.</p>
 </dd></dl>
 
@@ -1048,10 +1048,10 @@ Nepomuk set</p>
 <p>See &lt;http://www.jsonld.org/&gt; for more information on the JSON-LD
 serialization format.</p>
 <p>The <cite>namespaces</cite> object is used to expand any compact URI values. In most
-cases you should pass the one returned by [method`Tracker`.SparqlConnection.get_namespace_manager]
+cases you should pass the one returned by [method`SparqlConnection`.get_namespace_manager]
 from the connection that is the intended recipient of this data.</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>Use [method`Tracker`.Resource.print_rdf] instead.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.5: </span>Use [method`Resource`.print_rdf] instead.</p>
 </div>
 </dd></dl>
 
@@ -1076,7 +1076,7 @@ default graph</p></li>
 </dl>
 <p>Serialize all the information in <cite>resource</cite> into the selected RDF format.</p>
 <p>The <cite>namespaces</cite> object is used to expand any compact URI values. In most
-cases you should pass the one returned by [method`Tracker`.SparqlConnection.get_namespace_manager]
+cases you should pass the one returned by [method`SparqlConnection`.get_namespace_manager]
 from the connection that is the intended recipient of this data.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.4.</span></p>
@@ -1105,7 +1105,7 @@ or <a class="reference external" href="https://docs.python.org/3/library/constan
 <p>Generates a SPARQL command to update a database with the information
 stored in <cite>resource</cite>.</p>
 <p>The <cite>namespaces</cite> object is used to expand any compact URI values. In most
-cases you should pass the one returned by [method`Tracker`.SparqlConnection.get_namespace_manager]
+cases you should pass the one returned by [method`SparqlConnection`.get_namespace_manager]
 from the connection that is the intended recipient of this data.</p>
 </dd></dl>
 
@@ -1128,10 +1128,10 @@ Nepomuk set</p>
 <p>The generated Turtle should correspond to this standard:
 &lt;https://www.w3.org/TR/2014/REC-turtle-20140225/&gt;</p>
 <p>The <cite>namespaces</cite> object is used to expand any compact URI values. In most
-cases you should pass the one returned by [method`Tracker`.SparqlConnection.get_namespace_manager]
+cases you should pass the one returned by [method`SparqlConnection`.get_namespace_manager]
 from the connection that is the intended recipient of this data.</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.4: </span>Use [method`Tracker`.Resource.print_rdf] instead.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.4: </span>Use [method`Resource`.print_rdf] instead.</p>
 </div>
 </dd></dl>
 
@@ -1149,7 +1149,7 @@ the reference is floating.</p>
 </dl>
 <p>Serializes a <code class="docutils literal notranslate"><span class="pre">TrackerResource</span></code> to a [type`GLib`.Variant] in a lossless way.
 All child resources are subsequently serialized. It is implied
-that both ends use a common [class`Tracker`.NamespaceManager].</p>
+that both ends use a common [class`NamespaceManager`].</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1282,7 +1282,7 @@ insert the results in a database.</p>
 <p>This method applies to properties with a <a class="reference external" href="rdf-ontology.html#rdfs:range">rdfs:range</a>
 that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
-<p>This function produces similar RDF to [method`Tracker`.Resource.set_uri],
+<p>This function produces similar RDF to [method`Resource`.set_uri],
 although in this function the URI will depend on the identifier
 set on <cite>resource</cite>.</p>
 </dd></dl>
@@ -1318,7 +1318,7 @@ Takes ownership on the given <cite>resource</cite>.</p>
 <p>This method applies to properties with a <a class="reference external" href="rdf-ontology.html#rdfs:range">rdfs:range</a>
 that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
-<p>This function produces similar RDF to [method`Tracker`.Resource.set_uri],
+<p>This function produces similar RDF to [method`Resource`.set_uri],
 although in this function the URI will depend on the identifier
 set on <cite>resource</cite>.</p>
 </dd></dl>
@@ -1338,7 +1338,7 @@ set on <cite>resource</cite>.</p>
 <p>This method applies to properties with a <a class="reference external" href="rdf-ontology.html#rdfs:range">rdfs:range</a>
 that points to a non-literal class (i.e. a subclass of
 <a class="reference external" href="rdf-ontology.html#rdfs:Resource">rdfs:Resource</a>).</p>
-<p>This function produces similar RDF to [method`Tracker`.Resource.set_relation], although
+<p>This function produces similar RDF to [method`Resource`.set_relation], although
 it requires that the URI is previously known.</p>
 </dd></dl>
 

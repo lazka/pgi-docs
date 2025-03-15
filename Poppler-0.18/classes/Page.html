@@ -156,6 +156,7 @@
 <li><a class="reference internal" href="#Poppler.Page.render"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_for_printing"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_for_printing_with_options"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing_with_options()</span></code></a></li>
+<li><a class="reference internal" href="#Poppler.Page.render_full"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_full()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_selection"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_selection()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_to_ps"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_to_ps()</span></code></a></li>
 </ul>
@@ -250,6 +251,7 @@
 <li><a class="reference internal" href="#Poppler.Page.render"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_for_printing"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_for_printing_with_options"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing_with_options()</span></code></a></li>
+<li><a class="reference internal" href="#Poppler.Page.render_full"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_full()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_selection"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_selection()</span></code></a></li>
 <li><a class="reference internal" href="#Poppler.Page.render_to_ps"><code class="docutils literal notranslate"><span class="pre">Poppler.Page.render_to_ps()</span></code></a></li>
 </ul>
@@ -442,9 +444,12 @@
 <td><p><a class="reference internal" href="#Poppler.Page.render_for_printing_with_options" title="Poppler.Page.render_for_printing_with_options"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_for_printing_with_options</span></code></a> (cairo, options)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Poppler.Page.render_selection" title="Poppler.Page.render_selection"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_selection</span></code></a> (cairo, selection, old_selection, style, glyph_color, background_color)</p></td>
+<td><p><a class="reference internal" href="#Poppler.Page.render_full" title="Poppler.Page.render_full"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_full</span></code></a> (cairo, printing, flags)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Poppler.Page.render_selection" title="Poppler.Page.render_selection"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_selection</span></code></a> (cairo, selection, old_selection, style, glyph_color, background_color)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Poppler.Page.render_to_ps" title="Poppler.Page.render_to_ps"><code class="xref py py-func docutils literal notranslate"><span class="pre">render_to_ps</span></code></a> (ps_file)</p></td>
 </tr>
 </tbody>
@@ -1161,7 +1166,8 @@ rendering to a printer.</p>
 </dl>
 <p>Render the page to the given cairo context for printing with
 <a class="reference internal" href="../flags.html#Poppler.PrintFlags.ALL" title="Poppler.PrintFlags.ALL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.PrintFlags.ALL</span></code></a> flags selected.  If you want a different set of flags,
-use <a class="reference internal" href="#Poppler.Page.render_for_printing_with_options" title="Poppler.Page.render_for_printing_with_options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing_with_options</span></code></a>().</p>
+use <a class="reference internal" href="#Poppler.Page.render_full" title="Poppler.Page.render_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Page.render_full</span></code></a>() with printing <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> and the corresponding
+flags.</p>
 <p>The difference between <a class="reference internal" href="#Poppler.Page.render" title="Poppler.Page.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Page.render</span></code></a>() and this function is that some
 things get rendered differently between screens and printers:</p>
 <ul class="simple">
@@ -1199,6 +1205,32 @@ with the specified options</p>
 differences between rendering to the screen and rendering to a printer.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.16.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 25.02: </span>Use <a class="reference internal" href="#Poppler.Page.render_full" title="Poppler.Page.render_full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Page.render_full</span></code></a>() instead.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Poppler.Page.render_full">
+<span class="sig-name descname"><span class="pre">render_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cairo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">printing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Poppler.Page.render_full" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cairo</strong> (<a class="reference external" href="https://pycairo.readthedocs.io/en/latest/reference/context.html#cairo.Context" title="(in Pycairo)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cairo.Context</span></code></a>) – cairo context to render to</p></li>
+<li><p><strong>printing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – cairo context to render to</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Poppler.RenderAnnotsFlags" title="Poppler.RenderAnnotsFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.RenderAnnotsFlags</span></code></a>) – flags which allow to select which annotations to render</p></li>
+</ul>
+</dd>
+</dl>
+<p>Render the page to the given cairo context, manually selecting which
+annotations should be displayed.</p>
+<p>The <cite>printing</cite> parameter determines whether a page is rendered for printing
+or for displaying it on a screen. See the documentation for
+<a class="reference internal" href="#Poppler.Page.render_for_printing" title="Poppler.Page.render_for_printing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poppler.Page.render_for_printing</span></code></a>() for the differences between rendering to
+the screen and rendering to a printer.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 25.02.</span></p>
 </div>
 </dd></dl>
 

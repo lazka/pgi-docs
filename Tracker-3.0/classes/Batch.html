@@ -389,11 +389,11 @@
 </dl>
 <p><code class="docutils literal notranslate"><span class="pre">TrackerBatch</span></code> executes a series of SPARQL updates and RDF data
 insertions within a transaction.</p>
-<p>A batch is created with [method`Tracker`.SparqlConnection.create_batch].
-To add resources use [method`Tracker`.Batch.add_resource],
-[method`Tracker`.Batch.add_sparql] or [method`Batch`.add_statement].</p>
-<p>When a batch is ready for execution, use [method`Tracker`.Batch.execute]
-or [method`Tracker`.Batch.execute_async]. The batch is executed as a single
+<p>A batch is created with [method`SparqlConnection`.create_batch].
+To add resources use [method`Batch`.add_resource],
+[method`Batch`.add_sparql] or [method`Batch`.add_statement].</p>
+<p>When a batch is ready for execution, use [method`Batch`.execute]
+or [method`Batch`.execute_async]. The batch is executed as a single
 transaction, it will succeed or fail entirely.</p>
 <p>This object has a single use, after the batch is executed it can
 only be finished and freed.</p>
@@ -435,7 +435,7 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – RDF graph to insert the resource to</p></li>
-<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Tracker`.Resource]</p></li>
+<li><p><strong>resource</strong> (<a class="reference internal" href="Resource.html#Tracker.Resource" title="Tracker.Resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.Resource</span></code></a>) – A [class`Resource`]</p></li>
 </ul>
 </dd>
 </dl>
@@ -465,13 +465,13 @@ be inserted in the specified graph instead of <cite>default_graph</cite>.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stmt</strong> (<a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a>) – A [class`Tracker`.SparqlStatement] containing a SPARQL update</p></li>
+<li><p><strong>stmt</strong> (<a class="reference internal" href="SparqlStatement.html#Tracker.SparqlStatement" title="Tracker.SparqlStatement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlStatement</span></code></a>) – A [class`SparqlStatement`] containing a SPARQL update</p></li>
 <li><p><strong>variable_names</strong> ([<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The names of each bound parameter</p></li>
 <li><p><strong>values</strong> ([<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>]) – The values of each bound parameter</p></li>
 </ul>
 </dd>
 </dl>
-<p>Adds a [class`Tracker`.SparqlStatement] containing an SPARQL update. The statement will
+<p>Adds a [class`SparqlStatement`] containing an SPARQL update. The statement will
 be executed once in the batch, with the values bound as specified by <cite>variable_names</cite>
 and <cite>values</cite>.</p>
 <p>For example, for a statement that has a single <code class="docutils literal notranslate"><span class="pre">~name</span></code> parameter,
@@ -491,12 +491,12 @@ batch.add_statement(stmt, [‘name’], [‘John Smith’]);
 <a href="#id3"><span class="problematic" id="id4">``</span></a>js
 batch.add_statement(stmt, [‘name’], [‘John Smith’]);
 ```</p>
-<p>A [class`Tracker`.SparqlStatement] may be used on multiple [method`Tracker`.Batch.add_statement]
+<p>A [class`SparqlStatement`] may be used on multiple [method`Batch`.add_statement]
 calls with the same or different values, on the same or different <code class="docutils literal notranslate"><span class="pre">TrackerBatch</span></code>
 objects.</p>
-<p>This function should only be called on [class`Tracker`.SparqlStatement] objects
-obtained through [method`Tracker`.SparqlConnection.update_statement] or
-update statements loaded through [method`Tracker`.SparqlConnection.load_statement_from_gresource].</p>
+<p>This function should only be called on [class`SparqlStatement`] objects
+obtained through [method`SparqlConnection`.update_statement] or
+update statements loaded through [method`SparqlConnection`.load_statement_from_gresource].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>
@@ -562,7 +562,7 @@ finished <cite>callback</cite> will be executed.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes the operation started with [method`Tracker`.Batch.execute_async].</p>
+<p>Finishes the operation started with [method`Batch`.execute_async].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -579,7 +579,7 @@ finished <cite>callback</cite> will be executed.</p>
 <dd class="field-even"><p><a class="reference internal" href="SparqlConnection.html#Tracker.SparqlConnection" title="Tracker.SparqlConnection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tracker.SparqlConnection</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the [class`Tracker`.SparqlConnection] that this batch was created
+<p>Returns the [class`SparqlConnection`] that this batch was created
 from.</p>
 </dd></dl>
 
@@ -605,7 +605,7 @@ from.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
 </dd>
 </dl>
-<p>The [class`Tracker`.SparqlConnection] the batch belongs to.</p>
+<p>The [class`SparqlConnection`] the batch belongs to.</p>
 </dd></dl>
 
 </section>

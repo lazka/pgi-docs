@@ -125,6 +125,7 @@
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new()</span></code></a></li>
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_surfaceless"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new_surfaceless()</span></code></a></li>
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_with_egl_display"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new_with_egl_display()</span></code></a></li>
+<li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.set_foreign"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.set_foreign()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -182,6 +183,7 @@
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new()</span></code></a></li>
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_surfaceless"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new_surfaceless()</span></code></a></li>
 <li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_with_egl_display"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new_with_egl_display()</span></code></a></li>
+<li><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.set_foreign"><code class="docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.set_foreign()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -319,6 +321,9 @@
 <tr class="row-odd"><td><p><em>class</em></p></td>
 <td><p><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_with_egl_display" title="GstGLEGL.GLDisplayEGL.new_with_egl_display"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_with_egl_display</span></code></a> (display)</p></td>
 </tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#GstGLEGL.GLDisplayEGL.set_foreign" title="GstGLEGL.GLDisplayEGL.set_foreign"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_foreign</span></code></a> (foreign)</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -421,6 +426,10 @@ through the provided API</p>
 <p>Creates a EGL display connection from a native Display.</p>
 <p>This function will return the same value for multiple calls with the same
 <cite>display</cite>.</p>
+<p>The returned <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> will *not* be marked as foreign and will free
+some display global EGL resources on finalization. If an external API/user
+will be also handling the lifetime of the <code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code>, you should mark the
+returned <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> as foreign by calling <a class="reference internal" href="#GstGLEGL.GLDisplayEGL.set_foreign" title="GstGLEGL.GLDisplayEGL.set_foreign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.set_foreign</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.12.</span></p>
 </div>
@@ -463,6 +472,9 @@ through the provided API</p>
 </dd>
 </dl>
 <p>Create a new <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> using the default EGL_DEFAULT_DISPLAY.</p>
+<p>The returned <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> will by default free all EGL resources when
+finalized. See <a class="reference internal" href="#GstGLEGL.GLDisplayEGL.set_foreign" title="GstGLEGL.GLDisplayEGL.set_foreign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.set_foreign</span></code></a>() for details on if you need
+the EGLDisplay to remain alive.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -494,6 +506,32 @@ EGL_PLATFORM_SURFACELESS_MESA extension.</p>
 <dd class="field-even"><p><a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GstGLEGL.GLDisplayEGL.set_foreign">
+<span class="sig-name descname"><span class="pre">set_foreign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">foreign</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GstGLEGL.GLDisplayEGL.set_foreign" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>foreign</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether <cite>self</cite> should be marked as containing a foreign
+<code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code></p>
+</dd>
+</dl>
+<p>Configure whether or not this EGL display is foreign and is managed by an
+external application/library.</p>
+<p>A display marked as foreign will not have display global resources freed when
+this display is finalized. As such, any external API using the same
+<code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code> must keep the <code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code> alive while GStreamer is using any
+EGL or GL resources associated with that <code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code>.  The reverse is also
+true and a foreign <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> must not be used after the associated
+<code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code> has been destroyed externally with <code class="docutils literal notranslate"><span class="pre">eglTerminate()</span></code>.</p>
+<p>A non-foreign <a class="reference internal" href="#GstGLEGL.GLDisplayEGL" title="GstGLEGL.GLDisplayEGL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL</span></code></a> will destroy the associated <code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code> on
+finalization. This can also be useful when a user would like GStreamer to
+assume ownership of the <code class="docutils literal notranslate"><span class="pre">EGLDisplay</span></code> after calling e.g.
+<a class="reference internal" href="#GstGLEGL.GLDisplayEGL.new_with_egl_display" title="GstGLEGL.GLDisplayEGL.new_with_egl_display"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GstGLEGL.GLDisplayEGL.new_with_egl_display</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.26.</span></p>
+</div>
 </dd></dl>
 
 </dd></dl>

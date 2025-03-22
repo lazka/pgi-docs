@@ -317,16 +317,16 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gtk.SignalListItemFactory.signals.bind" title="Gtk.SignalListItemFactory.signals.bind"><code class="xref py py-func docutils literal notranslate"><span class="pre">bind</span></code></a></p></td>
-<td><p>Emitted when an object has been bound, for example when a new [property`Gtk`.ListItem:item] has been set on a listitem and should be bound for use.</p></td>
+<td><p>Emitted when an object has been bound to an item.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gtk.SignalListItemFactory.signals.setup" title="Gtk.SignalListItemFactory.signals.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup</span></code></a></p></td>
-<td><p>Emitted when a new listitem has been created and needs to be setup for use.</p></td>
+<td><p>Emitted when a newly created listitem needs to be prepared for use.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Gtk.SignalListItemFactory.signals.teardown" title="Gtk.SignalListItemFactory.signals.teardown"><code class="xref py py-func docutils literal notranslate"><span class="pre">teardown</span></code></a></p></td>
 <td><p>Emitted when an object is about to be destroyed.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Gtk.SignalListItemFactory.signals.unbind" title="Gtk.SignalListItemFactory.signals.unbind"><code class="xref py py-func docutils literal notranslate"><span class="pre">unbind</span></code></a></p></td>
-<td><p>Emitted when an object has been unbound from its item, for example when a listitem was removed from use in a list widget and its [property`Gtk`.ListItem:item] is about to be unset.</p></td>
+<td><p>Emitted when an object has been unbound from its item.</p></td>
 </tr>
 </tbody>
 </table>
@@ -355,7 +355,7 @@
 <dd class="field-odd"><p><a class="reference internal" href="SignalListItemFactoryClass.html#Gtk.SignalListItemFactoryClass" title="Gtk.SignalListItemFactoryClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.SignalListItemFactoryClass</span></code></a></p>
 </dd>
 </dl>
-<p>A <code class="docutils literal notranslate"><span class="pre">GtkListItemFactory</span></code> that emits signals to manage listitems.</p>
+<p>Emits signals to manage listitems.</p>
 <p>Signals are emitted for every listitem in the same order:</p>
 <p>[signal`Gtk`.SignalListItemFactory::setup] is emitted to set up permanent
 things on the listitem. This usually means constructing the widgets used in
@@ -375,20 +375,20 @@ widget.</p>
 again to bind the listitem for use with new items. By reusing listitems,
 potentially costly setup can be avoided. However, it means code needs to
 make sure to properly clean up the listitem in step 3 so that no information
-from the previous use leaks into the next use.</p>
+from the previous use leaks into the next one.</p>
 <p>[signal`Gtk`.SignalListItemFactory::teardown] is emitted to allow undoing
 the effects of [signal`Gtk`.SignalListItemFactory::setup]. After this signal
 was emitted on a listitem, the listitem will be destroyed and not be used again.</p>
-<p>Note that during the signal emissions, changing properties on the
-listitems passed will not trigger notify signals as the listitem’s
-notifications are frozen. See <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.freeze_notify" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.freeze_notify</span></code></a>() for details.</p>
+<p>Note that during the signal emissions, changing properties on the listitems
+passed will not trigger notify signals as the listitem’s notifications are
+frozen. See [method`GObject`.Object.freeze_notify()] for details.</p>
 <p>For tracking changes in other properties in the listitem, the
 <code class="xref py py-func docutils literal notranslate"><span class="pre">::notify</span></code> signal is recommended. The signal can be connected in the
 [signal`Gtk`.SignalListItemFactory::setup] signal and removed again during
 [signal`Gtk`.SignalListItemFactory::teardown].</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.SignalListItemFactory.new">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.17.5/gtk/gtksignallistitemfactory.c#L279"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.SignalListItemFactory.new" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.18.2/gtk/gtksignallistitemfactory.c#L285"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.SignalListItemFactory.new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a new <code class="docutils literal notranslate"><span class="pre">GtkSignalListItemFactory</span></code></p>
@@ -423,9 +423,9 @@ notifications are frozen. See <a class="reference external" href="../../GObject-
 </ul>
 </dd>
 </dl>
-<p>Emitted when an object has been bound, for example when a
-new [property`Gtk`.ListItem:item] has been set on a
-listitem and should be bound for use.</p>
+<p>Emitted when an object has been bound to an item.</p>
+<p>The handler for this signal must set
+to populate the listitem with widgets.</p>
 <p>After this signal was emitted, the object might be shown in
 a [class`Gtk`.ListView] or other widget.</p>
 <p>The [signal`Gtk`.SignalListItemFactory::unbind] signal is the
@@ -446,12 +446,14 @@ in this signal.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>signal_list_item_factory</strong> (<a class="reference internal" href="#Gtk.SignalListItemFactory" title="Gtk.SignalListItemFactory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.SignalListItemFactory</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>object</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>) – The <code class="docutils literal notranslate"><span class="pre">GObject</span></code> to set up</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>) – the <code class="docutils literal notranslate"><span class="pre">GObject</span></code> to set up</p></li>
 </ul>
 </dd>
 </dl>
-<p>Emitted when a new listitem has been created and needs to be setup for use.</p>
+<p>Emitted when a newly created listitem needs to be prepared for use.</p>
 <p>It is the first signal emitted for every listitem.</p>
+<p>The handler for this signal must call [method`Gtk`.ListItem.set_child]
+to populate the listitem with widgets.</p>
 <p>The [signal`Gtk`.SignalListItemFactory::teardown] signal is the opposite
 of this signal and can be used to undo everything done in this signal.</p>
 </dd></dl>
@@ -496,9 +498,10 @@ signal and should be used to undo everything done in that signal.</p>
 </ul>
 </dd>
 </dl>
-<p>Emitted when an object has been unbound from its item, for example when
-a listitem was removed from use in a list widget
-and its [property`Gtk`.ListItem:item] is about to be unset.</p>
+<p>Emitted when an object has been unbound from its item.</p>
+<p>This happens for example when a listitem was removed from use
+in a list widget and its [property`Gtk`.ListItem:item] is about
+to be unset.</p>
 <p>This signal is the opposite of the [signal`Gtk`.SignalListItemFactory::bind]
 signal and should be used to undo everything done in that signal.</p>
 </dd></dl>

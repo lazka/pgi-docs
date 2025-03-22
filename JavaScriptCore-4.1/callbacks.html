@@ -116,6 +116,7 @@
 <li><a class="reference internal" href="#JavaScriptCore.ClassHasPropertyFunction"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ClassHasPropertyFunction()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.ClassSetPropertyFunction"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ClassSetPropertyFunction()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.ExceptionHandler"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ExceptionHandler()</span></code></a></li>
+<li><a class="reference internal" href="#JavaScriptCore.Executor"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.Executor()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.OptionsFunc"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.OptionsFunc()</span></code></a></li>
 </ul>
 </li>
@@ -165,6 +166,7 @@
 <li><a class="reference internal" href="#JavaScriptCore.ClassHasPropertyFunction"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ClassHasPropertyFunction()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.ClassSetPropertyFunction"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ClassSetPropertyFunction()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.ExceptionHandler"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.ExceptionHandler()</span></code></a></li>
+<li><a class="reference internal" href="#JavaScriptCore.Executor"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.Executor()</span></code></a></li>
 <li><a class="reference internal" href="#JavaScriptCore.OptionsFunc"><code class="docutils literal notranslate"><span class="pre">JavaScriptCore.OptionsFunc()</span></code></a></li>
 </ul>
 </li>
@@ -213,6 +215,9 @@
 <td><p><a class="reference internal" href="#JavaScriptCore.ExceptionHandler" title="JavaScriptCore.ExceptionHandler"><code class="xref py py-func docutils literal notranslate"><span class="pre">ExceptionHandler</span></code></a> (context, exception, *user_data)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#JavaScriptCore.Executor" title="JavaScriptCore.Executor"><code class="xref py py-func docutils literal notranslate"><span class="pre">Executor</span></code></a> (resolve, reject, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#JavaScriptCore.OptionsFunc" title="JavaScriptCore.OptionsFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">OptionsFunc</span></code></a> (option, type, description, *user_data)</p></td>
 </tr>
 </tbody>
@@ -350,6 +355,27 @@ external properties not added to the prototype.</p>
 </dd>
 </dl>
 <p>Function used to handle JavaScript exceptions in a <a class="reference internal" href="classes/Context.html#JavaScriptCore.Context" title="JavaScriptCore.Context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Context</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="JavaScriptCore.Executor">
+<span class="sig-prename descclassname"><span class="pre">JavaScriptCore.</span></span><span class="sig-name descname"><span class="pre">Executor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolve</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reject</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#JavaScriptCore.Executor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolve</strong> (<a class="reference internal" href="classes/Value.html#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a>) – <a class="reference internal" href="classes/Value.html#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> function to call to resolve the promise</p></li>
+<li><p><strong>reject</strong> (<a class="reference internal" href="classes/Value.html#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a>) – <a class="reference internal" href="classes/Value.html#JavaScriptCore.Value" title="JavaScriptCore.Value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JavaScriptCore.Value</span></code></a> function to call to reject the promise</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data</p></li>
+</ul>
+</dd>
+</dl>
+<p>A function passed to <cite>jsc_value_new_promise</cite> called during initialization</p>
+<p>It is called like a JavaScript function, so exceptions raised will not be propagated
+to the context, but handled by the promise causing a rejection.
+<cite>resolve</cite> and <cite>reject</cite> can be reffed for later use to handle async task completion.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.48.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">

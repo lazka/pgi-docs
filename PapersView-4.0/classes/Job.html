@@ -469,16 +469,24 @@ Remember that main loop is not running already probably.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.cancel">
 <span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.cancel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Cancels the specified job if it has not already been cancelled.</p>
+<p>This function updates the job’s state to indicate it has been cancelled,
+cancels any associated cancellable object, and emits a CANCELLED signal.
+It does nothing if the job is already cancelled or finished.</p>
+<p>This function should not be called from a thread.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.failed">
 <span class="sig-name descname"><span class="pre">failed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.failed" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+<dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – A <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> containing details about the failure.</p>
 </dd>
 </dl>
+<p>Marks the specified job as failed and sets the error associated with the failure.</p>
+<p>This function updates the job’s state to indicate it has failed, stores the error,
+and emits a finished signal. It does nothing if the job is already finished or marked as failed.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -486,12 +494,14 @@ Remember that main loop is not running already probably.</p>
 <span class="sig-name descname"><span class="pre">get_cancellable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.get_cancellable" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> of this job.</p>
+<dd class="field-odd"><p>The <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object of the job,
+or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the job is invalid or does not have an associated cancellable.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a></p>
 </dd>
 </dl>
+<p>Retrieves the <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object associated with the specified job.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -499,22 +509,28 @@ Remember that main loop is not running already probably.</p>
 <span class="sig-name descname"><span class="pre">get_document</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.get_document" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The <a class="reference external" href="../../PapersDocument-4.0/classes/Document.html#PapersDocument.Document" title="(in PapersDocument 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PapersDocument.Document</span></code></a> of this job.</p>
+<dd class="field-odd"><p>The <a class="reference external" href="../../PapersDocument-4.0/classes/Document.html#PapersDocument.Document" title="(in PapersDocument 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PapersDocument.Document</span></code></a> object associated with the job,
+or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the job is invalid or does not have an associated document.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../PapersDocument-4.0/classes/Document.html#PapersDocument.Document" title="(in PapersDocument 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PapersDocument.Document</span></code></a></p>
 </dd>
 </dl>
+<p>Retrieves the <a class="reference external" href="../../PapersDocument-4.0/classes/Document.html#PapersDocument.Document" title="(in PapersDocument 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PapersDocument.Document</span></code></a> associated with the specified job.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.is_finished">
 <span class="sig-name descname"><span class="pre">is_finished</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.is_finished" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the job is finished, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Checks if the specified job has finished execution.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -525,27 +541,35 @@ Remember that main loop is not running already probably.</p>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>whether the job succeed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the job succeeded, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Determines the finish status of the specified job.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Resets the state of the specified job to its initial state.</p>
+<p>This function clears any error, marks the job as not finished, and sets
+the job’s failure status to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, effectively resetting its progress.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.run" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the job was successfully started, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Starts or executes the specified job.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -571,7 +595,9 @@ Remember that main loop is not running already probably.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.succeeded">
 <span class="sig-name descname"><span class="pre">succeeded</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#PapersView.Job.succeeded" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Marks the specified job as succeeded.</p>
+<p>This function should be called when the job finishes successfully.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PapersView.Job.do_cancelled">
@@ -587,10 +613,14 @@ Remember that main loop is not running already probably.</p>
 <dt class="sig sig-object py" id="PapersView.Job.do_run">
 <span class="sig-name descname"><span class="pre">do_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#PapersView.Job.do_run" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the job was successfully started, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Starts or executes the specified job.</p>
 </dd></dl>
 
 </dd></dl>

@@ -116,7 +116,10 @@
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#methods">Methods</a></li>
 <li><a class="reference internal" href="#details">Details</a><ul>
-<li><a class="reference internal" href="#Vips.Argument"><code class="docutils literal notranslate"><span class="pre">Vips.Argument</span></code></a></li>
+<li><a class="reference internal" href="#Vips.Argument"><code class="docutils literal notranslate"><span class="pre">Vips.Argument</span></code></a><ul>
+<li><a class="reference internal" href="#Vips.Argument.map"><code class="docutils literal notranslate"><span class="pre">Vips.Argument.map()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -163,7 +166,10 @@
 <li><a class="reference internal" href="#fields">Fields</a></li>
 <li><a class="reference internal" href="#methods">Methods</a></li>
 <li><a class="reference internal" href="#details">Details</a><ul>
-<li><a class="reference internal" href="#Vips.Argument"><code class="docutils literal notranslate"><span class="pre">Vips.Argument</span></code></a></li>
+<li><a class="reference internal" href="#Vips.Argument"><code class="docutils literal notranslate"><span class="pre">Vips.Argument</span></code></a><ul>
+<li><a class="reference internal" href="#Vips.Argument.map"><code class="docutils literal notranslate"><span class="pre">Vips.Argument.map()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -213,14 +219,53 @@
 </section>
 <section id="methods">
 <span id="vips-argument-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h2>
-<p>None</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1.0%" />
+<col style="width: 99.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><em>class</em></p></td>
+<td><p><a class="reference internal" href="#Vips.Argument.map" title="Vips.Argument.map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map</span></code></a> (object, fn, a, b)</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="Vips.Argument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Vips.</span></span><span class="sig-name descname"><span class="pre">Argument</span></span><a class="headerlink" href="#Vips.Argument" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>libvips has a simple mechanism for automating at least some aspects of
+[class`GObject`.Object] properties. You add a set of macros to your
+<code class="docutils literal notranslate"><span class="pre">_class_init()</span></code> which describe the arguments, and set the get and set
+functions to the libvips ones.</p>
+<p>See <a class="reference external" href="extending.html">extending</a> for a complete example.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Vips.Argument.map">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Vips.Argument.map" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<a class="reference internal" href="Object.html#Vips.Object" title="Vips.Object"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.Object</span></code></a>) – object whose args should be enumerated</p></li>
+<li><p><strong>fn</strong> (<a class="reference internal" href="../callbacks.html#Vips.ArgumentMapFn" title="Vips.ArgumentMapFn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vips.ArgumentMapFn</span></code></a>) – call this function for every argument</p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – client data</p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – client data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">NULL</span></code> if <cite>fn</cite> returns <code class="docutils literal notranslate"><span class="pre">NULL</span></code> for all arguments, otherwise the first
+non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code> value from <cite>fn</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>Loop over the [struct`Argument`] of an object. Stop when <cite>fn</cite> returns non-<code class="docutils literal notranslate"><span class="pre">NULL</span></code>
+and return that value.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 </section>

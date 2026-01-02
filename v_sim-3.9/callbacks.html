@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>
+    Callbacks -
+    
+    v_sim 3.9
+  </title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/pgi.css" type="text/css" />
+  
+
+  
+  <script type="text/javascript">
+
+    function openSidebar(element) {
+        window.location.href = element.href + location.hash;
+        return false;
+    }
+
+    function inIframe() {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function onLoaded() {
+        if(!inIframe()) {
+            var icons = document.getElementsByClassName('open-sidebar');
+
+            for (var i = 0; i < icons.length; i ++) {
+                icons[i].style.display = 'table-cell';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', onLoaded, false);
+
+  </script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interfaces" href="interfaces.html" />
+    <link rel="prev" title="Functions" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+<div class="non-fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#v_sim-3.9/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">v_sim 3.9</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#v_sim.CommitVertices"><code class="docutils literal notranslate"><span class="pre">v_sim.CommitVertices()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileEnumFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileEnumFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileExportFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileExportFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileReadFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileReadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DataLoaderFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.DataLoaderFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DumpCairoAdd"><code class="docutils literal notranslate"><span class="pre">v_sim.DumpCairoAdd()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DumpDataWriteFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.DumpDataWriteFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.FileFormatValidate"><code class="docutils literal notranslate"><span class="pre">v_sim.FileFormatValidate()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.InitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.InitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeArrayElementPropertyInit"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeArrayElementPropertyInit()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeArrayIterFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeArrayIterFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeMaskerFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeMaskerFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesFarrayNrm2"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesFarrayNrm2()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesFromString"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesFromString()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesGetAt"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesGetAt()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesSetAt"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesSetAt()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesVectorShift"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesVectorShift()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuestoString"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuestoString()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PairForeachFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PairForeachFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PairPoolForeachFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PairPoolForeachFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PlaneSetItemFree"><code class="docutils literal notranslate"><span class="pre">v_sim.PlaneSetItemFree()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PlaneSetItemNew"><code class="docutils literal notranslate"><span class="pre">v_sim.PlaneSetItemNew()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginFreeFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginFreeFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginInfoFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginInfoFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ScalarFieldMethodLoadFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethodLoadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiInitWidgetFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiInitWidgetFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiMainInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiMainInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiNewWidgetFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiNewWidgetFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsSetValuesFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsSetValuesFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsToLabelFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsToLabelFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.VoidDataFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.VoidDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.matrix_getScaledValue"><code class="docutils literal notranslate"><span class="pre">v_sim.matrix_getScaledValue()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+<div class="fixed-bar">
+  <table class="navigation" summary="Navigation header" cellpadding="2" cellspacing="10" width="100%"><tbody><tr valign="middle">
+
+<td class="open-sidebar" style="display:none"><a href="./../index.html#v_sim-3.9/callbacks.html" onclick="return openSidebar(this);"><i class="fa fa-search"></i></a></td>
+
+<td class="shortcuts" align="left" width="100%">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">v_sim 3.9</a> &raquo;</li>
+      
+    <li>Callbacks</li>
+  </ul>
+</td>
+<td><a accesskey="h" href="index.html"><i class="fa fa-home"></i></a></td>
+
+
+<td><i class="fa fa-chevron-up"></i></td>
+
+
+
+<td><a accesskey="p" href="functions.html"><i class="fa fa-chevron-left"></i></a></td>
+
+
+
+<td><a accesskey="n" href="interfaces.html"><i class="fa fa-chevron-right"></i></a></td>
+
+
+</tr></tbody>
+</table>
+
+<div class="local-toc">
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#v_sim.CommitVertices"><code class="docutils literal notranslate"><span class="pre">v_sim.CommitVertices()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileEnumFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileEnumFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileExportFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileExportFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ConfigFileReadFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ConfigFileReadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DataLoaderFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.DataLoaderFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DumpCairoAdd"><code class="docutils literal notranslate"><span class="pre">v_sim.DumpCairoAdd()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.DumpDataWriteFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.DumpDataWriteFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.FileFormatValidate"><code class="docutils literal notranslate"><span class="pre">v_sim.FileFormatValidate()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.InitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.InitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeArrayElementPropertyInit"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeArrayElementPropertyInit()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeArrayIterFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeArrayIterFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeMaskerFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeMaskerFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesFarrayNrm2"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesFarrayNrm2()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesFromString"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesFromString()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesGetAt"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesGetAt()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesSetAt"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesSetAt()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuesVectorShift"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuesVectorShift()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.NodeValuestoString"><code class="docutils literal notranslate"><span class="pre">v_sim.NodeValuestoString()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PairForeachFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PairForeachFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PairPoolForeachFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PairPoolForeachFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PlaneSetItemFree"><code class="docutils literal notranslate"><span class="pre">v_sim.PlaneSetItemFree()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PlaneSetItemNew"><code class="docutils literal notranslate"><span class="pre">v_sim.PlaneSetItemNew()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginFreeFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginFreeFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginInfoFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginInfoFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.PluginInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.PluginInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.ScalarFieldMethodLoadFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethodLoadFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiInitWidgetFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiInitWidgetFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiMainInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiMainInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiNewWidgetFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiNewWidgetFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsInitFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsInitFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsSetValuesFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsSetValuesFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.UiPairsToLabelFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.UiPairsToLabelFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.VoidDataFunc"><code class="docutils literal notranslate"><span class="pre">v_sim.VoidDataFunc()</span></code></a></li>
+<li><a class="reference internal" href="#v_sim.matrix_getScaledValue"><code class="docutils literal notranslate"><span class="pre">v_sim.matrix_getScaledValue()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+  <div class="wy-grid-for-nav">
+
+    
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="main">
+            
+  <section id="callbacks">
+<h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this heading">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 1.0%" />
+<col style="width: 99.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.CommitVertices" title="v_sim.CommitVertices"><code class="xref py py-func docutils literal notranslate"><span class="pre">CommitVertices</span></code></a> (vertices, id, rgba, material, data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.ConfigFileEnumFunc" title="v_sim.ConfigFileEnumFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConfigFileEnumFunc</span></code></a> (label, value)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.ConfigFileExportFunc" title="v_sim.ConfigFileExportFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConfigFileExportFunc</span></code></a> (data, dataObj)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.ConfigFileReadFunc" title="v_sim.ConfigFileReadFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ConfigFileReadFunc</span></code></a> (entry, lines, nbLines, position)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.DataLoaderFunc" title="v_sim.DataLoaderFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">DataLoaderFunc</span></code></a> (self, data, type, iSet, cancel)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.DumpCairoAdd" title="v_sim.DumpCairoAdd"><code class="xref py py-func docutils literal notranslate"><span class="pre">DumpCairoAdd</span></code></a> (cr, width, height)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.DumpDataWriteFunc" title="v_sim.DumpDataWriteFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">DumpDataWriteFunc</span></code></a> (format, fileName, dataObj)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.FileFormatValidate" title="v_sim.FileFormatValidate"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileFormatValidate</span></code></a> (filename)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.InitFunc" title="v_sim.InitFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">InitFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeArrayElementPropertyInit" title="v_sim.NodeArrayElementPropertyInit"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeArrayElementPropertyInit</span></code></a> (element, value)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeArrayIterFunc" title="v_sim.NodeArrayIterFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeArrayIterFunc</span></code></a> (array, iter, *data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeMaskerFunc" title="v_sim.NodeMaskerFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeMaskerFunc</span></code></a> (masker, at, *data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuesFarrayNrm2" title="v_sim.NodeValuesFarrayNrm2"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuesFarrayNrm2</span></code></a> (vect, value)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuesFromString" title="v_sim.NodeValuesFromString"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuesFromString</span></code></a> (vals, node, string)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuesGetAt" title="v_sim.NodeValuesGetAt"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuesGetAt</span></code></a> (vals, node)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuesSetAt" title="v_sim.NodeValuesSetAt"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuesSetAt</span></code></a> (vals, node, value)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuesVectorShift" title="v_sim.NodeValuesVectorShift"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuesVectorShift</span></code></a> (vect, node, dxyz)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.NodeValuestoString" title="v_sim.NodeValuestoString"><code class="xref py py-func docutils literal notranslate"><span class="pre">NodeValuestoString</span></code></a> (vals, node)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PairForeachFunc" title="v_sim.PairForeachFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PairForeachFunc</span></code></a> (pair, data, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PairPoolForeachFunc" title="v_sim.PairPoolForeachFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PairPoolForeachFunc</span></code></a> (pair, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PlaneSetItemFree" title="v_sim.PlaneSetItemFree"><code class="xref py py-func docutils literal notranslate"><span class="pre">PlaneSetItemFree</span></code></a> (plane, data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PlaneSetItemNew" title="v_sim.PlaneSetItemNew"><code class="xref py py-func docutils literal notranslate"><span class="pre">PlaneSetItemNew</span></code></a> (plane, data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PluginFreeFunc" title="v_sim.PluginFreeFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PluginFreeFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PluginInfoFunc" title="v_sim.PluginInfoFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PluginInfoFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.PluginInitFunc" title="v_sim.PluginInitFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">PluginInitFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.ScalarFieldMethodLoadFunc" title="v_sim.ScalarFieldMethodLoadFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">ScalarFieldMethodLoadFunc</span></code></a> (meth, data, cancel)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiInitWidgetFunc" title="v_sim.UiInitWidgetFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiInitWidgetFunc</span></code></a> (panel, renderWindow, renderArea)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiMainInitFunc" title="v_sim.UiMainInitFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiMainInitFunc</span></code></a> (ui)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiNewWidgetFunc" title="v_sim.UiNewWidgetFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiNewWidgetFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiPairsInitFunc" title="v_sim.UiPairsInitFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiPairsInitFunc</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiPairsSetValuesFunc" title="v_sim.UiPairsSetValuesFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiPairsSetValuesFunc</span></code></a> (data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.UiPairsToLabelFunc" title="v_sim.UiPairsToLabelFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UiPairsToLabelFunc</span></code></a> (data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#v_sim.VoidDataFunc" title="v_sim.VoidDataFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">VoidDataFunc</span></code></a> (data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#v_sim.matrix_getScaledValue" title="v_sim.matrix_getScaledValue"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_getScaledValue</span></code></a> (x, minmax)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.CommitVertices">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">CommitVertices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rgba</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.CommitVertices" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vertices</strong> ([<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>]) – vertices to be commited.</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a buffer id.</p></li>
+<li><p><strong>rgba</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the colour used for the vertices.</p></li>
+<li><p><strong>material</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the material for the vertices.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user defined data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Prototype of function used by the various <a class="reference internal" href="classes/ElementRenderer.html#v_sim.ElementRenderer" title="v_sim.ElementRenderer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ElementRenderer</span></code></a> objects
+when they are drawing their shape.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.ConfigFileEnumFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">ConfigFileEnumFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.ConfigFileEnumFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a location to store an enum value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Try to match <cite>label</cite> with a enum <cite>value</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.ConfigFileExportFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">ConfigFileExportFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataObj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.ConfigFileExportFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="../GLib-2.0/classes/String.html#GLib.String" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a>) – an empty <a class="reference external" href="../GLib-2.0/classes/String.html#GLib.String" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a> to store the export ;</p></li>
+<li><p><strong>dataObj</strong> (<a class="reference internal" href="classes/Data.html#v_sim.Data" title="v_sim.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Data</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference internal" href="classes/Data.html#v_sim.Data" title="v_sim.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Data</span></code></a> object ;</p></li>
+</ul>
+</dd>
+</dl>
+<p>This prototype defines a method that is used to export some resources
+or parameters. The <cite>data</cite> argument is an empty <a class="reference external" href="../GLib-2.0/classes/String.html#GLib.String" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.String</span></code></a> where the export has
+to be written. If the argument <cite>dataObj</cite> is not null, only resources related
+to the <a class="reference internal" href="classes/Data.html#v_sim.Data" title="v_sim.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Data</span></code></a> object should be exported (for parameters files, <cite>dataObj</cite> is
+always <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.ConfigFileReadFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">ConfigFileReadFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbLines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.ConfigFileReadFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> (<a class="reference internal" href="classes/ConfigFileEntry.html#v_sim.ConfigFileEntry" title="v_sim.ConfigFileEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ConfigFileEntry</span></code></a>) – the <a class="reference internal" href="classes/ConfigFileEntry.html#v_sim.ConfigFileEntry" title="v_sim.ConfigFileEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ConfigFileEntry</span></code></a> that raises this callback.</p></li>
+<li><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – an array of strings ;</p></li>
+<li><p><strong>nbLines</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an integer ;</p></li>
+<li><p><strong>position</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an integer ;</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if everything goes right, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This prototype corresponds to methods called when an entry is
+found. The <cite>lines</cite> argument is an array of lines read from the files.
+These strings are copies and can be modified but not freed. There are
+<cite>nbLines</cite> and this value correspond to the number of lines defined
+for the entry. The <cite>error</cite> argument is used to store some text
+messages and error ids. They should be in UTF8. The <cite>error</cite> argument
+must be initialised with (<a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>)0. The <cite>position</cite> argument give the number
+of the first line given in <cite>lines</cite> argument.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.DataLoaderFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">DataLoaderFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.DataLoaderFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="classes/DataLoader.html#v_sim.DataLoader" title="v_sim.DataLoader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DataLoader</span></code></a>) – a <a class="reference internal" href="classes/DataLoader.html#v_sim.DataLoader" title="v_sim.DataLoader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DataLoader</span></code></a> object.</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="classes/DataLoadable.html#v_sim.DataLoadable" title="v_sim.DataLoadable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DataLoadable</span></code></a>) – the <a class="reference internal" href="classes/DataLoadable.html#v_sim.DataLoadable" title="v_sim.DataLoadable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DataLoadable</span></code></a> object to populate.</p></li>
+<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the type of file to populate in <cite>data</cite>.</p></li>
+<li><p><strong>iSet</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – an integer specifying the set to load, if any.</p></li>
+<li><p><strong>cancel</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the file matches the format defined by <cite>self</cite>,
+even if some parsing errors may occur.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of function to load a file and populate <cite>data</cite>
+accordingly. The file is taken from
+<a class="reference internal" href="classes/DataLoadable.html#v_sim.DataLoadable.getFilename" title="v_sim.DataLoadable.getFilename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DataLoadable.getFilename</span></code></a>() using <cite>type</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.DumpCairoAdd">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">DumpCairoAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.DumpCairoAdd" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cr</strong> (<a class="reference external" href="https://pycairo.readthedocs.io/en/latest/reference/context.html#cairo.Context" title="(in Pycairo)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cairo.Context</span></code></a>) – a <a class="reference external" href="https://pycairo.readthedocs.io/en/latest/reference/context.html#cairo.Context" title="(in Pycairo)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cairo.Context</span></code></a> context.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – width of the surface.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – height of the surface.</p></li>
+</ul>
+</dd>
+</dl>
+<p>A method to be called by V_Sim after exportation to allow post-processing.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.DumpDataWriteFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">DumpDataWriteFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataObj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.DumpDataWriteFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> (<a class="reference internal" href="classes/DumpData.html#v_sim.DumpData" title="v_sim.DumpData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DumpData</span></code></a>) – a <a class="reference internal" href="classes/DumpData.html#v_sim.DumpData" title="v_sim.DumpData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.DumpData</span></code></a> object ;</p></li>
+<li><p><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string that defined the file to write to ;</p></li>
+<li><p><strong>dataObj</strong> (<a class="reference internal" href="classes/Data.html#v_sim.Data" title="v_sim.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Data</span></code></a>) – the <a class="reference internal" href="classes/Data.html#v_sim.Data" title="v_sim.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Data</span></code></a> to be exported ;</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if everything went right.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This is a prototype of a method implemented by a dumping extension that is called
+when the current rendering must be dumped to a file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.FileFormatValidate">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">FileFormatValidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.FileFormatValidate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a path.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if <cite>filename</cite> is a valid name for a file format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Function to match a given <cite>filename</cite> for a file format. See
+<a class="reference internal" href="classes/FileFormat.html#v_sim.FileFormat.setValidator" title="v_sim.FileFormat.setValidator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.FileFormat.setValidator</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.InitFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">InitFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.InitFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>These methods are used by V_Sim to initialise some part of the
+program. They are called once on start-up.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeArrayElementPropertyInit">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeArrayElementPropertyInit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeArrayElementPropertyInit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element</strong> (<a class="reference internal" href="classes/Element.html#v_sim.Element" title="v_sim.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Element</span></code></a>) – a <a class="reference internal" href="classes/Element.html#v_sim.Element" title="v_sim.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Element</span></code></a> object ;</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – a <a class="reference external" href="../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Prototype of routine used to initialise an element property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeArrayIterFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeArrayIterFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeArrayIterFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<a class="reference internal" href="classes/NodeArray.html#v_sim.NodeArray" title="v_sim.NodeArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeArray</span></code></a>) – the <a class="reference internal" href="classes/NodeArray.html#v_sim.NodeArray" title="v_sim.NodeArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeArray</span></code></a> object the function deals with.</p></li>
+<li><p><strong>iter</strong> (<a class="reference internal" href="classes/NodeArrayIter.html#v_sim.NodeArrayIter" title="v_sim.NodeArrayIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeArrayIter</span></code></a>) – the <a class="reference internal" href="classes/NodeArrayIter.html#v_sim.NodeArrayIter" title="v_sim.NodeArrayIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeArrayIter</span></code></a> object the function works on.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of function that evaluates a boolean condition on a given
+node in a node iteration.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeMaskerFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeMaskerFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeMaskerFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>masker</strong> (<a class="reference internal" href="classes/NodeMasker.html#v_sim.NodeMasker" title="v_sim.NodeMasker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeMasker</span></code></a>) – a <a class="reference internal" href="classes/NodeMasker.html#v_sim.NodeMasker" title="v_sim.NodeMasker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeMasker</span></code></a> object ;</p></li>
+<li><p><strong>at</strong> (<a class="reference internal" href="classes/NodeValuesIter.html#v_sim.NodeValuesIter" title="v_sim.NodeValuesIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesIter</span></code></a>) – a <a class="reference internal" href="classes/NodeValuesIter.html#v_sim.NodeValuesIter" title="v_sim.NodeValuesIter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesIter</span></code></a> pointer</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> to hide a node depending on values in <cite>at</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Function to decide to hide a node or not.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuesFarrayNrm2">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuesFarrayNrm2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuesFarrayNrm2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vect</strong> (<a class="reference internal" href="classes/NodeValuesFarray.html#v_sim.NodeValuesFarray" title="v_sim.NodeValuesFarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesFarray</span></code></a>) – a <a class="reference internal" href="classes/NodeValuesFarray.html#v_sim.NodeValuesFarray" title="v_sim.NodeValuesFarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesFarray</span></code></a> object.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – a value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of method used to compute the square norm of <cite>value</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuesFromString">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuesFromString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuesFromString" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vals</strong> (<a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a>) – a <a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a> object.</p></li>
+<li><p><strong>node</strong> (<a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a>) – a <a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a> pointer.</p></li>
+<li><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – a string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of functions used to parse <cite>string</cite> and store its content
+for <cite>node</cite> in <cite>vals</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuesGetAt">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuesGetAt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuesGetAt" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vals</strong> (<a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a>) – a <a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a> object.</p></li>
+<li><p><strong>node</strong> (<a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a>) – a <a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a> structure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if value is properly retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a value location.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <strong>value</strong>: <a class="reference external" href="../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>)</p>
+</dd>
+</dl>
+<p>Prototype of functions used to store in <cite>value</cite> the values
+associated to <cite>node</cite> from <cite>vals</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuesSetAt">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuesSetAt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuesSetAt" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vals</strong> (<a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a>) – a <a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a> object.</p></li>
+<li><p><strong>node</strong> (<a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a>) – a <a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a> pointer.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – some value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if value is actually changed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of functions used to store the content of <cite>value</cite> for
+<cite>node</cite> in <cite>vals</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuesVectorShift">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuesVectorShift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dxyz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuesVectorShift" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vect</strong> (<a class="reference internal" href="classes/NodeValuesVector.html#v_sim.NodeValuesVector" title="v_sim.NodeValuesVector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesVector</span></code></a>) – a <a class="reference internal" href="classes/NodeValuesVector.html#v_sim.NodeValuesVector" title="v_sim.NodeValuesVector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValuesVector</span></code></a> object.</p></li>
+<li><p><strong>node</strong> (<a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a>) – a <a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a> pointer:</p></li>
+<li><p><strong>dxyz</strong> ([<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>]) – a shift in cartesian coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Prototype of functions used to define a shift between the centre of
+<cite>node</cite> and the origin of the stored vector for this node.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.NodeValuestoString">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">NodeValuestoString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.NodeValuestoString" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vals</strong> (<a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a>) – a <a class="reference internal" href="classes/NodeValues.html#v_sim.NodeValues" title="v_sim.NodeValues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.NodeValues</span></code></a> object.</p></li>
+<li><p><strong>node</strong> (<a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a>) – a <a class="reference internal" href="classes/Node.html#v_sim.Node" title="v_sim.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Node</span></code></a> pointer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a newly created string representing the
+values of <cite>node</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Prototype of functions used to stringify the node values of <cite>node</cite>
+from <cite>vals</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PairForeachFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PairForeachFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PairForeachFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<a class="reference internal" href="classes/Pair.html#v_sim.Pair" title="v_sim.Pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Pair</span></code></a>) – a <a class="reference internal" href="classes/Pair.html#v_sim.Pair" title="v_sim.Pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Pair</span></code></a> object.</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="classes/PairLink.html#v_sim.PairLink" title="v_sim.PairLink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.PairLink</span></code></a>) – a <a class="reference internal" href="classes/PairLink.html#v_sim.PairLink" title="v_sim.PairLink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.PairLink</span></code></a> object ;</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user defined data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Prototype of functions called with the foreach method apply to each
+links in a pair.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PairPoolForeachFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PairPoolForeachFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PairPoolForeachFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<a class="reference internal" href="classes/Pair.html#v_sim.Pair" title="v_sim.Pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Pair</span></code></a>) – a <a class="reference internal" href="classes/Pair.html#v_sim.Pair" title="v_sim.Pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Pair</span></code></a> object.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user defined data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Prototype of functions called with the foreach method apply to each
+pairs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PlaneSetItemFree">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PlaneSetItemFree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plane</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PlaneSetItemFree" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plane</strong> (<a class="reference internal" href="classes/Plane.html#v_sim.Plane" title="v_sim.Plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Plane</span></code></a>) – a <a class="reference internal" href="classes/Plane.html#v_sim.Plane" title="v_sim.Plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Plane</span></code></a> object.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>A method to free a given plane item in the plane set for
+<cite>plane</cite>. This method is called when <cite>plane</cite> is removed from the plane set.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PlaneSetItemNew">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PlaneSetItemNew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plane</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PlaneSetItemNew" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plane</strong> (<a class="reference internal" href="classes/Plane.html#v_sim.Plane" title="v_sim.Plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Plane</span></code></a>) – a <a class="reference internal" href="classes/Plane.html#v_sim.Plane" title="v_sim.Plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.Plane</span></code></a> object.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – some user data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd>
+</dl>
+<p>A method to generate a new plane item in the plane set for
+<cite>plane</cite>. This method is called to encapsulate <cite>plane</cite> when <cite>plane</cite> is
+added to the plane set.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PluginFreeFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PluginFreeFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PluginFreeFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>This kind of method may exist in all plugins with the
+name ‘{module_name}Free’. It is called by V_Sim when it stops.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PluginInfoFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PluginInfoFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PluginInfoFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a string in UTF-8 owned by the plugin.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>This kind of method should exist in all plugins it give a description of
+what the plugin does. It must be named ‘{module_name}Get_description’.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.PluginInitFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">PluginInitFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.PluginInitFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if it loads correctly.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>This kind of method should exist in all plugins with the
+name ‘{module_name}Init’. It is called by V_Sim when the module is loaded.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.ScalarFieldMethodLoadFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">ScalarFieldMethodLoadFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.ScalarFieldMethodLoadFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>meth</strong> (<a class="reference internal" href="classes/ScalarFieldMethod.html#v_sim.ScalarFieldMethod" title="v_sim.ScalarFieldMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethod</span></code></a>) – a <a class="reference internal" href="classes/ScalarFieldMethod.html#v_sim.ScalarFieldMethod" title="v_sim.ScalarFieldMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethod</span></code></a> object ;</p></li>
+<li><p><strong>data</strong> (<a class="reference internal" href="classes/ScalarFieldMethodData.html#v_sim.ScalarFieldMethodData" title="v_sim.ScalarFieldMethodData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethodData</span></code></a>) – the various data the load method requires.</p></li>
+<li><p><strong>cancel</strong> (<a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> object ;</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the read file is in a valid format (even with minor
+errors), <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+<p>Read the given file try to load it as a scalar field file.
+If succeed (i.e. with none fatal errors) the method should return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. If an error
+occurs, it is stored into <cite>error</cite>.</p>
+<p>If the file contains several fields, they must be loaded and added
+to <cite>data</cite> with <a class="reference internal" href="classes/ScalarFieldMethodData.html#v_sim.ScalarFieldMethodData.addField" title="v_sim.ScalarFieldMethodData.addField"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.ScalarFieldMethodData.addField</span></code></a>().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiInitWidgetFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiInitWidgetFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderWindow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderArea</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiInitWidgetFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>panel</strong> (<a class="reference external" href="../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a location for a <a class="reference external" href="../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> describing the panel.</p></li>
+<li><p><strong>renderWindow</strong> (<a class="reference external" href="../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a>) – a location for a <a class="reference external" href="../Gtk-3.0/classes/Window.html#Gtk.Window" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Window</span></code></a> ;</p></li>
+<li><p><strong>renderArea</strong> (<a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a>) – a location for a <a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This prototype is used whenever a method is required to initialise
+the GTK interface of V_Sim. <cite>panel</cite> must be set to point on the
+window of the command panel, <cite>renderWindow</cite> must point to the window
+containing the rendering area (can be the same than <cite>panel</cite>) and
+<cite>renderArea</cite> contains the widget that does the OpenGL rendering.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiMainInitFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiMainInitFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ui</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiMainInitFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ui</strong> (<a class="reference internal" href="classes/UiMain.html#v_sim.UiMain" title="v_sim.UiMain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.UiMain</span></code></a>) – the <a class="reference internal" href="classes/UiMain.html#v_sim.UiMain" title="v_sim.UiMain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.UiMain</span></code></a> object.</p>
+</dd>
+</dl>
+<p>These methods are used by V_Sim to initialise some part of the
+interface. They are called once on start-up.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiNewWidgetFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiNewWidgetFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiNewWidgetFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a newly created <a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a></p>
+</dd>
+</dl>
+<p>This prototype is used whenever a method is required to create a <a class="reference external" href="../Gtk-3.0/classes/Widget.html#Gtk.Widget" title="(in Gtk 3.0 v3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gtk.Widget</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiPairsInitFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiPairsInitFunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiPairsInitFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prototype of functions called once on V_Sim start-up.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiPairsSetValuesFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiPairsSetValuesFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiPairsSetValuesFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference internal" href="classes/PairLink.html#v_sim.PairLink" title="v_sim.PairLink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.PairLink</span></code></a>) – informations about a pair.</p>
+</dd>
+</dl>
+<p>Prototype of functions used to update the widgets with given pair <cite>data</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.UiPairsToLabelFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">UiPairsToLabelFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.UiPairsToLabelFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference internal" href="classes/PairLink.html#v_sim.PairLink" title="v_sim.PairLink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_sim.PairLink</span></code></a>) – information about a pair.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a newly created string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Create a string, internationalised and in UTF-8, that describes the
+given pair <cite>data</cite>. This string is used in a column tree view to
+summarize the pair description.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.VoidDataFunc">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">VoidDataFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.VoidDataFunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a pointer to some user defined object.</p>
+</dd>
+</dl>
+<p>These methods are used when no specific argument is required except
+a user-defined object and when void is the return type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="v_sim.matrix_getScaledValue">
+<span class="sig-prename descclassname"><span class="pre">v_sim.</span></span><span class="sig-name descname"><span class="pre">matrix_getScaledValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minmax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#v_sim.matrix_getScaledValue" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the initial value ;</p></li>
+<li><p><strong>minmax</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the boundaries for the <cite>x</cite> argument.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a value into [0;1].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
+</dd>
+</dl>
+<p>Transform <cite>x</cite> into [0;1] using the given <cite>minmax</cite> values.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div> 
+
+</body>
+</html>

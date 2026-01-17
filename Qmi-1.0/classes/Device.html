@@ -127,6 +127,8 @@
 <li><a class="reference internal" href="#Qmi.Device.add_link"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_with_flags"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags()</span></code></a></li>
+<li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_and_initial_mux_id()</span></code></a></li>
+<li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_and_initial_mux_id_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.allocate_client"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.allocate_client()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.allocate_client_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.allocate_client_finish()</span></code></a></li>
@@ -234,6 +236,8 @@
 <li><a class="reference internal" href="#Qmi.Device.add_link"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_with_flags"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags()</span></code></a></li>
+<li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_and_initial_mux_id()</span></code></a></li>
+<li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_and_initial_mux_id_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.add_link_with_flags_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_finish()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.allocate_client"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.allocate_client()</span></code></a></li>
 <li><a class="reference internal" href="#Qmi.Device.allocate_client_finish"><code class="docutils literal notranslate"><span class="pre">Qmi.Device.allocate_client_finish()</span></code></a></li>
@@ -409,6 +413,12 @@
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Qmi.Device.add_link_with_flags" title="Qmi.Device.add_link_with_flags"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_link_with_flags</span></code></a> (mux_id, base_ifname, ifname_prefix, flags, cancellable, callback, *user_data)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id" title="Qmi.Device.add_link_with_flags_and_initial_mux_id"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_link_with_flags_and_initial_mux_id</span></code></a> (initial_mux_id, base_ifname, ifname_prefix, flags, cancellable, callback, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id_finish" title="Qmi.Device.add_link_with_flags_and_initial_mux_id_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_link_with_flags_and_initial_mux_id_finish</span></code></a> (res, mux_id)</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Qmi.Device.add_link_with_flags_finish" title="Qmi.Device.add_link_with_flags_finish"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_link_with_flags_finish</span></code></a> (res, mux_id)</p></td>
@@ -646,6 +656,10 @@
 <dd class="field-odd"><p><a class="reference internal" href="DeviceClass.html#Qmi.DeviceClass" title="Qmi.DeviceClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Qmi.DeviceClass</span></code></a></p>
 </dd>
 </dl>
+<p>Generic QMI device handling routines</p>
+<p><code class="docutils literal notranslate"><span class="pre">QmiDevice</span></code> is a generic type in charge of controlling the access of multiple
+[class`Client`] objects to the managed QMI port.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">QmiDevice</span></code> can only handle one single QMI port.</p>
 <p>The <a class="reference internal" href="#Qmi.Device" title="Qmi.Device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device</span></code></a> structure contains private data and should only be accessed
 using the provided API.</p>
 <div class="versionadded">
@@ -852,6 +866,67 @@ the rmnet backend for link management support.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="Qmi.Device.add_link_with_flags_and_initial_mux_id">
+<span class="sig-name descname"><span class="pre">add_link_with_flags_and_initial_mux_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_mux_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_ifname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ifname_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancellable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_mux_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the initial mux id from which the first available mux id has
+to be searched for in the [<a class="reference internal" href="../constants.html#Qmi.DEVICE_MUX_ID_MIN" title="Qmi.DEVICE_MUX_ID_MIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.DEVICE_MUX_ID_MIN</span></code></a>,:obj:<cite>Qmi.DEVICE_MUX_ID_MAX</cite>]
+range.</p></li>
+<li><p><strong>base_ifname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the interface which the new link will be created on.</p></li>
+<li><p><strong>ifname_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the prefix suggested to be used for the name of the new link
+created.</p></li>
+<li><p><strong>flags</strong> (<a class="reference internal" href="../flags.html#Qmi.DeviceAddLinkFlags" title="Qmi.DeviceAddLinkFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.DeviceAddLinkFlags</span></code></a>) – bitmask of <a class="reference internal" href="../flags.html#Qmi.DeviceAddLinkFlags" title="Qmi.DeviceAddLinkFlags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.DeviceAddLinkFlags</span></code></a> values to pass to the kernel when
+creating the new link.</p></li>
+<li><p><strong>cancellable</strong> (<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>callback</strong> (<a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/callbacks.html#Gio.AsyncReadyCallback" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncReadyCallback</span></code></a> to call when the operation is finished.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the data to pass to callback function.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Asynchronously creates a new virtual network device in the same way as
+<a class="reference internal" href="#Qmi.Device.add_link_with_flags" title="Qmi.Device.add_link_with_flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags</span></code></a>() does, but passing the additional <cite>initial_mux_id</cite>
+value from which the first available mux id interface should be looked for.</p>
+<p>Using <a class="reference internal" href="../constants.html#Qmi.DEVICE_MUX_ID_MIN" title="Qmi.DEVICE_MUX_ID_MIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.DEVICE_MUX_ID_MIN</span></code></a> as <cite>initial_mux_id</cite> is equivalent to calling
+<a class="reference internal" href="#Qmi.Device.add_link_with_flags" title="Qmi.Device.add_link_with_flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags</span></code></a>() with %QMI_DEVICE_MUX_ID_AUTOMATIC.</p>
+<p>If the link creation with the given set of <cite>flags</cite> is unsupported by the
+backend, the operation may fail.</p>
+<p>None of the <cite>flags</cite> supported are applicable when using the multiplexing
+support provided by the qmi_wwan kernel driver, they are only used if using
+the rmnet backend for link management support.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.30.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Qmi.Device.add_link_with_flags_and_initial_mux_id_finish">
+<span class="sig-name descname"><span class="pre">add_link_with_flags_and_initial_mux_id_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mux_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id_finish" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>res</strong> (<a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>) – a <a class="reference external" href="../../Gio-2.0/classes/AsyncResult.html#Gio.AsyncResult" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.AsyncResult</span></code></a>.</p></li>
+<li><p><strong>mux_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the mux ID for the link created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the net interface created, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if <cite>error</cite> is set.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+<p>Finishes an operation started with <a class="reference internal" href="#Qmi.Device.add_link_with_flags_and_initial_mux_id" title="Qmi.Device.add_link_with_flags_and_initial_mux_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags_and_initial_mux_id</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.30.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="Qmi.Device.add_link_with_flags_finish">
 <span class="sig-name descname"><span class="pre">add_link_with_flags_finish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mux_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Qmi.Device.add_link_with_flags_finish" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -871,7 +946,7 @@ the rmnet backend for link management support.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
-<p>Finishes an operation started with <a class="reference internal" href="#Qmi.Device.add_link_finish" title="Qmi.Device.add_link_finish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device.add_link_finish</span></code></a>().</p>
+<p>Finishes an operation started with <a class="reference internal" href="#Qmi.Device.add_link_with_flags" title="Qmi.Device.add_link_with_flags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Qmi.Device.add_link_with_flags</span></code></a>().</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.30.</span></p>
 </div>

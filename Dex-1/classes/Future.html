@@ -73,7 +73,7 @@
   </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dex.FutureSet" href="FutureSet.html" />
+    <link rel="next" title="Dex.FutureListModel" href="FutureListModel.html" />
     <link rel="prev" title="Dex.Fiber" href="Fiber.html" /> 
 </head>
 
@@ -104,7 +104,7 @@
 
 
 
-<td><a accesskey="n" href="FutureSet.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="FutureListModel.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -168,6 +168,7 @@
 <li><a class="reference internal" href="#Dex.Future.is_pending"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_pending()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.is_rejected"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_rejected()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.is_resolved"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_resolved()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.list_model_new"><code class="docutils literal notranslate"><span class="pre">Dex.Future.list_model_new()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -204,7 +205,7 @@
 
 
 
-<td><a accesskey="n" href="FutureSet.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="FutureListModel.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -268,6 +269,7 @@
 <li><a class="reference internal" href="#Dex.Future.is_pending"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_pending()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.is_rejected"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_rejected()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Future.is_resolved"><code class="docutils literal notranslate"><span class="pre">Dex.Future.is_resolved()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Future.list_model_new"><code class="docutils literal notranslate"><span class="pre">Dex.Future.list_model_new()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -492,6 +494,9 @@
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Dex.Future.is_resolved" title="Dex.Future.is_resolved"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_resolved</span></code></a> ()</p></td>
 </tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Dex.Future.list_model_new" title="Dex.Future.list_model_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_model_new</span></code></a> ()</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -516,15 +521,15 @@
 <dd class="field-even"><p>No</p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> is the base class representing a future which may resolve with
+<p><code class="docutils literal notranslate"><span class="pre">DexFuture</span></code> is the base class representing a future which may resolve with
 a value or reject with error at some point in the future.</p>
 <p>It is the basis for libdex’s concurrency and parallelism model.</p>
 <p>Use futures to represent work in progress and allow consumers to build
 robust processing chains up front which will complete or fail as futures
 resolve or reject.</p>
-<p>When running on a <a class="reference internal" href="Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a>, you may use <a class="reference internal" href="#Dex.Future.await_" title="Dex.Future.await_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.await_</span></code></a>() and similar functions
-to suspend the current thread and return upon completion of the dependent
-future.</p>
+<p>When running on a [class`Dex`.Fiber], you may use [method`Dex`.Future.await]
+and similar functions to suspend the current thread and return upon
+completion of the dependent future.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Dex.Future.all">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">futures</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.all" title="Permalink to this definition">¶</a></dt>
@@ -533,14 +538,14 @@ future.</p>
 <dd class="field-odd"><p><strong>futures</strong> ([<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>]) – an array of futures</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that resolves when all futures resolve.</p>
-<p>The resulting <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> will not resolve or reject until all futures
+<p>Creates a new [class`Dex`.Future] that resolves when all futures resolve.</p>
+<p>The resulting [class`Dex`.Future] will not resolve or reject until all futures
 have either resolved or rejected.</p>
 </dd></dl>
 
@@ -552,14 +557,14 @@ have either resolved or rejected.</p>
 <dd class="field-odd"><p><strong>futures</strong> ([<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>]) – an array of futures</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that resolves when all futures resolve.</p>
-<p>If any future rejects, the resulting <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> also rejects immediately.</p>
+<p>Creates a new [class`Dex`.Future] that resolves when all futures resolve.</p>
+<p>If any future rejects, the resulting [class`Dex`.Future] also rejects immediately.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -570,14 +575,14 @@ have either resolved or rejected.</p>
 <dd class="field-odd"><p><strong>futures</strong> ([<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>]) – an array of futures</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that resolves when the first future resolves.</p>
-<p>If all futures reject, then the <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> returned will also reject.</p>
+<p>Creates a new [class`Dex`.Future] that resolves when the first future resolves.</p>
+<p>If all futures reject, then the [class`Dex`.Future] returned will also reject.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -586,13 +591,13 @@ have either resolved or rejected.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -608,21 +613,21 @@ have either resolved or rejected.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
 <p>Asynchronously calls <cite>callback</cite> when <cite>future</cite> rejects.</p>
-<p>This is similar to <a class="reference internal" href="#Dex.Future.catch" title="Dex.Future.catch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.catch</span></code></a>() except that it will call
-<cite>callback</cite> multiple times as each returned <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> rejects,
+<p>This is similar to [ctor`Dex`.Future.catch] except that it will call
+<cite>callback</cite> multiple times as each returned [class`Dex`.Future] rejects,
 allowing for infinite loops.</p>
 </dd></dl>
 
@@ -632,13 +637,13 @@ allowing for infinite loops.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -653,21 +658,21 @@ allowing for infinite loops.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
 <p>Asynchronously calls <cite>callback</cite> when <cite>future</cite> rejects or resolves.</p>
-<p>This is similar to <a class="reference internal" href="#Dex.Future.finally_" title="Dex.Future.finally_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.finally_</span></code></a>() except that it will call
-<cite>callback</cite> multiple times as each returned <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> rejects or resolves,
+<p>This is similar to [ctor`Dex`.Future.finally] except that it will call
+<cite>callback</cite> multiple times as each returned [class`Dex`.Future] rejects or resolves,
 allowing for infinite loops.</p>
 </dd></dl>
 
@@ -679,13 +684,13 @@ allowing for infinite loops.</p>
 <dd class="field-odd"><p><strong>futures</strong> ([<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>]) – an array of futures</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that resolves or rejects as soon as the
+<p>Creates a new [class`Dex`.Future] that resolves or rejects as soon as the
 first dependent future resolves or rejects, sharing the same result.</p>
 </dd></dl>
 
@@ -697,13 +702,13 @@ first dependent future resolves or rejects, sharing the same result.</p>
 <dd class="field-odd"><p><strong>v_bool</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_bool</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_bool</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -714,13 +719,13 @@ first dependent future resolves or rejects, sharing the same result.</p>
 <dd class="field-odd"><p><strong>v_double</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_double</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_double</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -731,7 +736,7 @@ first dependent future resolves or rejects, sharing the same result.</p>
 <dd class="field-odd"><p><strong>errno</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the <code class="docutils literal notranslate"><span class="pre">errno</span></code> to use for rejection</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a rejected <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>.</p>
+<dd class="field-even"><p>a rejected [class`Dex`.Future].</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -750,16 +755,16 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_for_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.new_for_error" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – a <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+<dd class="field-odd"><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) – a [struct`GLib`.Error]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a read-only <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that has rejected.</p>
+<p>Creates a read-only [class`Dex`.Future] that has rejected.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -770,7 +775,7 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the file-descriptor to take ownership of</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -791,13 +796,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>v_float</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_float</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_float</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -808,13 +813,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>v_int</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_int</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_int</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -825,13 +830,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>v_int64</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_int64</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_int64</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -842,13 +847,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>) – the value</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that is resolved with <cite>value</cite>.</p>
+<p>Creates a new [class`Dex`.Future] that is resolved with <cite>value</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -859,13 +864,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>pointer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the resolved future value as a pointer</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that is resolved with <cite>pointer</cite> as a <a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_POINTER" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_POINTER</span></code></a>.</p>
+<p>Creates a new [class`Dex`.Future] that is resolved with <cite>pointer</cite> as a <a class="reference external" href="../../GObject-2.0/constants.html#GObject.TYPE_POINTER" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.TYPE_POINTER</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -876,13 +881,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>string</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>string</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -893,13 +898,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>v_uint</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_uint</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_uint</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -910,13 +915,13 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <dd class="field-odd"><p><strong>v_uint64</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>v_uint64</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>v_uint64</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -924,16 +929,16 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_for_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.new_for_value" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the resolved <a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a></p>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value</span></code></a>) – the resolved [struct`GObject`.Value]</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a read-only <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that has resolved.</p>
+<p>Creates a read-only [class`Dex`.Future] that has resolved.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -941,7 +946,7 @@ of errno for the <a class="reference external" href="../../GLib-2.0/classes/Erro
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_infinite</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.new_infinite" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that will never complete or reject</p>
+<dd class="field-odd"><p>a [class`Dex`.Future] that will never complete or reject</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -963,13 +968,13 @@ another future rejects or resolves.</p>
 <dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the value</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> that is resolved with <cite>value</cite>.</p>
+<p>Creates a new [class`Dex`.Future] that is resolved with <cite>value</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -980,13 +985,13 @@ another future rejects or resolves.</p>
 <dd class="field-odd"><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the resolved value for the future</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a resolved <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a resolved [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> and resolves it with <cite>string</cite>.</p>
+<p>Creates a new [class`Dex`.Future] and resolves it with <cite>string</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -995,13 +1000,13 @@ another future rejects or resolves.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
@@ -1017,21 +1022,21 @@ another future rejects or resolves.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p></li>
+<li><p><strong>future</strong> (<a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a>) – a [class`Dex`.Future]</p></li>
 <li><p><strong>callback</strong> (<a class="reference internal" href="../callbacks.html#Dex.FutureCallback" title="Dex.FutureCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureCallback</span></code></a>) – a callback to execute</p></li>
 <li><p><strong>callback_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – closure data for <cite>callback</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+<dd class="field-even"><p>a [class`Dex`.Future]</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
 </dd>
 </dl>
 <p>Asynchronously calls <cite>callback</cite> when <cite>future</cite> resolves.</p>
-<p>This is similar to <a class="reference internal" href="#Dex.Future.then" title="Dex.Future.then"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.then</span></code></a>() except that it will call
-<cite>callback</cite> multiple times as each returned <a class="reference internal" href="#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a> resolves or
+<p>This is similar to [ctor`Dex`.Future.then] except that it will call
+<cite>callback</cite> multiple times as each returned [class`Dex`.Future] resolves or
 rejects, allowing for infinite loops.</p>
 </dd></dl>
 
@@ -1050,10 +1055,10 @@ and <cite>error</cite> is set.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Suspends the current <a class="reference internal" href="Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a> and resumes when <cite>self</cite> has completed.</p>
+<p>Suspends the current [class`Dex`.Fiber] and resumes when <cite>self</cite> has completed.</p>
 <p>If <cite>self</cite> is completed when this function is called, the fiber will handle
 the result immediately.</p>
-<p>This function may only be called within a <a class="reference internal" href="Fiber.html#Dex.Fiber" title="Dex.Fiber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Fiber</span></code></a>. To do otherwise will
+<p>This function may only be called within a <code class="docutils literal notranslate"><span class="pre">DexFiber</span></code>. To do otherwise will
 return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and <cite>error</cite> set to <a class="reference internal" href="../enums.html#Dex.Error.NO_FIBER" title="Dex.Error.NO_FIBER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Error.NO_FIBER</span></code></a>.</p>
 <p>It is an error to call this function in a way that would cause
 intermediate code to become invalid when resuming the stack. For example,
@@ -1070,14 +1075,14 @@ having changed.</p>
 <dd class="field-odd"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and <cite>error</cite> is set</p>
+<dd class="field-even"><p>the <code class="docutils literal notranslate"><span class="pre">gboolean</span></code>, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> and <cite>error</cite> is set</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Awaits on <cite>self</cite> and returns the <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a> result.</p>
-<p>If the result is not a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, <cite>error</cite> is set.</p>
+<p>If the result is not a <code class="docutils literal notranslate"><span class="pre">gboolean</span></code>, <cite>error</cite> is set.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1148,7 +1153,7 @@ error being set if there was no rejected future.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
-<p>Awaits on <cite>self</cite> and returns the resultint file-descriptor.</p>
+<p>Awaits on <cite>self</cite> and returns the resulting file-descriptor.</p>
 <p>The resolved value must be of type %DEX_TYPE_FD or <cite>error</cite> is set.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.10.</span></p>
@@ -1241,7 +1246,7 @@ error being set if there was no rejected future.</p>
 <dd class="field-odd"><p><a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a></p>
 </dd>
 </dl>
-<p>Awaits on <cite>self</cite> and returns the <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a>-based result.</p>
+<p>Awaits on <cite>self</cite> and returns the [class`GObject`.Object]-based result.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1258,8 +1263,9 @@ error being set if there was no rejected future.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Calls <a class="reference internal" href="#Dex.Future.await_" title="Dex.Future.await_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.await_</span></code></a>() and returns the value of <a class="reference external" href="../../GObject-2.0/classes/Value.html#GObject.Value.get_pointer" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Value.get_pointer</span></code></a>(),
-otherwise <cite>error</cite> is set if the future rejected.</p>
+<p>Calls [method`Dex`.Future.await] and returns the value of
+[method`GObject`.Value.get_pointer], otherwise <cite>error</cite> is set if the future
+rejected.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1391,7 +1397,7 @@ be no observer interested in the futures completion or rejection.</p>
 </dd>
 </dl>
 <p>This is a convenience function equivalent to calling
-<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.PENDING" title="Dex.FutureStatus.PENDING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.PENDING</span></code></a>.</p>
+[method`Dex`.Future.get_status] and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.PENDING" title="Dex.FutureStatus.PENDING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.PENDING</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1406,7 +1412,7 @@ be no observer interested in the futures completion or rejection.</p>
 </dd>
 </dl>
 <p>This is a convenience function equivalent to calling
-<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.REJECTED" title="Dex.FutureStatus.REJECTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.REJECTED</span></code></a>.</p>
+[method`Dex`.Future.get_status] and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.REJECTED" title="Dex.FutureStatus.REJECTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.REJECTED</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1422,7 +1428,25 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </dd>
 </dl>
 <p>This is a convenience function equivalent to calling
-<a class="reference internal" href="#Dex.Future.get_status" title="Dex.Future.get_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.get_status</span></code></a>() and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.RESOLVED" title="Dex.FutureStatus.RESOLVED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.RESOLVED</span></code></a>.</p>
+[method`Dex`.Future.get_status] and checking for <a class="reference internal" href="../enums.html#Dex.FutureStatus.RESOLVED" title="Dex.FutureStatus.RESOLVED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.FutureStatus.RESOLVED</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Dex.Future.list_model_new">
+<span class="sig-name descname"><span class="pre">list_model_new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Future.list_model_new" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a new [class`Dex`.FutureListModel]</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/ListModel.html#Gio.ListModel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.ListModel</span></code></a></p>
+</dd>
+</dl>
+<p>Creates a new list model that will initially be empty and after
+<cite>self</cite> resolves contain the items within it.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.1.</span></p>
+</div>
 </dd></dl>
 
 </dd></dl>

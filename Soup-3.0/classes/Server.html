@@ -567,7 +567,7 @@
 <dd class="field-odd"><p><a class="reference internal" href="ServerClass.html#Soup.ServerClass" title="Soup.ServerClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Soup.ServerClass</span></code></a></p>
 </dd>
 </dl>
-<p><a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> provides a basic implementation of an HTTP server. The
+<p>[class`Server`] provides a basic implementation of an HTTP server. The
 recommended usage of this server is for internal use, tasks like
 a mock server for tests, a private service for IPC, etc. It is not
 recommended to be exposed to untrusted clients as it may be vulnerable
@@ -579,28 +579,28 @@ process any requests underneath the path you pass. (If you want all
 requests to go to the same handler, just pass “/” (or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) for
 the path.)</p>
 <p>When a new connection is accepted (or a new request is started on
-an existing persistent connection), the <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will emit
+an existing persistent connection), the [class`Server`] will emit
 [signal`Server`:py:func:<cite>::request-started&lt;Soup.Server.signals.request_started&gt;</cite>] and then begin processing the request
 as described below, but note that once the message is assigned a
 status-code, then callbacks after that point will be
 skipped. Note also that it is not defined when the callbacks happen
 relative to various [class`ServerMessage`] signals.</p>
-<p>Once the headers have been read, <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will check if there is
+<p>Once the headers have been read, [class`Server`] will check if there is
 a [class`AuthDomain`] <code class="docutils literal notranslate"><span class="pre">(qv)</span></code> covering the Request-URI; if so, and if the
 message does not contain suitable authorization, then the
 [class`AuthDomain`] will set a status of <a class="reference internal" href="../enums.html#Soup.Status.UNAUTHORIZED" title="Soup.Status.UNAUTHORIZED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.UNAUTHORIZED</span></code></a> on
 the message.</p>
-<p>After checking for authorization, <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will look for “early”
+<p>After checking for authorization, [class`Server`] will look for “early”
 handlers (added with [method`Server`.add_early_handler]) matching the
 Request-URI. If one is found, it will be run; in particular, this
 can be used to connect to signals to do a streaming read of the
 request body.</p>
 <p>(At this point, if the request headers contain <code class="docutils literal notranslate"><span class="pre">Expect:</span>
 <span class="pre">100-continue</span></code>, and a status code has been set, then
-<a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will skip the remaining steps and return the response.
+[class`Server`] will skip the remaining steps and return the response.
 If the request headers contain <code class="docutils literal notranslate"><span class="pre">Expect:</span>
 <span class="pre">100-continue</span></code> and no status code has been set,
-<a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will return a <a class="reference internal" href="../enums.html#Soup.Status.CONTINUE" title="Soup.Status.CONTINUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.CONTINUE</span></code></a> status before
+[class`Server`] will return a <a class="reference internal" href="../enums.html#Soup.Status.CONTINUE" title="Soup.Status.CONTINUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.CONTINUE</span></code></a> status before
 continuing.)</p>
 <p>The server will then read in the response body (if present). At
 this point, if there are no handlers at all defined for the
@@ -611,7 +611,7 @@ message) any “normal” handlers (added with
 [method`Server`.add_handler]) for the message’s Request-URI will be
 run.</p>
 <p>Then, if the path has a WebSocket handler registered (and has
-not yet been assigned a status), <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will attempt to
+not yet been assigned a status), [class`Server`] will attempt to
 validate the WebSocket handshake, filling in the response and
 setting a status of <a class="reference internal" href="../enums.html#Soup.Status.SWITCHING_PROTOCOLS" title="Soup.Status.SWITCHING_PROTOCOLS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.SWITCHING_PROTOCOLS</span></code></a> or
 <a class="reference internal" href="../enums.html#Soup.Status.BAD_REQUEST" title="Soup.Status.BAD_REQUEST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.BAD_REQUEST</span></code></a> accordingly.</p>
@@ -631,12 +631,12 @@ property.</p>
 <p>Once the server is set up, make one or more calls to
 [method`Server`.listen], [method`Server`.listen_local], or
 [method`Server`.listen_all] to tell it where to listen for
-connections. (All ports on a <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> use the same handlers; if
+connections. (All ports on a [class`Server`] use the same handlers; if
 you need to handle some ports differently, such as returning
 different data for http and https, you’ll need to create multiple
-<a href="#id1"><span class="problematic" id="id2">``</span></a>SoupServer``s, or else check the passed-in URI in the handler
+[class`Server`]s, or else check the passed-in URI in the handler
 function.).</p>
-<p><a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will begin processing connections as soon as you return
+<p>[class`Server`] will begin processing connections as soon as you return
 to (or start) the main loop for the current thread-default
 [struct`GLib`.MainContext].</p>
 <dl class="py method">
@@ -891,8 +891,8 @@ modifiying any of these sockets may cause <cite>self</cite> to malfunction.</p>
 <span class="sig-name descname"><span class="pre">get_uris</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Soup.Server.get_uris" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a list of <a class="reference external" href="../../GLib-2.0/classes/Uri.html#GLib.Uri" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uris</span></code></a>, which you
-must free when you are done with it.</p>
+<dd class="field-odd"><p>a list of [struct`GLib`.Uri], which you
+must free with each element with [method`GLib`.Uri.unref] when you are done with it.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="../../GLib-2.0/classes/Uri.html#GLib.Uri" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Uri</span></code></a>]</p>
@@ -924,7 +924,7 @@ URIs for each interface on the system.</p>
 [property`Server`:py:data:<cite>:tls-certificate&lt;Soup.Server.props.tls_certificate&gt;</cite>] property, to provide it with a
 certificate to use.</p>
 <p>If you are using the deprecated single-listener APIs, then a return value of
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> indicates that the <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> serves https exclusively. If you are
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> indicates that the [class`Server`] serves https exclusively. If you are
 using [method`Server`.listen], etc, then a <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> return value merely indicates
 that the server is *able* to do https, regardless of whether it actually
 currently is or not. Use [method`Server`.get_uris] to see if it currently has
@@ -1067,7 +1067,7 @@ which case <cite>error</cite> will be set).</p>
 having the full response ready yet. Use [method`Server`.unpause_message] to
 resume I/O.</p>
 <p>This must only be called on a [class`ServerMessage`] which was created by the
-<a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> and are currently doing I/O, such as those passed into a
+[class`Server`] and are currently doing I/O, such as those passed into a
 [callback`ServerCallback`] or emitted in a [signal`Server`:py:func:<cite>::request-read&lt;Soup.Server.signals.request_read&gt;</cite>]
 signal.</p>
 <div class="deprecated">
@@ -1155,7 +1155,7 @@ signal.</p>
 adding a new chunk to a chunked response.</p>
 <p>I/O won’t actually resume until you return to the main loop.</p>
 <p>This must only be called on a [class`ServerMessage`] which was created by the
-<a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> and are currently doing I/O, such as those passed into a
+[class`Server`] and are currently doing I/O, such as those passed into a
 [callback`ServerCallback`] or emitted in a [signal`Server`:py:func:<cite>::request-read&lt;Soup.Server.signals.request_read&gt;</cite>]
 signal.</p>
 <div class="deprecated">
@@ -1372,7 +1372,7 @@ end up advertising their vulnerability to specific security
 holes.</p>
 <p>As with [property`Session`:user_agent], if you set a
 [property`Server`:py:data:<cite>:server-header&lt;Soup.Server.props.server_header&gt;</cite>] property that has trailing
-whitespace, <a class="reference internal" href="#Soup.Server" title="Soup.Server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Server</span></code></a> will append its own product token (eg,
+whitespace, [class`Server`] will append its own product token (eg,
 <code class="docutils literal notranslate"><span class="pre">libsoup/2.3.2</span></code>) to the end of the header for you.</p>
 </dd></dl>
 

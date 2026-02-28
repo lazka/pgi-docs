@@ -393,24 +393,24 @@
 </dd>
 </dl>
 <p>Debug logging support</p>
-<p><a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a> watches a [class`Session`] and logs the HTTP traffic that
+<p>[class`Logger`] watches a [class`Session`] and logs the HTTP traffic that
 it generates, for debugging purposes. Many applications use an
 environment variable to determine whether or not to use
-<a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>, and to determine the amount of debugging output.</p>
-<p>To use <a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>, first create a logger with [ctor`Logger`.new], optionally
+[class`Logger`], and to determine the amount of debugging output.</p>
+<p>To use [class`Logger`], first create a logger with [ctor`Logger`.new], optionally
 configure it with [method`Logger`.set_request_filter],
 [method`Logger`.set_response_filter], and [method`Logger`.set_printer], and
 then attach it to a session (or multiple sessions) with
 [method`Session`.add_feature].</p>
 <p>By default, the debugging output is sent to <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and looks something
 like:</p>
-<p>```</p>
-<p>POST /unauth HTTP/1.1
-Soup-Debug-Timestamp: 1200171744
-Soup-Debug: <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> 1 (0x612190), <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> 1 (0x617000), <a class="reference external" href="../../Gio-2.0/classes/Socket.html#Gio.Socket" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Socket</span></code></a> 1 (0x612220)
-Host: localhost
-Content-Type: text/plain
-Connection: close</p>
+<p>```
+&gt; POST /unauth HTTP/1.1
+&gt; Soup-Debug-Timestamp: 1200171744
+&gt; Soup-Debug: <a class="reference internal" href="Session.html#Soup.Session" title="Soup.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Session</span></code></a> 1 (0x612190), <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> 1 (0x617000), <a class="reference external" href="../../Gio-2.0/classes/Socket.html#Gio.Socket" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Socket</span></code></a> 1 (0x612220)
+&gt; Host: localhost
+&gt; Content-Type: text/plain
+&gt; Connection: close</p>
 <p>&lt; HTTP/1.1 201 Created
 &lt; Soup-Debug-Timestamp: 1200171744
 &lt; Soup-Debug: <a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> 1 (0x617000)
@@ -423,7 +423,7 @@ request was sent, or the response fully received.</p>
 [class`Session`], [class`Message`], and [class`Gio`.Socket] involved; the hex
 numbers are the addresses of the objects in question (which may be useful if
 you are running in a debugger). The decimal IDs are simply counters that
-uniquely identify objects across the lifetime of the <a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a>. In
+uniquely identify objects across the lifetime of the [class`Logger`]. In
 particular, this can be used to identify when multiple messages are sent
 across the same connection.</p>
 <p>Currently, the request half of the message is logged just before
@@ -433,7 +433,7 @@ the first byte of the request gets written to the network (from the
 from the network (from the [signal`Message`:py:func:<cite>::got-body&lt;Soup.Logger.signals.got_body&gt;</cite>] or
 [signal`Message`:py:func:<cite>::got-informational&lt;Soup.Logger.signals.got_informational&gt;</cite>] signal), which means that the
 [signal`Message`:py:func:<cite>::got-headers&lt;Soup.Logger.signals.got_headers&gt;</cite>] signal, and anything triggered off it (such as
-<a class="reference internal" href="Message.html#Soup.Message" title="Soup.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Message</span></code></a> <a class="reference internal" href="Message.html#Soup.Message.signals.authenticate" title="Soup.Message.signals.authenticate"><code class="xref py py-func docutils literal notranslate"><span class="pre">::authenticate</span></code></a>) will be emitted *before* the response headers are
+[signal`Message`:py:func:<cite>::authenticate&lt;Soup.Logger.signals.authenticate&gt;</cite>]) will be emitted *before* the response headers are
 actually logged.</p>
 <p>If the response doesn’t happen to trigger the [signal`Message`:py:func:<cite>::got-body&lt;Soup.Logger.signals.got_body&gt;</cite>] nor
 [signal`Message`:py:func:<cite>::got-informational&lt;Soup.Logger.signals.got_informational&gt;</cite>] signals due to, for example, a
@@ -454,7 +454,7 @@ signal.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a></p>
 </dd>
 </dl>
-<p>Creates a new <a class="reference internal" href="#Soup.Logger" title="Soup.Logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Logger</span></code></a> with the given debug level.</p>
+<p>Creates a new [class`Logger`] with the given debug level.</p>
 <p>If you need finer control over what message parts are and aren’t
 logged, use [method`Logger`.set_request_filter] and
 [method`Logger`.set_response_filter].</p>

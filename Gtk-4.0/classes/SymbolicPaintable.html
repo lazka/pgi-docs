@@ -121,7 +121,9 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable</span></code></a><ul>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_symbolic"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.snapshot_symbolic()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_with_weight"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.snapshot_with_weight()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_symbolic"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.do_snapshot_symbolic()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_with_weight"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.do_snapshot_with_weight()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -175,7 +177,9 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable</span></code></a><ul>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_symbolic"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.snapshot_symbolic()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_with_weight"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.snapshot_with_weight()</span></code></a></li>
 <li><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_symbolic"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.do_snapshot_symbolic()</span></code></a></li>
+<li><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_with_weight"><code class="docutils literal notranslate"><span class="pre">Gtk.SymbolicPaintable.do_snapshot_with_weight()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -234,7 +238,7 @@
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Implementations<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="IconPaintable.html#Gtk.IconPaintable" title="Gtk.IconPaintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.IconPaintable</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="IconPaintable.html#Gtk.IconPaintable" title="Gtk.IconPaintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.IconPaintable</span></code></a>, <a class="reference internal" href="Svg.html#Gtk.Svg" title="Gtk.Svg"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.Svg</span></code></a></p>
 </dd>
 </dl>
 <section id="methods">
@@ -247,6 +251,9 @@
 <tbody>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_symbolic" title="Gtk.SymbolicPaintable.snapshot_symbolic"><code class="xref py py-func docutils literal notranslate"><span class="pre">snapshot_symbolic</span></code></a> (snapshot, width, height, colors)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gtk.SymbolicPaintable.snapshot_with_weight" title="Gtk.SymbolicPaintable.snapshot_with_weight"><code class="xref py py-func docutils literal notranslate"><span class="pre">snapshot_with_weight</span></code></a> (snapshot, width, height, colors, weight)</p></td>
 </tr>
 </tbody>
 </table>
@@ -261,6 +268,9 @@
 <tbody>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_symbolic" title="Gtk.SymbolicPaintable.do_snapshot_symbolic"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_snapshot_symbolic</span></code></a> (snapshot, width, height, colors)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gtk.SymbolicPaintable.do_snapshot_with_weight" title="Gtk.SymbolicPaintable.do_snapshot_with_weight"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_snapshot_with_weight</span></code></a> (snapshot, width, height, colors, weight)</p></td>
 </tr>
 </tbody>
 </table>
@@ -293,17 +303,19 @@
 <p>An interface that supports symbolic colors in paintables.</p>
 <p><a href="#id1"><span class="problematic" id="id2">``</span></a>GdkPaintable``s implementing the interface will have the
 [vfunc`Gtk`.SymbolicPaintable.snapshot_symbolic] function called and
-have the colors for drawing symbolic icons passed. At least 4 colors are guaranteed
-to be passed every time.</p>
-<p>These 4 colors are the foreground color, and the colors to use for errors, warnings
-and success information in that order.</p>
-<p>More colors may be added in the future.</p>
+have the colors for drawing symbolic icons passed. At least 5 colors
+are guaranteed to be passed every time. These 5 colors are the
+foreground color, and the colors to use for errors, warnings
+and success information in that order, followed by the system
+accent color.</p>
+<p>The system accent color has been added in GTK 4.22.
+More colors may be added in the future.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 4.6.</span></p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.SymbolicPaintable.snapshot_symbolic">
-<span class="sig-name descname"><span class="pre">snapshot_symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.20.3/gtk/gtksymbolicpaintable.c#L85"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.SymbolicPaintable.snapshot_symbolic" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">snapshot_symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtksymbolicpaintable.c#L108"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.SymbolicPaintable.snapshot_symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -315,10 +327,32 @@ and success information in that order.</p>
 </dd>
 </dl>
 <p>Snapshots the paintable with the given colors.</p>
-<p>If less than 4 colors are provided, GTK will pad the array with default
+<p>If less than 5 colors are provided, GTK will pad the array with default
 colors.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 4.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gtk.SymbolicPaintable.snapshot_with_weight">
+<span class="sig-name descname"><span class="pre">snapshot_with_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtksymbolicpaintable.c#L162"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.SymbolicPaintable.snapshot_with_weight" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snapshot</strong> (<a class="reference external" href="../../Gdk-4.0/classes/Snapshot.html#Gdk.Snapshot" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.Snapshot</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GdkSnapshot</span></code> to snapshot to</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – width to snapshot in</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – height to snapshot in</p></li>
+<li><p><strong>colors</strong> ([<a class="reference external" href="../../Gdk-4.0/classes/RGBA.html#Gdk.RGBA" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.RGBA</span></code></a>]) – a pointer to an array of colors</p></li>
+<li><p><strong>weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – The font weight to use (from 1 to 1000, with default 400)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Snapshots the paintable with the given colors and weight.</p>
+<p>If less than 5 colors are provided, GTK will pad the array with default
+colors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 4.22.</span></p>
 </div>
 </dd></dl>
 
@@ -336,10 +370,32 @@ colors.</p>
 </dd>
 </dl>
 <p>Snapshots the paintable with the given colors.</p>
-<p>If less than 4 colors are provided, GTK will pad the array with default
+<p>If less than 5 colors are provided, GTK will pad the array with default
 colors.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 4.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Gtk.SymbolicPaintable.do_snapshot_with_weight">
+<span class="sig-name descname"><span class="pre">do_snapshot_with_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#Gtk.SymbolicPaintable.do_snapshot_with_weight" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snapshot</strong> (<a class="reference external" href="../../Gdk-4.0/classes/Snapshot.html#Gdk.Snapshot" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.Snapshot</span></code></a>) – a <code class="docutils literal notranslate"><span class="pre">GdkSnapshot</span></code> to snapshot to</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – width to snapshot in</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – height to snapshot in</p></li>
+<li><p><strong>colors</strong> ([<a class="reference external" href="../../Gdk-4.0/classes/RGBA.html#Gdk.RGBA" title="(in Gdk 4.0 v4.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gdk.RGBA</span></code></a>]) – a pointer to an array of colors</p></li>
+<li><p><strong>weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>) – The font weight to use (from 1 to 1000, with default 400)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Snapshots the paintable with the given colors and weight.</p>
+<p>If less than 5 colors are provided, GTK will pad the array with default
+colors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 4.22.</span></p>
 </div>
 </dd></dl>
 

@@ -72,7 +72,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Callbacks" href="callbacks.html" />
-    <link rel="prev" title="Foundry 1 (1.1.beta)" href="index.html" /> 
+    <link rel="prev" title="Foundry 1 (1.1.rc)" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -125,6 +125,8 @@
 <li><a class="reference internal" href="#Foundry.file_is_in"><code class="docutils literal notranslate"><span class="pre">Foundry.file_is_in()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_list_children_typed"><code class="docutils literal notranslate"><span class="pre">Foundry.file_list_children_typed()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_query_exists_nofollow"><code class="docutils literal notranslate"><span class="pre">Foundry.file_query_exists_nofollow()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.file_read_link"><code class="docutils literal notranslate"><span class="pre">Foundry.file_read_link()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.file_read_link_recurse"><code class="docutils literal notranslate"><span class="pre">Foundry.file_read_link_recurse()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_test"><code class="docutils literal notranslate"><span class="pre">Foundry.file_test()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.flatten_list_model_new"><code class="docutils literal notranslate"><span class="pre">Foundry.flatten_list_model_new()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.fuzzy_match"><code class="docutils literal notranslate"><span class="pre">Foundry.fuzzy_match()</span></code></a></li>
@@ -220,6 +222,8 @@
 <li><a class="reference internal" href="#Foundry.file_is_in"><code class="docutils literal notranslate"><span class="pre">Foundry.file_is_in()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_list_children_typed"><code class="docutils literal notranslate"><span class="pre">Foundry.file_list_children_typed()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_query_exists_nofollow"><code class="docutils literal notranslate"><span class="pre">Foundry.file_query_exists_nofollow()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.file_read_link"><code class="docutils literal notranslate"><span class="pre">Foundry.file_read_link()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.file_read_link_recurse"><code class="docutils literal notranslate"><span class="pre">Foundry.file_read_link_recurse()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.file_test"><code class="docutils literal notranslate"><span class="pre">Foundry.file_test()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.flatten_list_model_new"><code class="docutils literal notranslate"><span class="pre">Foundry.flatten_list_model_new()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.fuzzy_match"><code class="docutils literal notranslate"><span class="pre">Foundry.fuzzy_match()</span></code></a></li>
@@ -330,6 +334,12 @@
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Foundry.file_query_exists_nofollow" title="Foundry.file_query_exists_nofollow"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_query_exists_nofollow</span></code></a> (file)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Foundry.file_read_link" title="Foundry.file_read_link"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_read_link</span></code></a> (file)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Foundry.file_read_link_recurse" title="Foundry.file_read_link_recurse"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_read_link_recurse</span></code></a> (file, max_depth)</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Foundry.file_test" title="Foundry.file_test"><code class="xref py py-func docutils literal notranslate"><span class="pre">file_test</span></code></a> (path, test)</p></td>
@@ -687,6 +697,64 @@ to a [struct`GLib`.PtrArray] of [iface`Gio`.File].</p>
 </dl>
 <p>Resolves to true if <cite>file</cite> exists.</p>
 <p>Does not follow symlink.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Foundry.file_read_link">
+<span class="sig-prename descclassname"><span class="pre">Foundry.</span></span><span class="sig-name descname"><span class="pre">file_read_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Foundry.file_read_link" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – a [iface`Gio`.File]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a [class`Dex`.Future] that resolves to a
+[iface`Gio`.File], or rejects with [struct`GLib`.Error]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../Dex-1/classes/Future.html#Dex.Future" title="(in Dex 1 v1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+</dd>
+</dl>
+<p>Asynchronously resolves <cite>file</cite> if it is a symbolic link.</p>
+<p>If <cite>file</cite> is not a symbolic link (as determined by
+[method`Gio`.File.query_info] with
+<a class="reference external" href="../Gio-2.0/constants.html#Gio.FILE_ATTRIBUTE_STANDARD_IS_SYMLINK" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.FILE_ATTRIBUTE_STANDARD_IS_SYMLINK</span></code></a>), the future resolves to <cite>file</cite>
+itself. If it is a symbolic link, the link target is read with
+[method`Gio`.File.read_link] and a new [iface`Gio`.File] for the
+resolved path is returned. On failure, the future rejects with an error.</p>
+<p>The work is performed in a fiber on the thread pool scheduler.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Foundry.file_read_link_recurse">
+<span class="sig-prename descclassname"><span class="pre">Foundry.</span></span><span class="sig-name descname"><span class="pre">file_read_link_recurse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Foundry.file_read_link_recurse" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="../Gio-2.0/classes/File.html#Gio.File" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.File</span></code></a>) – a [iface`Gio`.File]</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – maximum number of symbolic links to resolve (must be &gt; 0)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a [class`Dex`.Future] that resolves to a
+[iface`Gio`.File], or rejects with [struct`GLib`.Error]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../Dex-1/classes/Future.html#Dex.Future" title="(in Dex 1 v1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+</dd>
+</dl>
+<p>Asynchronously resolves <cite>file</cite> by repeatedly following symbolic links
+until the result is not a symbolic link, or <cite>max_depth</cite> steps have been
+taken.</p>
+<p>Uses a “seen” set to detect cycles: if the same [iface`Gio`.File] is
+encountered again while resolving, the future rejects with
+<a class="reference external" href="../Gio-2.0/enums.html#Gio.IOErrorEnum.FAILED" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOErrorEnum.FAILED</span></code></a> and message “Symbolic link loop detected”.</p>
+<p>The work is performed in a fiber on the thread pool scheduler.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.1.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">

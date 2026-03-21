@@ -225,7 +225,7 @@
 </p>
 <dl class="field-list simple">
 <dt class="field-odd">Subclasses<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="CClosureExpression.html#Gtk.CClosureExpression" title="Gtk.CClosureExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.CClosureExpression</span></code></a>, <a class="reference internal" href="ClosureExpression.html#Gtk.ClosureExpression" title="Gtk.ClosureExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ClosureExpression</span></code></a>, <a class="reference internal" href="ConstantExpression.html#Gtk.ConstantExpression" title="Gtk.ConstantExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ConstantExpression</span></code></a>, <a class="reference internal" href="ObjectExpression.html#Gtk.ObjectExpression" title="Gtk.ObjectExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ObjectExpression</span></code></a>, <a class="reference internal" href="PropertyExpression.html#Gtk.PropertyExpression" title="Gtk.PropertyExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.PropertyExpression</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="CClosureExpression.html#Gtk.CClosureExpression" title="Gtk.CClosureExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.CClosureExpression</span></code></a>, <a class="reference internal" href="ClosureExpression.html#Gtk.ClosureExpression" title="Gtk.ClosureExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ClosureExpression</span></code></a>, <a class="reference internal" href="ConstantExpression.html#Gtk.ConstantExpression" title="Gtk.ConstantExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ConstantExpression</span></code></a>, <a class="reference internal" href="ObjectExpression.html#Gtk.ObjectExpression" title="Gtk.ObjectExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.ObjectExpression</span></code></a>, <a class="reference internal" href="PropertyExpression.html#Gtk.PropertyExpression" title="Gtk.PropertyExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.PropertyExpression</span></code></a>, <a class="reference internal" href="TryExpression.html#Gtk.TryExpression" title="Gtk.TryExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gtk.TryExpression</span></code></a></p>
 </dd>
 </dl>
 <section id="methods">
@@ -385,11 +385,13 @@ itself be an expression, this means that <code class="docutils literal notransla
 This is a common idiom when dealing with <a href="#id17"><span class="problematic" id="id18">``</span></a>GtkListItem``s. See
 [class`Gtk`.BuilderListItemFactory] for an example of this technique.</p>
 <p>To create a constant expression, use the <code class="docutils literal notranslate"><span class="pre">&lt;constant&gt;</span></code> element. If the type attribute
-is specified, the element content is interpreted as a value of that type. Otherwise,
+is specified, the element content is interpreted as a value of that type, and the
+initial attribute can be specified to get the initial value for that type. Otherwise,
 it is assumed to be an object. For instance:</p>
 <dl class="simple">
 <dt><a href="#id19"><span class="problematic" id="id20">``</span></a>xml</dt><dd><p>&lt;constant&gt;string_filter&lt;/constant&gt;
-&lt;constant type=’gchararray’&gt;Hello, world&lt;/constant&gt;</p>
+&lt;constant type=’gchararray’&gt;Hello, world&lt;/constant&gt;
+&lt;constant type=’gchararray’ initial=’true’ /&gt; &lt;!– NULL –&gt;</p>
 </dd>
 </dl>
 <p><a href="#id21"><span class="problematic" id="id22">``</span></a></p>
@@ -427,6 +429,23 @@ expressions for the parameters. For instance:</p>
 </dd>
 </dl>
 <p><a href="#id33"><span class="problematic" id="id34">``</span></a></p>
+<p>If an expression can fail, a <code class="docutils literal notranslate"><span class="pre">&lt;try&gt;</span></code> element can be used to provide fallbacks.
+The expressions are tried from top to bottom until one of them succeeds.
+If none of the expressions succeed, the expression fails as normal:</p>
+<dl>
+<dt><a href="#id35"><span class="problematic" id="id36">``</span></a>xml</dt><dd><dl>
+<dt>&lt;try&gt;</dt><dd><dl class="simple">
+<dt>&lt;lookup type=’GtkWindow’ name=’title’&gt;</dt><dd><p>&lt;lookup type=’GtkLabel’ name=’root’&gt;&lt;/lookup&gt;</p>
+</dd>
+</dl>
+<p>&lt;/lookup&gt;
+&lt;constant type=’gchararray’&gt;Hello World&lt;/constant&gt;</p>
+</dd>
+</dl>
+<p>&lt;/try&gt;</p>
+</dd>
+</dl>
+<p><a href="#id37"><span class="problematic" id="id38">``</span></a></p>
 <p>To create a property binding, use the <code class="docutils literal notranslate"><span class="pre">&lt;binding&gt;</span></code> element in place of where a
 <code class="docutils literal notranslate"><span class="pre">&lt;property&gt;</span></code> tag would ordinarily be used. The <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">object</span></code> attributes are
 supported. The <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute is required, and pertains to the applicable property
@@ -435,7 +454,7 @@ as the <code class="docutils literal notranslate"><span class="pre">this</span><
 <code class="docutils literal notranslate"><span class="pre">label</span></code> property of a <code class="docutils literal notranslate"><span class="pre">GtkLabel</span></code> is bound to the <code class="docutils literal notranslate"><span class="pre">string</span></code> property of another arbitrary
 object:</p>
 <dl>
-<dt><a href="#id35"><span class="problematic" id="id36">``</span></a>xml</dt><dd><dl>
+<dt><a href="#id39"><span class="problematic" id="id40">``</span></a>xml</dt><dd><dl>
 <dt>&lt;object class=’GtkLabel’&gt;</dt><dd><dl class="simple">
 <dt>&lt;binding name=’label’&gt;</dt><dd><p>&lt;lookup name=’string’&gt;some_other_object&lt;/lookup&gt;</p>
 </dd>
@@ -446,10 +465,10 @@ object:</p>
 <p>&lt;/object&gt;</p>
 </dd>
 </dl>
-<p><a href="#id37"><span class="problematic" id="id38">``</span></a></p>
+<p><a href="#id41"><span class="problematic" id="id42">``</span></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.bind">
-<span class="sig-name descname"><span class="pre">bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">this_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L2294"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.bind" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">this_</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2524"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.bind" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -470,14 +489,15 @@ the evaluation of <code class="docutils literal notranslate"><span class="pre">s
 <p>The value that <code class="docutils literal notranslate"><span class="pre">self</span></code> evaluates to is set via <code class="docutils literal notranslate"><span class="pre">g_object_set()</span></code> on
 <code class="docutils literal notranslate"><span class="pre">target</span></code>. This is repeated whenever <code class="docutils literal notranslate"><span class="pre">self</span></code> changes to ensure that
 the object’s property stays synchronized with <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">self</span></code>’s evaluation fails, <code class="docutils literal notranslate"><span class="pre">target</span></code>’s <code class="docutils literal notranslate"><span class="pre">property</span></code> is not updated.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">self</span></code>’s evaluation fails, <code class="docutils literal notranslate"><span class="pre">target</span></code>’s <code class="docutils literal notranslate"><span class="pre">property</span></code> is not updated.
+Use a [class`Gtk`.TryExpression] to provide a fallback for this case.</p>
 <p>Note that this function takes ownership of <code class="docutils literal notranslate"><span class="pre">self</span></code>. If you want
 to keep it around, you should [method`Gtk`.Expression.ref] it beforehand.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.evaluate">
-<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L1928"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.evaluate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2157"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.evaluate" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -504,7 +524,7 @@ will be returned.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.get_value_type">
-<span class="sig-name descname"><span class="pre">get_value_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L1899"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.get_value_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_value_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2128"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.get_value_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The type returned from [method`Gtk`.Expression.evaluate]</p>
@@ -520,7 +540,7 @@ of this expression.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.is_static">
-<span class="sig-name descname"><span class="pre">is_static</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L1952"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.is_static" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_static</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2181"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.is_static" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the expression is static</p>
@@ -538,7 +558,7 @@ it will never trigger a notify.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.ref">
-<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L1860"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.ref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2089"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.ref" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">GtkExpression</span></code> with an additional reference</p>
@@ -552,7 +572,7 @@ it will never trigger a notify.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.unref">
-<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L1879"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.unref" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">unref</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2108"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.unref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Releases a reference on the given <code class="docutils literal notranslate"><span class="pre">GtkExpression</span></code>.</p>
 <p>If the reference was the last, the resources associated to the <code class="docutils literal notranslate"><span class="pre">self</span></code> are
 freed.</p>
@@ -560,7 +580,7 @@ freed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Gtk.Expression.watch">
-<span class="sig-name descname"><span class="pre">watch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.21.5/gtk/gtkexpression.c#L2024"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.watch" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">watch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://gitlab.gnome.org/GNOME/gtk/blob/4.22.1/gtk/gtkexpression.c#L2253"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Gtk.Expression.watch" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -169,7 +169,6 @@
 <li><a class="reference internal" href="#GLib.TranslateFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TranslateFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TraverseFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TraverseFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TraverseNodeFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TraverseNodeFunc()</span></code></a></li>
-<li><a class="reference internal" href="#GLib.UnixFDSourceFunc"><code class="docutils literal notranslate"><span class="pre">GLib.UnixFDSourceFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.VoidFunc"><code class="docutils literal notranslate"><span class="pre">GLib.VoidFunc()</span></code></a></li>
 </ul>
 </li>
@@ -272,7 +271,6 @@
 <li><a class="reference internal" href="#GLib.TranslateFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TranslateFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TraverseFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TraverseFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.TraverseNodeFunc"><code class="docutils literal notranslate"><span class="pre">GLib.TraverseNodeFunc()</span></code></a></li>
-<li><a class="reference internal" href="#GLib.UnixFDSourceFunc"><code class="docutils literal notranslate"><span class="pre">GLib.UnixFDSourceFunc()</span></code></a></li>
 <li><a class="reference internal" href="#GLib.VoidFunc"><code class="docutils literal notranslate"><span class="pre">GLib.VoidFunc()</span></code></a></li>
 </ul>
 </li>
@@ -480,9 +478,6 @@
 <td><p><a class="reference internal" href="#GLib.TraverseNodeFunc" title="GLib.TraverseNodeFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">TraverseNodeFunc</span></code></a> (node, data)</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#GLib.UnixFDSourceFunc" title="GLib.UnixFDSourceFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">UnixFDSourceFunc</span></code></a> (fd, condition, *user_data)</p></td>
-</tr>
-<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#GLib.VoidFunc" title="GLib.VoidFunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">VoidFunc</span></code></a> ()</p></td>
 </tr>
 </tbody>
@@ -967,13 +962,14 @@ selected, meaning it has been found or it should be removed from the
 </dd>
 </dl>
 <p>Specifies the type of the hash function which is passed to
-g_hash_table_new() when a <a class="reference internal" href="classes/HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a> is created.</p>
-<p>The function is passed a key and should return a <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a> hash value.
-The functions <a class="reference internal" href="functions.html#GLib.direct_hash" title="GLib.direct_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.direct_hash</span></code></a>(), <a class="reference internal" href="functions.html#GLib.int_hash" title="GLib.int_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.int_hash</span></code></a>() and <a class="reference internal" href="functions.html#GLib.str_hash" title="GLib.str_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.str_hash</span></code></a>() provide
-hash functions which can be used when the key is a <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>,
-and <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> respectively.</p>
-<p><a class="reference internal" href="functions.html#GLib.direct_hash" title="GLib.direct_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.direct_hash</span></code></a>() is also the appropriate hash function for keys
-of the form <code class="docutils literal notranslate"><span class="pre">GINT_TO_POINTER</span> <span class="pre">(n)</span></code> (or similar macros).</p>
+[func`HashTable`.new] when a [struct`HashTable`] is created.</p>
+<p>The function is passed a key and should return an <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code> hash value.
+The functions [func`direct_hash`], [func`int_hash`] and [func`str_hash`] provide
+hash functions which can be used when the key is a <code class="docutils literal notranslate"><span class="pre">void*</span></code>, <code class="docutils literal notranslate"><span class="pre">int*</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">char*</span></code> respectively.</p>
+<p>[func`direct_hash`] is also the appropriate hash function for keys
+of the form <a class="reference external" href="conversion-macros.html#gint-to-pointer">GINT_TO_POINTER (n)</a>
+(or similar macros).</p>
 <p>A good hash functions should produce
 hash values that are evenly distributed over a fairly large range.
 The modulus is taken with the hash table size (a prime number) to
@@ -982,9 +978,9 @@ be very fast, since it is called for each key lookup.</p>
 <p>Note that the hash functions provided by GLib have these qualities,
 but are not particularly robust against manufactured keys that
 cause hash collisions. Therefore, you should consider choosing
-a more secure hash function when using a <a class="reference internal" href="classes/HashTable.html#GLib.HashTable" title="GLib.HashTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.HashTable</span></code></a> with keys
+a more secure hash function when using a [struct`HashTable`] with keys
 that originate in untrusted data (such as HTTP requests).
-Using <a class="reference internal" href="functions.html#GLib.str_hash" title="GLib.str_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.str_hash</span></code></a>() in that situation might make your application
+Using [func`str_hash`] in that situation might make your application
 vulnerable to
 <a class="reference external" href="https://lwn.net/Articles/474912/">Algorithmic Complexity Attacks</a>.</p>
 <p>The key to choosing a good hash is unpredictability.  Even
@@ -1754,28 +1750,6 @@ stopped.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.68.</span></p>
 </div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="GLib.UnixFDSourceFunc">
-<span class="sig-prename descclassname"><span class="pre">GLib.</span></span><span class="sig-name descname"><span class="pre">UnixFDSourceFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLib.UnixFDSourceFunc" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the fd that triggered the event</p></li>
-<li><p><strong>condition</strong> (<a class="reference internal" href="flags.html#GLib.IOCondition" title="GLib.IOCondition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.IOCondition</span></code></a>) – the IO conditions reported on <cite>fd</cite></p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data passed to g_unix_fd_add()</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if the source should be removed</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
-</dd>
-</dl>
-<p>The type of functions to be called when a UNIX fd watch source
-triggers.</p>
 </dd></dl>
 
 <dl class="py function">

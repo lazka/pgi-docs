@@ -72,7 +72,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Callbacks" href="callbacks.html" />
-    <link rel="prev" title="GLibUnix 2.0 (2.87.2)" href="index.html" /> 
+    <link rel="prev" title="GLibUnix 2.0 (2.88.0)" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -119,7 +119,7 @@
 <li><a class="reference internal" href="#GLibUnix.get_passwd_entry"><code class="docutils literal notranslate"><span class="pre">GLibUnix.get_passwd_entry()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.open_pipe"><code class="docutils literal notranslate"><span class="pre">GLibUnix.open_pipe()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.set_fd_nonblocking"><code class="docutils literal notranslate"><span class="pre">GLibUnix.set_fd_nonblocking()</span></code></a></li>
-<li><a class="reference internal" href="#GLibUnix.signal_add_full"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_add_full()</span></code></a></li>
+<li><a class="reference internal" href="#GLibUnix.signal_add"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_add()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.signal_source_new"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_source_new()</span></code></a></li>
 </ul>
 </li>
@@ -172,7 +172,7 @@
 <li><a class="reference internal" href="#GLibUnix.get_passwd_entry"><code class="docutils literal notranslate"><span class="pre">GLibUnix.get_passwd_entry()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.open_pipe"><code class="docutils literal notranslate"><span class="pre">GLibUnix.open_pipe()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.set_fd_nonblocking"><code class="docutils literal notranslate"><span class="pre">GLibUnix.set_fd_nonblocking()</span></code></a></li>
-<li><a class="reference internal" href="#GLibUnix.signal_add_full"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_add_full()</span></code></a></li>
+<li><a class="reference internal" href="#GLibUnix.signal_add"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_add()</span></code></a></li>
 <li><a class="reference internal" href="#GLibUnix.signal_source_new"><code class="docutils literal notranslate"><span class="pre">GLibUnix.signal_source_new()</span></code></a></li>
 </ul>
 </li>
@@ -230,7 +230,7 @@
 <td><p><a class="reference internal" href="#GLibUnix.set_fd_nonblocking" title="GLibUnix.set_fd_nonblocking"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_fd_nonblocking</span></code></a> (fd, nonblock)</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#GLibUnix.signal_add_full" title="GLibUnix.signal_add_full"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal_add_full</span></code></a> (priority, signum, handler, *user_data)</p></td>
+<td><p><a class="reference internal" href="#GLibUnix.signal_add" title="GLibUnix.signal_add"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal_add</span></code></a> (priority, signum, handler, *user_data)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#GLibUnix.signal_source_new" title="GLibUnix.signal_source_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">signal_source_new</span></code></a> (signum)</p></td>
@@ -244,12 +244,30 @@
 <span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">closefrom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowfd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.closefrom" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lowfd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>lowfd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Minimum fd to close, which must be non-negative</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, -1 with errno set on error</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
+<p>Close every file descriptor equal to or greater than <cite>lowfd</cite>.</p>
+<p>Typically <cite>lowfd</cite> will be 3, to leave standard input, standard output
+and standard error open.</p>
+<p>This is the same as Linux <code class="docutils literal notranslate"><span class="pre">close_range</span> <span class="pre">(lowfd,</span> <span class="pre">~0U,</span> <span class="pre">0)</span></code>,
+but portable to other OSs and to older versions of Linux.
+Equivalently, it is the same as BSD <code class="docutils literal notranslate"><span class="pre">closefrom</span> <span class="pre">(lowfd)</span></code>, but portable,
+and async-signal-safe on all OSs.</p>
+<p>This function is async-signal safe, making it safe to call from a
+signal handler or a [callback`GLib`.SpawnChildSetupFunc], as long as <cite>lowfd</cite> is
+non-negative.
+See <a class="reference external" href="man:signal(7">signal(7)</a>) and
+<a class="reference external" href="man:signal-safety(7">signal-safety(7)</a>) for more details.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.80.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -268,17 +286,28 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>condition</strong> (<a class="reference external" href="../GLib-2.0/flags.html#GLib.IOCondition" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.IOCondition</span></code></a>) – </p></li>
-<li><p><strong>function</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.UnixFDSourceFunc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.UnixFDSourceFunc</span></code></a>) – </p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the priority of the source</p></li>
+<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a file descriptor</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="../GLib-2.0/flags.html#GLib.IOCondition" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.IOCondition</span></code></a>) – IO conditions to watch for on <cite>fd</cite></p></li>
+<li><p><strong>function</strong> (<a class="reference internal" href="callbacks.html#GLibUnix.FDSourceFunc" title="GLibUnix.FDSourceFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.FDSourceFunc</span></code></a>) – a <a class="reference internal" href="callbacks.html#GLibUnix.FDSourceFunc" title="GLibUnix.FDSourceFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.FDSourceFunc</span></code></a></p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – data to pass to <cite>function</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the ID (greater than 0) of the event source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
+<p>Sets a function to be called when the IO condition, as specified by
+<cite>condition</cite> becomes true for <cite>fd</cite>.</p>
+<p>This is the same as g_unix_fd_add(), except that it allows you to
+specify a non-default priority and a provide a <a class="reference external" href="../GLib-2.0/callbacks.html#GLib.DestroyNotify" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.DestroyNotify</span></code></a> for
+<cite>user_data</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.36.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -286,15 +315,22 @@
 <span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">fd_query_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.fd_query_path" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The file descriptor to query.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The file path, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code> on error</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 </dl>
+<p>Queries the file path for the given FD opened by the current process.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.88.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -303,14 +339,25 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>condition</strong> (<a class="reference external" href="../GLib-2.0/flags.html#GLib.IOCondition" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.IOCondition</span></code></a>) – </p></li>
+<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – a file descriptor</p></li>
+<li><p><strong>condition</strong> (<a class="reference external" href="../GLib-2.0/flags.html#GLib.IOCondition" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.IOCondition</span></code></a>) – I/O conditions to watch for on <cite>fd</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the newly created <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
 </dd>
 </dl>
+<p>Creates a <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a> to watch for a particular I/O condition on a file
+descriptor.</p>
+<p>The source will never close the <cite>fd</cite> — you must do it yourself.</p>
+<p>Any callback attached to the returned <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a> must have type
+<a class="reference internal" href="callbacks.html#GLibUnix.FDSourceFunc" title="GLibUnix.FDSourceFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.FDSourceFunc</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.36.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -318,12 +365,29 @@
 <span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">fdwalk_set_cloexec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowfd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.fdwalk_set_cloexec" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lowfd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>lowfd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Minimum fd to act on, which must be non-negative</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 on success, -1 with errno set on error</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
+<p>Mark every file descriptor equal to or greater than <cite>lowfd</cite> to be closed
+at the next <code class="docutils literal notranslate"><span class="pre">execve()</span></code> or similar, as if via the <code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> flag.</p>
+<p>Typically <cite>lowfd</cite> will be 3, to leave standard input, standard output
+and standard error open after exec.</p>
+<p>This is the same as Linux <code class="docutils literal notranslate"><span class="pre">close_range</span> <span class="pre">(lowfd,</span> <span class="pre">~0U,</span> <span class="pre">CLOSE_RANGE_CLOEXEC)</span></code>,
+but portable to other OSs and to older versions of Linux.</p>
+<p>This function is async-signal safe, making it safe to call from a
+signal handler or a [callback`GLib`.SpawnChildSetupFunc], as long as <cite>lowfd</cite> is
+non-negative.
+See <a class="reference external" href="man:signal(7">signal(7)</a>) and
+<a class="reference external" href="man:signal-safety(7">signal-safety(7)</a>) for more details.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.80.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -331,15 +395,30 @@
 <span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">get_passwd_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.get_passwd_entry" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>user_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the username to get the passwd file entry for</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>passwd entry, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error; free the returned
+value with <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>()</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
+<p>Get the <code class="docutils literal notranslate"><span class="pre">passwd</span></code> file entry for the given <cite>user_name</cite> using <code class="docutils literal notranslate"><span class="pre">getpwnam_r()</span></code>.
+This can fail if the given <cite>user_name</cite> doesn’t exist.</p>
+<p>The returned <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">passwd</span></code> has been allocated using <a class="reference external" href="../GLib-2.0/functions.html#GLib.malloc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.malloc</span></code></a>() and should
+be freed using <a class="reference external" href="../GLib-2.0/functions.html#GLib.free" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.free</span></code></a>(). The strings referenced by the returned struct are
+included in the same allocation, so are valid until the <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">passwd</span></code> is
+freed.</p>
+<p>This function is safe to call from multiple threads concurrently.</p>
+<p>You will need to include <code class="docutils literal notranslate"><span class="pre">pwd.h</span></code> to get the definition of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">passwd</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.64.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -348,17 +427,38 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
+<li><p><strong>fds</strong> ([<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>]) – Array of two integers</p></li>
+<li><p><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Bitfield of file descriptor flags, as for fcntl()</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not (and errno will be set).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Similar to the UNIX pipe() call, but on modern systems like Linux
+uses the pipe2() system call, which atomically creates a pipe with
+the configured flags.</p>
+<p>As of GLib 2.78, the supported flags are <code class="docutils literal notranslate"><span class="pre">O_CLOEXEC</span></code>/<code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> (see below)
+and <code class="docutils literal notranslate"><span class="pre">O_NONBLOCK</span></code>. Prior to GLib 2.78, only <code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> was supported — if
+you wanted to configure <code class="docutils literal notranslate"><span class="pre">O_NONBLOCK</span></code> then that had to be done separately with
+<code class="docutils literal notranslate"><span class="pre">fcntl()</span></code>.</p>
+<p>Since GLib 2.80, the constants <a class="reference internal" href="enums.html#GLibUnix.PipeEnd.READ" title="GLibUnix.PipeEnd.READ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.PipeEnd.READ</span></code></a> and
+<a class="reference internal" href="enums.html#GLibUnix.PipeEnd.WRITE" title="GLibUnix.PipeEnd.WRITE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.PipeEnd.WRITE</span></code></a> can be used as mnemonic indexes in <cite>fds</cite>.</p>
+<p>It is a programmer error to call this function with unsupported flags, and a
+critical warning will be raised.</p>
+<p>As of GLib 2.78, it is preferred to pass <code class="docutils literal notranslate"><span class="pre">O_CLOEXEC</span></code> in, rather than
+<code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code>, as that matches the underlying <code class="docutils literal notranslate"><span class="pre">pipe()</span></code> API more closely. Prior
+to 2.78, only <code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> was supported. Support for <code class="docutils literal notranslate"><span class="pre">FD_CLOEXEC</span></code> may be
+deprecated and removed in future.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.30.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -367,35 +467,54 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>nonblock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – </p></li>
+<li><p><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A file descriptor</p></li>
+<li><p><strong>nonblock</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, set the descriptor to be non-blocking</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if successful</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
+<p>Control the non-blocking state of the given file descriptor,
+according to <cite>nonblock</cite>. On most systems this uses %O_NONBLOCK, but
+on some older ones may use %O_NDELAY.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.30.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="GLibUnix.signal_add_full">
-<span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">signal_add_full</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.signal_add_full" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="GLibUnix.signal_add">
+<span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">signal_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.signal_add" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p></li>
-<li><p><strong>handler</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.SourceFunc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SourceFunc</span></code></a>) – </p></li>
-<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – </p></li>
+<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the priority of the signal source. Typically this will be in
+the range between <a class="reference external" href="../GLib-2.0/constants.html#GLib.PRIORITY_DEFAULT" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_DEFAULT</span></code></a> and <a class="reference external" href="../GLib-2.0/constants.html#GLib.PRIORITY_HIGH" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.PRIORITY_HIGH</span></code></a>.</p></li>
+<li><p><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Signal number</p></li>
+<li><p><strong>handler</strong> (<a class="reference external" href="../GLib-2.0/callbacks.html#GLib.SourceFunc" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.SourceFunc</span></code></a>) – Callback</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – Data for <cite>handler</cite></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An ID (greater than 0) for the event source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
+<p>A convenience function for <a class="reference internal" href="#GLibUnix.signal_source_new" title="GLibUnix.signal_source_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.signal_source_new</span></code></a>(), which
+attaches to the default <a class="reference external" href="../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>.  You can remove the watch
+using <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source.remove" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source.remove</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.30.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -403,12 +522,37 @@
 <span class="sig-prename descclassname"><span class="pre">GLibUnix.</span></span><span class="sig-name descname"><span class="pre">signal_source_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GLibUnix.signal_source_new" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – </p>
+<dd class="field-odd"><p><strong>signum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – A signal number</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A newly created <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a></p>
 </dd>
 </dl>
+<p>Create a <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source</span></code></a> that will be dispatched upon delivery of the UNIX
+signal <cite>signum</cite>.  In GLib versions before 2.36, only <code class="docutils literal notranslate"><span class="pre">SIGHUP</span></code>, <code class="docutils literal notranslate"><span class="pre">SIGINT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code> can be monitored.  In GLib 2.36, <code class="docutils literal notranslate"><span class="pre">SIGUSR1</span></code> and <code class="docutils literal notranslate"><span class="pre">SIGUSR2</span></code>
+were added. In GLib 2.54, <code class="docutils literal notranslate"><span class="pre">SIGWINCH</span></code> was added.</p>
+<p>Note that unlike the UNIX default, all sources which have created a
+watch will be dispatched, regardless of which underlying thread
+invoked <a class="reference internal" href="#GLibUnix.signal_source_new" title="GLibUnix.signal_source_new"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLibUnix.signal_source_new</span></code></a>().</p>
+<p>For example, an effective use of this function is to handle <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code>
+cleanly; flushing any outstanding files, and then calling
+<a class="reference external" href="../GLib-2.0/classes/MainLoop.html#GLib.MainLoop.quit" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainLoop.quit</span></code></a>().  It is not safe to do any of this from a regular
+UNIX signal handler; such a handler may be invoked while malloc() or
+another library function is running, causing reentrancy issues if the
+handler attempts to use those functions.  None of the GLib/GObject
+API is safe against this kind of reentrancy.</p>
+<p>The interaction of this source when combined with native UNIX
+functions like sigprocmask() is not defined.</p>
+<p>The source will not initially be associated with any <a class="reference external" href="../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a>
+and must be added to one with <a class="reference external" href="../GLib-2.0/classes/Source.html#GLib.Source.attach" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Source.attach</span></code></a>() before it will be
+executed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.30.</span></p>
+</div>
 </dd></dl>
 
 </section>

@@ -1422,7 +1422,7 @@ call this function themselves after saving the image.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>profile</strong> (<a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a>) – The color profile to convert to.</p></li>
+<li><p><strong>profile</strong> (<a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The color profile to convert to.</p></li>
 <li><p><strong>intent</strong> (<a class="reference internal" href="../enums.html#Gimp.ColorRenderingIntent" title="Gimp.ColorRenderingIntent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorRenderingIntent</span></code></a>) – Rendering intent.</p></li>
 <li><p><strong>bpc</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Black point compensation.</p></li>
 </ul>
@@ -1434,11 +1434,11 @@ call this function themselves after saving the image.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Convert the image’s layers to a color profile</p>
 <p>This procedure converts from the image’s color profile (or the
-default profile if none is set) to the given color profile.</p>
-<p>Only RGB and grayscale color profiles are accepted, according to the
-image’s type.</p>
+built-in profile if none is set) to the given color profile.</p>
+<p>Make sure you use a valid color profile, according to the image’s
+type (e.g. RGB or grayscale color profiles respectively for RGB or
+grayscale images).</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.10.</span></p>
 </div>
@@ -2003,16 +2003,18 @@ color components.</p>
 <span class="sig-name descname"><span class="pre">get_color_profile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Gimp.Image.get_color_profile" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The image’s color profile. The returned
-value must be freed with [method`GObject`.Object.unref].</p>
+<dd class="field-odd"><p>The image’s color profile. The
+returned value must be freed with [method`GObject`.Object.unref].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the image’s color profile</p>
 <p>This procedure returns the image’s color profile, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the
-image has no color profile assigned.</p>
+image uses the built-in color profile.</p>
+<p>See also [method`Gimp`.Image.get_effective_color_profile] if you want
+the effective color profile and don’t want to have to deal with <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+return values.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.10.</span></p>
 </div>
@@ -2091,14 +2093,10 @@ be freed with [method`GObject`.Object.unref].</p>
 <dd class="field-even"><p><a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the color profile that is used for the image.</p>
 <p>This procedure returns the color profile that is actually used for
 this image, which is the profile returned by
 [method`Gimp`.Image.get_color_profile] if the image has a profile
-assigned, or the default profile from preferences, for the given
-color space, if no profile is assigned to the image. If there is no
-default profile configured in preferences either, a generated default
-profile is returned.</p>
+assigned, or a built-in profile for the given color space otherwise.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.10.</span></p>
 </div>
@@ -2728,13 +2726,12 @@ Compensation enabled for its simulation</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The image’s simulation color profile. The
-returned value must be freed with <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>().</p>
+returned value must be freed with [method`GObject`.Object.unref].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="ColorProfile.html#Gimp.ColorProfile" title="Gimp.ColorProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ColorProfile</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
-<p>Returns the image’s simulation color profile</p>
 <p>This procedure returns the image’s simulation color profile, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if
 the image has no simulation color profile assigned.</p>
 <div class="versionadded">
@@ -4109,8 +4106,9 @@ mask.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Sets the image’s color profile</p>
 <p>This procedure sets the image’s color profile.</p>
+<p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is passed as <cite>profile</cite>, then the built-in profile for
+<cite>self</cite>'s color model is set.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 2.10.</span></p>
 </div>
@@ -4407,8 +4405,8 @@ enabled for its simulation</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
-<p>Sets the image’s simulation color profile</p>
 <p>This procedure sets the image’s simulation color profile.</p>
+<p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is passed as <cite>profile</cite>, then the simulation profile is unset.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.0.</span></p>
 </div>

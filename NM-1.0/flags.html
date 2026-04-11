@@ -251,6 +251,7 @@
 <li><a class="reference internal" href="#NM.MptcpFlags.FULLMESH"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.FULLMESH</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.SIGNAL"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.SIGNAL</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.ENABLED"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.ENABLED</span></code></a></li>
+<li><a class="reference internal" href="#NM.MptcpFlags.LAMINAR"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.LAMINAR</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.SUBFLOW"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.SUBFLOW</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.ALSO_WITHOUT_SYSCTL"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.ALSO_WITHOUT_SYSCTL</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.BACKUP"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.BACKUP</span></code></a></li>
@@ -579,6 +580,7 @@
 <li><a class="reference internal" href="#NM.MptcpFlags.FULLMESH"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.FULLMESH</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.SIGNAL"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.SIGNAL</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.ENABLED"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.ENABLED</span></code></a></li>
+<li><a class="reference internal" href="#NM.MptcpFlags.LAMINAR"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.LAMINAR</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.SUBFLOW"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.SUBFLOW</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.ALSO_WITHOUT_SYSCTL"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.ALSO_WITHOUT_SYSCTL</span></code></a></li>
 <li><a class="reference internal" href="#NM.MptcpFlags.BACKUP"><code class="docutils literal notranslate"><span class="pre">NM.MptcpFlags.BACKUP</span></code></a></li>
@@ -1656,6 +1658,24 @@ Note that by default interfaces that don’t have a default route are
 excluded from having MPTCP endpoints configured. This can be overruled
 with the “also-without-default-route” and this affects endpoints
 per address family.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NM.MptcpFlags.LAMINAR">
+<span class="sig-name descname"><span class="pre">LAMINAR</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">256</span></em><a class="headerlink" href="#NM.MptcpFlags.LAMINAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag for the MPTCP endpoint. The endpoint will be
+used to create new subflows from the associated address to additional
+addresses announced by the other peer. This will be done if allowed by the
+MPTCP limits, and if the associated address is not already being used by
+another subflow from the same MPTCP connection. Note that the ‘fullmesh’
+flag takes precedence over the ‘laminar’ one. Without any of these two
+flags, the path-manager will create new subflows to additional addresses
+announced by the other peer by selecting the source address from the
+routing tables, which is harder to configure if the announced address is
+not known in advance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.56.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">

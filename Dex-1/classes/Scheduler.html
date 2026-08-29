@@ -66,7 +66,7 @@
   </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dex.StaticFuture" href="StaticFuture.html" />
+    <link rel="next" title="Dex.StateMachine" href="StateMachine.html" />
     <link rel="prev" title="Dex.Promise" href="Promise.html" /> 
 </head>
 
@@ -97,7 +97,7 @@
 
 
 
-<td><a accesskey="n" href="StaticFuture.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="StateMachine.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -117,6 +117,7 @@
 <li><a class="reference internal" href="#Dex.Scheduler.get_main_context"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.get_main_context()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Scheduler.push"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.push()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Scheduler.spawn"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Scheduler.spawn_coroutine"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn_coroutine()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -153,7 +154,7 @@
 
 
 
-<td><a accesskey="n" href="StaticFuture.html"><i class="fa fa-chevron-right"></i></a></td>
+<td><a accesskey="n" href="StateMachine.html"><i class="fa fa-chevron-right"></i></a></td>
 
 
 </tr></tbody>
@@ -173,6 +174,7 @@
 <li><a class="reference internal" href="#Dex.Scheduler.get_main_context"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.get_main_context()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Scheduler.push"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.push()</span></code></a></li>
 <li><a class="reference internal" href="#Dex.Scheduler.spawn"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn()</span></code></a></li>
+<li><a class="reference internal" href="#Dex.Scheduler.spawn_coroutine"><code class="docutils literal notranslate"><span class="pre">Dex.Scheduler.spawn_coroutine()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -262,6 +264,9 @@
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Dex.Scheduler.spawn" title="Dex.Scheduler.spawn"><code class="xref py py-func docutils literal notranslate"><span class="pre">spawn</span></code></a> (stack_size, func, *func_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Dex.Scheduler.spawn_coroutine" title="Dex.Scheduler.spawn_coroutine"><code class="xref py py-func docutils literal notranslate"><span class="pre">spawn_coroutine</span></code></a> (func, *user_data)</p></td>
 </tr>
 </tbody>
 </table>
@@ -395,6 +400,8 @@ specifically for that thread.</p>
 <p>Request <cite>self</cite> to spawn a [class`Dex`.Fiber].</p>
 <p>The fiber will have its own stack and cooperatively schedules among other
 fibers sharing the scheduler.</p>
+<p>This can be called from any thread. The resulting fiber runs on the thread
+associated with the <cite>self</cite>.</p>
 <p>If <cite>stack_size</cite> is 0, it will set to a sensible default. Otherwise, it is
 rounded up to the nearest page size.</p>
 <p>```c
@@ -402,10 +409,10 @@ static <a class="reference internal" href="Future.html#Dex.Future" title="Dex.Fu
 fiber_func (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> data)
 {
 <a class="reference external" href="../../Gio-2.0/classes/InputStream.html#Gio.InputStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.InputStream</span></code></a> *stream = data;
-g_autoptr(<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>) error = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;
-g_autoptr(<a class="reference external" href="../../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) bytes = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
+<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> *error = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;
+<a class="reference external" href="../../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a> *bytes = <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>;</p>
 <p>if (!(bytes = <a class="reference internal" href="Future.html#Dex.Future.await_boxed" title="Dex.Future.await_boxed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.await_boxed</span></code></a> (<a class="reference internal" href="../functions.html#Dex.input_stream_read_bytes" title="Dex.input_stream_read_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.input_stream_read_bytes</span></code></a> (stream, 4096, 0), &amp;error)))
-return <a class="reference internal" href="Future.html#Dex.Future.new_for_error" title="Dex.Future.new_for_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.new_for_error</span></code></a> (g_steal_pointer (&amp;error));</p>
+return <a class="reference internal" href="Future.html#Dex.Future.new_for_error" title="Dex.Future.new_for_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future.new_for_error</span></code></a> (error);</p>
 <p>…</p>
 <p>return dex_future_new_true ();
 }</p>
@@ -417,6 +424,33 @@ return <a class="reference internal" href="#Dex.Scheduler.spawn" title="Dex.Sche
 <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>);
 }
 ```</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Dex.Scheduler.spawn_coroutine">
+<span class="sig-name descname"><span class="pre">spawn_coroutine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Dex.Scheduler.spawn_coroutine" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<a class="reference internal" href="../callbacks.html#Dex.CoroutineFunc" title="Dex.CoroutineFunc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.CoroutineFunc</span></code></a>) – coroutine entrypoint</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data passed to the coroutine entrypoint</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a [class`Dex`.Future] that will resolve or reject
+when <cite>func</cite> finishes or returns an error.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Future.html#Dex.Future" title="Dex.Future"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+</dd>
+</dl>
+<p>Request <cite>self</cite> to spawn a [class`Dex`.Coroutine] and execute
+<cite>func</cite> with user data.</p>
+<p>If the function returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> while suspended, it should have set an awaited
+future in its context using one of the <code class="docutils literal notranslate"><span class="pre">DEX_COROUTINE_SUSPEND_*</span></code> helpers.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 </dd></dl>

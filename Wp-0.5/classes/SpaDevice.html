@@ -378,7 +378,7 @@
 <td><p>Properties of the device</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Wp.SpaDevice.props.spa_device_handle" title="Wp.SpaDevice.props.spa_device_handle"><code class="xref py py-data docutils literal notranslate"><span class="pre">spa-device-handle</span></code></a></p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w/co</p></td>
 <td><p>The spa device handle</p></td>
 </tr>
@@ -444,7 +444,8 @@
 </dl>
 <p>A <a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> allows running a spa_device object locally, loading the implementation from a SPA factory. This is useful to run device monitors inside the session manager and have control over creating the actual nodes that the spa_device requests to create.
 To enable the spa device, call <a class="reference internal" href="Object.html#Wp.Object.activate" title="Wp.Object.activate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Object.activate</span></code></a>() requesting <a class="reference internal" href="../flags.html#Wp.SpaDeviceFeatures.ENABLED" title="Wp.SpaDeviceFeatures.ENABLED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDeviceFeatures.ENABLED</span></code></a>.
-For actual devices (not device monitors) it also possible and desirable to export the device to PipeWire, which can be done by requesting <a class="reference internal" href="../flags.html#Wp.ProxyFeatures.PROXY_FEATURE_BOUND" title="Wp.ProxyFeatures.PROXY_FEATURE_BOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ProxyFeatures.PROXY_FEATURE_BOUND</span></code></a> from <a class="reference internal" href="Object.html#Wp.Object.activate" title="Wp.Object.activate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Object.activate</span></code></a>(). When exporting, the export should be done before enabling the device, by requesting both features at the same time.</p>
+For actual devices (not device monitors) it also possible and desirable to export the device to PipeWire, which can be done by requesting <a class="reference internal" href="../flags.html#Wp.ProxyFeatures.PROXY_FEATURE_BOUND" title="Wp.ProxyFeatures.PROXY_FEATURE_BOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ProxyFeatures.PROXY_FEATURE_BOUND</span></code></a> from <a class="reference internal" href="Object.html#Wp.Object.activate" title="Wp.Object.activate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Object.activate</span></code></a>(). When exporting, the export should be done before enabling the device, by requesting both features at the same time.
+When the “client-context” component is loaded, which is the case in the default daemon configuration, the SPA handle is loaded in a secondary pw_context that runs on its own thread, so that the device is not affected by anything that blocks WirePlumber’s main loop. The <a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> itself stays on the thread that created it: all the signals below are emitted there, in the order in which the spa_device emitted them, and <a class="reference internal" href="#Wp.SpaDevice.enum_params_sync" title="Wp.SpaDevice.enum_params_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice.enum_params_sync</span></code></a>() and <a class="reference internal" href="#Wp.SpaDevice.set_param" title="Wp.SpaDevice.set_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice.set_param</span></code></a>() remain synchronous. Note, though, that the signals are then emitted asynchronously, so a handler may run after the call that caused the event has returned.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Wp.SpaDevice.new_from_spa_factory">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_from_spa_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.SpaDevice.new_from_spa_factory" title="Link to this definition">¶</a></dt>
@@ -452,15 +453,15 @@ For actual devices (not device monitors) it also possible and desirable to expor
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>core</strong> (<a class="reference internal" href="Core.html#Wp.Core" title="Wp.Core"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Core</span></code></a>) – the wireplumber core</p></li>
-<li><p><strong>factory_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the SPA factory</p></li>
-<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – properties to be passed to device constructor</p></li>
+<li><p><strong>factory_name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the SPA factory</p></li>
+<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – properties to be passed to device constructor</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A new <a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> wrapping the device that was constructed by the factory, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the factory does not exist or was unable to construct the device</p>
+<dd class="field-even"><p>A new <a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> wrapping the device that was constructed by the factory, or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if the factory does not exist or was unable to construct the device</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Constructs a SPA_TYPE_INTERFACE_Device by loading the given SPA <cite>factory_name</cite>.</p>
@@ -474,8 +475,8 @@ For actual devices (not device monitors) it also possible and desirable to expor
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>core</strong> (<a class="reference internal" href="Core.html#Wp.Core" title="Wp.Core"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Core</span></code></a>) – the wireplumber core</p></li>
-<li><p><strong>spa_device_handle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the spa device handle</p></li>
-<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – additional properties of the device</p></li>
+<li><p><strong>spa_device_handle</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the spa device handle</p></li>
+<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – additional properties of the device</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -494,15 +495,15 @@ For actual devices (not device monitors) it also possible and desirable to expor
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the parameter id to enumerate</p></li>
-<li><p><strong>filter</strong> (<a class="reference internal" href="SpaPod.html#Wp.SpaPod" title="Wp.SpaPod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaPod</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a param filter or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the parameter id to enumerate</p></li>
+<li><p><strong>filter</strong> (<a class="reference internal" href="SpaPod.html#Wp.SpaPod" title="Wp.SpaPod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaPod</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – a param filter or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>an iterator to iterate over cached parameters, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if parameters for this <cite>id</cite> are not cached; the items in the iterator are <a class="reference internal" href="SpaPod.html#Wp.SpaPod" title="Wp.SpaPod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaPod</span></code></a></p>
+<dd class="field-even"><p>an iterator to iterate over cached parameters, or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if parameters for this <cite>id</cite> are not cached; the items in the iterator are <a class="reference internal" href="SpaPod.html#Wp.SpaPod" title="Wp.SpaPod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaPod</span></code></a></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Iterator.html#Wp.Iterator" title="Wp.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Iterator</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Iterator.html#Wp.Iterator" title="Wp.Iterator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Iterator</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>This method can be used to retrieve object parameters of the spa device synchronously because the spa device always runs locally.</p>
@@ -516,7 +517,7 @@ For actual devices (not device monitors) it also possible and desirable to expor
 <span class="sig-name descname"><span class="pre">get_managed_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.SpaDevice.get_managed_object" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object to get</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object to get</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the managed object associated with <cite>id</cite></p>
@@ -564,7 +565,7 @@ For actual devices (not device monitors) it also possible and desirable to expor
 <span class="sig-name descname"><span class="pre">set_managed_pending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Wp.SpaDevice.set_managed_pending" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object</p>
 </dd>
 </dl>
 <p>Marks a managed object id pending.</p>
@@ -578,16 +579,16 @@ If an object is already set for the id, this has no effect.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the parameter id to set</p></li>
-<li><p><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – optional flags or 0</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the parameter id to set</p></li>
+<li><p><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – optional flags or 0</p></li>
 <li><p><strong>param</strong> (<a class="reference internal" href="SpaPod.html#Wp.SpaPod" title="Wp.SpaPod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaPod</span></code></a>) – the parameter to set</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success, <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if setting the param failed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on success, <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if setting the param failed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 <p>Sets a parameter on the spa device.</p>
@@ -602,8 +603,8 @@ If an object is already set for the id, this has no effect.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object</p></li>
-<li><p><strong>object</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the object to store or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to remove the managed object associated with <cite>id</cite></p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – the (device-internal) id of the object</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – the object to store or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> to remove the managed object associated with <cite>id</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -628,9 +629,9 @@ If an object is already set for the id, this has no effect.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spa_device</strong> (<a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
-<li><p><strong>p0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
-<li><p><strong>p1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
+<li><p><strong>p0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
+<li><p><strong>p1</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
 <li><p><strong>p2</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a>)</p></li>
 </ul>
 </dd>
@@ -669,7 +670,7 @@ If an object is already set for the id, this has no effect.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spa_device</strong> (<a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -688,7 +689,7 @@ If an object is already set for the id, this has no effect.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spa_device</strong> (<a class="reference internal" href="#Wp.SpaDevice" title="Wp.SpaDevice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.SpaDevice</span></code></a>) – The object which received the signal</p></li>
-<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -708,7 +709,7 @@ If an object is already set for the id, this has no effect.</p>
 <dd class="field-even"><p><a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
@@ -725,10 +726,10 @@ If an object is already set for the id, this has no effect.</p>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">spa-device-handle</span></code></p>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>

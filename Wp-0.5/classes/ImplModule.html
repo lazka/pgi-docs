@@ -114,6 +114,7 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Wp.ImplModule"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a><ul>
 <li><a class="reference internal" href="#Wp.ImplModule.load"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule.load()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.ImplModule.unload"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule.unload()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -175,6 +176,7 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Wp.ImplModule"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a><ul>
 <li><a class="reference internal" href="#Wp.ImplModule.load"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule.load()</span></code></a></li>
+<li><a class="reference internal" href="#Wp.ImplModule.unload"><code class="docutils literal notranslate"><span class="pre">Wp.ImplModule.unload()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -261,6 +263,9 @@
 <tr class="row-odd"><td><p><em>class</em></p></td>
 <td><p><a class="reference internal" href="#Wp.ImplModule.load" title="Wp.ImplModule.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load</span></code></a> (core, name, arguments, properties)</p></td>
 </tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Wp.ImplModule.unload" title="Wp.ImplModule.unload"><code class="xref py py-func docutils literal notranslate"><span class="pre">unload</span></code></a> ()</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -290,17 +295,17 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="#Wp.ImplModule.props.arguments" title="Wp.ImplModule.props.arguments"><code class="xref py py-data docutils literal notranslate"><span class="pre">arguments</span></code></a></p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
 <td><p>r/w/co</p></td>
 <td><p>The arguments to provide to the module while loading</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#Wp.ImplModule.props.core" title="Wp.ImplModule.props.core"><code class="xref py py-data docutils literal notranslate"><span class="pre">core</span></code></a></p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w/co</p></td>
 <td><p>The WirePlumber core</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Wp.ImplModule.props.name" title="Wp.ImplModule.props.name"><code class="xref py py-data docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p></td>
 <td><p>r/w/co</p></td>
 <td><p>The name of the PipeWire module</p></td>
 </tr>
@@ -310,7 +315,7 @@
 <td><p>Properties of the module</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#Wp.ImplModule.props.pw_impl_module" title="Wp.ImplModule.props.pw_impl_module"><code class="xref py py-data docutils literal notranslate"><span class="pre">pw-impl-module</span></code></a></p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r</p></td>
 <td><p>Pointer to the underlying pw_impl_module structure for the module</p></td>
 </tr>
@@ -349,7 +354,8 @@
 <dd class="field-odd"><p><a class="reference internal" href="ImplModuleClass.html#Wp.ImplModuleClass" title="Wp.ImplModuleClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wp.ImplModuleClass</span></code></a></p>
 </dd>
 </dl>
-<p>Used to load PipeWire modules within the WirePlumber process. This is slightly different from other objects in that the module is not exported to PipeWire, but it may create an export objects itself.</p>
+<p>Used to load PipeWire modules within the WirePlumber process. This is slightly different from other objects in that the module is not exported to PipeWire, but it may create an export objects itself.
+When the “client-context” component is loaded, which is the case in the default daemon configuration, the module is loaded in a secondary pw_context that runs on its own thread, so that it is not affected by anything that blocks WirePlumber’s main loop. The <a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> itself stays on the thread that created it and its API is unchanged; the module’s own callbacks, though, run on that other thread. If the component is not loaded, the module is loaded in the core’s pw_context instead.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 0.4.2.</span></p>
 </div>
@@ -360,21 +366,32 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>core</strong> (<a class="reference internal" href="Core.html#Wp.Core" title="Wp.Core"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Core</span></code></a>) – The WirePlumber core</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the module to load</p></li>
-<li><p><strong>arguments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – arguments to be passed to the module</p></li>
-<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – additional properties to be provided to the module</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – the name of the module to load</p></li>
+<li><p><strong>arguments</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – arguments to be passed to the module</p></li>
+<li><p><strong>properties</strong> (<a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – additional properties to be provided to the module</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the <a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> for the module that was loaded on success, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on failure.</p>
+<dd class="field-even"><p>the <a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> for the module that was loaded on success, <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on failure.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 <p>Loads a PipeWire module into the WirePlumber process.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 0.4.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Wp.ImplModule.unload">
+<span class="sig-name descname"><span class="pre">unload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Wp.ImplModule.unload" title="Link to this definition">¶</a></dt>
+<dd><p>Unloads the PipeWire module immediately.</p>
+<p>Normally, the module is unloaded when the last reference to <cite>self</cite> is dropped and the object is finalized. This method allows unloading the module at a deterministic point in time, without having to rely on the object’s lifetime, which is useful when the module needs to be torn down before another one that provides the same objects is loaded.
+It is safe to call this method multiple times; subsequent calls have no effect. The <a class="reference internal" href="#Wp.ImplModule" title="Wp.ImplModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.ImplModule</span></code></a> object itself remains valid after the call.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.5.16.</span></p>
 </div>
 </dd></dl>
 
@@ -391,10 +408,10 @@
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">arguments</span></code></p>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
@@ -411,10 +428,10 @@
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">core</span></code></p>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
@@ -431,10 +448,10 @@
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT_ONLY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT_ONLY</span></code></a></p>
@@ -454,7 +471,7 @@
 <dd class="field-even"><p><a class="reference internal" href="Properties.html#Wp.Properties" title="Wp.Properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wp.Properties</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a></p>
@@ -471,10 +488,10 @@
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">pw-impl-module</span></code></p>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 <dt class="field-odd">Default Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Flags<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a></p>

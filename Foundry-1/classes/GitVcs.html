@@ -114,11 +114,13 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Foundry.GitVcs"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs</span></code></a><ul>
 <li><a class="reference internal" href="#Foundry.GitVcs.commit"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.commit()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.GitVcs.discard_changes"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.discard_changes()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.list_status"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.list_status()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.query_config"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.query_config()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.sign_bytes"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.sign_bytes()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.stage_entry"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stage_entry()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.stash"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stash()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.GitVcs.stash_all"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stash_all()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.unstage_entry"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.unstage_entry()</span></code></a></li>
 </ul>
 </li>
@@ -173,11 +175,13 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Foundry.GitVcs"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs</span></code></a><ul>
 <li><a class="reference internal" href="#Foundry.GitVcs.commit"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.commit()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.GitVcs.discard_changes"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.discard_changes()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.list_status"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.list_status()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.query_config"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.query_config()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.sign_bytes"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.sign_bytes()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.stage_entry"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stage_entry()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.stash"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stash()</span></code></a></li>
+<li><a class="reference internal" href="#Foundry.GitVcs.stash_all"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.stash_all()</span></code></a></li>
 <li><a class="reference internal" href="#Foundry.GitVcs.unstage_entry"><code class="docutils literal notranslate"><span class="pre">Foundry.GitVcs.unstage_entry()</span></code></a></li>
 </ul>
 </li>
@@ -302,7 +306,7 @@
 <span id="foundry-gitvcs-methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Vcs.html#foundry-vcs-methods"><span class="std std-ref">Foundry.Vcs (23)</span></a>,     <a class="reference internal" href="Contextual.html#foundry-contextual-methods"><span class="std std-ref">Foundry.Contextual (4)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Json-1.0/classes/Serializable.html#json-serializable-methods" title="(in Json 1.0 v1.0)"><span class="xref std std-ref">Json.Serializable (8)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Vcs.html#foundry-vcs-methods"><span class="std std-ref">Foundry.Vcs (24)</span></a>,     <a class="reference internal" href="Contextual.html#foundry-contextual-methods"><span class="std std-ref">Foundry.Contextual (4)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (37)</span></a>,     <a class="reference external" href="../../Json-1.0/classes/Serializable.html#json-serializable-methods" title="(in Json 1.0 v1.0)"><span class="xref std std-ref">Json.Serializable (8)</span></a></p>
 </dd>
 <dt class="field-even">Structs<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/classes/ObjectClass.html#gobject-objectclass-methods" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.ObjectClass (5)</span></a></p>
@@ -318,19 +322,25 @@
 <td><p><a class="reference internal" href="#Foundry.GitVcs.commit" title="Foundry.GitVcs.commit"><code class="xref py py-func docutils literal notranslate"><span class="pre">commit</span></code></a> (message, author_name, author_email)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Foundry.GitVcs.discard_changes" title="Foundry.GitVcs.discard_changes"><code class="xref py py-func docutils literal notranslate"><span class="pre">discard_changes</span></code></a> ()</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.list_status" title="Foundry.GitVcs.list_status"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_status</span></code></a> ()</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.query_config" title="Foundry.GitVcs.query_config"><code class="xref py py-func docutils literal notranslate"><span class="pre">query_config</span></code></a> (key)</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.sign_bytes" title="Foundry.GitVcs.sign_bytes"><code class="xref py py-func docutils literal notranslate"><span class="pre">sign_bytes</span></code></a> (signing_format, signing_key, bytes)</p></td>
 </tr>
-<tr class="row-odd"><td></td>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.stage_entry" title="Foundry.GitVcs.stage_entry"><code class="xref py py-func docutils literal notranslate"><span class="pre">stage_entry</span></code></a> (entry, contents)</p></td>
 </tr>
-<tr class="row-even"><td></td>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.stash" title="Foundry.GitVcs.stash"><code class="xref py py-func docutils literal notranslate"><span class="pre">stash</span></code></a> ()</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Foundry.GitVcs.stash_all" title="Foundry.GitVcs.stash_all"><code class="xref py py-func docutils literal notranslate"><span class="pre">stash_all</span></code></a> ()</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Foundry.GitVcs.unstage_entry" title="Foundry.GitVcs.unstage_entry"><code class="xref py py-func docutils literal notranslate"><span class="pre">unstage_entry</span></code></a> (entry)</p></td>
@@ -342,7 +352,7 @@
 <span id="foundry-gitvcs-vfuncs"></span><h2>Virtual Methods<a class="headerlink" href="#virtual-methods" title="Link to this heading">¶</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">Inherited<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="Vcs.html#foundry-vcs-vfuncs"><span class="std std-ref">Foundry.Vcs (21)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-vfuncs" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (7)</span></a>,     <a class="reference external" href="../../Json-1.0/classes/Serializable.html#json-serializable-vfuncs" title="(in Json 1.0 v1.0)"><span class="xref std std-ref">Json.Serializable (5)</span></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="Vcs.html#foundry-vcs-vfuncs"><span class="std std-ref">Foundry.Vcs (22)</span></a>,     <a class="reference external" href="../../GObject-2.0/classes/Object.html#gobject-object-vfuncs" title="(in GObject 2.0 v2.0)"><span class="xref std std-ref">GObject.Object (7)</span></a>,     <a class="reference external" href="../../Json-1.0/classes/Serializable.html#json-serializable-vfuncs" title="(in Json 1.0 v1.0)"><span class="xref std std-ref">Json.Serializable (5)</span></a></p>
 </dd>
 </dl>
 </section>
@@ -411,6 +421,25 @@ a [class`Foundry`.GitCommit] or rejects with error.</p>
 </dd>
 </dl>
 <p>Simple API to create a new commit from the index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Foundry.GitVcs.discard_changes">
+<span class="sig-name descname"><span class="pre">discard_changes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Foundry.GitVcs.discard_changes" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a [class`Dex`.Future] that resolves to any value
+or rejects with error.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../Dex-1/classes/Future.html#Dex.Future" title="(in Dex 1 v1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+</dd>
+</dl>
+<p>Discards all changes in the working directory and index, including untracked
+files, returning the checkout to <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -519,6 +548,25 @@ similar to running “git stash”. The changes are saved with the default stash
 options.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Foundry.GitVcs.stash_all">
+<span class="sig-name descname"><span class="pre">stash_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Foundry.GitVcs.stash_all" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a [class`Dex`.Future] that resolves to
+a [class`Foundry`.GitCommit] representing the stash commit or
+rejects with error.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../Dex-1/classes/Future.html#Dex.Future" title="(in Dex 1 v1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dex.Future</span></code></a></p>
+</dd>
+</dl>
+<p>Stashes the current working directory changes, including untracked files.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.2.</span></p>
 </div>
 </dd></dl>
 

@@ -103,6 +103,7 @@
     <ul>
 <li><a class="reference internal" href="#">Callbacks</a><ul>
 <li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gfls.EncodingConverterCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.EncodingConverterCallback()</span></code></a></li>
 <li><a class="reference internal" href="#Gfls.SimpleProgressCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.SimpleProgressCallback()</span></code></a></li>
 <li><a class="reference internal" href="#Gfls.UnsavedDocumentTitleCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.UnsavedDocumentTitleCallback()</span></code></a></li>
 </ul>
@@ -147,6 +148,7 @@
     <ul>
 <li><a class="reference internal" href="#">Callbacks</a><ul>
 <li><a class="reference internal" href="#details">Details</a><ul>
+<li><a class="reference internal" href="#Gfls.EncodingConverterCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.EncodingConverterCallback()</span></code></a></li>
 <li><a class="reference internal" href="#Gfls.SimpleProgressCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.SimpleProgressCallback()</span></code></a></li>
 <li><a class="reference internal" href="#Gfls.UnsavedDocumentTitleCallback"><code class="docutils literal notranslate"><span class="pre">Gfls.UnsavedDocumentTitleCallback()</span></code></a></li>
 </ul>
@@ -178,15 +180,50 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td></td>
-<td><p><a class="reference internal" href="#Gfls.SimpleProgressCallback" title="Gfls.SimpleProgressCallback"><code class="xref py py-func docutils literal notranslate"><span class="pre">SimpleProgressCallback</span></code></a> (number, *user_data)</p></td>
+<td><p><a class="reference internal" href="#Gfls.EncodingConverterCallback" title="Gfls.EncodingConverterCallback"><code class="xref py py-func docutils literal notranslate"><span class="pre">EncodingConverterCallback</span></code></a> (bytes, is_valid, *user_data)</p></td>
 </tr>
 <tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Gfls.SimpleProgressCallback" title="Gfls.SimpleProgressCallback"><code class="xref py py-func docutils literal notranslate"><span class="pre">SimpleProgressCallback</span></code></a> (number, *user_data)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Gfls.UnsavedDocumentTitleCallback" title="Gfls.UnsavedDocumentTitleCallback"><code class="xref py py-func docutils literal notranslate"><span class="pre">UnsavedDocumentTitleCallback</span></code></a> (num)</p></td>
 </tr>
 </tbody>
 </table>
 <section id="details">
 <h2>Details<a class="headerlink" href="#details" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Gfls.EncodingConverterCallback">
+<span class="sig-prename descclassname"><span class="pre">Gfls.</span></span><span class="sig-name descname"><span class="pre">EncodingConverterCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_valid</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gfls.EncodingConverterCallback" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bytes</strong> (<a class="reference external" href="../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>) – the chunk data.</p></li>
+<li><p><strong>is_valid</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – whether <cite>bytes</cite> is a valid chunk.</p></li>
+<li><p><strong>user_data</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – user data.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This callback function is called when there is an output chunk from the
+<a class="reference internal" href="classes/EncodingConverter.html#Gfls.EncodingConverter" title="Gfls.EncodingConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gfls.EncodingConverter</span></code></a>.</p>
+<p><cite>bytes</cite> is always nul-terminated, but this is not included in the <a class="reference external" href="../GLib-2.0/classes/Bytes.html#GLib.Bytes" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Bytes</span></code></a>
+length.</p>
+<p>If <cite>is_valid</cite> is <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#True" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the chunk has been successfully converted.</p>
+<p>If <cite>is_valid</cite> is <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#False" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, the <cite>bytes</cite> is a copy of the input bytes for which the
+conversion failed. Note especially that the <cite>bytes</cite> have not been escaped; for
+that, you can call a function like <a class="reference internal" href="functions.html#Gfls.utils_bytes_to_hex_representation" title="Gfls.utils_bytes_to_hex_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gfls.utils_bytes_to_hex_representation</span></code></a>().</p>
+<p><a class="reference internal" href="classes/EncodingConverter.html#Gfls.EncodingConverter" title="Gfls.EncodingConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gfls.EncodingConverter</span></code></a> makes no attempts to coalesce contiguous chunks of the
+same kind. In other words, this callback can be called many times in a row
+with the same value for <cite>is_valid</cite>.</p>
+<p>You need to either use <cite>bytes</cite> directly during the call of this callback, or
+increase the reference count to store <cite>bytes</cite> for later use. (When the call of
+the callback finishes, <a class="reference internal" href="classes/EncodingConverter.html#Gfls.EncodingConverter" title="Gfls.EncodingConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gfls.EncodingConverter</span></code></a> decreases the reference count
+of <cite>bytes</cite>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.5.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="Gfls.SimpleProgressCallback">
 <span class="sig-prename descclassname"><span class="pre">Gfls.</span></span><span class="sig-name descname"><span class="pre">SimpleProgressCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">user_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Gfls.SimpleProgressCallback" title="Link to this definition">¶</a></dt>

@@ -523,6 +523,10 @@ resource, or <a class="reference external" href="https://docs.python.org/3/built
 <p>Parses <cite>self</cite>'s Content-Range header and returns it in <cite>start</cite>,
 <cite>end</cite>, and <cite>total_length</cite>. If the total length field in the header
 was specified as “*”, then <cite>total_length</cite> will be set to -1.</p>
+<p>On success <cite>start</cite> and <cite>end</cite> are always non-negative, <cite>end</cite> is not before
+<cite>start</cite>, and <cite>end</cite> is within <cite>total_length</cite> if that was given, so they can be
+used directly as offsets into the response body. The out parameters are
+left untouched if the header cannot be parsed.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -683,6 +687,10 @@ as described under [struct`Range`], and some of the ranges may be
 redundant.</p>
 <p>Beware that even if given a <cite>total_length</cite>, this function does not
 check that the ranges are satisfiable.</p>
+<p>A Range header requesting more than 200 ranges is rejected, since serving
+that many ranges costs far more than the request asking for them.
+[class`Server`] answers such a request with
+<a class="reference internal" href="../enums.html#Soup.Status.REQUESTED_RANGE_NOT_SATISFIABLE" title="Soup.Status.REQUESTED_RANGE_NOT_SATISFIABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.REQUESTED_RANGE_NOT_SATISFIABLE</span></code></a>.</p>
 <p>[class`Server`] has built-in handling for range requests. If your
 server handler returns a <a class="reference internal" href="../enums.html#Soup.Status.OK" title="Soup.Status.OK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Soup.Status.OK</span></code></a> response containing the
 complete response body (rather than pausing the message and

@@ -1183,7 +1183,7 @@ automatically started on each GIMP startup.</p>
 that are created during a plug-ins lifetime. They must be added to
 the <a class="reference internal" href="PlugIn.html#Gimp.PlugIn" title="Gimp.PlugIn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PlugIn</span></code></a> using [method`PlugIn`.add_temp_procedure].</p>
 <p><cite>run_func</cite> is called via [method`Procedure`.run].</p>
-<p>For <a class="reference internal" href="../enums.html#Gimp.PDBProcType.PLUGIN" title="Gimp.PDBProcType.PLUGIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBProcType.PLUGIN</span></code></a> and <a class="reference internal" href="../enums.html#Gimp.PDBProcType.PERSISTENT" title="Gimp.PDBProcType.PERSISTENT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBProcType.PERSISTENT</span></code></a>
+<p>For [enum`Gimp`.PDBProcType.PLUGIN] and [Gimp.PDBProcType.PERSISTENT]
 procedures the call of <cite>run_func</cite> is basically the lifetime of the
 plug-in.</p>
 <div class="versionadded">
@@ -2739,26 +2739,44 @@ plug-in.</p>
 </dd>
 </dl>
 <p>Adds a menu path to the procedure. Only procedures which have a menu
-label can add a menu path.</p>
-<p>Menu paths are untranslated paths to known menus and submenus with the
-syntax <code class="docutils literal notranslate"><span class="pre">&lt;Prefix&gt;/Path/To/Submenu</span></code>, for example <code class="docutils literal notranslate"><span class="pre">&lt;Image&gt;/Layer/Transform</span></code>.
-GIMP will localize these.
-Nevertheless you should localize unknown parts of the path. For instance, say
-you want to create procedure to create customized layers and add a <code class="docutils literal notranslate"><span class="pre">Create</span></code>
-submenu which you want to localize from your plug-in with gettext. You could
-call:</p>
+label can add a menu path. So you must call
+[method`Gimp`.Procedure.set_menu_label] first.</p>
+<p>Menu paths follow the syntax <code class="docutils literal notranslate"><span class="pre">&lt;Menu&gt;/Path/To/Submenu</span></code>, for example
+<code class="docutils literal notranslate"><span class="pre">&lt;Image&gt;/Layer/Transform</span></code>. The <code class="docutils literal notranslate"><span class="pre">&lt;Image&gt;</span></code> menu corresponds to GIMP’s
+main menu and is therefore the most commonly used. Other common menus
+are <code class="docutils literal notranslate"><span class="pre">&lt;Layers&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;Channels&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;Paths&gt;</span></code> for the contextual menus
+shown in the respective item dockables, or again <code class="docutils literal notranslate"><span class="pre">&lt;Brushes&gt;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&lt;Dynamics&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;MyPaintBrushes&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;Gradients&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;Palettes&gt;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&lt;Patterns&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;ToolPresets&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;Fonts&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;Buffers&gt;</span></code> for
+contextual menus shown in resource dockables.</p>
+<p>Menu path elements to known menus and submenus must be passed
+untranslated (i.e. in US English), and the GIMP process will localize
+these.
+Nevertheless you should localize unknown parts of the path. For
+instance, say you register a procedure to create customized layers
+and want it to be under a <code class="docutils literal notranslate"><span class="pre">Create</span></code> submenu. Whereas the “Layer” menu
+name localization will be handled by GIMP itself, the new submenu is
+created by your plug-in, so you must localize it yourself, e.g. with
+gettext:</p>
 <p><a href="#id1"><span class="problematic" id="id2">``</span></a>C
 path = g_build_path (“/”, “&lt;Image&gt;/Layer”, _(“Create”), NULL);
 gimp_procedure_add_menu_path (procedure, path);
 g_free (path);
 ``</p>
-<p>See also: <a class="reference internal" href="PlugIn.html#Gimp.PlugIn.add_menu_branch" title="Gimp.PlugIn.add_menu_branch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PlugIn.add_menu_branch</span></code></a>().</p>
 <p>GIMP menus also have a concept of named section. For instance, say you are
-creating a plug-in which you want to show next to the “Export”, “Export As”
-plug-ins in the File menu. You would add it to the menu path “File/[Export]”.
+creating a <cite>self</cite> which you want to show next to the “Export”, “Export As”
+items in the File menu. You would add it to the menu path <code class="docutils literal notranslate"><span class="pre">&quot;File/[Export]&quot;</span></code>.
 If you actually wanted to create a submenu called “[Export]” (with square
-brackets), double the brackets: “File/[[Export]]”</p>
-<p>See also: https://gitlab.gnome.org/GNOME/gimp/-/blob/master/menus/image-menu.ui.in.in</p>
+brackets), double the brackets: <code class="docutils literal notranslate"><span class="pre">&quot;File/[[Export]]&quot;</span></code></p>
+<p>Finally if you want the procedure to show inside a new submenu
+“Layers” (e.g. because your plug-in is for exporting individual
+layers and you want to add several procedures in a single submenu),
+which itself is in the “Export” section of the File menu, add the
+menu path <code class="docutils literal notranslate"><span class="pre">&quot;File/[Export]/Layers&quot;</span></code>.</p>
+<p>See the <a class="reference external" href="https://gitlab.gnome.org/GNOME/gimp/-/blob/master/menus/image-menu.ui.in.in">image-menu UI file</a>
+for the various “section-name” available in the main menu
+(<code class="docutils literal notranslate"><span class="pre">&lt;Image&gt;</span></code>). Check out the other <code class="docutils literal notranslate"><span class="pre">.ui</span></code> files in this same directory
+to find the “section-name” of other menus.</p>
 <p>This function will place your procedure to the bottom of the selected path or
 section. Order is not assured relatively to other plug-ins.</p>
 <div class="versionadded">
@@ -3687,7 +3705,7 @@ if it exists, or <a class="reference external" href="https://docs.python.org/3/b
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The <a class="reference internal" href="../enums.html#Gimp.ArgumentSync" title="Gimp.ArgumentSync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ArgumentSync</span></code></a> value set with
-<a class="reference internal" href="#Gimp.Procedure.set_argument_sync" title="Gimp.Procedure.set_argument_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.set_argument_sync</span></code></a>():</p>
+[method`Gimp`.Procedure.set_argument_sync].</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../enums.html#Gimp.ArgumentSync" title="Gimp.ArgumentSync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ArgumentSync</span></code></a></p>
@@ -3917,7 +3935,7 @@ result, you can call the relevant specific function, such as
 </dd>
 </dl>
 <p>This function retrieves the list of image types the procedure can
-operate on. See <a class="reference internal" href="#Gimp.Procedure.set_image_types" title="Gimp.Procedure.set_image_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.set_image_types</span></code></a>().</p>
+operate on. See [method`Gimp`.Procedure.set_image_types].</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.0.</span></p>
 </div>
@@ -3929,7 +3947,7 @@ operate on. See <a class="reference internal" href="#Gimp.Procedure.set_image_ty
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The procedure’s menu label given in
-<a class="reference internal" href="#Gimp.Procedure.set_menu_label" title="Gimp.Procedure.set_menu_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.set_menu_label</span></code></a>().</p>
+[method`Gimp`.Procedure.set_menu_label].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
@@ -3946,7 +3964,7 @@ operate on. See <a class="reference internal" href="#Gimp.Procedure.set_image_ty
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the <cite>self</cite>'s
-menu paths as added with <a class="reference internal" href="#Gimp.Procedure.add_menu_path" title="Gimp.Procedure.add_menu_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.add_menu_path</span></code></a>().</p>
+menu paths as added with [method`Gimp`.Procedure.add_menu_path].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
@@ -4066,8 +4084,9 @@ Procedures created by a plug-in in particular are never internal.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>status</strong> (<a class="reference internal" href="../enums.html#Gimp.PDBStatusType" title="Gimp.PDBStatusType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBStatusType</span></code></a>) – the success status of the procedure run.</p></li>
 <li><p><strong>error</strong> (<a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a> or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – an optional <a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.Error</span></code></a>. This parameter should be set if
-<cite>status</cite> is either <a class="reference internal" href="../enums.html#Gimp.PDBStatusType.EXECUTION_ERROR" title="Gimp.PDBStatusType.EXECUTION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBStatusType.EXECUTION_ERROR</span></code></a> or
-<a class="reference internal" href="../enums.html#Gimp.PDBStatusType.CALLING_ERROR" title="Gimp.PDBStatusType.CALLING_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBStatusType.CALLING_ERROR</span></code></a>.</p></li>
+<cite>status</cite> is either
+[enum`Gimp`.PDBStatusType.EXECUTION_ERROR] or
+[enum`Gimp`.PDBStatusType.CALLING_ERROR].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -4138,7 +4157,7 @@ to change from defaults with [method`GObject`.Object.set].</p>
 <p>When the procedure’s run() function exits, a <a class="reference internal" href="#Gimp.Procedure" title="Gimp.Procedure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure</span></code></a>'s arguments
 or auxiliary arguments can be automatically synced with a <a class="reference internal" href="Parasite.html#Gimp.Parasite" title="Gimp.Parasite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Parasite</span></code></a> of
 the <a class="reference internal" href="Image.html#Gimp.Image" title="Gimp.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Image</span></code></a> the procedure is running on.</p>
-<p>In order to enable this, set <cite>sync</cite> to <a class="reference internal" href="../enums.html#Gimp.ArgumentSync.PARASITE" title="Gimp.ArgumentSync.PARASITE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.ArgumentSync.PARASITE</span></code></a>.</p>
+<p>In order to enable this, set <cite>sync</cite> to [enum`Gimp`.ArgumentSync.PARASITE].</p>
 <p>Currently, it is possible to sync a string argument of type
 <a class="reference external" href="../../GObject-2.0/classes/ParamSpecString.html#GObject.ParamSpecString" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.ParamSpecString</span></code></a> with an image parasite of the same name, for
 example the “gimp-comment” parasite in file save procedures.</p>
@@ -4177,10 +4196,11 @@ example the “gimp-comment” parasite in file save procedures.</p>
 </ul>
 </dd>
 </dl>
-<p>Sets various documentation strings on <cite>self</cite>:</p>
+<p>Sets various optional documentation strings on <cite>self</cite>:</p>
 <ul class="simple">
 <li><p><cite>blurb</cite> is used for instance as the <cite>self</cite>'s tooltip when represented in
-the UI such as a menu entry.</p></li>
+the UI such as a menu entry, or in “Search Actions” widget under
+the main procedure’s label.</p></li>
 <li><p><cite>help</cite> is a free-form text that’s meant as additional documentation for
 developers of scripts and plug-ins. If the <cite>blurb</cite> and the argument names
 and descriptions are enough for a quite self-explanatory procedure, you may
@@ -4266,7 +4286,7 @@ with alpha.</p>
 </dl>
 <p>Sets the label to use for the <cite>self</cite>'s menu entry, The
 location(s) where to register in the menu hierarchy is chosen using
-<a class="reference internal" href="#Gimp.Procedure.add_menu_path" title="Gimp.Procedure.add_menu_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.Procedure.add_menu_path</span></code></a>().</p>
+[method`Gimp`.Procedure.add_menu_path].</p>
 <p>Plug-ins are responsible for their own translations. You are expected to send
 localized strings to GIMP if your plug-in is internationalized.</p>
 <div class="versionadded">
@@ -4287,8 +4307,9 @@ localized strings to GIMP if your plug-in is internationalized.</p>
 procedure as sensitive (hence forbid running it otherwise), yet it
 will not forbid thid-party plug-ins for instance to run manually your
 registered procedure. Therefore you should still handle non-supported
-cases appropriately by returning with <a class="reference internal" href="../enums.html#Gimp.PDBStatusType.EXECUTION_ERROR" title="Gimp.PDBStatusType.EXECUTION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gimp.PDBStatusType.EXECUTION_ERROR</span></code></a> and a
-suitable error message.</p>
+cases appropriately by returning with
+[enum`Gimp`.PDBStatusType.EXECUTION_ERROR] and a suitable error
+message.</p>
 <p>Similarly third-party plug-ins should verify they are allowed to call
 a procedure with [method`Procedure`.get_sensitivity_mask] when running
 with dynamic contents.</p>

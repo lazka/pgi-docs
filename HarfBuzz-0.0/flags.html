@@ -520,7 +520,11 @@ precedence over this flag.</p>
 <dt class="sig sig-object py" id="HarfBuzz.buffer_serialize_flags_t.NO_ADVANCES">
 <span class="sig-name descname"><span class="pre">NO_ADVANCES</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">32</span></em><a class="headerlink" href="#HarfBuzz.buffer_serialize_flags_t.NO_ADVANCES" title="Link to this definition">¶</a></dt>
 <dd><p>do not serialize glyph advances,
-glyph offsets will reflect absolute glyph positions.</p>
+glyph offsets will reflect absolute glyph positions. Note: when this flag is used with a partial range of the buffer (i.e.
+<cite>start</cite> is not 0), calculating the absolute positions has a cost
+proportional to <cite>start</cite>. If the buffer is serialized in many small
+chunks, this can lead to quadratic behavior. It is recommended to
+use a larger <cite>buf_size</cite> to minimize this cost.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 1.8.0.</span></p>
 </div>

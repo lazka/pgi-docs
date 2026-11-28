@@ -127,6 +127,7 @@
 <li><a class="reference internal" href="#EBackend.DataFactory.use_backend_per_process"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.use_backend_per_process()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_complete_open"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_complete_open()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_create_backend"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_create_backend()</span></code></a></li>
+<li><a class="reference internal" href="#EBackend.DataFactory.do_emit_backend_closed"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_emit_backend_closed()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_open_backend"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_open_backend()</span></code></a></li>
 </ul>
 </li>
@@ -200,6 +201,7 @@
 <li><a class="reference internal" href="#EBackend.DataFactory.use_backend_per_process"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.use_backend_per_process()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_complete_open"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_complete_open()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_create_backend"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_create_backend()</span></code></a></li>
+<li><a class="reference internal" href="#EBackend.DataFactory.do_emit_backend_closed"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_emit_backend_closed()</span></code></a></li>
 <li><a class="reference internal" href="#EBackend.DataFactory.do_open_backend"><code class="docutils literal notranslate"><span class="pre">EBackend.DataFactory.do_open_backend()</span></code></a></li>
 </ul>
 </li>
@@ -407,6 +409,9 @@
 <td><p><a class="reference internal" href="#EBackend.DataFactory.do_create_backend" title="EBackend.DataFactory.do_create_backend"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_create_backend</span></code></a> (backend_factory, source)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#EBackend.DataFactory.do_emit_backend_closed" title="EBackend.DataFactory.do_emit_backend_closed"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_emit_backend_closed</span></code></a> (uid, extension_name)</p></td>
+</tr>
+<tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#EBackend.DataFactory.do_open_backend" title="EBackend.DataFactory.do_open_backend"><code class="xref py py-func docutils literal notranslate"><span class="pre">do_open_backend</span></code></a> (backend, connection, cancellable)</p></td>
 </tr>
 </tbody>
@@ -432,17 +437,17 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#EBackend.DataFactory.props.backend_per_process" title="EBackend.DataFactory.props.backend_per_process"><code class="xref py py-data docutils literal notranslate"><span class="pre">backend-per-process</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>Override backend-per-process compile-time option</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#EBackend.DataFactory.props.registry" title="EBackend.DataFactory.props.registry"><code class="xref py py-data docutils literal notranslate"><span class="pre">registry</span></code></a></p></td>
 <td><p><a class="reference external" href="../../EDataServer-1.2/classes/SourceRegistry.html#EDataServer.SourceRegistry" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.SourceRegistry</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>Data source registry</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#EBackend.DataFactory.props.reload_supported" title="EBackend.DataFactory.props.reload_supported"><code class="xref py py-data docutils literal notranslate"><span class="pre">reload-supported</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>Whether the data factory supports Reload</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -501,8 +506,6 @@
 <dd class="field-odd"><p><a class="reference internal" href="DataFactoryClass.html#EBackend.DataFactoryClass" title="EBackend.DataFactoryClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">EBackend.DataFactoryClass</span></code></a></p>
 </dd>
 </dl>
-<p>Contains only private data that should be read and manipulated using the
-functions below.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
@@ -741,6 +744,19 @@ running, the used object path is returned to the client.</p>
 <p>Used only when backend-per-process is off.</p>
 <p>Free the returned pointer with <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>(), if not <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and no longer
 needed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="EBackend.DataFactory.do_emit_backend_closed">
+<span class="sig-name descname"><span class="pre">do_emit_backend_closed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_name</span></span></em><span class="sig-paren">)</span><em class="property"><span class="w"> </span><span class="pre">virtual</span></em><a class="headerlink" href="#EBackend.DataFactory.do_emit_backend_closed" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uid</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
+<li><p><strong>extension_name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

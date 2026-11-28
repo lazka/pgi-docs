@@ -406,6 +406,24 @@
 <dd class="field-odd"><p><a class="reference internal" href="OperationClass.html#Camel.OperationClass" title="Camel.OperationClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camel.OperationClass</span></code></a></p>
 </dd>
 </dl>
+<p>Progress reporting and cancellation for long-running tasks.</p>
+<p><a class="reference internal" href="#Camel.Operation" title="Camel.Operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation</span></code></a> is a bi-directional rendezvous mechanism used to communicate
+status information from long-running Camel tasks back to the calling
+application, and to allow the application to cancel those tasks.</p>
+<p>The typical usage pattern is:</p>
+<p>Create a <a class="reference internal" href="#Camel.Operation" title="Camel.Operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation</span></code></a> with a status callback.</p>
+<p>Push it onto the current thread with camel_operation_push_message() /
+or use it as a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> passed to async operations.</p>
+<p>Long-running Camel functions report progress via
+<a class="reference internal" href="#Camel.Operation.progress" title="Camel.Operation.progress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation.progress</span></code></a>() and check for cancellation via the
+<a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> interface.</p>
+<p>The client can cancel the operation by calling <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable.cancel" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable.cancel</span></code></a>()
+on the <a class="reference internal" href="#Camel.Operation" title="Camel.Operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation</span></code></a> (which is a <a class="reference external" href="../../Gio-2.0/classes/Cancellable.html#Gio.Cancellable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.Cancellable</span></code></a> subclass).</p>
+<p>Status messages follow a push/pop model: camel_operation_push_message()
+starts a new operation description (emitting the “status” signal), and
+<a class="reference internal" href="#Camel.Operation.pop_message" title="Camel.Operation.pop_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation.pop_message</span></code></a>() ends it, restoring the previous description.
+<a class="reference internal" href="#Camel.Operation.progress" title="Camel.Operation.progress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Operation.progress</span></code></a>() reports percentage-based progress within the
+current message.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Camel.Operation.cancel_all">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cancel_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Camel.Operation.cancel_all" title="Link to this definition">¶</a></dt>

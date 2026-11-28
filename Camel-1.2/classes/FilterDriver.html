@@ -374,6 +374,28 @@
 <dd class="field-odd"><p><a class="reference internal" href="FilterDriverClass.html#Camel.FilterDriverClass" title="Camel.FilterDriverClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camel.FilterDriverClass</span></code></a></p>
 </dd>
 </dl>
+<p>Rule-based message filtering engine.</p>
+<p><a class="reference internal" href="#Camel.FilterDriver" title="Camel.FilterDriver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.FilterDriver</span></code></a> manages the filtering process. Given a set of filter
+rules — each consisting of a matching s-expression and an action
+s-expression — and a set of messages, it evaluates each rule against each
+message in turn.</p>
+<p>Filter rules use two s-expressions evaluated by <a class="reference internal" href="SExp.html#Camel.SExp" title="Camel.SExp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.SExp</span></code></a>:</p>
+<ul class="simple">
+<li><p>The **match expression** returns a boolean indicating whether the message
+matches. See #CamelFolderSearch for the supported matching functions.</p></li>
+<li><p>The **action expression** is typically a <code class="docutils literal notranslate"><span class="pre">(begin</span> <span class="pre">...)</span></code> block listing the
+actions to perform. Available actions include:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">(delete)</span></code> — mark for deletion</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(copy-to</span> <span class="pre">uri</span> <span class="pre">…)</span></code> / <code class="docutils literal notranslate"><span class="pre">(move-to</span> <span class="pre">uri</span> <span class="pre">…)</span></code> — copy or move to a folder</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(set-system-flag</span> <span class="pre">flag)</span></code> / <code class="docutils literal notranslate"><span class="pre">(unset-system-flag</span> <span class="pre">flag)</span></code> — set/clear flags</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(stop)</span></code> — halt further rule processing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(pipe-message</span> <span class="pre">cmd)</span></code> — pipe the message through an external command</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(shell</span> <span class="pre">cmd</span> <span class="pre">…)</span></code> — run a shell command</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(beep)</span></code> / <code class="docutils literal notranslate"><span class="pre">(play-sound</span> <span class="pre">file)</span></code> — notify the user</p></li>
+</ul>
+</li>
+</ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="Camel.FilterDriver.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.FilterDriver.new" title="Link to this definition">¶</a></dt>

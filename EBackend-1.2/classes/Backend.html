@@ -415,27 +415,27 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#EBackend.Backend.props.connectable" title="EBackend.Backend.props.connectable"><code class="xref py py-data docutils literal notranslate"><span class="pre">connectable</span></code></a></p></td>
 <td><p><a class="reference external" href="../../Gio-2.0/classes/SocketConnectable.html#Gio.SocketConnectable" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.SocketConnectable</span></code></a></p></td>
 <td><p>r/w/en</p></td>
-<td><p>Socket endpoint of a network service</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#EBackend.Backend.props.main_context" title="EBackend.Backend.props.main_context"><code class="xref py py-data docutils literal notranslate"><span class="pre">main-context</span></code></a></p></td>
 <td><p><a class="reference external" href="../../GLib-2.0/classes/MainContext.html#GLib.MainContext" title="(in GLib 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GLib.MainContext</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>The main loop context on which to attach event sources</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#EBackend.Backend.props.online" title="EBackend.Backend.props.online"><code class="xref py py-data docutils literal notranslate"><span class="pre">online</span></code></a></p></td>
 <td><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p></td>
 <td><p>r/w/en</p></td>
-<td><p>Whether the backend is online</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#EBackend.Backend.props.source" title="EBackend.Backend.props.source"><code class="xref py py-data docutils literal notranslate"><span class="pre">source</span></code></a></p></td>
 <td><p><a class="reference external" href="../../EDataServer-1.2/classes/Source.html#EDataServer.Source" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.Source</span></code></a></p></td>
 <td><p>r/w/co</p></td>
-<td><p>The data source being acted upon</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#EBackend.Backend.props.user_prompter" title="EBackend.Backend.props.user_prompter"><code class="xref py py-data docutils literal notranslate"><span class="pre">user-prompter</span></code></a></p></td>
 <td><p><a class="reference internal" href="UserPrompter.html#EBackend.UserPrompter" title="EBackend.UserPrompter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.UserPrompter</span></code></a></p></td>
 <td><p>r</p></td>
-<td><p>User prompter instance</p></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -494,8 +494,6 @@
 <dd class="field-odd"><p><a class="reference internal" href="BackendClass.html#EBackend.BackendClass" title="EBackend.BackendClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">EBackend.BackendClass</span></code></a></p>
 </dd>
 </dl>
-<p>Contains only private data that should be read and manipulated using the
-functions below.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
@@ -576,6 +574,13 @@ properly opened. It’s a proxy function for <a class="reference external" href=
 where can be found more information about actual parameters meaning.</p>
 <p>The provided credentials are received through <a class="reference internal" href="#EBackend.Backend.do_authenticate_sync" title="EBackend.Backend.do_authenticate_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.do_authenticate_sync</span></code></a>()
 method asynchronously.</p>
+<p>Note for sources authenticating with OAuth2: their credentials cannot be
+looked up silently, thus this call always ends in an interactive prompt
+(an OAuth2 consent window in the client). A backend whose source uses
+OAuth2 should call <a class="reference internal" href="#EBackend.Backend.schedule_authenticate" title="EBackend.Backend.schedule_authenticate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.schedule_authenticate</span></code></a>() with <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> credentials
+instead and obtain the access token in its <a class="reference internal" href="#EBackend.Backend.do_authenticate_sync" title="EBackend.Backend.do_authenticate_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.do_authenticate_sync</span></code></a>()
+implementation, for example with <a class="reference external" href="../../EDataServer-1.2/classes/Source.html#EDataServer.Source.get_oauth2_access_token_sync" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.Source.get_oauth2_access_token_sync</span></code></a>(),
+invoking the credentials-required only when that fails.</p>
 <p>If an error occurs, the function sets <cite>error</cite> and returns <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#False" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.16.</span></p>
@@ -815,6 +820,11 @@ unreferenced with <a class="reference external" href="../../GLib-2.0/classes/Mai
 This is usually done automatically, when an ‘authenticate’ signal is
 received for the associated <a class="reference external" href="../../EDataServer-1.2/classes/Source.html#EDataServer.Source" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.Source</span></code></a>. With <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> <cite>credentials</cite> an attempt
 without it is run.</p>
+<p>This is also the right entry point for sources authenticating with OAuth2:
+the <a class="reference internal" href="#EBackend.Backend.do_authenticate_sync" title="EBackend.Backend.do_authenticate_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.do_authenticate_sync</span></code></a>() implementation can obtain the access
+token silently, for example with <a class="reference external" href="../../EDataServer-1.2/classes/Source.html#EDataServer.Source.get_oauth2_access_token_sync" title="(in EDataServer 1.2 v1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EDataServer.Source.get_oauth2_access_token_sync</span></code></a>(),
+while <a class="reference internal" href="#EBackend.Backend.schedule_credentials_required" title="EBackend.Backend.schedule_credentials_required"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.schedule_credentials_required</span></code></a>() would always open an
+interactive prompt for them.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.16.</span></p>
 </div>
@@ -840,6 +850,10 @@ own callback which only prints a runtime warning on the console when
 the call fails. The <cite>who_calls</cite> is a prefix of the console message.
 This is useful when the caller just wants to start the operation
 without having actual place where to show the operation result.</p>
+<p>See the note about sources authenticating with OAuth2 in
+<a class="reference internal" href="#EBackend.Backend.credentials_required_sync" title="EBackend.Backend.credentials_required_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.credentials_required_sync</span></code></a>(): for them, prefer
+<a class="reference internal" href="#EBackend.Backend.schedule_authenticate" title="EBackend.Backend.schedule_authenticate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBackend.Backend.schedule_authenticate</span></code></a>(), because a credentials-required
+always ends in an interactive prompt.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.16.</span></p>
 </div>

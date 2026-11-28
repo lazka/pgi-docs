@@ -412,6 +412,27 @@
 <dd class="field-odd"><p><a class="reference internal" href="MimeFilterClass.html#Camel.MimeFilterClass" title="Camel.MimeFilterClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camel.MimeFilterClass</span></code></a></p>
 </dd>
 </dl>
+<p>Stream-processing filter modules for MIME data.</p>
+<p><a class="reference internal" href="#Camel.MimeFilter" title="Camel.MimeFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilter</span></code></a> is an abstract base class for stream-processing modules
+that transform blocks of data. Filters can be used in three ways:</p>
+<ul class="simple">
+<li><p>**Individually** — call <a class="reference internal" href="#Camel.MimeFilter.filter" title="Camel.MimeFilter.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilter.filter</span></code></a>() and
+<a class="reference internal" href="#Camel.MimeFilter.complete" title="Camel.MimeFilter.complete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilter.complete</span></code></a>() directly to process data buffers.</p></li>
+<li><p>**Attached to a stream** — add to a <a class="reference internal" href="StreamFilter.html#Camel.StreamFilter" title="Camel.StreamFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.StreamFilter</span></code></a> so that data
+read from or written to the stream is automatically transformed.</p></li>
+<li><p>**Attached to a parser** — register with <a class="reference internal" href="MimeParser.html#Camel.MimeParser" title="Camel.MimeParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeParser</span></code></a> for pipelined
+decoding while a message is being parsed.</p></li>
+</ul>
+<p>Each concrete filter subclass implements three virtual methods:
+filter(), complete(), and reset(). The base class handles all memory
+management for the pre-space / look-back buffer mechanism, which allows
+efficient multi-stage pipelined processing.</p>
+<p>Available filter implementations include character-set conversion
+(<a class="reference internal" href="MimeFilterCharset.html#Camel.MimeFilterCharset" title="Camel.MimeFilterCharset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilterCharset</span></code></a>), base64 and quoted-printable encoding
+(<a class="reference internal" href="MimeFilterBasic.html#Camel.MimeFilterBasic" title="Camel.MimeFilterBasic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilterBasic</span></code></a>), line-ending canonicalisation
+(<a class="reference internal" href="MimeFilterCRLF.html#Camel.MimeFilterCRLF" title="Camel.MimeFilterCRLF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilterCRLF</span></code></a>), gzip compression (<a class="reference internal" href="MimeFilterGZip.html#Camel.MimeFilterGZip" title="Camel.MimeFilterGZip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilterGZip</span></code></a>), HTML
+conversion (#CamelMimeFilterToHtml), From-line escaping
+(<a class="reference internal" href="MimeFilterFrom.html#Camel.MimeFilterFrom" title="Camel.MimeFilterFrom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeFilterFrom</span></code></a>), and many others.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Camel.MimeFilter.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Camel.MimeFilter.new" title="Link to this definition">¶</a></dt>

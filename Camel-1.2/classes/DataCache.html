@@ -114,8 +114,10 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Camel.DataCache"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache</span></code></a><ul>
 <li><a class="reference internal" href="#Camel.DataCache.new"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.new()</span></code></a></li>
-<li><a class="reference internal" href="#Camel.DataCache.add"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.add()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.add_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.add_atomic()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.clear"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.clear()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.commit_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.discard_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.discard_atomic()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.foreach_remove"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.foreach_remove()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.get"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.get()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.get_expire_enabled"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.get_expire_enabled()</span></code></a></li>
@@ -184,8 +186,10 @@
 <li><a class="reference internal" href="#class-details">Class Details</a><ul>
 <li><a class="reference internal" href="#Camel.DataCache"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache</span></code></a><ul>
 <li><a class="reference internal" href="#Camel.DataCache.new"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.new()</span></code></a></li>
-<li><a class="reference internal" href="#Camel.DataCache.add"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.add()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.add_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.add_atomic()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.clear"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.clear()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.commit_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic()</span></code></a></li>
+<li><a class="reference internal" href="#Camel.DataCache.discard_atomic"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.discard_atomic()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.foreach_remove"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.foreach_remove()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.get"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.get()</span></code></a></li>
 <li><a class="reference internal" href="#Camel.DataCache.get_expire_enabled"><code class="docutils literal notranslate"><span class="pre">Camel.DataCache.get_expire_enabled()</span></code></a></li>
@@ -280,10 +284,16 @@
 <td><p><a class="reference internal" href="#Camel.DataCache.new" title="Camel.DataCache.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">new</span></code></a> (path)</p></td>
 </tr>
 <tr class="row-even"><td></td>
-<td><p><a class="reference internal" href="#Camel.DataCache.add" title="Camel.DataCache.add"><code class="xref py py-func docutils literal notranslate"><span class="pre">add</span></code></a> (path, key)</p></td>
+<td><p><a class="reference internal" href="#Camel.DataCache.add_atomic" title="Camel.DataCache.add_atomic"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_atomic</span></code></a> (path, key)</p></td>
 </tr>
 <tr class="row-odd"><td></td>
 <td><p><a class="reference internal" href="#Camel.DataCache.clear" title="Camel.DataCache.clear"><code class="xref py py-func docutils literal notranslate"><span class="pre">clear</span></code></a> (path)</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p><a class="reference internal" href="#Camel.DataCache.commit_atomic" title="Camel.DataCache.commit_atomic"><code class="xref py py-func docutils literal notranslate"><span class="pre">commit_atomic</span></code></a> (stream)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p><a class="reference internal" href="#Camel.DataCache.discard_atomic" title="Camel.DataCache.discard_atomic"><code class="xref py py-func docutils literal notranslate"><span class="pre">discard_atomic</span></code></a> (stream)</p></td>
 </tr>
 <tr class="row-even"><td></td>
 <td><p><a class="reference internal" href="#Camel.DataCache.foreach_remove" title="Camel.DataCache.foreach_remove"><code class="xref py py-func docutils literal notranslate"><span class="pre">foreach_remove</span></code></a> (path, func, *user_data)</p></td>
@@ -410,6 +420,35 @@
 <dd class="field-odd"><p><a class="reference internal" href="DataCacheClass.html#Camel.DataCacheClass" title="Camel.DataCacheClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camel.DataCacheClass</span></code></a></p>
 </dd>
 </dl>
+<p>A file-based cache for arbitrary keyed data, typically used by mail
+providers to store downloaded message bodies.</p>
+<p>Each item is identified by a (<cite>path</cite>, <cite>key</cite>) pair.  The <cite>path</cite> selects a
+logical sub-cache (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;cur&quot;</span></code> for downloaded messages, <code class="docutils literal notranslate"><span class="pre">&quot;new&quot;</span></code> for
+outgoing spool), and <cite>key</cite> is a per-item identifier such as a message UID.</p>
+<p>To write a new item safely — so that a crash or cancellation never leaves
+a truncated file in the cache — use the atomic write API:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">GIOStream</span><span class="w"> </span><span class="o">*</span><span class="n">stream</span><span class="p">;</span>
+<span class="n">gboolean</span><span class="w"> </span><span class="n">success</span><span class="p">;</span>
+
+<span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camel_data_cache_add_atomic</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cur&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">uid</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">stream</span><span class="p">)</span>
+<span class="w">    </span><span class="k">goto</span><span class="w"> </span><span class="n">fail</span><span class="p">;</span>
+
+<span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">write_message_to_stream</span><span class="w"> </span><span class="p">(</span><span class="n">G_OUTPUT_STREAM</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">g_io_stream_get_output_stream</span><span class="w"> </span><span class="p">(</span><span class="n">stream</span><span class="p">)),</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">camel_data_cache_commit_atomic</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">g_steal_pointer</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">);</span>
+<span class="w">    </span><span class="o">/&lt;!--</span><span class="w"> </span><span class="o">--&gt;*</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="n">open</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">committed</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">*&lt;!--</span><span class="w"> </span><span class="o">--&gt;/</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">camel_data_cache_discard_atomic</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">g_steal_pointer</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">stream</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#Camel.DataCache.add_atomic" title="Camel.DataCache.add_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.add_atomic</span></code></a>() writes to a temporary file in the same
+directory as the target, so <a class="reference internal" href="#Camel.DataCache.commit_atomic" title="Camel.DataCache.commit_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic</span></code></a>() can rename
+it into place atomically.  Any concurrent <a class="reference internal" href="#Camel.DataCache.get" title="Camel.DataCache.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.get</span></code></a>() call for
+the same item blocks until the write is either committed or discarded.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Camel.DataCache.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataCache.new" title="Link to this definition">¶</a></dt>
@@ -432,8 +471,8 @@ be written to.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Camel.DataCache.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataCache.add" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="Camel.DataCache.add_atomic">
+<span class="sig-name descname"><span class="pre">add_atomic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataCache.add_atomic" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -445,18 +484,25 @@ be written to.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> for the new cache item, or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error</p>
+<dd class="field-odd"><p>a <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> for writing, or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a></p>
 </dd>
 </dl>
-<p>Add a new item to the cache, returning a <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> to the new item.</p>
-<p>The key and the path combine to form a unique key used to store the item.</p>
-<p>Potentially, expiry processing will be performed while this call is
-executing.</p>
-<p>The returned <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> is referenced for thread-safety and must be
-unreferenced with <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() when finished with it.</p>
+<p>Open a temporary file for writing a new cache item identified by <cite>path</cite>
+and <cite>key</cite>.  The temporary file lives in the same directory as the final
+target so that <a class="reference internal" href="#Camel.DataCache.commit_atomic" title="Camel.DataCache.commit_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic</span></code></a>() can rename it into place
+atomically (same-filesystem rename).</p>
+<p>Any concurrent call to <a class="reference internal" href="#Camel.DataCache.get" title="Camel.DataCache.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.get</span></code></a>() for the same <cite>path</cite>/<cite>key</cite> will
+block until the caller either commits or discards the stream.</p>
+<p>On success, pass the returned stream to <a class="reference internal" href="#Camel.DataCache.commit_atomic" title="Camel.DataCache.commit_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic</span></code></a>()
+or <a class="reference internal" href="#Camel.DataCache.discard_atomic" title="Camel.DataCache.discard_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.discard_atomic</span></code></a>(); the stream is consumed
+(transfer full) by both functions.  Do not call <a class="reference external" href="../../GObject-2.0/classes/Object.html#GObject.Object.unref" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GObject.Object.unref</span></code></a>() on it
+directly.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.62.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -470,6 +516,52 @@ unreferenced with <a class="reference external" href="../../GObject-2.0/classes/
 <p>Clear cache’s content in <cite>path</cite>.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Camel.DataCache.commit_atomic">
+<span class="sig-name descname"><span class="pre">commit_atomic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataCache.commit_atomic" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> returned by <a class="reference internal" href="#Camel.DataCache.add_atomic" title="Camel.DataCache.add_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.add_atomic</span></code></a>()</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../GLib-2.0/classes/Error.html#GLib.Error" title="(in GLib 2.0 v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">GLib.Error</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> for the committed file, or <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> on error</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a></p>
+</dd>
+</dl>
+<p>Finalise an atomic cache write.  <cite>stream</cite> is closed and unreffed, the
+temporary file is renamed to its final location, and a new <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>
+opened on the committed file is returned (equivalent to calling
+<a class="reference internal" href="#Camel.DataCache.get" title="Camel.DataCache.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.get</span></code></a>() after a successful write).</p>
+<p>On failure the temporary file is removed and the bag reservation is
+released, so the caller does not need to call
+<a class="reference internal" href="#Camel.DataCache.discard_atomic" title="Camel.DataCache.discard_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.discard_atomic</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.62.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Camel.DataCache.discard_atomic">
+<span class="sig-name descname"><span class="pre">discard_atomic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataCache.discard_atomic" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stream</strong> (<a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a>) – the <a class="reference external" href="../../Gio-2.0/classes/IOStream.html#Gio.IOStream" title="(in Gio 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gio.IOStream</span></code></a> returned by <a class="reference internal" href="#Camel.DataCache.add_atomic" title="Camel.DataCache.add_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.add_atomic</span></code></a>()</p>
+</dd>
+</dl>
+<p>Discard an atomic cache write.  <cite>stream</cite> is closed and unreffed, the
+temporary file is removed, and the bag reservation is released so that
+other threads can retry the operation.</p>
+<p>Call this on any error path before <a class="reference internal" href="#Camel.DataCache.commit_atomic" title="Camel.DataCache.commit_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataCache.commit_atomic</span></code></a>().</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.62.</span></p>
 </div>
 </dd></dl>
 
@@ -691,6 +783,7 @@ any of the two times, still behaves like not having expiry enabled.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
+<p>Expire Enabled</p>
 </dd></dl>
 
 <dl class="py data">
@@ -710,6 +803,7 @@ any of the two times, still behaves like not having expiry enabled.</p>
 <dd class="field-even"><p><a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.READABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.WRITABLE" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WRITABLE</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.CONSTRUCT" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONSTRUCT</span></code></a>, <a class="reference external" href="../../GObject-2.0/flags.html#GObject.ParamFlags.EXPLICIT_NOTIFY" title="(in GObject 2.0 v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXPLICIT_NOTIFY</span></code></a></p>
 </dd>
 </dl>
+<p>Path</p>
 </dd></dl>
 
 </section>

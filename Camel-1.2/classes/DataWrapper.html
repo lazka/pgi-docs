@@ -532,6 +532,29 @@
 <dd class="field-odd"><p><a class="reference internal" href="DataWrapperClass.html#Camel.DataWrapperClass" title="Camel.DataWrapperClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camel.DataWrapperClass</span></code></a></p>
 </dd>
 </dl>
+<p>Base class for structured MIME data access.</p>
+<p><a class="reference internal" href="#Camel.DataWrapper" title="Camel.DataWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper</span></code></a> is the base class used to implement structured MIME data
+access. It serves as the programmatic interface for creating and reading
+MIME-encoded data, primarily RFC 822 messages.</p>
+<p>The class hierarchy rooted at <a class="reference internal" href="#Camel.DataWrapper" title="Camel.DataWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper</span></code></a> closely parallels the
+structure of a MIME message:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#Camel.DataWrapper" title="Camel.DataWrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper</span></code></a> itself holds unstructured leaf data (e.g. an attachment
+body) together with its content-type and transfer encoding.</p></li>
+<li><p><a class="reference internal" href="Medium.html#Camel.Medium" title="Camel.Medium"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Medium</span></code></a> extends it with named headers and a separate content object.</p></li>
+<li><p><a class="reference internal" href="MimePart.html#Camel.MimePart" title="Camel.MimePart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimePart</span></code></a> adds structured accessors for all standard Content-*
+headers (Content-Type, Content-Disposition, Content-Transfer-Encoding,
+etc.) and can be constructed from a <a class="reference internal" href="MimeParser.html#Camel.MimeParser" title="Camel.MimeParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeParser</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="MimeMessage.html#Camel.MimeMessage" title="Camel.MimeMessage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimeMessage</span></code></a> is a fully-fledged RFC 822 message with From/To/Subject
+and other message-level headers, built on top of <a class="reference internal" href="MimePart.html#Camel.MimePart" title="Camel.MimePart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MimePart</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="Multipart.html#Camel.Multipart" title="Camel.Multipart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.Multipart</span></code></a> and its subclasses (<a class="reference internal" href="MultipartSigned.html#Camel.MultipartSigned" title="Camel.MultipartSigned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MultipartSigned</span></code></a>,
+<a class="reference internal" href="MultipartEncrypted.html#Camel.MultipartEncrypted" title="Camel.MultipartEncrypted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.MultipartEncrypted</span></code></a>) handle multipart MIME containers.</p></li>
+</ul>
+<p>The i/o interface is stream-based: <a class="reference internal" href="#Camel.DataWrapper.write_to_stream" title="Camel.DataWrapper.write_to_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper.write_to_stream</span></code></a>()
+serialises the object into encoded MIME form, while
+<a class="reference internal" href="#Camel.DataWrapper.decode_to_stream" title="Camel.DataWrapper.decode_to_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper.decode_to_stream</span></code></a>() writes the decoded content (stripping
+the content-transfer-encoding). <a class="reference internal" href="#Camel.DataWrapper.construct_from_stream" title="Camel.DataWrapper.construct_from_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camel.DataWrapper.construct_from_stream</span></code></a>()
+is the main entry point for parsing raw MIME data into an object hierarchy.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Camel.DataWrapper.new">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Camel.DataWrapper.new" title="Link to this definition">¶</a></dt>
